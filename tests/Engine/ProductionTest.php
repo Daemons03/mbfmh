@@ -69,19 +69,33 @@ final class ProductionTest extends EngineTestCase
         ], $this->building('b5')['job']);
     }
 
+    public function testWindmillRecipesAreTheGameValues(): void
+    {
+        self::assertSame(
+            ['id' => 'chicken_feed', 'inputs' => ['corn' => 25], 'cost' => ['cash' => 2], 'outputs' => ['chicken_feed' => 10],
+                'duration' => 180, 'xp' => 50],
+            Production::recipe($this->data, 'windmill', 1, 'chicken_feed'),
+        );
+        $cattle = Production::recipe($this->data, 'windmill', 12, 'cattle_feed');
+        self::assertSame([['wheat' => 58], ['cash' => 299], 2170], [$cattle['inputs'], $cattle['cost'], $cattle['duration']]);
+    }
+
     public function testBatchJobLastsLongerAndMakesMore(): void
     {
-        $this->state['barn']['items'] = ['corn' => 25];
+        $this->state['barn']['items'] = ['corn' => 55];
+        $cash = $this->state['cash'];
 
         $this->act('start_production', ['id' => 'b4', 'recipe' => 'chicken_feed', 'quantity' => 2]);
 
         self::assertSame(['corn' => 5], $this->state['barn']['items']);
+        self::assertSame($cash - 4, $this->state['cash']);
         self::assertSame(['chicken_feed' => 20], $this->building('b4')['job']['outputs']);
-        self::assertSame(1200, $this->building('b4')['job']['duration']);
-        $this->assertGameError('not_ready', 'collect', ['id' => 'b4'], 1199);
-        $this->act('collect', ['id' => 'b4'], 1200);
+        self::assertSame(360, $this->building('b4')['job']['duration']);
+        $this->assertGameError('not_ready', 'collect', ['id' => 'b4'], 359);
+        $this->act('collect', ['id' => 'b4'], 360);
         self::assertSame(['corn' => 5, 'chicken_feed' => 20], $this->state['barn']['items']);
-        self::assertSame(4, $this->state['xp']);
+        // 2 batches x 50 XP = 100: level 1 needs 50, so level 2 with 50 XP left.
+        self::assertSame([2, 50], [$this->state['level'], $this->state['xp']]);
     }
 
     public function testStartRules(): void
@@ -98,7 +112,7 @@ final class ProductionTest extends EngineTestCase
 
         $this->assertGameError('invalid_payload', 'start_production', ['id' => 'b4'], 0); // several recipes: must choose
         $this->assertGameError('unknown_recipe', 'start_production', ['id' => 'b4', 'recipe' => 'egg']);
-        $this->state['barn']['items'] = ['corn' => 100];
+        $this->state['barn']['items'] = ['corn' => 200];
         $error = $this->assertGameError('quantity_too_high', 'start_production', ['id' => 'b4', 'recipe' => 'chicken_feed', 'quantity' => 3]);
         self::assertSame(['max' => 2], $error->details);
         $this->assertGameError('quantity_too_high', 'start_production', ['id' => 'b5', 'quantity' => 2]);
@@ -115,14 +129,14 @@ final class ProductionTest extends EngineTestCase
 
     public function testFullChainCornToEggs(): void
     {
-        $this->state['barn']['items'] = ['corn' => 10];
+        $this->state['barn']['items'] = ['corn' => 25];
         $this->act('start_production', ['id' => 'b4', 'recipe' => 'chicken_feed']);
-        $this->act('collect', ['id' => 'b4'], 600);
-        $this->act('start_production', ['id' => 'b5'], 600);
-        $this->act('collect', ['id' => 'b5'], 600 + 390);
+        $this->act('collect', ['id' => 'b4'], 180);
+        $this->act('start_production', ['id' => 'b5'], 180);
+        $this->act('collect', ['id' => 'b5'], 180 + 390);
 
         self::assertSame(['egg' => 21, 'dung' => 7], $this->state['barn']['items']);
-        self::assertSame(2 + 5, $this->state['xp']);
+        self::assertSame(['level' => 2, 'xp' => 50 + 5 - 50], ['level' => $this->state['level'], 'xp' => $this->state['xp']]);
     }
 
     public function testCollectWhileOfflineAndAccelerated(): void
@@ -189,7 +203,7 @@ final class ProductionTest extends EngineTestCase
         self::assertSame(['ready_at' => self::NOW + 390, 'ready' => true], $view['jobs']['b5']);
         self::assertSame('batch', $view['production']['b4']['mode']);
         self::assertSame(2, $view['production']['b4']['recipes']['cattle_feed']['max_quantity']);
-        self::assertSame(['wheat' => 10], $view['production']['b4']['recipes']['cattle_feed']['inputs']);
+        self::assertSame(['wheat' => 82], $view['production']['b4']['recipes']['cattle_feed']['inputs']);
         self::assertSame('run', $view['production']['b5']['mode']);
         self::assertArrayNotHasKey('b2', $view['production'], 'fields have no recipe');
     }

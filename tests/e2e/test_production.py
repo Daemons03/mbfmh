@@ -31,7 +31,7 @@ def run_and_collect(page, x, y, product_name, timeout, batches=1):
 
 
 def test_windmill_batches_then_chickens(game, farm):
-    farm.patch({"barn.items": {"corn": 30}, "settings.speed": 100, "cash": 10_000})
+    farm.patch({"barn.items": {"corn": 60}, "settings.speed": 100, "cash": 10_000})
     reload(game)
     build_here(game, 6, 4, "Moulin")
     build_here(game, 8, 4, "Poulailler")
@@ -40,21 +40,21 @@ def test_windmill_batches_then_chickens(game, farm):
     game.wait_for_selector("#sheet:not([hidden])")
     assert game.locator("#sheet .recipe").count() == 7, "one feed per species"
     card = recipe_card(game, "Nourriture pour volaille")
-    assert "🌽 10/10" in card.inner_text()
+    assert "🌽 25/25" in card.inner_text()
     assert "1 / 2 lots" in card.inner_text()
     card.get_by_role("button", name="+").click()
-    assert "2 / 2 lots" in card.inner_text() and "🌽 20/20" in card.inner_text()
+    assert "2 / 2 lots" in card.inner_text() and "🌽 50/50" in card.inner_text()
     assert recipe_card(game, "Nourriture pour cochons").get_by_role("button", name="Niv. 8").is_disabled()
     close_sheet(game)
 
-    run_and_collect(game, 6, 4, "Nourriture pour volaille", timeout=20_000, batches=2)  # 2 x 600 s / 100
+    run_and_collect(game, 6, 4, "Nourriture pour volaille", timeout=20_000, batches=2)  # 2 x 180 s / 100
     assert farm.state()["barn"]["items"] == {"corn": 10, "chicken_feed": 20}
 
     run_and_collect(game, 8, 4, "Œuf", timeout=10_000)  # 390 s / 100
     state = farm.state()
     assert state["barn"]["items"] == {"corn": 10, "chicken_feed": 10, "egg": 21, "dung": 7}
-    assert state["cash"] == 10_000 - 50 - 1500 - 4
-    assert state["xp"] == 2 * 2 + 5
+    assert state["cash"] == 10_000 - 50 - 1500 - 2 * 2 - 4
+    assert (state["level"], state["xp"]) == (2, 2 * 50 + 5 - 50)
 
 
 def test_missing_inputs(game, farm):

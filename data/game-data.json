@@ -905,7 +905,7 @@
       "market_price": 10
     },
     "lettuce": {
-      "name": "Laitue",
+      "name": "Mâche",
       "emoji": "🥗",
       "category": "crop",
       "unlock_level": 31,
@@ -1615,8 +1615,7 @@
       "max_count": 2,
       "production": {
         "mode": "batch",
-        "_estimated": true,
-        "_note": "Une recette par nourriture, faite de la culture débloquée au même niveau que l'animal. Lot de 10 : ingrédients, durée et XP estimés (à confirmer) ; capacité par niveau relevée."
+        "_note": "Recettes, cash, durées et XP : valeurs du jeu (captures du joueur) ; capacité relevée."
       },
       "_estimated_fields": [
         "size",
@@ -1633,80 +1632,94 @@
           "recipes": {
             "chicken_feed": {
               "inputs": {
-                "corn": 10
+                "corn": 25
               },
-              "cost": {},
+              "cost": {
+                "cash": 2
+              },
               "outputs": {
                 "chicken_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 180,
+              "xp": 50
             },
             "pig_feed": {
               "inputs": {
-                "cabbage": 10
+                "cabbage": 60
               },
-              "cost": {},
+              "cost": {
+                "cash": 15
+              },
               "outputs": {
                 "pig_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1500,
+              "xp": 200
             },
             "cattle_feed": {
               "inputs": {
-                "wheat": 10
+                "wheat": 82
               },
-              "cost": {},
+              "cost": {
+                "cash": 299
+              },
               "outputs": {
                 "cattle_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 8100,
+              "xp": 1400
             },
             "goat_feed": {
               "inputs": {
-                "dandelion": 10
+                "dandelion": 63
               },
-              "cost": {},
+              "cost": {
+                "cash": 31
+              },
               "outputs": {
                 "goat_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 2400,
+              "xp": 350
             },
             "duck_feed": {
               "inputs": {
-                "lettuce": 10
+                "lettuce": 80
               },
-              "cost": {},
+              "cost": {
+                "cash": 64
+              },
               "outputs": {
                 "duck_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 3600,
+              "xp": 550
             },
             "rabbit_feed": {
               "inputs": {
-                "carrot": 10
+                "carrot": 70
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "rabbit_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 2000,
+              "xp": 450
             },
             "sheep_feed": {
               "inputs": {
-                "barley": 10
+                "barley": 70
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "sheep_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1800,
+              "xp": 360
             }
           }
         },
@@ -1720,80 +1733,94 @@
           "recipes": {
             "chicken_feed": {
               "inputs": {
-                "corn": 10
+                "corn": 25
               },
-              "cost": {},
+              "cost": {
+                "cash": 2
+              },
               "outputs": {
                 "chicken_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 140,
+              "xp": 50
             },
             "pig_feed": {
               "inputs": {
-                "cabbage": 10
+                "cabbage": 59
               },
-              "cost": {},
+              "cost": {
+                "cash": 15
+              },
               "outputs": {
                 "pig_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1200,
+              "xp": 200
             },
             "cattle_feed": {
               "inputs": {
-                "wheat": 10
+                "wheat": 80
               },
-              "cost": {},
+              "cost": {
+                "cash": 299
+              },
               "outputs": {
                 "cattle_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 6400,
+              "xp": 1400
             },
             "goat_feed": {
               "inputs": {
-                "dandelion": 10
+                "dandelion": 61
               },
-              "cost": {},
+              "cost": {
+                "cash": 31
+              },
               "outputs": {
                 "goat_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1700,
+              "xp": 350
             },
             "duck_feed": {
               "inputs": {
-                "lettuce": 10
+                "lettuce": 78
               },
-              "cost": {},
+              "cost": {
+                "cash": 64
+              },
               "outputs": {
                 "duck_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 2550,
+              "xp": 550
             },
             "rabbit_feed": {
               "inputs": {
-                "carrot": 10
+                "carrot": 68
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "rabbit_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1410,
+              "xp": 450
             },
             "sheep_feed": {
               "inputs": {
-                "barley": 10
+                "barley": 68
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "sheep_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1270,
+              "xp": 360
             }
           }
         },
@@ -1807,80 +1834,94 @@
           "recipes": {
             "chicken_feed": {
               "inputs": {
-                "corn": 10
+                "corn": 24
               },
-              "cost": {},
+              "cost": {
+                "cash": 2
+              },
               "outputs": {
                 "chicken_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 108,
+              "xp": 50
             },
             "pig_feed": {
               "inputs": {
-                "cabbage": 10
+                "cabbage": 58
               },
-              "cost": {},
+              "cost": {
+                "cash": 15
+              },
               "outputs": {
                 "pig_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 900,
+              "xp": 200
             },
             "cattle_feed": {
               "inputs": {
-                "wheat": 10
+                "wheat": 78
               },
-              "cost": {},
+              "cost": {
+                "cash": 299
+              },
               "outputs": {
                 "cattle_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 4800,
+              "xp": 1400
             },
             "goat_feed": {
               "inputs": {
-                "dandelion": 10
+                "dandelion": 59
               },
-              "cost": {},
+              "cost": {
+                "cash": 31
+              },
               "outputs": {
                 "goat_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1390,
+              "xp": 350
             },
             "duck_feed": {
               "inputs": {
-                "lettuce": 10
+                "lettuce": 76
               },
-              "cost": {},
+              "cost": {
+                "cash": 64
+              },
               "outputs": {
                 "duck_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 2080,
+              "xp": 550
             },
             "rabbit_feed": {
               "inputs": {
-                "carrot": 10
+                "carrot": 66
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "rabbit_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1150,
+              "xp": 450
             },
             "sheep_feed": {
               "inputs": {
-                "barley": 10
+                "barley": 66
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "sheep_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1040,
+              "xp": 360
             }
           }
         },
@@ -1894,80 +1935,94 @@
           "recipes": {
             "chicken_feed": {
               "inputs": {
-                "corn": 10
+                "corn": 23
               },
-              "cost": {},
+              "cost": {
+                "cash": 2
+              },
               "outputs": {
                 "chicken_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 96,
+              "xp": 50
             },
             "pig_feed": {
               "inputs": {
-                "cabbage": 10
+                "cabbage": 56
               },
-              "cost": {},
+              "cost": {
+                "cash": 15
+              },
               "outputs": {
                 "pig_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 810,
+              "xp": 200
             },
             "cattle_feed": {
               "inputs": {
-                "wheat": 10
+                "wheat": 76
               },
-              "cost": {},
+              "cost": {
+                "cash": 299
+              },
               "outputs": {
                 "cattle_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 4440,
+              "xp": 1400
             },
             "goat_feed": {
               "inputs": {
-                "dandelion": 10
+                "dandelion": 57
               },
-              "cost": {},
+              "cost": {
+                "cash": 31
+              },
               "outputs": {
                 "goat_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1200,
+              "xp": 350
             },
             "duck_feed": {
               "inputs": {
-                "lettuce": 10
+                "lettuce": 74
               },
-              "cost": {},
+              "cost": {
+                "cash": 64
+              },
               "outputs": {
                 "duck_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1800,
+              "xp": 550
             },
             "rabbit_feed": {
               "inputs": {
-                "carrot": 10
+                "carrot": 64
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "rabbit_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1000,
+              "xp": 450
             },
             "sheep_feed": {
               "inputs": {
-                "barley": 10
+                "barley": 64
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "sheep_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 900,
+              "xp": 360
             }
           }
         },
@@ -1981,80 +2036,94 @@
           "recipes": {
             "chicken_feed": {
               "inputs": {
-                "corn": 10
+                "corn": 22
               },
-              "cost": {},
+              "cost": {
+                "cash": 2
+              },
               "outputs": {
                 "chicken_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 84,
+              "xp": 50
             },
             "pig_feed": {
               "inputs": {
-                "cabbage": 10
+                "cabbage": 55
               },
-              "cost": {},
+              "cost": {
+                "cash": 15
+              },
               "outputs": {
                 "pig_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 720,
+              "xp": 200
             },
             "cattle_feed": {
               "inputs": {
-                "wheat": 10
+                "wheat": 74
               },
-              "cost": {},
+              "cost": {
+                "cash": 299
+              },
               "outputs": {
                 "cattle_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 4080,
+              "xp": 1400
             },
             "goat_feed": {
               "inputs": {
-                "dandelion": 10
+                "dandelion": 55
               },
-              "cost": {},
+              "cost": {
+                "cash": 31
+              },
               "outputs": {
                 "goat_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1070,
+              "xp": 350
             },
             "duck_feed": {
               "inputs": {
-                "lettuce": 10
+                "lettuce": 72
               },
-              "cost": {},
+              "cost": {
+                "cash": 64
+              },
               "outputs": {
                 "duck_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1610,
+              "xp": 550
             },
             "rabbit_feed": {
               "inputs": {
-                "carrot": 10
+                "carrot": 62
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "rabbit_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 890,
+              "xp": 450
             },
             "sheep_feed": {
               "inputs": {
-                "barley": 10
+                "barley": 62
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "sheep_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 800,
+              "xp": 360
             }
           }
         },
@@ -2069,80 +2138,94 @@
           "recipes": {
             "chicken_feed": {
               "inputs": {
-                "corn": 10
+                "corn": 21
               },
-              "cost": {},
+              "cost": {
+                "cash": 2
+              },
               "outputs": {
                 "chicken_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 62,
+              "xp": 50
             },
             "pig_feed": {
               "inputs": {
-                "cabbage": 10
+                "cabbage": 54
               },
-              "cost": {},
+              "cost": {
+                "cash": 15
+              },
               "outputs": {
                 "pig_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 540,
+              "xp": 200
             },
             "cattle_feed": {
               "inputs": {
-                "wheat": 10
+                "wheat": 72
               },
-              "cost": {},
+              "cost": {
+                "cash": 299
+              },
               "outputs": {
                 "cattle_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 3300,
+              "xp": 1400
             },
             "goat_feed": {
               "inputs": {
-                "dandelion": 10
+                "dandelion": 53
               },
-              "cost": {},
+              "cost": {
+                "cash": 31
+              },
               "outputs": {
                 "goat_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 980,
+              "xp": 350
             },
             "duck_feed": {
               "inputs": {
-                "lettuce": 10
+                "lettuce": 70
               },
-              "cost": {},
+              "cost": {
+                "cash": 64
+              },
               "outputs": {
                 "duck_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1470,
+              "xp": 550
             },
             "rabbit_feed": {
               "inputs": {
-                "carrot": 10
+                "carrot": 60
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "rabbit_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 820,
+              "xp": 450
             },
             "sheep_feed": {
               "inputs": {
-                "barley": 10
+                "barley": 60
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "sheep_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 730,
+              "xp": 360
             }
           }
         },
@@ -2156,80 +2239,94 @@
           "recipes": {
             "chicken_feed": {
               "inputs": {
-                "corn": 10
+                "corn": 20
               },
-              "cost": {},
+              "cost": {
+                "cash": 2
+              },
               "outputs": {
                 "chicken_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 56,
+              "xp": 50
             },
             "pig_feed": {
               "inputs": {
-                "cabbage": 10
+                "cabbage": 53
               },
-              "cost": {},
+              "cost": {
+                "cash": 15
+              },
               "outputs": {
                 "pig_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 510,
+              "xp": 200
             },
             "cattle_feed": {
               "inputs": {
-                "wheat": 10
+                "wheat": 70
               },
-              "cost": {},
+              "cost": {
+                "cash": 299
+              },
               "outputs": {
                 "cattle_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 3150,
+              "xp": 1400
             },
             "goat_feed": {
               "inputs": {
-                "dandelion": 10
+                "dandelion": 51
               },
-              "cost": {},
+              "cost": {
+                "cash": 31
+              },
               "outputs": {
                 "goat_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 910,
+              "xp": 350
             },
             "duck_feed": {
               "inputs": {
-                "lettuce": 10
+                "lettuce": 68
               },
-              "cost": {},
+              "cost": {
+                "cash": 64
+              },
               "outputs": {
                 "duck_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1360,
+              "xp": 550
             },
             "rabbit_feed": {
               "inputs": {
-                "carrot": 10
+                "carrot": 58
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "rabbit_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 760,
+              "xp": 450
             },
             "sheep_feed": {
               "inputs": {
-                "barley": 10
+                "barley": 58
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "sheep_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 680,
+              "xp": 360
             }
           }
         },
@@ -2243,80 +2340,94 @@
           "recipes": {
             "chicken_feed": {
               "inputs": {
-                "corn": 10
+                "corn": 19
               },
-              "cost": {},
+              "cost": {
+                "cash": 2
+              },
               "outputs": {
                 "chicken_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 50,
+              "xp": 50
             },
             "pig_feed": {
               "inputs": {
-                "cabbage": 10
+                "cabbage": 52
               },
-              "cost": {},
+              "cost": {
+                "cash": 15
+              },
               "outputs": {
                 "pig_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 480,
+              "xp": 200
             },
             "cattle_feed": {
               "inputs": {
-                "wheat": 10
+                "wheat": 68
               },
-              "cost": {},
+              "cost": {
+                "cash": 299
+              },
               "outputs": {
                 "cattle_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 3000,
+              "xp": 1400
             },
             "goat_feed": {
               "inputs": {
-                "dandelion": 10
+                "dandelion": 49
               },
-              "cost": {},
+              "cost": {
+                "cash": 31
+              },
               "outputs": {
                 "goat_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 850,
+              "xp": 350
             },
             "duck_feed": {
               "inputs": {
-                "lettuce": 10
+                "lettuce": 66
               },
-              "cost": {},
+              "cost": {
+                "cash": 64
+              },
               "outputs": {
                 "duck_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1270,
+              "xp": 550
             },
             "rabbit_feed": {
               "inputs": {
-                "carrot": 10
+                "carrot": 56
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "rabbit_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 710,
+              "xp": 450
             },
             "sheep_feed": {
               "inputs": {
-                "barley": 10
+                "barley": 56
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "sheep_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 640,
+              "xp": 360
             }
           }
         },
@@ -2330,80 +2441,94 @@
           "recipes": {
             "chicken_feed": {
               "inputs": {
-                "corn": 10
+                "corn": 18
               },
-              "cost": {},
+              "cost": {
+                "cash": 2
+              },
               "outputs": {
                 "chicken_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 45,
+              "xp": 50
             },
             "pig_feed": {
               "inputs": {
-                "cabbage": 10
+                "cabbage": 51
               },
-              "cost": {},
+              "cost": {
+                "cash": 15
+              },
               "outputs": {
                 "pig_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 420,
+              "xp": 200
             },
             "cattle_feed": {
               "inputs": {
-                "wheat": 10
+                "wheat": 66
               },
-              "cost": {},
+              "cost": {
+                "cash": 299
+              },
               "outputs": {
                 "cattle_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 2660,
+              "xp": 1400
             },
             "goat_feed": {
               "inputs": {
-                "dandelion": 10
+                "dandelion": 48
               },
-              "cost": {},
+              "cost": {
+                "cash": 31
+              },
               "outputs": {
                 "goat_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 800,
+              "xp": 350
             },
             "duck_feed": {
               "inputs": {
-                "lettuce": 10
+                "lettuce": 64
               },
-              "cost": {},
+              "cost": {
+                "cash": 64
+              },
               "outputs": {
                 "duck_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1200,
+              "xp": 550
             },
             "rabbit_feed": {
               "inputs": {
-                "carrot": 10
+                "carrot": 54
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "rabbit_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 670,
+              "xp": 450
             },
             "sheep_feed": {
               "inputs": {
-                "barley": 10
+                "barley": 54
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "sheep_feed": 10
               },
               "duration": 600,
-              "xp": 2
+              "xp": 360
             }
           }
         },
@@ -2417,80 +2542,94 @@
           "recipes": {
             "chicken_feed": {
               "inputs": {
-                "corn": 10
+                "corn": 17
               },
-              "cost": {},
+              "cost": {
+                "cash": 2
+              },
               "outputs": {
                 "chicken_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 40,
+              "xp": 50
             },
             "pig_feed": {
               "inputs": {
-                "cabbage": 10
+                "cabbage": 50
               },
-              "cost": {},
+              "cost": {
+                "cash": 15
+              },
               "outputs": {
                 "pig_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 360,
+              "xp": 200
             },
             "cattle_feed": {
               "inputs": {
-                "wheat": 10
+                "wheat": 62
               },
-              "cost": {},
+              "cost": {
+                "cash": 299
+              },
               "outputs": {
                 "cattle_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 2400,
+              "xp": 1400
             },
             "goat_feed": {
               "inputs": {
-                "dandelion": 10
+                "dandelion": 47
               },
-              "cost": {},
+              "cost": {
+                "cash": 31
+              },
               "outputs": {
                 "goat_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 760,
+              "xp": 350
             },
             "duck_feed": {
               "inputs": {
-                "lettuce": 10
+                "lettuce": 62
               },
-              "cost": {},
+              "cost": {
+                "cash": 64
+              },
               "outputs": {
                 "duck_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1140,
+              "xp": 550
             },
             "rabbit_feed": {
               "inputs": {
-                "carrot": 10
+                "carrot": 52
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "rabbit_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 630,
+              "xp": 450
             },
             "sheep_feed": {
               "inputs": {
-                "barley": 10
+                "barley": 52
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "sheep_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 570,
+              "xp": 360
             }
           }
         },
@@ -2505,80 +2644,94 @@
           "recipes": {
             "chicken_feed": {
               "inputs": {
-                "corn": 10
+                "corn": 16
               },
-              "cost": {},
+              "cost": {
+                "cash": 2
+              },
               "outputs": {
                 "chicken_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 38,
+              "xp": 50
             },
             "pig_feed": {
               "inputs": {
-                "cabbage": 10
+                "cabbage": 49
               },
-              "cost": {},
+              "cost": {
+                "cash": 15
+              },
               "outputs": {
                 "pig_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 340,
+              "xp": 200
             },
             "cattle_feed": {
               "inputs": {
-                "wheat": 10
+                "wheat": 60
               },
-              "cost": {},
+              "cost": {
+                "cash": 299
+              },
               "outputs": {
                 "cattle_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 2280,
+              "xp": 1400
             },
             "goat_feed": {
               "inputs": {
-                "dandelion": 10
+                "dandelion": 46
               },
-              "cost": {},
+              "cost": {
+                "cash": 31
+              },
               "outputs": {
                 "goat_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 720,
+              "xp": 350
             },
             "duck_feed": {
               "inputs": {
-                "lettuce": 10
+                "lettuce": 60
               },
-              "cost": {},
+              "cost": {
+                "cash": 64
+              },
               "outputs": {
                 "duck_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1090,
+              "xp": 550
             },
             "rabbit_feed": {
               "inputs": {
-                "carrot": 10
+                "carrot": 50
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "rabbit_feed": 10
               },
               "duration": 600,
-              "xp": 2
+              "xp": 450
             },
             "sheep_feed": {
               "inputs": {
-                "barley": 10
+                "barley": 50
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "sheep_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 540,
+              "xp": 360
             }
           }
         },
@@ -2593,80 +2746,94 @@
           "recipes": {
             "chicken_feed": {
               "inputs": {
-                "corn": 10
+                "corn": 15
               },
-              "cost": {},
+              "cost": {
+                "cash": 2
+              },
               "outputs": {
                 "chicken_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 36,
+              "xp": 50
             },
             "pig_feed": {
               "inputs": {
-                "cabbage": 10
+                "cabbage": 48
               },
-              "cost": {},
+              "cost": {
+                "cash": 15
+              },
               "outputs": {
                 "pig_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 320,
+              "xp": 200
             },
             "cattle_feed": {
               "inputs": {
-                "wheat": 10
+                "wheat": 58
               },
-              "cost": {},
+              "cost": {
+                "cash": 299
+              },
               "outputs": {
                 "cattle_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 2170,
+              "xp": 1400
             },
             "goat_feed": {
               "inputs": {
-                "dandelion": 10
+                "dandelion": 45
               },
-              "cost": {},
+              "cost": {
+                "cash": 31
+              },
               "outputs": {
                 "goat_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 690,
+              "xp": 350
             },
             "duck_feed": {
               "inputs": {
-                "lettuce": 10
+                "lettuce": 58
               },
-              "cost": {},
+              "cost": {
+                "cash": 64
+              },
               "outputs": {
                 "duck_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 1040,
+              "xp": 550
             },
             "rabbit_feed": {
               "inputs": {
-                "carrot": 10
+                "carrot": 49
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "rabbit_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 580,
+              "xp": 450
             },
             "sheep_feed": {
               "inputs": {
-                "barley": 10
+                "barley": 49
               },
-              "cost": {},
+              "cost": {
+                "cash": 29
+              },
               "outputs": {
                 "sheep_feed": 10
               },
-              "duration": 600,
-              "xp": 2
+              "duration": 520,
+              "xp": 360
             }
           }
         }
@@ -5590,7 +5757,7 @@
       "max_count": 4,
       "production": {
         "mode": "run",
-        "_note": "Engrais et durée : valeurs du jeu (joueur). XP estimée ; quantités relevées."
+        "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux dont le coût d'amélioration est inconnu omis."
       },
       "_estimated_fields": [
         "size",
@@ -5608,16 +5775,15 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 325,
                 "leaves": 8
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         },
@@ -5632,16 +5798,15 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 355,
                 "leaves": 9
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         },
@@ -5656,16 +5821,15 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 390,
                 "leaves": 10
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         },
@@ -5680,16 +5844,15 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 425,
                 "leaves": 11
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         },
@@ -5704,16 +5867,15 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 475,
                 "leaves": 12
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         },
@@ -5728,16 +5890,15 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 530,
                 "leaves": 13
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         },
@@ -5753,17 +5914,16 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 575,
                 "leaves": 14,
                 "nectar": 10
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         },
@@ -5779,17 +5939,16 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 620,
                 "leaves": 15,
                 "nectar": 15
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         },
@@ -5805,17 +5964,16 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 665,
                 "leaves": 16,
                 "nectar": 20
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         },
@@ -5831,17 +5989,16 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 710,
                 "leaves": 17,
                 "nectar": 25
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         },
@@ -5858,17 +6015,16 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 750,
                 "leaves": 18,
                 "nectar": 75
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         },
@@ -5885,17 +6041,16 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 790,
                 "leaves": 19,
                 "nectar": 100
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         },
@@ -5912,17 +6067,16 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 830,
                 "leaves": 20,
                 "nectar": 125
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         },
@@ -5939,17 +6093,16 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 870,
                 "leaves": 21,
                 "nectar": 150
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         },
@@ -5966,17 +6119,16 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 910,
                 "leaves": 22,
                 "nectar": 175
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         },
@@ -5993,17 +6145,16 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 950,
                 "leaves": 23,
                 "nectar": 200
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         },
@@ -6020,17 +6171,16 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 990,
                 "leaves": 24,
                 "nectar": 225
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         },
@@ -6047,17 +6197,16 @@
               "inputs": {
                 "fertilizer": 10
               },
-              "cost": {},
+              "cost": {
+                "cash": 496
+              },
               "outputs": {
                 "apple": 1030,
                 "leaves": 25,
                 "nectar": 250
               },
               "duration": 10800,
-              "xp": 10,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 150
             }
           }
         }
@@ -6074,7 +6223,7 @@
       "max_count": 4,
       "production": {
         "mode": "run",
-        "_note": "Engrais et durée : valeurs du jeu (joueur). XP estimée ; quantités relevées."
+        "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux dont le coût d'amélioration est inconnu omis."
       },
       "_estimated_fields": [
         "size",
@@ -6092,16 +6241,15 @@
               "inputs": {
                 "fertilizer": 30
               },
-              "cost": {},
+              "cost": {
+                "cash": 1419
+              },
               "outputs": {
                 "cherry": 220,
                 "leaves": 12
               },
               "duration": 43200,
-              "xp": 14,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 500
             }
           }
         },
@@ -6116,16 +6264,15 @@
               "inputs": {
                 "fertilizer": 30
               },
-              "cost": {},
+              "cost": {
+                "cash": 1419
+              },
               "outputs": {
                 "cherry": 250,
                 "leaves": 14
               },
               "duration": 43200,
-              "xp": 14,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 500
             }
           }
         },
@@ -6140,16 +6287,15 @@
               "inputs": {
                 "fertilizer": 30
               },
-              "cost": {},
+              "cost": {
+                "cash": 1419
+              },
               "outputs": {
                 "cherry": 270,
                 "leaves": 16
               },
               "duration": 43200,
-              "xp": 14,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 500
             }
           }
         },
@@ -6164,16 +6310,15 @@
               "inputs": {
                 "fertilizer": 30
               },
-              "cost": {},
+              "cost": {
+                "cash": 1419
+              },
               "outputs": {
                 "cherry": 300,
                 "leaves": 18
               },
               "duration": 43200,
-              "xp": 14,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 500
             }
           }
         },
@@ -6188,16 +6333,15 @@
               "inputs": {
                 "fertilizer": 30
               },
-              "cost": {},
+              "cost": {
+                "cash": 1419
+              },
               "outputs": {
                 "cherry": 325,
                 "leaves": 20
               },
               "duration": 43200,
-              "xp": 14,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 500
             }
           }
         },
@@ -6212,16 +6356,15 @@
               "inputs": {
                 "fertilizer": 30
               },
-              "cost": {},
+              "cost": {
+                "cash": 1419
+              },
               "outputs": {
                 "cherry": 355,
                 "leaves": 22
               },
               "duration": 43200,
-              "xp": 14,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 500
             }
           }
         },
@@ -6237,17 +6380,16 @@
               "inputs": {
                 "fertilizer": 30
               },
-              "cost": {},
+              "cost": {
+                "cash": 1419
+              },
               "outputs": {
                 "cherry": 380,
                 "leaves": 24,
                 "nectar": 15
               },
               "duration": 43200,
-              "xp": 14,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 500
             }
           }
         },
@@ -6263,17 +6405,16 @@
               "inputs": {
                 "fertilizer": 30
               },
-              "cost": {},
+              "cost": {
+                "cash": 1419
+              },
               "outputs": {
                 "cherry": 410,
                 "leaves": 26,
                 "nectar": 23
               },
               "duration": 43200,
-              "xp": 14,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 500
             }
           }
         },
@@ -6289,17 +6430,16 @@
               "inputs": {
                 "fertilizer": 30
               },
-              "cost": {},
+              "cost": {
+                "cash": 1419
+              },
               "outputs": {
                 "cherry": 435,
                 "leaves": 28,
                 "nectar": 30
               },
               "duration": 43200,
-              "xp": 14,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 500
             }
           }
         },
@@ -6315,17 +6455,16 @@
               "inputs": {
                 "fertilizer": 30
               },
-              "cost": {},
+              "cost": {
+                "cash": 1419
+              },
               "outputs": {
                 "cherry": 465,
                 "leaves": 30,
                 "nectar": 38
               },
               "duration": 43200,
-              "xp": 14,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 500
             }
           }
         },
@@ -6341,17 +6480,16 @@
               "inputs": {
                 "fertilizer": 30
               },
-              "cost": {},
+              "cost": {
+                "cash": 1419
+              },
               "outputs": {
                 "cherry": 490,
                 "leaves": 32,
                 "nectar": 113
               },
               "duration": 43200,
-              "xp": 14,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 500
             }
           }
         },
@@ -6367,17 +6505,16 @@
               "inputs": {
                 "fertilizer": 30
               },
-              "cost": {},
+              "cost": {
+                "cash": 1419
+              },
               "outputs": {
                 "cherry": 515,
                 "leaves": 34,
                 "nectar": 150
               },
               "duration": 43200,
-              "xp": 14,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 500
             }
           }
         },
@@ -6394,17 +6531,16 @@
               "inputs": {
                 "fertilizer": 30
               },
-              "cost": {},
+              "cost": {
+                "cash": 1419
+              },
               "outputs": {
                 "cherry": 540,
                 "leaves": 36,
                 "nectar": 188
               },
               "duration": 43200,
-              "xp": 14,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 500
             }
           }
         },
@@ -6421,17 +6557,16 @@
               "inputs": {
                 "fertilizer": 30
               },
-              "cost": {},
+              "cost": {
+                "cash": 1419
+              },
               "outputs": {
                 "cherry": 565,
                 "leaves": 38,
                 "nectar": 225
               },
               "duration": 43200,
-              "xp": 14,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 500
             }
           }
         }
@@ -6448,7 +6583,7 @@
       "max_count": 4,
       "production": {
         "mode": "run",
-        "_note": "Engrais et durée : valeurs du jeu (joueur). XP estimée ; quantités relevées."
+        "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux dont le coût d'amélioration est inconnu omis."
       },
       "_estimated_fields": [
         "size",
@@ -6466,16 +6601,15 @@
               "inputs": {
                 "fertilizer": 20
               },
-              "cost": {},
+              "cost": {
+                "cash": 700
+              },
               "outputs": {
                 "almond": 270,
                 "leaves": 10
               },
               "duration": 28800,
-              "xp": 16,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 350
             }
           }
         },
@@ -6490,16 +6624,15 @@
               "inputs": {
                 "fertilizer": 20
               },
-              "cost": {},
+              "cost": {
+                "cash": 700
+              },
               "outputs": {
                 "almond": 295,
                 "leaves": 12
               },
               "duration": 28800,
-              "xp": 16,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 350
             }
           }
         },
@@ -6514,16 +6647,15 @@
               "inputs": {
                 "fertilizer": 20
               },
-              "cost": {},
+              "cost": {
+                "cash": 700
+              },
               "outputs": {
                 "almond": 325,
                 "leaves": 14
               },
               "duration": 28800,
-              "xp": 16,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 350
             }
           }
         },
@@ -6538,16 +6670,15 @@
               "inputs": {
                 "fertilizer": 20
               },
-              "cost": {},
+              "cost": {
+                "cash": 700
+              },
               "outputs": {
                 "almond": 360,
                 "leaves": 16
               },
               "duration": 28800,
-              "xp": 16,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 350
             }
           }
         },
@@ -6562,16 +6693,15 @@
               "inputs": {
                 "fertilizer": 20
               },
-              "cost": {},
+              "cost": {
+                "cash": 700
+              },
               "outputs": {
                 "almond": 395,
                 "leaves": 18
               },
               "duration": 28800,
-              "xp": 16,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 350
             }
           }
         },
@@ -6586,16 +6716,15 @@
               "inputs": {
                 "fertilizer": 20
               },
-              "cost": {},
+              "cost": {
+                "cash": 700
+              },
               "outputs": {
                 "almond": 435,
                 "leaves": 20
               },
               "duration": 28800,
-              "xp": 16,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 350
             }
           }
         },
@@ -6611,17 +6740,16 @@
               "inputs": {
                 "fertilizer": 20
               },
-              "cost": {},
+              "cost": {
+                "cash": 700
+              },
               "outputs": {
                 "almond": 470,
                 "leaves": 22,
                 "nectar": 13
               },
               "duration": 28800,
-              "xp": 16,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 350
             }
           }
         },
@@ -6637,17 +6765,16 @@
               "inputs": {
                 "fertilizer": 20
               },
-              "cost": {},
+              "cost": {
+                "cash": 700
+              },
               "outputs": {
                 "almond": 510,
                 "leaves": 24,
                 "nectar": 19
               },
               "duration": 28800,
-              "xp": 16,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 350
             }
           }
         },
@@ -6663,17 +6790,16 @@
               "inputs": {
                 "fertilizer": 20
               },
-              "cost": {},
+              "cost": {
+                "cash": 700
+              },
               "outputs": {
                 "almond": 545,
                 "leaves": 26,
                 "nectar": 25
               },
               "duration": 28800,
-              "xp": 16,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 350
             }
           }
         },
@@ -6689,17 +6815,16 @@
               "inputs": {
                 "fertilizer": 20
               },
-              "cost": {},
+              "cost": {
+                "cash": 700
+              },
               "outputs": {
                 "almond": 585,
                 "leaves": 28,
                 "nectar": 31
               },
               "duration": 28800,
-              "xp": 16,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 350
             }
           }
         },
@@ -6716,17 +6841,16 @@
               "inputs": {
                 "fertilizer": 20
               },
-              "cost": {},
+              "cost": {
+                "cash": 700
+              },
               "outputs": {
                 "almond": 620,
                 "leaves": 30,
                 "nectar": 94
               },
               "duration": 28800,
-              "xp": 16,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 350
             }
           }
         },
@@ -6743,17 +6867,16 @@
               "inputs": {
                 "fertilizer": 20
               },
-              "cost": {},
+              "cost": {
+                "cash": 700
+              },
               "outputs": {
                 "almond": 655,
                 "leaves": 32,
                 "nectar": 125
               },
               "duration": 28800,
-              "xp": 16,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 350
             }
           }
         },
@@ -6770,17 +6893,16 @@
               "inputs": {
                 "fertilizer": 20
               },
-              "cost": {},
+              "cost": {
+                "cash": 700
+              },
               "outputs": {
                 "almond": 690,
                 "leaves": 34,
                 "nectar": 156
               },
               "duration": 28800,
-              "xp": 16,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 350
             }
           }
         },
@@ -6797,17 +6919,16 @@
               "inputs": {
                 "fertilizer": 20
               },
-              "cost": {},
+              "cost": {
+                "cash": 700
+              },
               "outputs": {
                 "almond": 725,
                 "leaves": 36,
                 "nectar": 188
               },
               "duration": 28800,
-              "xp": 16,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 350
             }
           }
         }
@@ -6824,7 +6945,7 @@
       "max_count": 4,
       "production": {
         "mode": "run",
-        "_note": "Engrais et durée : valeurs du jeu (joueur). XP estimée ; quantités relevées."
+        "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux dont le coût d'amélioration est inconnu omis."
       },
       "_estimated_fields": [
         "size",
@@ -6842,16 +6963,15 @@
               "inputs": {
                 "fertilizer": 5
               },
-              "cost": {},
+              "cost": {
+                "cash": 474
+              },
               "outputs": {
                 "peach": 200,
                 "leaves": 2
               },
               "duration": 3600,
-              "xp": 20,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 50
             }
           }
         },
@@ -6866,16 +6986,15 @@
               "inputs": {
                 "fertilizer": 5
               },
-              "cost": {},
+              "cost": {
+                "cash": 474
+              },
               "outputs": {
                 "peach": 220,
                 "leaves": 3
               },
               "duration": 3600,
-              "xp": 20,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 50
             }
           }
         },
@@ -6890,16 +7009,15 @@
               "inputs": {
                 "fertilizer": 5
               },
-              "cost": {},
+              "cost": {
+                "cash": 474
+              },
               "outputs": {
                 "peach": 240,
                 "leaves": 4
               },
               "duration": 3600,
-              "xp": 20,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 50
             }
           }
         },
@@ -6914,16 +7032,15 @@
               "inputs": {
                 "fertilizer": 5
               },
-              "cost": {},
+              "cost": {
+                "cash": 474
+              },
               "outputs": {
                 "peach": 265,
                 "leaves": 5
               },
               "duration": 3600,
-              "xp": 20,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 50
             }
           }
         },
@@ -6938,16 +7055,15 @@
               "inputs": {
                 "fertilizer": 5
               },
-              "cost": {},
+              "cost": {
+                "cash": 474
+              },
               "outputs": {
                 "peach": 290,
                 "leaves": 6
               },
               "duration": 3600,
-              "xp": 20,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 50
             }
           }
         },
@@ -6962,16 +7078,15 @@
               "inputs": {
                 "fertilizer": 5
               },
-              "cost": {},
+              "cost": {
+                "cash": 474
+              },
               "outputs": {
                 "peach": 320,
                 "leaves": 7
               },
               "duration": 3600,
-              "xp": 20,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 50
             }
           }
         },
@@ -6987,17 +7102,16 @@
               "inputs": {
                 "fertilizer": 5
               },
-              "cost": {},
+              "cost": {
+                "cash": 474
+              },
               "outputs": {
                 "peach": 345,
                 "leaves": 8,
                 "nectar": 3
               },
               "duration": 3600,
-              "xp": 20,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 50
             }
           }
         },
@@ -7013,17 +7127,16 @@
               "inputs": {
                 "fertilizer": 5
               },
-              "cost": {},
+              "cost": {
+                "cash": 474
+              },
               "outputs": {
                 "peach": 375,
                 "leaves": 9,
                 "nectar": 4
               },
               "duration": 3600,
-              "xp": 20,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 50
             }
           }
         },
@@ -7039,17 +7152,16 @@
               "inputs": {
                 "fertilizer": 5
               },
-              "cost": {},
+              "cost": {
+                "cash": 474
+              },
               "outputs": {
                 "peach": 400,
                 "leaves": 10,
                 "nectar": 5
               },
               "duration": 3600,
-              "xp": 20,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 50
             }
           }
         },
@@ -7066,17 +7178,16 @@
               "inputs": {
                 "fertilizer": 5
               },
-              "cost": {},
+              "cost": {
+                "cash": 474
+              },
               "outputs": {
                 "peach": 430,
                 "leaves": 11,
                 "nectar": 6
               },
               "duration": 3600,
-              "xp": 20,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 50
             }
           }
         },
@@ -7093,17 +7204,16 @@
               "inputs": {
                 "fertilizer": 5
               },
-              "cost": {},
+              "cost": {
+                "cash": 474
+              },
               "outputs": {
                 "peach": 455,
                 "leaves": 12,
                 "nectar": 19
               },
               "duration": 3600,
-              "xp": 20,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 50
             }
           }
         },
@@ -7120,17 +7230,16 @@
               "inputs": {
                 "fertilizer": 5
               },
-              "cost": {},
+              "cost": {
+                "cash": 474
+              },
               "outputs": {
                 "peach": 480,
                 "leaves": 13,
                 "nectar": 25
               },
               "duration": 3600,
-              "xp": 20,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 50
             }
           }
         },
@@ -7147,17 +7256,16 @@
               "inputs": {
                 "fertilizer": 5
               },
-              "cost": {},
+              "cost": {
+                "cash": 474
+              },
               "outputs": {
                 "peach": 505,
                 "leaves": 14,
                 "nectar": 31
               },
               "duration": 3600,
-              "xp": 20,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 50
             }
           }
         },
@@ -7174,17 +7282,16 @@
               "inputs": {
                 "fertilizer": 5
               },
-              "cost": {},
+              "cost": {
+                "cash": 474
+              },
               "outputs": {
                 "peach": 530,
                 "leaves": 15,
                 "nectar": 38
               },
               "duration": 3600,
-              "xp": 20,
-              "_estimated_fields": [
-                "xp"
-              ]
+              "xp": 50
             }
           }
         }
@@ -7201,7 +7308,7 @@
       "max_count": 2,
       "production": {
         "mode": "batch",
-        "_note": "Lot de 10 engrais : fumier, cash, durée, XP du jeu (niveaux 1-5) ; niveaux 6-10 extrapolés."
+        "_note": "Fumier, cash, durée, XP : valeurs du jeu (captures du joueur) ; capacité relevée."
       },
       "_estimated_fields": [
         "size",
@@ -7344,8 +7451,7 @@
                 "fertilizer": 10
               },
               "duration": 880,
-              "xp": 600,
-              "_estimated": true
+              "xp": 600
             }
           }
         },
@@ -7369,9 +7475,8 @@
               "outputs": {
                 "fertilizer": 10
               },
-              "duration": 704,
-              "xp": 600,
-              "_estimated": true
+              "duration": 700,
+              "xp": 600
             }
           }
         },
@@ -7395,9 +7500,8 @@
               "outputs": {
                 "fertilizer": 10
               },
-              "duration": 563,
-              "xp": 600,
-              "_estimated": true
+              "duration": 560,
+              "xp": 600
             }
           }
         },
@@ -7421,9 +7525,8 @@
               "outputs": {
                 "fertilizer": 10
               },
-              "duration": 451,
-              "xp": 600,
-              "_estimated": true
+              "duration": 450,
+              "xp": 600
             }
           }
         },
@@ -7448,8 +7551,7 @@
                 "fertilizer": 10
               },
               "duration": 360,
-              "xp": 600,
-              "_estimated": true
+              "xp": 600
             }
           }
         }

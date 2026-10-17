@@ -6,6 +6,7 @@ namespace FermeTranquille\Tests\Engine;
 
 use FermeTranquille\Engine\Farm;
 use FermeTranquille\Engine\Market;
+use FermeTranquille\Engine\Production;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
@@ -97,10 +98,13 @@ final class AnimalTest extends EngineTestCase
         $pairs = ['chicken_feed' => 'corn', 'pig_feed' => 'cabbage', 'cattle_feed' => 'wheat', 'goat_feed' => 'dandelion',
             'duck_feed' => 'lettuce', 'rabbit_feed' => 'carrot', 'sheep_feed' => 'barley'];
 
+        $elapsed = 0;
         foreach ($pairs as $feed => $crop) {
-            $this->state['barn']['items'] = [$crop => 10];
-            $this->act('start_production', ['id' => 'b4', 'recipe' => $feed]);
-            $this->act('collect', ['id' => 'b4'], 600);
+            $recipe = Production::recipe($this->data, 'windmill', 1, $feed);
+            $this->state['barn']['items'] = [$crop => $recipe['inputs'][$crop]];
+            $this->act('start_production', ['id' => 'b4', 'recipe' => $feed], $elapsed);
+            $elapsed += $recipe['duration'];
+            $this->act('collect', ['id' => 'b4'], $elapsed);
             self::assertSame([$feed => 10], $this->state['barn']['items'], $feed);
             self::assertSame($this->data->item($crop)['unlock_level'], $this->data->item($feed)['unlock_level']);
         }

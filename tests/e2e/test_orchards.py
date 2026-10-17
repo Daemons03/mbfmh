@@ -20,4 +20,6 @@ def test_silo_then_apple_orchard(game, farm):
     assert farm.state()["barn"]["items"] == {"fertilizer": 10}
 
     run_and_collect(game, 8, 4, "Pomme", timeout=25_000)  # 3 h / 1000
-    assert farm.state()["barn"]["items"] == {"apple": 325, "leaves": 8}
+    state = farm.state()
+    assert state["barn"]["items"] == {"apple": 325, "leaves": 8}
+    assert state["cash"] == 50_000 - 1000 - 3500 - 209 - 496
