@@ -1,5 +1,5 @@
 """Step 6: login, grid, plant, harvest, sell, build, move."""
-from conftest import PASSWORD, close_sheet, cash_text, grid_side, login, open_tab, reload, settle, tap
+from conftest import PASSWORD, cash_text, close_sheet, grid_side, login, open_tab, reload, row, settle, tap
 
 
 def test_wrong_password_then_login(page, farm, base_url):
@@ -25,9 +25,9 @@ def test_plant_countdown_and_one_tap_harvest(game, farm):
     tap(game, 3, 0)
     game.wait_for_selector("#sheet:not([hidden])")
     assert game.locator("#sheet-title").inner_text() == "🟫 Champ — niv. 1"
-    assert game.locator(".row", has_text="Chou").get_by_role("button").inner_text() == "Niv. 8"
+    assert row(game, "Chou").get_by_role("button").inner_text() == "Niv. 8"
 
-    game.locator(".row", has_text="Maïs").get_by_role("button", name="Planter").click()
+    row(game, "Maïs").get_by_role("button", name="Planter").click()
     countdown = game.locator("#sheet [data-ready-at]")
     countdown.wait_for()
     first = countdown.inner_text()
@@ -40,7 +40,7 @@ def test_plant_countdown_and_one_tap_harvest(game, farm):
     farm.patch({"settings.speed": 100})
     tap(game, 3, 1)
     game.wait_for_selector("#sheet:not([hidden])")
-    game.locator(".row", has_text="Fleurs sauvages").get_by_role("button", name="Planter").click()
+    row(game, "Fleurs sauvages").get_by_role("button", name="Planter").click()
     game.wait_for_selector(".toast.warn >> text=modifiée ailleurs")
     close_sheet(game)
 
@@ -55,10 +55,10 @@ def test_sell_from_barn(game, farm):
     farm.patch({"barn.items": {"corn": 10}})
     reload(game)
     open_tab(game, "barn")
-    row = game.locator(".row", has_text="Maïs")
-    assert "10 / 200" in row.inner_text()
+    corn = row(game, "Maïs")
+    assert "10 / 200" in corn.inner_text()
 
-    row.get_by_role("button", name="Tout").click()
+    corn.get_by_role("button", name="Tout").click()
     settle(game)
     assert "2 050" in cash_text(game)
     assert farm.state()["barn"]["items"] == {}
@@ -70,7 +70,7 @@ def test_build_with_placement_mode_and_build_here(game, farm):
     farm.add_house(10, 2)  # 2 + 20 free workers for two fields
     reload(game)
     open_tab(game, "build")
-    game.locator(".row", has_text="Champ").get_by_role("button", name="Placer").click()
+    row(game, "Champ").get_by_role("button", name="Placer").click()
     assert "Touchez une case" in game.locator("#mode-banner").inner_text()
     tap(game, 6, 5)
     game.wait_for_selector("#mode-banner[hidden]", state="attached")
@@ -78,7 +78,7 @@ def test_build_with_placement_mode_and_build_here(game, farm):
     tap(game, 8, 2)
     game.wait_for_selector("#sheet:not([hidden])")
     assert game.locator("#sheet-title").inner_text() == "Construire ici"
-    game.locator(".row", has_text="Champ").get_by_role("button", name="Construire").click()
+    row(game, "Champ").get_by_role("button", name="Construire").click()
     settle(game)
 
     fields = [(b["x"], b["y"]) for b in farm.state()["buildings"] if b["type"] == "field"]

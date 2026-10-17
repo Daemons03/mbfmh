@@ -1,7 +1,7 @@
 """Step 10: admin tab and admin.html."""
 import json
 
-from conftest import ROOT, close_sheet, grid_side, open_tab, settle, tap
+from conftest import ROOT, close_sheet, grid_side, open_tab, row, settle, tap
 
 MAX_LEVEL = json.loads((ROOT / "data" / "game-data.json").read_text())["player"]["max_level"]
 
@@ -9,7 +9,7 @@ MAX_LEVEL = json.loads((ROOT / "data" / "game-data.json").read_text())["player"]
 def test_finish_jobs_and_speed(game, farm):
     tap(game, 3, 0)
     game.wait_for_selector("#sheet:not([hidden])")
-    game.locator(".row", has_text="Maïs").get_by_role("button", name="Planter").click()
+    row(game, "Maïs").get_by_role("button", name="Planter").click()
     close_sheet(game)
 
     open_tab(game, "admin")

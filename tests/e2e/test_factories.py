@@ -1,7 +1,7 @@
 """V2.3: dairy (several recipes, batches) and humus on fields."""
 from test_production import build_here, recipe_card, run_and_collect
 
-from conftest import close_sheet, reload, settle, tap
+from conftest import close_sheet, reload, row, settle, tap
 
 
 def test_dairy_cream_batches(game, farm):
@@ -29,8 +29,8 @@ def test_humus_on_a_field(game, farm):
     tap(game, 3, 0)
     game.wait_for_selector("#sheet:not([hidden])")
     game.get_by_label("+25 %", exact=False).check()
-    assert "· 18 🌽" in game.locator(".row", has_text="Maïs").inner_text()
-    game.locator(".row", has_text="Maïs").get_by_role("button", name="Planter").click()
+    assert "· 18 🌽" in row(game, "Maïs").inner_text()
+    row(game, "Maïs").get_by_role("button", name="Planter").click()
     settle(game)
     close_sheet(game)
 

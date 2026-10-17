@@ -1,11 +1,11 @@
 """Production buildings: recipes (run / batch), windmill feeds, chicken coop."""
-from conftest import close_sheet, reload, settle, tap
+from conftest import close_sheet, reload, row, settle, tap
 
 
 def build_here(page, x, y, name):
     tap(page, x, y)
     page.wait_for_selector("#sheet:not([hidden])")
-    page.locator(".row", has_text=name).get_by_role("button", name="Construire").click()
+    row(page, name).get_by_role("button", name="Construire").click()
     page.wait_for_selector("#sheet[hidden]", state="attached")
 
 

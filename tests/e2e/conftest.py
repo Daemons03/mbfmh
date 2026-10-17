@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import socket
 import subprocess
 import time
@@ -207,6 +208,11 @@ def text(locator) -> str:
 
 def cash_text(page: Page) -> str:
     return text(page.locator(".wallet .res").first)
+
+
+def row(page: Page, title: str):
+    """The list row whose title is exactly `title` (not "Moulin premium" for "Moulin")."""
+    return page.locator(".row").filter(has=page.locator(".row-title", has_text=re.compile(f"^{re.escape(title)}$")))
 
 
 def settle(page: Page):

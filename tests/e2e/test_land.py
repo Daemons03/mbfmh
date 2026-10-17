@@ -1,5 +1,5 @@
 """Step 9: land expansions."""
-from conftest import close_sheet, grid_side, open_tab, reload, settle, tap
+from conftest import close_sheet, grid_side, open_tab, reload, row, settle, tap
 
 
 def test_locked_block_opens_land_panel_and_level_gates_it(game):
@@ -33,6 +33,6 @@ def test_buy_expansions_and_build_on_them(game, farm):
 
     tap(game, 9, 9)
     game.wait_for_selector("#sheet:not([hidden])")
-    game.locator(".row", has_text="Champ").get_by_role("button", name="Construire").click()
+    row(game, "Champ").get_by_role("button", name="Construire").click()
     settle(game)
     assert {"x": 9, "y": 9}.items() <= farm.state()["buildings"][-1].items()
