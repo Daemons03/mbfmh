@@ -1,5 +1,5 @@
 import { h, $ } from './dom.js';
-import { fmtDuration, fmtInt, fmtShort } from './format.js';
+import { fmtDuration, fmtInt, fmtNumber, fmtShort } from './format.js';
 import { definition, jobStatus, store } from './store.js';
 
 export function renderTopbar() {
@@ -23,6 +23,13 @@ export function renderTopbar() {
         h('div', { class: 'wallet' },
             h('span', { class: 'res', title: data.currencies.cash.name }, `${data.currencies.cash.emoji} ${fmtInt(state.cash)}`),
             h('span', { class: 'res', title: data.currencies.gold.name }, `${data.currencies.gold.emoji} ${fmtInt(state.gold)}`),
+            h('span', { class: 'res', title: 'Ouvriers libres / total' },
+                `👷 ${fmtInt(view.workers.free)}/${fmtInt(view.workers.total)}`),
+            h('span', {
+                class: 'res',
+                title: `Bonheur : coût des productions ×${fmtNumber(view.happiness.cost_factor)}`,
+                style: view.happiness.value < 0 ? { color: 'var(--danger)' } : {},
+            }, `😊 ${fmtInt(view.happiness.value)} (${happinessEffect(view.happiness.cost_factor)})`),
             h('span', {
                 class: 'res',
                 title: barnFull ? 'Grange : un produit est plein' : 'Grange : capacité par produit',
@@ -32,6 +39,12 @@ export function renderTopbar() {
     ];
     if (materials.length) children.push(h('div', { class: 'materials' }, materials));
     $('#topbar').replaceChildren(...children);
+}
+
+/** "-63 %" / "+54 %" effect of happiness on production costs. */
+export function happinessEffect(factor) {
+    const percent = Math.round((factor - 1) * 100);
+    return `${percent > 0 ? '+' : ''}${percent} %`;
 }
 
 export function renderGrid() {

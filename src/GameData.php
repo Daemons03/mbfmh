@@ -19,7 +19,7 @@ final class GameData
     public const string DEFAULT_FILE = __DIR__ . '/../data/game-data.json';
     public const string DEFAULT_CACHE_DIR = __DIR__ . '/../var/cache';
 
-    private const array BUILDING_KINDS = ['field', 'storage', 'production', 'special'];
+    private const array BUILDING_KINDS = ['field', 'storage', 'production', 'special', 'house', 'decoration'];
 
     /**
      * @param array<string, mixed> $data
@@ -102,6 +102,35 @@ final class GameData
     public function isOutside(string $type): bool
     {
         return ($this->building($type)['zone'] ?? 'farm') === 'outside';
+    }
+
+    /**
+     * Cash multiplier of production costs for a happiness value: linear
+     * between the points of happiness.cost_curve, clamped outside.
+     */
+    public function costFactor(int $happiness): float
+    {
+        $points = $this->data['happiness']['cost_curve'];
+        if ($happiness <= $points[0][0]) {
+            return (float) $points[0][1];
+        }
+        foreach ($points as $i => [$x, $y]) {
+            if ($happiness <= $x) {
+                [$x0, $y0] = $points[$i - 1];
+
+                return $y0 + ($y - $y0) * ($happiness - $x0) / ($x - $x0);
+            }
+        }
+
+        return (float) $points[array_key_last($points)][1];
+    }
+
+    /**
+     * @return list<string> buildings every farm has from the start (farmhouse, fence)
+     */
+    public function starterBuildings(): array
+    {
+        return array_keys(array_filter($this->data['buildings'], static fn (array $b): bool => ($b['starter'] ?? false) === true));
     }
 
     public function maxBuildingLevel(string $type): int

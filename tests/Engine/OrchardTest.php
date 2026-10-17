@@ -18,7 +18,7 @@ final class OrchardTest extends EngineTestCase
         parent::setUp();
         $this->state['level'] = 200; // below max level, so XP is kept
         $this->state['cash'] = 100_000_000;
-        $this->state['buildings'][0]['level'] = 25; // 1 400 places per product
+        $this->setBuilding('b1', ['level' => 25]); // 1 400 places per product
     }
 
     /**
@@ -60,7 +60,7 @@ final class OrchardTest extends EngineTestCase
     public function testNectarFromLevel7(): void
     {
         $this->act('build', ['type' => 'apple_orchard', 'x' => 6, 'y' => 4]);
-        $this->state['buildings'][3]['level'] = 7;
+        $this->setBuilding('b4', ['level' => 7]);
         $this->state['barn']['items'] = ['fertilizer' => 10];
 
         $this->act('start_production', ['id' => 'b4']);
@@ -112,7 +112,7 @@ final class OrchardTest extends EngineTestCase
 
     public function testStartingBarnIsTooSmallForApples(): void
     {
-        $this->state['buildings'][0]['level'] = 1;
+        $this->setBuilding('b1', ['level' => 1]);
         $this->act('build', ['type' => 'apple_orchard', 'x' => 6, 'y' => 4]);
         $this->state['barn']['items'] = ['fertilizer' => 10];
 

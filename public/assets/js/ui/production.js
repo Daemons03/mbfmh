@@ -1,7 +1,7 @@
 import { perform } from '../actions.js';
 import { h } from '../dom.js';
 import { fmtCost, fmtDuration, fmtInt } from '../format.js';
-import { canAfford, jobStatus, store } from '../store.js';
+import { canAfford, jobStatus, productionCost, store } from '../store.js';
 import { refreshSheet } from './sheet.js';
 
 /** Chosen number of batches per "buildingId:recipe", kept while the panel re-renders. */
@@ -64,7 +64,7 @@ function recipeCard(building, id, recipe, mode) {
     const times = (amounts) => Object.fromEntries(Object.entries(amounts).map(([k, v]) => [k, v * quantity]));
 
     const inputs = times(recipe.inputs);
-    const cost = times(recipe.cost);
+    const cost = productionCost(times(recipe.cost));
     const outputs = times(recipe.outputs);
     const locked = store.state.level < item.unlock_level;
     const missing = Object.entries(inputs).some(([k, v]) => (store.state.barn.items[k] ?? 0) < v);

@@ -58,6 +58,18 @@ export function resource(id) {
     return store.state.materials[id] ?? 0;
 }
 
+/** Cash of a production cost after the happiness effect (same rounding as the server). */
+export function productionCost(cost) {
+    if (!cost?.cash) return cost ?? {};
+    return { ...cost, cash: Math.round(cost.cash * store.view.happiness.cost_factor) };
+}
+
+/** Workers a building level uses (> 0) or provides (< 0 returned as negative need). */
+export function workersNeeded(def, fromLevel, toLevel) {
+    const before = fromLevel > 0 ? (def.levels[fromLevel - 1].workers ?? 0) : 0;
+    return before - (def.levels[toLevel - 1].workers ?? 0);
+}
+
 /** Client-side hint only; the server decides. */
 export function canAfford(cost) {
     return Object.entries(cost ?? {}).every(([id, quantity]) => resource(id) >= quantity);

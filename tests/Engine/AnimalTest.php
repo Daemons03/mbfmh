@@ -21,7 +21,7 @@ final class AnimalTest extends EngineTestCase
         $this->state['level'] = 200; // below max level, so XP is kept
         $this->state['cash'] = 100_000_000;
         $this->state['materials']['buckets'] = 1_000; // sheep pen level 1 costs 100 buckets
-        $this->state['buildings'][0]['level'] = 25; // 1 400 places per product
+        $this->setBuilding('b1', ['level' => 25]); // 1 400 places per product
     }
 
     /**
@@ -68,7 +68,7 @@ final class AnimalTest extends EngineTestCase
 
     public function testCowshedNeedsABiggerBarn(): void
     {
-        $this->state['buildings'][0]['level'] = 1;
+        $this->setBuilding('b1', ['level' => 1]);
         $this->act('build', ['type' => 'cowshed', 'x' => 6, 'y' => 4]);
         $this->state['barn']['items'] = ['cattle_feed' => 10];
 
@@ -83,7 +83,7 @@ final class AnimalTest extends EngineTestCase
     public function testRabbitsGiveWhiteWoolFromLevel5(): void
     {
         $this->act('build', ['type' => 'rabbit_hutch', 'x' => 6, 'y' => 4]);
-        $this->state['buildings'][3]['level'] = 5;
+        $this->setBuilding('b4', ['level' => 5]);
         $this->state['barn']['items'] = ['rabbit_feed' => 10];
 
         $this->act('start_production', ['id' => 'b4']);

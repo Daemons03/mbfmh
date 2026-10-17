@@ -6,7 +6,7 @@ def test_per_product_capacity_display(game, farm):
     farm.patch({"barn.items": {"wildflower": 200, "corn": 150}})
     reload(game)
 
-    barn = game.locator(".wallet .res").nth(2)
+    barn = game.locator(".wallet .res[title^=\"Grange\"]")
     assert barn.inner_text() == "🛖 200"
     assert barn.evaluate("e => e.style.color") == "var(--danger)", "a product is full"
 

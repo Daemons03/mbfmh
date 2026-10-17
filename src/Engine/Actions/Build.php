@@ -38,6 +38,7 @@ final class Build implements Action
         if (!$outside) {
             $farm->assertPlaceable($type, $x, $y);
         }
+        $farm->assertWorkers(-($first['workers'] ?? 0));
         $farm->pay($first['cost']);
         $farm->addBuilding($type, $x, $y);
     }

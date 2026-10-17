@@ -21,7 +21,7 @@ final class BuildTest extends EngineTestCase
         $this->act('demolish', ['id' => 'b4']);
         $this->act('build', ['type' => 'field', 'x' => 5, 'y' => 5]);
 
-        self::assertSame('b5', $this->state['buildings'][3]['id']);
+        self::assertSame('b5', $this->state['buildings'][array_key_last($this->state['buildings'])]['id']);
     }
 
     public function testBuildPlacementRules(): void
@@ -82,7 +82,7 @@ final class BuildTest extends EngineTestCase
     {
         $this->act('demolish', ['id' => 'b3']);
 
-        self::assertSame(['b1', 'b2'], array_column($this->state['buildings'], 'id'));
+        self::assertSame(['b1', 'b2', 'farmhouse', 'fence'], array_column($this->state['buildings'], 'id'));
         self::assertSame(2000, $this->state['cash'], 'no refund');
     }
 

@@ -130,7 +130,7 @@ final class AdminTest extends EngineTestCase
 
         self::assertSame(2000, $this->state['cash']);
         self::assertSame(1, $this->state['level']);
-        self::assertCount(3, $this->state['buildings']);
+        self::assertCount(5, $this->state['buildings'], 'barn, 2 fields, farmhouse, fence');
         self::assertCount(6, $this->state['contracts']);
     }
 

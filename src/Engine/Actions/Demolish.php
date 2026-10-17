@@ -26,6 +26,11 @@ final class Demolish implements Action
             throw new GameError('busy', 'Récoltez ou attendez la fin de la production avant de détruire.');
         }
 
+        $provided = $farm->data->buildingLevel($building['type'], $building['level'])['workers'] ?? 0;
+        if ($provided > 0 && $farm->workers()['free'] < $provided) {
+            throw new GameError('workers_needed', 'Ces ouvriers travaillent encore : libérez-les avant de détruire l\'habitation.');
+        }
+
         $farm->removeBuilding($building['id']);
     }
 }

@@ -10,6 +10,8 @@ declare(strict_types=1);
 //   php tests/e2e/helper.php patch-state <login> '{"settings.speed": 100, "barn.items": {"corn": 30}}'
 //   php tests/e2e/helper.php get-state   <login>      -> {"state": ..., "version": n}
 //   php tests/e2e/helper.php log         <login>      -> ["plant", "harvest", ...]
+//   php tests/e2e/helper.php add-house   <login> <x> <y>   (10 more workers, -35 happiness)
+//   php tests/e2e/helper.php view        <login>      -> derived values (workers, happiness...)
 
 use FermeTranquille\Auth;
 use FermeTranquille\Db;
@@ -98,6 +100,17 @@ switch ($command) {
 
     case 'get-state':
         $print($states->load($userId()));
+        break;
+
+    case 'add-house':
+        ['state' => $state, 'version' => $version] = $states->load($userId());
+        $state['buildings'][] = ['id' => 'e2e-house-' . count($state['buildings']), 'type' => 'house',
+            'x' => (int) ($argv[3] ?? 10), 'y' => (int) ($argv[4] ?? 0), 'level' => 1];
+        $print(['version' => $states->save($userId(), $state, $version)]);
+        break;
+
+    case 'view':
+        $print($engine->view($states->load($userId())['state'], time()));
         break;
 
     case 'log':

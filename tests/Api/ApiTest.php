@@ -165,7 +165,7 @@ final class ApiTest extends TestCase
 
         self::assertSame(200, $response->status, json_encode($response->body));
         self::assertSame(2, $response->body['version']);
-        self::assertSame(1957, $response->body['state']['cash']);
+        self::assertSame(2000 - 16, $response->body['state']['cash'], 'corn 43 cash x 0.374 (fence happiness 110)');
         self::assertSame(self::NOW + 120, $response->body['view']['jobs']->b2['ready_at']);
         self::assertSame(2, $this->states->load(1)['version'], 'persisted');
         self::assertSame('plant', $this->pdo->query('SELECT action_type FROM action_log')->fetchColumn());
@@ -181,7 +181,7 @@ final class ApiTest extends TestCase
         $response = $this->action('sell_barn', ['item' => 'corn', 'quantity' => 15], 3);
 
         self::assertSame(200, $response->status, json_encode($response->body));
-        self::assertSame(1957 + 75, $response->body['state']['cash']);
+        self::assertSame(2000 - 16 + 75, $response->body['state']['cash']);
         self::assertSame(4, $response->body['version']);
     }
 
@@ -196,8 +196,8 @@ final class ApiTest extends TestCase
         self::assertSame(409, $response->status);
         self::assertSame('stale_state', $response->body['error']);
         self::assertSame(2, $response->body['version']);
-        self::assertSame(1957, $response->body['state']['cash']);
-        self::assertArrayNotHasKey('job', $response->body['state']['buildings'][2], 'second action was not applied');
+        self::assertSame(2000 - 16, $response->body['state']['cash'], 'corn 43 cash x 0.374 (fence happiness 110)');
+        self::assertArrayNotHasKey('job', $response->body['state']['buildings'][2], 'b3: second action was not applied');
     }
 
     public function testRuleViolationReturns422(): void

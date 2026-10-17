@@ -1,7 +1,7 @@
 import { perform } from '../actions.js';
 import { h } from '../dom.js';
 import { fmtCost, fmtDuration, fmtInt } from '../format.js';
-import { buildingById, canAfford, definition, jobStatus, store } from '../store.js';
+import { buildingById, canAfford, definition, jobStatus, productionCost, store, workersNeeded } from '../store.js';
 import { productionBlock } from './production.js';
 import { closeSheet, refreshSheet } from './sheet.js';
 
@@ -38,9 +38,21 @@ function content(building, def) {
             return [barnMeter()];
         case 'production':
             return productionBlock(building);
+        case 'house':
+        case 'decoration':
+            return [buildingStats(def.levels[building.level - 1])];
         default:
             return [h('p', { class: 'muted' }, 'Ses fonctionnalités arriveront dans une prochaine version.')];
     }
+}
+
+/** "Loge 10 👷 · -35 😊" for houses, "+12 😊" for decorations. */
+export function buildingStats(level) {
+    const parts = [];
+    if ((level.workers ?? 0) > 0) parts.push(`Loge ${fmtInt(level.workers)} 👷`);
+    if ((level.workers ?? 0) < 0) parts.push(`Emploie ${fmtInt(-level.workers)} 👷`);
+    if (level.happiness) parts.push(`${level.happiness > 0 ? '+' : ''}${fmtInt(level.happiness)} 😊`);
+    return h('p', { class: 'status' }, parts.join(' · ') || '—');
 }
 
 function jobStatusBlock(building) {
@@ -95,13 +107,14 @@ function plantList(field) {
             ` Utiliser 1 ${data.items.humus.emoji} humus : +25 % de récolte (${fmtInt(humusStock)} en grange)`) : null,
         h('div', { class: 'list' }, crops.map(({ id, crop, item }) => {
             const locked = state.level < item.unlock_level;
-            const affordable = canAfford(crop.plant_cost);
+            const cost = productionCost(crop.plant_cost);
+            const affordable = canAfford(cost);
             return h('div', { class: `row${locked ? ' disabled' : ''}` },
                 h('span', { class: 'row-emoji' }, item.emoji),
                 h('div', { class: 'row-main' },
                     h('div', { class: 'row-title' }, item.name),
                     h('div', { class: 'row-sub' },
-                        `${fmtCost(crop.plant_cost, data)} · ${fmtDuration(crop.duration / state.settings.speed)} · ${fmtInt(yieldOf(crop))} ${item.emoji}`
+                        `${fmtCost(cost, data)} · ${fmtDuration(crop.duration / state.settings.speed)} · ${fmtInt(yieldOf(crop))} ${item.emoji}`
                         + (nectarOf(crop) ? ` + ${fmtInt(nectarOf(crop))} ${data.items.flower_nectar.emoji}` : '')
                         + ` · +${crop.xp} XP`)),
                 h('div', { class: 'row-actions' },
@@ -143,13 +156,23 @@ export function upgradeRow(building) {
     const required = next.unlock_level ?? 1;
     const tooLow = store.state.level < required;
     const busy = Boolean(building.job);
+    const extraWorkers = workersNeeded(def, building.level, building.level + 1);
+    const noWorkers = extraWorkers > store.view.workers.free;
     let label = 'Améliorer';
     if (tooLow) label = `Niv. ${required} requis`;
     else if (busy) label = 'Occupé';
+    else if (noWorkers) label = '👷 insuffisants';
 
     const effects = [];
     if (next.capacity !== undefined) {
         effects.push(`${fmtInt(def.levels[building.level - 1].capacity)} → ${fmtInt(next.capacity)} places`);
+    }
+    if (extraWorkers > 0) effects.push(`${fmtInt(extraWorkers)} 👷 de plus`);
+    if (extraWorkers < 0) effects.push(`+${fmtInt(-extraWorkers)} 👷 logés`);
+    if (next.happiness !== undefined) {
+        const current = def.levels[building.level - 1].happiness ?? 0;
+        const delta = next.happiness - current;
+        if (delta) effects.push(`${delta > 0 ? '+' : ''}${fmtInt(delta)} 😊`);
     }
     if (next.outputs !== undefined) {
         effects.push(Object.entries(next.outputs).map(([id, q]) => `${q} ${store.data.items[id]?.emoji ?? id}`).join(' + ') + ' par production');
@@ -164,7 +187,7 @@ export function upgradeRow(building) {
             h('button', {
                 type: 'button',
                 class: 'btn btn-primary',
-                disabled: tooLow || busy || !canAfford(next.cost),
+                disabled: tooLow || busy || noWorkers || !canAfford(next.cost),
                 onclick: () => perform('upgrade', { id: building.id }),
             }, label)));
 }

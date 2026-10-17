@@ -60,7 +60,7 @@ final class StartProduction implements Action
         }
 
         $farm->assertBarnHas($total['inputs']);
-        $farm->pay($total['cost']);
+        $farm->pay($farm->productionCost($total['cost']));
         foreach ($total['inputs'] as $item => $count) {
             $farm->removeFromBarn($item, $count);
         }

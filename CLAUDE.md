@@ -201,7 +201,7 @@ Données réelles (niveaux, coûts, quantités produites) reprises du fan site ;
 4. Boulangerie (le joueur prépare les captures).
    ✅ Prairie (lavande, aloe vera, vanille, cacao, jasmin, olive, agrume ; une semence par production) et fabrique artisanale (gel d'aloe vera, extrait de vanille, essences, poudre de cacao, huiles d'olive et d'agrume, teintures rouge/verte/violette) : valeurs du jeu.
 5. ✅ Atelier de couture : 20 articles (coussins, chaussons lapins, bonnet, chaussettes, pull × clair/rouge/vert/violet), 10 par fabrication **instantanée** (mode `instant`). Vendus au marché : contrats de 10 à 20 pièces avec bonus de matériaux (`contract_bonus`) : clair/rouge → maillets, clous ou scies ; vert/violet → seaux (1 à 10 selon la commande).
-6. Maisons, ouvriers, bonheur et décorations.
+6. ✅ Ouvriers et bonheur. Chaque niveau de bâtiment a `workers` (< 0 : employés, > 0 : logés) et `happiness`. Ferme principale (22 → 32 ouvriers) et clôture (110 → 320 de bonheur) existent sur toute ferme (`starter`, hors grille, id = type). Habitation simple (12 niveaux), décorations (parterre, arbre, pavillon, botte de foin, puits, corde à linge, fontaine). Construire / améliorer exige assez d'ouvriers libres ; une habitation dont les ouvriers travaillent ne se détruit pas. Le bonheur multiplie le **cash des productions** (plantations, animaux, vergers, usines) selon `happiness.cost_curve` (0 → ×1 ; 50 → ×0,5 ; 100 → ×0,39 ; 200 → ×0,23 ; 300 → ×0,16 ; −20 → ×1,54 ; −100 → ×3,30 ; −500 → ×4,92 ; linéaire entre les points). Les coûts de construction ne changent pas.
 7. Bibliothèque : améliorations de produits (parchemins, encre, livres).
 8. Améliorations du marché.
 9. Café-boutique (voir ci-dessous).

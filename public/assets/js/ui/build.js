@@ -1,7 +1,7 @@
 import { perform } from '../actions.js';
 import { h } from '../dom.js';
 import { fmtCost, fmtInt } from '../format.js';
-import { canAfford, store } from '../store.js';
+import { canAfford, store, workersNeeded } from '../store.js';
 import { upgradeRow } from './building.js';
 import { closeSheet } from './sheet.js';
 
@@ -33,21 +33,29 @@ function farmRow(type, def, cell, startPlacement) {
     const locked = store.state.level < (first.unlock_level ?? 1);
     const full = count >= def.max_count;
     const [w, hh] = def.size;
+    const need = workersNeeded(def, 0, 1);
+    const noWorkers = need > store.view.workers.free;
 
     let label = cell ? 'Construire' : 'Placer';
     if (locked) label = `Niv. ${first.unlock_level}`;
     else if (full) label = 'Maximum';
+    else if (noWorkers) label = '👷 insuffisants';
 
-    return h('div', { class: `row${locked ? ' disabled' : ''}` },
+    const stats = [];
+    if (need > 0) stats.push(`${fmtInt(need)} 👷`);
+    if (need < 0) stats.push(`+${fmtInt(-need)} 👷`);
+    if (first.happiness) stats.push(`${first.happiness > 0 ? '+' : ''}${fmtInt(first.happiness)} 😊`);
+
+    return h('div', { class: `row stack${locked ? ' disabled' : ''}` },
         h('span', { class: 'row-emoji' }, def.emoji),
         h('div', { class: 'row-main' },
             h('div', { class: 'row-title' }, def.name),
-            h('div', { class: 'row-sub' }, `${fmtCost(first.cost, store.data)} · ${w}×${hh} · ${fmtInt(count)}/${fmtInt(def.max_count)}`)),
+            h('div', { class: 'row-sub' }, [fmtCost(first.cost, store.data), ...stats, `${w}×${hh}`, `${fmtInt(count)}/${fmtInt(def.max_count)}`].join(' · '))),
         h('div', { class: 'row-actions' },
             h('button', {
                 type: 'button',
                 class: 'btn btn-primary',
-                disabled: locked || full || !canAfford(first.cost),
+                disabled: locked || full || noWorkers || !canAfford(first.cost),
                 onclick: async () => {
                     if (!cell) {
                         closeSheet();

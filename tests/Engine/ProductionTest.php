@@ -167,7 +167,7 @@ final class ProductionTest extends EngineTestCase
         $this->act('start_production', ['id' => 'b5']);
 
         // Even if the building level changed (admin edit), the running job keeps its outputs and XP.
-        $this->state['buildings'][4]['level'] = 12;
+        $this->setBuilding('b5', ['level' => 12]);
         $this->act('collect', ['id' => 'b5'], 390);
 
         self::assertSame(['egg' => 21, 'dung' => 7], $this->state['barn']['items']);
@@ -176,8 +176,8 @@ final class ProductionTest extends EngineTestCase
 
     public function testLegacyJobsWithoutXpStillCollect(): void
     {
-        $this->state['buildings'][4]['job'] = ['product' => 'egg', 'started_at' => self::NOW, 'duration' => 1800,
-            'outputs' => ['egg' => 21, 'dung' => 7]];
+        $this->setBuilding('b5', ['job' => ['product' => 'egg', 'started_at' => self::NOW, 'duration' => 1800,
+            'outputs' => ['egg' => 21, 'dung' => 7]]]);
 
         $this->act('collect', ['id' => 'b5'], 1800);
 

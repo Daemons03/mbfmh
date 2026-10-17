@@ -83,6 +83,15 @@ class Farm:
     def log(self) -> list[str]:
         return self._run("log", LOGIN)
 
+    def add_house(self, x: int = 10, y: int = 0):
+        """A house on the farm (2x2): 10 more workers, -35 happiness."""
+        self._run("add-house", LOGIN, str(x), str(y))
+
+    def cost(self, cash: int) -> int:
+        """Cash actually paid for a production cost, after the happiness effect."""
+        factor = self._run("view", LOGIN)["happiness"]["cost_factor"]
+        return int(cash * factor + 0.5)
+
 
 @pytest.fixture
 def farm():

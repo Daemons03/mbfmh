@@ -27,6 +27,8 @@ final class Upgrade implements Action
         }
 
         $farm->assertLevel($next['unlock_level'] ?? 1);
+        $current = $farm->data->buildingLevel($building['type'], $building['level']);
+        $farm->assertWorkers(($current['workers'] ?? 0) - ($next['workers'] ?? 0));
         $farm->pay($next['cost']);
 
         $building['level']++;

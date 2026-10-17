@@ -68,7 +68,7 @@ final class BarnTest extends EngineTestCase
 
     public function testUpgradeStopsAtMaxLevel(): void
     {
-        $this->state['buildings'][0]['level'] = $this->data->maxBuildingLevel('barn');
+        $this->setBuilding('b1', ['level' => $this->data->maxBuildingLevel('barn')]);
 
         $this->assertGameError('max_level', 'upgrade', ['id' => 'b1']);
     }

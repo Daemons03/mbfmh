@@ -13,6 +13,7 @@ def test_locked_block_opens_land_panel_and_level_gates_it(game):
 
 def test_buy_expansions_and_build_on_them(game, farm):
     farm.patch({"level": 10, "gold": 2000, "cash": 20_000})
+    farm.add_house()  # the field built on the new land needs 10 workers
     reload(game)
     open_tab(game, "land")
     options = game.locator("#sheet .contract .row")

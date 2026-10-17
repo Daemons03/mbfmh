@@ -18,7 +18,7 @@ final class FactoryTest extends EngineTestCase
         $this->state['level'] = 200;
         $this->state['cash'] = 100_000_000;
         $this->state['materials']['mallets'] = 100; // beehive level 1 costs 50 mallets
-        $this->state['buildings'][0]['level'] = 25; // 1 400 places per product
+        $this->setBuilding('b1', ['level' => 25]); // 1 400 places per product
     }
 
     public function testDairyRecipesAtLevel1(): void

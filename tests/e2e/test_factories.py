@@ -7,6 +7,7 @@ from conftest import close_sheet, reload, settle, tap
 def test_dairy_cream_batches(game, farm):
     farm.patch({"level": 60, "cash": 6_000_000, "buildings.0.level": 25, "barn.items": {"milk": 600},
                 "settings.speed": 1000})
+    farm.add_house()
     reload(game)
     build_here(game, 6, 4, "Laiterie")
 

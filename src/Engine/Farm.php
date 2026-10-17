@@ -46,8 +46,82 @@ final class Farm
             $farm->assertPlaceable($building['type'], $building['x'], $building['y']);
             $farm->addBuilding($building['type'], $building['x'], $building['y']);
         }
+        $farm->ensureStarterBuildings();
 
         return $farm;
+    }
+
+    /**
+     * Farmhouse and fence exist on every farm (added to older farms too).
+     * Their id is their type, so building ids b1, b2... are unchanged.
+     */
+    public function ensureStarterBuildings(): void
+    {
+        foreach ($this->data->starterBuildings() as $type) {
+            if ($this->countBuildings($type) === 0) {
+                $this->state['buildings'][] = ['id' => $type, 'type' => $type, 'level' => 1];
+            }
+        }
+    }
+
+    // ------------------------------------------------------------ workers and happiness
+
+    /**
+     * @return array{total: int, used: int, free: int}
+     */
+    public function workers(): array
+    {
+        $total = 0;
+        $used = 0;
+        foreach ($this->state['buildings'] as $building) {
+            $workers = $this->data->buildingLevel($building['type'], $building['level'])['workers'] ?? 0;
+            if ($workers > 0) {
+                $total += $workers;
+            } else {
+                $used -= $workers;
+            }
+        }
+
+        return ['total' => $total, 'used' => $used, 'free' => $total - $used];
+    }
+
+    /**
+     * Throws unless $extra more workers are available.
+     */
+    public function assertWorkers(int $extra): void
+    {
+        $free = $this->workers()['free'];
+        if ($extra > 0 && $free < $extra) {
+            throw new GameError('not_enough_workers', 'Pas assez d\'ouvriers : construisez ou améliorez une habitation.', [
+                'needed' => $extra,
+                'free' => max(0, $free),
+            ]);
+        }
+    }
+
+    public function happiness(): int
+    {
+        $happiness = 0;
+        foreach ($this->state['buildings'] as $building) {
+            $happiness += $this->data->buildingLevel($building['type'], $building['level'])['happiness'] ?? 0;
+        }
+
+        return $happiness;
+    }
+
+    /**
+     * Cash of a production cost (planting, animals, factories) after the happiness effect.
+     *
+     * @param array<string, int> $cost
+     * @return array<string, int>
+     */
+    public function productionCost(array $cost): array
+    {
+        if (isset($cost['cash'])) {
+            $cost['cash'] = (int) round($cost['cash'] * $this->data->costFactor($this->happiness()));
+        }
+
+        return $cost;
     }
 
     /**

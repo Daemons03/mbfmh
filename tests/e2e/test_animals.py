@@ -6,6 +6,7 @@ from conftest import reload, tap
 
 def test_pigsty_eats_pig_feed(game, farm):
     farm.patch({"level": 8, "cash": 10_000, "barn.items": {"pig_feed": 12}, "settings.speed": 1000})
+    farm.add_house()
     reload(game)
     build_here(game, 6, 4, "Porcherie")
 
@@ -13,11 +14,12 @@ def test_pigsty_eats_pig_feed(game, farm):
 
     state = farm.state()
     assert state["barn"]["items"] == {"pig_feed": 2, "pig": 130, "dung": 35}
-    assert state["cash"] == 10_000 - 2000 - 24
+    assert state["cash"] == 10_000 - 2000 - farm.cost(24)
 
 
 def test_cowshed_warns_when_barn_is_too_small(game, farm):
     farm.patch({"level": 14, "cash": 20_000, "barn.items": {"cattle_feed": 10}})
+    farm.add_house()
     reload(game)
     build_here(game, 6, 4, "Étable")
 

@@ -15,8 +15,8 @@ final class FieldTest extends EngineTestCase
         self::assertSame(2000, $this->state['cash']);
         self::assertSame(50, $this->state['gold']);
         self::assertSame(6, $this->state['expansions']);
-        self::assertSame(['barn', 'field', 'field'], array_column($this->state['buildings'], 'type'));
-        self::assertSame(['b1', 'b2', 'b3'], array_column($this->state['buildings'], 'id'));
+        self::assertSame(['barn', 'field', 'field', 'farmhouse', 'fence'], array_column($this->state['buildings'], 'type'));
+        self::assertSame(['b1', 'b2', 'b3', 'farmhouse', 'fence'], array_column($this->state['buildings'], 'id'));
         self::assertSame(0, array_sum($this->state['materials']));
         self::assertSame(['speed' => 1], $this->state['settings']);
         self::assertStringContainsString('"items":{}', json_encode($this->engine->newState()));
@@ -180,7 +180,7 @@ final class FieldTest extends EngineTestCase
 
     public function testYieldAndFlowerNectarFollowFieldLevel(): void
     {
-        $this->state['buildings'][1]['level'] = 10;
+        $this->setBuilding('b2', ['level' => 10]);
         $this->state['level'] = 14;
         $this->act('plant', ['id' => 'b2', 'crop' => 'wheat']);
         $this->act('harvest', ['id' => 'b2'], 6 * 3600);
@@ -190,7 +190,7 @@ final class FieldTest extends EngineTestCase
 
     public function testNoFlowerNectarBelowFieldLevel8(): void
     {
-        $this->state['buildings'][1]['level'] = 7;
+        $this->setBuilding('b2', ['level' => 7]);
         $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
 
         self::assertSame(['corn' => 24], $this->building('b2')['job']['outputs']);
@@ -198,7 +198,7 @@ final class FieldTest extends EngineTestCase
 
     public function testLegacyFieldJobWithoutOutputs(): void
     {
-        $this->state['buildings'][1]['job'] = ['product' => 'corn', 'started_at' => self::NOW, 'duration' => 300];
+        $this->setBuilding('b2', ['job' => ['product' => 'corn', 'started_at' => self::NOW, 'duration' => 300]]);
 
         $this->act('harvest', ['id' => 'b2'], 300);
 

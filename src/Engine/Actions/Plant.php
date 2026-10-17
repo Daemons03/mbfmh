@@ -38,7 +38,7 @@ final class Plant implements Action
         if ($humus) {
             $farm->assertBarnHas(['humus' => 1]);
         }
-        $farm->pay($crop['plant_cost']);
+        $farm->pay($farm->productionCost($crop['plant_cost']));
         if ($humus) {
             $farm->removeFromBarn('humus', 1);
         }

@@ -10,7 +10,10 @@ use FermeTranquille\GameData;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Engine tests run against the real data/game-data.json.
+ * Engine tests run against data/game-data.json with two changes, so each
+ * test checks its own rule without the workers/happiness economy getting in
+ * the way: the farmhouse houses 10 000 workers and the fence gives 0
+ * happiness (costs x1). WorkersTest uses the real data (realData()).
  * Starting farm: barn b1 at (0,0) 2x2, fields b2 (3,0) and b3 (3,1).
  */
 abstract class EngineTestCase extends TestCase
@@ -25,9 +28,18 @@ abstract class EngineTestCase extends TestCase
 
     protected function setUp(): void
     {
-        $this->data = GameData::load(cacheDir: null);
+        $this->data = $this->gameData();
         $this->engine = new Engine($this->data);
         $this->state = $this->decode($this->engine->newState());
+    }
+
+    protected function gameData(): GameData
+    {
+        $raw = GameData::load(cacheDir: null)->toArray();
+        $raw['buildings']['farmhouse']['levels'][0]['workers'] = 10_000;
+        $raw['buildings']['fence']['levels'][0]['happiness'] = 0;
+
+        return GameData::fromArray($raw);
     }
 
     /**
@@ -68,6 +80,23 @@ abstract class EngineTestCase extends TestCase
         foreach ($this->state['buildings'] as $building) {
             if ($building['id'] === $id) {
                 return $building;
+            }
+        }
+        self::fail("No building {$id}");
+    }
+
+    /**
+     * Sets fields of a building in $this->state (e.g. ['level' => 5]).
+     *
+     * @param array<string, mixed> $values
+     */
+    protected function setBuilding(string $id, array $values): void
+    {
+        foreach ($this->state['buildings'] as $index => $building) {
+            if ($building['id'] === $id) {
+                $this->state['buildings'][$index] = $values + $building;
+
+                return;
             }
         }
         self::fail("No building {$id}");

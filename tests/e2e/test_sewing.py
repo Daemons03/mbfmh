@@ -6,6 +6,7 @@ from conftest import reload, settle, tap
 
 def test_craft_light_socks(game, farm):
     farm.patch({"level": 100, "cash": 5_000_000, "buildings.0.level": 25, "barn.items": {"sheep_wool": 1600}})
+    farm.add_house()
     reload(game)
     build_here(game, 6, 4, "Atelier de couture")
 

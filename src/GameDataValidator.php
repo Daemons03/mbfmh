@@ -42,6 +42,7 @@ final class GameDataValidator
         }
 
         $this->checkPlayer();
+        $this->checkHappiness();
         $this->checkCatalog('currencies');
         $this->checkCatalog('materials');
         $this->checkItems();
@@ -68,6 +69,27 @@ final class GameDataValidator
         }
         $this->positiveNumber($curve['base'] ?? null, 'player.xp_curve.base');
         $this->positiveNumber($curve['exponent'] ?? null, 'player.xp_curve.exponent');
+    }
+
+    private function checkHappiness(): void
+    {
+        $curve = $this->data['happiness']['cost_curve'] ?? null;
+        if (!is_array($curve) || count($curve) < 2) {
+            $this->errors[] = 'happiness.cost_curve: needs at least two [happiness, factor] points';
+
+            return;
+        }
+        $previous = null;
+        foreach ($curve as $i => $point) {
+            if (!is_array($point) || count($point) !== 2 || !is_int($point[0]) || !(is_int($point[1]) || is_float($point[1])) || $point[1] < 0) {
+                $this->errors[] = "happiness.cost_curve[{$i}]: must be [integer happiness, factor >= 0]";
+                continue;
+            }
+            if ($previous !== null && $point[0] <= $previous) {
+                $this->errors[] = "happiness.cost_curve[{$i}]: happiness values must increase";
+            }
+            $previous = $point[0];
+        }
     }
 
     private function checkCatalog(string $section): void
@@ -181,6 +203,11 @@ final class GameDataValidator
 
                 if ($kind === 'storage') {
                     $this->positiveInt($level['capacity'] ?? null, "{$levelPath}.capacity");
+                }
+                foreach (['workers', 'happiness'] as $key) {
+                    if (array_key_exists($key, $level) && !is_int($level[$key])) {
+                        $this->errors[] = "{$levelPath}.{$key}: must be an integer";
+                    }
                 }
                 if ($kind === 'production') {
                     $this->recipes($level, $mode, $levelPath);

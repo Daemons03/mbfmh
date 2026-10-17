@@ -19,7 +19,7 @@ final class SewingTest extends EngineTestCase
         parent::setUp();
         $this->state['level'] = 200;
         $this->state['cash'] = 100_000_000;
-        $this->state['buildings'][0]['level'] = 25; // 1 400 places per product
+        $this->setBuilding('b1', ['level' => 25]); // 1 400 places per product
         $this->act('build', ['type' => 'sewing_workshop', 'x' => 6, 'y' => 4]);
     }
 

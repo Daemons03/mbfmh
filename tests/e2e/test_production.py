@@ -32,6 +32,7 @@ def run_and_collect(page, x, y, product_name, timeout, batches=1):
 
 def test_windmill_batches_then_chickens(game, farm):
     farm.patch({"barn.items": {"corn": 60}, "settings.speed": 100, "cash": 10_000})
+    farm.add_house()  # windmill 4 + coop 5 workers
     reload(game)
     build_here(game, 6, 4, "Moulin")
     build_here(game, 8, 4, "Poulailler")
@@ -53,12 +54,13 @@ def test_windmill_batches_then_chickens(game, farm):
     run_and_collect(game, 8, 4, "Œuf", timeout=10_000)  # 390 s / 100
     state = farm.state()
     assert state["barn"]["items"] == {"corn": 10, "chicken_feed": 10, "egg": 21, "dung": 7}
-    assert state["cash"] == 10_000 - 50 - 1500 - 2 * 2 - 4
+    assert state["cash"] == 10_000 - 50 - 1500 - farm.cost(2 * 2) - farm.cost(4)
     assert (state["level"], state["xp"]) == (2, 2 * 50 + 5 - 50)
 
 
 def test_missing_inputs(game, farm):
     farm.patch({"barn.items": {"chicken_feed": 9}, "cash": 10_000})
+    farm.add_house()
     reload(game)
     build_here(game, 8, 4, "Poulailler")
 

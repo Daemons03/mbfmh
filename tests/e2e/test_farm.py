@@ -33,7 +33,7 @@ def test_plant_countdown_and_one_tap_harvest(game, farm):
     first = countdown.inner_text()
     game.wait_for_timeout(2100)
     assert countdown.inner_text() != first, "countdown ticks every second"
-    assert "1 957" in cash_text(game)
+    assert "1 984" in cash_text(game), "corn 43 x 0.374 (fence happiness 110)"
     close_sheet(game)
 
     # Another device speeds the farm up: the next action gets a 409 and reloads.
@@ -66,6 +66,9 @@ def test_sell_from_barn(game, farm):
 
 
 def test_build_with_placement_mode_and_build_here(game, farm):
+    farm.add_house(10, 0)
+    farm.add_house(10, 2)  # 2 + 20 free workers for two fields
+    reload(game)
     open_tab(game, "build")
     game.locator(".row", has_text="Champ").get_by_role("button", name="Placer").click()
     assert "Touchez une case" in game.locator("#mode-banner").inner_text()

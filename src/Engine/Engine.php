@@ -69,6 +69,7 @@ final class Engine
     public function resolve(array $state, int $now): array
     {
         $farm = new Farm($state, $this->data);
+        $farm->ensureStarterBuildings();
         (new Market($this->data))->resolve($farm, new Clock($now, $farm->speed()));
 
         return $farm->toArray();
@@ -145,6 +146,11 @@ final class Engine
                 'next_block' => $this->data->expansion($expansions + 1) === null ? null : Land::blockPosition($expansions + 1),
             ],
             'xp_needed' => $this->data->xpForLevel($farm->level()),
+            'workers' => $farm->workers(),
+            'happiness' => [
+                'value' => $farm->happiness(),
+                'cost_factor' => round($this->data->costFactor($farm->happiness()), 4),
+            ],
             'jobs' => (object) $jobs,
             'contracts' => (object) $contracts,
             'production' => (object) $production,
