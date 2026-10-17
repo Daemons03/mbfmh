@@ -5,11 +5,11 @@ import { renderGrid, renderTopbar, tickCountdowns } from './render.js';
 import { applyResponse, buildingById, definition, jobStatus, notify, serverNow, store, subscribe } from './store.js';
 import { barnPanel } from './ui/barn.js';
 import { buildPanel } from './ui/build.js';
+import { adminPanel } from './ui/admin.js';
 import { buildingPanel } from './ui/building.js';
 import { landPanel } from './ui/land.js';
 import { canFulfill, marketPanel } from './ui/market.js';
 import { closeSheet, initSheet, openSheet, refreshSheet } from './ui/sheet.js';
-import { soonPanel } from './ui/soon.js';
 import { toast } from './ui/toast.js';
 
 const SYNC_INTERVAL_MS = 30_000;
@@ -149,8 +149,11 @@ function openTab(tab) {
         barn: () => barnPanel(),
         market: () => marketPanel(),
         land: () => landPanel(),
-        admin: () => soonPanel('⚙️ Admin', 'Le panneau admin arrive bientôt.', () => h('div', { class: 'actions' },
-            h('button', { type: 'button', class: 'btn btn-danger', onclick: logout }, 'Se déconnecter'))),
+        admin: () => adminPanel(() => h('section', { class: 'admin-section' },
+            h('p', { class: 'section-title' }, 'Compte'),
+            h('div', { class: 'actions' },
+                h('a', { class: 'btn', href: 'admin.html' }, '🖥️ Page admin complète'),
+                h('button', { type: 'button', class: 'btn btn-danger', onclick: logout }, 'Se déconnecter')))),
     };
     openSheet(panels[tab]());
     for (const button of document.querySelectorAll('#tabs button')) {

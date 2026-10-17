@@ -36,6 +36,41 @@ final readonly class Payload
         return $value;
     }
 
+    public function has(string $key): bool
+    {
+        return array_key_exists($key, $this->values);
+    }
+
+    public function number(string $key, float $min, float $max): float
+    {
+        $value = $this->values[$key] ?? null;
+        if ((!is_int($value) && !is_float($value)) || $value < $min || $value > $max) {
+            throw self::invalid($key);
+        }
+
+        return (float) $value;
+    }
+
+    /**
+     * Object of { id: int >= 0 }.
+     *
+     * @return array<string, int>
+     */
+    public function quantities(string $key): array
+    {
+        $value = $this->values[$key] ?? null;
+        if (!is_array($value) || ($value !== [] && array_is_list($value))) {
+            throw self::invalid($key);
+        }
+        foreach ($value as $id => $quantity) {
+            if (!is_string($id) || !is_int($quantity) || $quantity < 0) {
+                throw self::invalid("{$key}.{$id}");
+            }
+        }
+
+        return $value;
+    }
+
     private static function invalid(string $key): GameError
     {
         return new GameError('invalid_payload', "Paramètre « {$key} » manquant ou invalide.", ['field' => $key]);

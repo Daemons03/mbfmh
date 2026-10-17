@@ -106,7 +106,7 @@ Toutes les réponses : `{ ok, state?, server_now, error? }`. POST protégés par
 | GET | /api/data | contenu de game-data.json |
 | GET | /api/state | `{ state, version, view }` (créé au premier accès) |
 | POST | /api/action | `{ type, payload, version }` → `{ state, version, view }` |
-| POST | /api/admin | `{ op, payload }` → nouvel état |
+| POST | /api/admin | `{ op, payload, version }` → `{ state, version, view }` (même verrou 409/422 qu'`/api/action`, journalisé `admin:<op>`) |
 
 - `view` = valeurs dérivées jamais stockées : `barn {capacity, full}`, `grid {side, block_size, owned_blocks, next_block}`, `xp_needed`, `jobs {id: {ready_at, ready}}`, `contracts {id: {available_at, available}}`, `production {id: {inputs, outputs, duration, xp}}`.
 - Codes d'erreur : 400 requête mal formée, 401 non connecté, 403 CSRF, 409 `stale_state` (renvoie `state` + `version` à jour), 422 règle de jeu (`error` = code stable, `message` en français, `details`).
@@ -114,7 +114,7 @@ Toutes les réponses : `{ ok, state?, server_now, error? }`. POST protégés par
 
 Types d'action V1 : `build`, `move`, `demolish`, `plant`, `harvest`, `start_production`, `collect`, `sell_barn`, `fulfill_contract`, `discard_contract`, `buy_expansion`, `upgrade`.
 
-Opérations admin : `set_resources` (cash, or, matériaux, objets de grange), `set_level`, `set_speed`, `finish_all_jobs`, `unlock_all`, `reset_farm`.
+Opérations admin : `set_resources` (cash, or, matériaux, objets de grange — peut dépasser la capacité), `set_level` (+ xp optionnel), `set_speed` (0,1 à 1 000), `finish_all_jobs` (productions et contrats en attente), `unlock_all` (niveau max + tout le terrain), `reset_farm`. Interface : onglet Admin du jeu et `public/admin.html` (même composant `ui/admin.js`).
 
 ## Règles de jeu V1
 

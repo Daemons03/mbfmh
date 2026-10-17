@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Admin — Ferme Tranquille</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <script type="module" src="assets/js/admin-page.js"></script>
+</head>
+<body>
+    <div id="loading" class="loading">⚙️ Chargement…</div>
+    <main id="admin" class="admin-page" hidden>
+        <header class="admin-head">
+            <h1>⚙️ Admin — Ferme Tranquille</h1>
+            <a class="btn" href="./">← Retour au jeu</a>
+        </header>
+        <p id="admin-summary" class="muted"></p>
+        <div id="admin-body" class="admin-body"></div>
+    </main>
+    <div id="toasts" class="toasts" aria-live="polite"></div>
+</body>
+</html>

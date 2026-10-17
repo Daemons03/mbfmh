@@ -356,6 +356,29 @@ button { font: inherit; color: inherit; }
 .contract-foot { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
 .reward { font-size: 14px; font-weight: 600; }
 
+/* ------------------------------------------------------------ admin */
+
+.admin-section { display: grid; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.admin-section:last-child { border-bottom: 0; }
+.admin-form { display: grid; gap: 10px; }
+.fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+.field { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+.field input {
+    font: inherit; color: var(--text); width: 100%;
+    padding: 8px 10px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--surface-2);
+    font-variant-numeric: tabular-nums;
+}
+.field input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.admin-form > .btn { justify-self: start; }
+a.btn { text-decoration: none; display: inline-block; color: inherit; }
+
+.admin-page { max-width: 960px; margin: 0 auto; padding: 16px; display: grid; gap: 12px; }
+.admin-head { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.admin-head h1 { margin: 0; font-size: 22px; }
+.admin-body { display: grid; gap: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+.admin-page ~ .toasts { bottom: 16px; }
+
 /* ------------------------------------------------------------ toasts */
 
 .toasts {

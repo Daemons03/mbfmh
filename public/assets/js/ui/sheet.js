@@ -26,6 +26,8 @@ export function isSheetOpen() {
 
 export function refreshSheet() {
     if (!current) return;
+    // Do not wipe what the player is typing (periodic sync, countdowns).
+    if (isEditing($('#sheet'))) return;
     const body = current.render();
     if (body === null) {
         closeSheet(); // panel subject disappeared (e.g. demolished building)
@@ -35,6 +37,11 @@ export function refreshSheet() {
     const scroll = $('#sheet-body').scrollTop;
     $('#sheet-body').replaceChildren(...[body].flat(Infinity).filter((node) => node !== null && node !== undefined && node !== false));
     $('#sheet-body').scrollTop = scroll;
+}
+
+export function isEditing(container) {
+    const active = document.activeElement;
+    return active !== null && container.contains(active) && active.matches('input, select, textarea');
 }
 
 export function initSheet() {

@@ -59,4 +59,5 @@ export const api = {
     data: () => request('GET', 'data'),
     state: () => request('GET', 'state'),
     action: (type, payload, version) => request('POST', 'action', { type, payload, version }),
+    admin: (op, payload, version) => request('POST', 'admin', { op, payload, version }),
 };

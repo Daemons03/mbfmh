@@ -262,6 +262,26 @@ final class ApiTest extends TestCase
         self::assertSame('contract_waiting', $early->body['error']);
     }
 
+    public function testAdminRouteAppliesLogsAndChecksVersion(): void
+    {
+        self::assertSame(401, $this->api->handle('POST', 'admin', ['op' => 'unlock_all', 'version' => 1], $this->csrf())->status);
+        $this->login();
+        $this->api->handle('GET', 'state', [], null);
+
+        $response = $this->api->handle('POST', 'admin', ['op' => 'set_speed', 'payload' => ['speed' => 50], 'version' => 1], $this->csrf());
+        self::assertSame(200, $response->status, json_encode($response->body));
+        self::assertSame(50, $response->body['state']['settings']['speed']);
+        self::assertSame(2, $response->body['version']);
+        self::assertSame('admin:set_speed', $this->pdo->query('SELECT action_type FROM action_log')->fetchColumn());
+
+        $stale = $this->api->handle('POST', 'admin', ['op' => 'unlock_all', 'version' => 1], $this->csrf());
+        self::assertSame(409, $stale->status);
+
+        $invalid = $this->api->handle('POST', 'admin', ['op' => 'set_level', 'payload' => ['level' => 0], 'version' => 2], $this->csrf());
+        self::assertSame(422, $invalid->status);
+        self::assertSame(400, $this->api->handle('POST', 'admin', ['op' => 'unlock_all'], $this->csrf())->status);
+    }
+
     private function login(): void
     {
         $this->api->handle('POST', 'login', ['login' => 'maxime', 'password' => 'secret-pass'], $this->csrf());

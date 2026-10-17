@@ -6,6 +6,7 @@ namespace FermeTranquille\Api;
 
 use Closure;
 use FermeTranquille\Auth;
+use FermeTranquille\Engine\Admin;
 use FermeTranquille\Engine\Engine;
 use FermeTranquille\Engine\GameError;
 use FermeTranquille\GameData;
@@ -25,6 +26,7 @@ final class Api
         'login' => 'POST',
         'logout' => 'POST',
         'action' => 'POST',
+        'admin' => 'POST',
     ];
 
     /** @var Closure(): int */
@@ -62,6 +64,7 @@ final class Api
             ['POST', 'login'] => $this->login($body),
             ['POST', 'logout'] => $this->logout(),
             ['POST', 'action'] => $this->authenticated(fn (int $userId): ApiResponse => $this->action($userId, $body)),
+            ['POST', 'admin'] => $this->authenticated(fn (int $userId): ApiResponse => $this->admin($userId, $body)),
             default => $this->notFound($method, $route),
         };
     }
@@ -140,14 +143,44 @@ final class Api
             return $this->error(400, 'invalid_action_request');
         }
 
+        return $this->mutate($userId, $version, $type, $payload,
+            fn (array $state, int $now): array => $this->engine->apply($state, $type, $payload, $now));
+    }
+
+    /**
+     * body: { op, payload?, version }
+     *
+     * @param array<string, mixed> $body
+     */
+    private function admin(int $userId, array $body): ApiResponse
+    {
+        $op = $body['op'] ?? null;
+        $payload = $body['payload'] ?? [];
+        $version = $body['version'] ?? null;
+        if (!is_string($op) || !is_array($payload) || !is_int($version)) {
+            return $this->error(400, 'invalid_admin_request');
+        }
+        $admin = new Admin($this->gameData, $this->engine);
+
+        return $this->mutate($userId, $version, "admin:{$op}", $payload,
+            fn (array $state, int $now): array => $admin->apply($state, $op, $payload, $now));
+    }
+
+    /**
+     * Load -> version check -> change -> optimistic save -> log.
+     *
+     * @param array<string, mixed> $payload
+     * @param Closure(array<string, mixed>, int): array<string, mixed> $change
+     */
+    private function mutate(int $userId, int $version, string $logType, array $payload, Closure $change): ApiResponse
+    {
         ['state' => $state, 'version' => $current] = $this->states->load($userId);
         if ($version !== $current) {
             return $this->stale($state, $current);
         }
 
-        $now = ($this->now)();
         try {
-            $newState = $this->engine->apply($state, $type, $payload, $now);
+            $newState = $change($state, ($this->now)());
         } catch (GameError $e) {
             return $this->error(422, $e->errorCode, ['message' => $e->getMessage(), 'details' => (object) $e->details]);
         }
@@ -159,7 +192,7 @@ final class Api
 
             return $this->stale($state, $current);
         }
-        $this->states->logAction($userId, $type, $payload);
+        $this->states->logAction($userId, $logType, $payload);
 
         return $this->ok($this->stateBody($newState, $newVersion));
     }

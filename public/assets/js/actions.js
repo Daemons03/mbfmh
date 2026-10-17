@@ -9,14 +9,23 @@ export function setUnauthenticatedHandler(handler) {
 }
 
 /**
- * Sends one action to the server and applies the answer.
- * Returns true on success. Only one action runs at a time.
+ * Sends one game action to the server and applies the answer.
+ * Returns true on success. Only one request changes the farm at a time.
  */
-export async function perform(type, payload = {}) {
+export function perform(type, payload = {}) {
+    return send(() => api.action(type, payload, store.version));
+}
+
+/** Same as perform() for admin operations. */
+export function performAdmin(op, payload = {}) {
+    return send(() => api.admin(op, payload, store.version));
+}
+
+async function send(request) {
     if (store.busy) return false;
     store.busy = true;
     try {
-        applyResponse(await api.action(type, payload, store.version));
+        applyResponse(await request());
         notify();
         return true;
     } catch (error) {
