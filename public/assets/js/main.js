@@ -8,6 +8,7 @@ import { buildPanel } from './ui/build.js';
 import { adminPanel } from './ui/admin.js';
 import { buildingPanel } from './ui/building.js';
 import { cafePanel } from './ui/cafe.js';
+import { showPanel } from './ui/show.js';
 import { landPanel } from './ui/land.js';
 import { canFulfill, marketPanel } from './ui/market.js';
 import { closeSheet, initSheet, openSheet, refreshSheet } from './ui/sheet.js';
@@ -151,6 +152,7 @@ function openTab(tab) {
         barn: () => barnPanel(),
         market: () => marketPanel(),
         cafe: () => cafePanel(),
+        show: () => showPanel(),
         land: () => landPanel(),
         admin: () => adminPanel(() => h('section', { class: 'admin-section' },
             h('p', { class: 'section-title' }, 'Compte'),

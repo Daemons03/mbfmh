@@ -27,6 +27,10 @@ final class Engine
         'collect' => Actions\Collect::class,
         'buy_expansion' => Actions\BuyExpansion::class,
         'serve_cafe' => Actions\ServeCafe::class,
+        'open_chest' => Actions\OpenChest::class,
+        'buy_tokens' => Actions\BuyTokens::class,
+        'start_show_animal' => Actions\StartShowAnimal::class,
+        'collect_show_animal' => Actions\CollectShowAnimal::class,
     ];
 
     public function __construct(private readonly GameData $data)
@@ -54,7 +58,7 @@ final class Engine
 
         $farm = new Farm($state, $this->data);
         $clock = new Clock($now, $farm->speed());
-        (new Market($this->data))->resolve($farm, $clock);
+        $this->settle($farm, $clock);
         (new $actionClass())->apply($farm, new Payload($payload), $clock);
 
         return $farm->toArray();
@@ -70,14 +74,26 @@ final class Engine
     public function resolve(array $state, int $now): array
     {
         $farm = new Farm($state, $this->data);
-        $farm->ensureStarterBuildings();
-        (new Market($this->data))->resolve($farm, new Clock($now, $farm->speed()));
-        if ($farm->cafe() !== []) {
-            // Daily reset is persisted, so the state always shows today's gauge.
-            $farm->setCafe((new Cafe($this->data))->today($farm, $now));
-        }
+        $this->settle($farm, new Clock($now, $farm->speed()));
 
         return $farm->toArray();
+    }
+
+    /**
+     * What time alone changes, applied before reads and actions: starter
+     * buildings, market slots, café daily reset, daily show tokens.
+     */
+    private function settle(Farm $farm, Clock $clock): void
+    {
+        $farm->ensureStarterBuildings();
+        (new Market($this->data))->resolve($farm, $clock);
+        if ($farm->cafe() !== []) {
+            // Daily reset is persisted, so the state always shows today's gauge.
+            $farm->setCafe((new Cafe($this->data))->today($farm, $clock->now));
+        }
+        if (isset($this->data->toArray()['show_animals'])) {
+            (new ShowAnimals($this->data))->grantDailyTokens($farm, $clock->now);
+        }
     }
 
     /**
@@ -160,6 +176,7 @@ final class Engine
             'contracts' => (object) $contracts,
             'production' => (object) $production,
             'cafe' => (new Cafe($this->data))->view($farm, $now),
+            'show' => isset($this->data->toArray()['show_animals']) ? (new ShowAnimals($this->data))->view($farm, $clock) : null,
         ];
     }
 

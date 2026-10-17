@@ -186,6 +186,10 @@ final class Farm
         if (isset($state['cafe'])) {
             $state['cafe']['served'] = (object) $state['cafe']['served'];
         }
+        if (isset($state['show'])) {
+            $state['show']['animals'] = (object) ($state['show']['animals'] ?? []);
+            $state['show']['active'] = (object) ($state['show']['active'] ?? []);
+        }
 
         return $state;
     }
@@ -330,13 +334,25 @@ final class Farm
     }
 
     /**
+     * Dung, feeds, fertilizer, humus and leaves are not limited by the barn.
+     */
+    public function isBarnLimited(string $item): bool
+    {
+        return $this->data->item($item)['barn_limit'] ?? true;
+    }
+
+    /**
      * @return list<string> products stored at full capacity
      */
     public function barnFullItems(): array
     {
         $capacity = $this->barnCapacity();
 
-        return array_keys(array_filter($this->barnItems(), static fn (int $quantity): bool => $quantity >= $capacity));
+        return array_keys(array_filter(
+            $this->barnItems(),
+            fn (int $quantity, string $item): bool => $quantity >= $capacity && $this->isBarnLimited($item),
+            ARRAY_FILTER_USE_BOTH,
+        ));
     }
 
     /**
@@ -348,6 +364,9 @@ final class Farm
     {
         $capacity = $this->barnCapacity();
         foreach ($items as $item => $quantity) {
+            if (!$this->isBarnLimited($item)) {
+                continue;
+            }
             $free = $capacity - $this->barnQuantity($item);
             if ($quantity > $free) {
                 $name = $this->data->item($item)['name'];
@@ -382,6 +401,31 @@ final class Farm
             unset($stock[$item]);
         }
         $this->state['barn']['items'] = $stock;
+    }
+
+    // ------------------------------------------------------------ show animals
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function show(): array
+    {
+        $show = $this->state['show'] ?? [];
+        foreach (['animals', 'active'] as $key) {
+            if (isset($show[$key])) {
+                $show[$key] = json_decode(json_encode($show[$key], JSON_THROW_ON_ERROR), true); // objects once normalized
+            }
+        }
+
+        return $show;
+    }
+
+    /**
+     * @param array<string, mixed> $show
+     */
+    public function setShow(array $show): void
+    {
+        $this->state['show'] = $show;
     }
 
     // ------------------------------------------------------------ café

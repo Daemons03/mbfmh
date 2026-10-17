@@ -60,6 +60,10 @@
     "keys": {
       "name": "Clés",
       "emoji": "🔑"
+    },
+    "tokens": {
+      "name": "Jetons de concours",
+      "emoji": "🎟️"
     }
   },
   "player": {
@@ -964,7 +968,8 @@
       "barn_price": 1,
       "market_price": 1.5,
       "_estimated": true,
-      "marketable": false
+      "marketable": false,
+      "barn_limit": false
     },
     "egg": {
       "name": "Œuf",
@@ -984,7 +989,8 @@
       "barn_price": 1,
       "market_price": 1.5,
       "_estimated": true,
-      "marketable": false
+      "marketable": false,
+      "barn_limit": false
     },
     "pig": {
       "name": "Cochon",
@@ -1094,7 +1100,8 @@
       "barn_price": 2,
       "market_price": 3,
       "_estimated": true,
-      "marketable": false
+      "marketable": false,
+      "barn_limit": false
     },
     "nectar": {
       "name": "Nectar de forêt",
@@ -1114,7 +1121,8 @@
       "barn_price": 2,
       "market_price": 3,
       "_estimated": true,
-      "marketable": false
+      "marketable": false,
+      "barn_limit": false
     },
     "pig_feed": {
       "name": "Nourriture pour cochons",
@@ -1124,7 +1132,8 @@
       "barn_price": 1,
       "market_price": 1.5,
       "_estimated": true,
-      "marketable": false
+      "marketable": false,
+      "barn_limit": false
     },
     "cattle_feed": {
       "name": "Nourriture pour bovins",
@@ -1134,7 +1143,8 @@
       "barn_price": 1,
       "market_price": 1.5,
       "_estimated": true,
-      "marketable": false
+      "marketable": false,
+      "barn_limit": false
     },
     "goat_feed": {
       "name": "Nourriture pour chèvres",
@@ -1144,7 +1154,8 @@
       "barn_price": 1,
       "market_price": 1.5,
       "_estimated": true,
-      "marketable": false
+      "marketable": false,
+      "barn_limit": false
     },
     "duck_feed": {
       "name": "Nourriture pour canards",
@@ -1154,7 +1165,8 @@
       "barn_price": 1,
       "market_price": 1.5,
       "_estimated": true,
-      "marketable": false
+      "marketable": false,
+      "barn_limit": false
     },
     "rabbit_feed": {
       "name": "Nourriture pour lapins",
@@ -1164,7 +1176,8 @@
       "barn_price": 1,
       "market_price": 1.5,
       "_estimated": true,
-      "marketable": false
+      "marketable": false,
+      "barn_limit": false
     },
     "sheep_feed": {
       "name": "Nourriture pour moutons",
@@ -1174,7 +1187,8 @@
       "barn_price": 1,
       "market_price": 1.5,
       "_estimated": true,
-      "marketable": false
+      "marketable": false,
+      "barn_limit": false
     },
     "humus": {
       "name": "Humus",
@@ -1185,7 +1199,8 @@
       "market_price": 7.5,
       "_estimated": true,
       "_note": "Augmente les récoltes des champs (effet à définir).",
-      "marketable": false
+      "marketable": false,
+      "barn_limit": false
     },
     "goat_cheese": {
       "name": "Fromage de chèvre",
@@ -4795,7 +4810,7 @@
       "levels": [
         {
           "level": 1,
-          "unlock_level": 21,
+          "unlock_level": 1,
           "cost": {
             "cash": 0
           },
@@ -4803,7 +4818,7 @@
         },
         {
           "level": 2,
-          "unlock_level": 21,
+          "unlock_level": 1,
           "cost": {
             "cash": 2160000,
             "blueprints": 1
@@ -4812,7 +4827,7 @@
         },
         {
           "level": 3,
-          "unlock_level": 21,
+          "unlock_level": 1,
           "cost": {
             "cash": 3150000,
             "blueprints": 3
@@ -4821,7 +4836,7 @@
         },
         {
           "level": 4,
-          "unlock_level": 21,
+          "unlock_level": 1,
           "cost": {
             "cash": 4230000,
             "blueprints": 8
@@ -4830,7 +4845,7 @@
         },
         {
           "level": 5,
-          "unlock_level": 21,
+          "unlock_level": 1,
           "cost": {
             "cash": 5400000,
             "blueprints": 15
@@ -4839,7 +4854,7 @@
         },
         {
           "level": 6,
-          "unlock_level": 21,
+          "unlock_level": 1,
           "cost": {
             "cash": 6750000,
             "blueprints": 30
@@ -4848,7 +4863,7 @@
         },
         {
           "level": 7,
-          "unlock_level": 21,
+          "unlock_level": 1,
           "cost": {
             "cash": 8550000,
             "blueprints": 50
@@ -4857,7 +4872,7 @@
         },
         {
           "level": 8,
-          "unlock_level": 21,
+          "unlock_level": 1,
           "cost": {
             "cash": 11250000,
             "blueprints": 100
@@ -4865,7 +4880,8 @@
           "animals": 4
         }
       ],
-      "_note": "animals = nombre d'emplacements ; jetons de coffre et effets prévus en V2. Niveau 9 inconnu, omis. Niveaux > 1 : niveau requis inconnu, on reprend celui du déblocage."
+      "_note": "Présent dès le départ au niveau 1. animals = animaux actifs en même temps (fan site).",
+      "starter": true
     },
     "cafe": {
       "name": "Café-boutique",
@@ -25489,5 +25505,1322 @@
     },
     "_estimated": true,
     "_note": "Paliers de satisfaction, ×2, +1 % cash et +10 % points par étoile, 3 / +15 / … / +700 réalisations : jeu (joueur). Recettes inventées avec nos produits ; récompenses par palier de niveau du café (réf. niv. 3 : 7 000 💵 et 100 points) ; étoiles 3 à 6 et XP estimées."
+  },
+  "show_animals": {
+    "building": "show_animal",
+    "rarities": {
+      "grey": {
+        "name": "Gris",
+        "emoji": "⚪"
+      },
+      "green": {
+        "name": "Vert",
+        "emoji": "🟢"
+      },
+      "blue": {
+        "name": "Bleu",
+        "emoji": "🔵"
+      },
+      "purple": {
+        "name": "Violet",
+        "emoji": "🟣"
+      }
+    },
+    "daily_tokens": 20,
+    "token_pack": {
+      "tokens": 10,
+      "cost": {
+        "gold": 1000
+      }
+    },
+    "chest": {
+      "cost": 10,
+      "bulk_count": 11,
+      "bulk_cost": 100,
+      "blueprint_chance": 0.004,
+      "card_chance": {
+        "grey": 0.03,
+        "green": 0.013,
+        "blue": 0.004,
+        "purple": 0.001
+      }
+    },
+    "card_levels": [
+      5,
+      20,
+      50,
+      100
+    ],
+    "species": {
+      "chicken": {
+        "name": "Poules",
+        "emoji": "🐔",
+        "product": "egg",
+        "durations": [
+          390,
+          1200,
+          12600
+        ],
+        "quantities": {
+          "grey": [
+            [
+              10,
+              30,
+              323
+            ],
+            [
+              15,
+              46,
+              484
+            ],
+            [
+              20,
+              61,
+              646
+            ],
+            [
+              25,
+              76,
+              808
+            ],
+            [
+              30,
+              92,
+              969
+            ]
+          ],
+          "green": [
+            [
+              11,
+              33,
+              356
+            ],
+            [
+              16,
+              50,
+              534
+            ],
+            [
+              22,
+              68,
+              711
+            ],
+            [
+              28,
+              85,
+              888
+            ],
+            [
+              33,
+              102,
+              1066
+            ]
+          ],
+          "blue": [
+            [
+              13,
+              38,
+              404
+            ],
+            [
+              19,
+              57,
+              606
+            ],
+            [
+              26,
+              76,
+              808
+            ],
+            [
+              32,
+              96,
+              1010
+            ],
+            [
+              38,
+              115,
+              1212
+            ]
+          ],
+          "purple": [
+            [
+              18,
+              54,
+              582
+            ],
+            [
+              27,
+              82,
+              873
+            ],
+            [
+              36,
+              110,
+              1164
+            ],
+            [
+              45,
+              138,
+              1454
+            ],
+            [
+              54,
+              166,
+              1745
+            ]
+          ]
+        }
+      },
+      "pig": {
+        "name": "Cochons",
+        "emoji": "🐖",
+        "product": "pig",
+        "durations": [
+          900,
+          2700,
+          9000
+        ],
+        "quantities": {
+          "grey": [
+            [
+              13,
+              39,
+              133
+            ],
+            [
+              20,
+              59,
+              199
+            ],
+            [
+              26,
+              79,
+              266
+            ],
+            [
+              33,
+              99,
+              332
+            ],
+            [
+              40,
+              119,
+              398
+            ]
+          ],
+          "green": [
+            [
+              15,
+              43,
+              146
+            ],
+            [
+              22,
+              65,
+              219
+            ],
+            [
+              30,
+              88,
+              292
+            ],
+            [
+              37,
+              110,
+              365
+            ],
+            [
+              44,
+              132,
+              438
+            ]
+          ],
+          "blue": [
+            [
+              17,
+              49,
+              166
+            ],
+            [
+              25,
+              74,
+              249
+            ],
+            [
+              34,
+              99,
+              332
+            ],
+            [
+              42,
+              124,
+              415
+            ],
+            [
+              50,
+              149,
+              498
+            ]
+          ],
+          "purple": [
+            [
+              24,
+              70,
+              239
+            ],
+            [
+              36,
+              106,
+              358
+            ],
+            [
+              48,
+              142,
+              478
+            ],
+            [
+              60,
+              179,
+              597
+            ],
+            [
+              72,
+              215,
+              716
+            ]
+          ]
+        },
+        "_estimated": true
+      },
+      "cow": {
+        "name": "Vaches",
+        "emoji": "🐄",
+        "product": "milk",
+        "durations": [
+          2400,
+          7200,
+          25200
+        ],
+        "quantities": {
+          "grey": [
+            [
+              10,
+              31,
+              109
+            ],
+            [
+              15,
+              47,
+              164
+            ],
+            [
+              20,
+              62,
+              218
+            ],
+            [
+              26,
+              78,
+              273
+            ],
+            [
+              31,
+              94,
+              328
+            ]
+          ],
+          "green": [
+            [
+              11,
+              34,
+              121
+            ],
+            [
+              17,
+              52,
+              181
+            ],
+            [
+              22,
+              69,
+              241
+            ],
+            [
+              28,
+              86,
+              301
+            ],
+            [
+              34,
+              104,
+              361
+            ]
+          ],
+          "blue": [
+            [
+              14,
+              39,
+              137
+            ],
+            [
+              20,
+              58,
+              206
+            ],
+            [
+              27,
+              78,
+              274
+            ],
+            [
+              34,
+              98,
+              342
+            ],
+            [
+              40,
+              117,
+              411
+            ]
+          ],
+          "purple": [
+            [
+              19,
+              55,
+              197
+            ],
+            [
+              28,
+              84,
+              296
+            ],
+            [
+              38,
+              112,
+              394
+            ],
+            [
+              47,
+              140,
+              493
+            ],
+            [
+              56,
+              169,
+              592
+            ]
+          ]
+        },
+        "_estimated": true
+      },
+      "goat": {
+        "name": "Chèvres",
+        "emoji": "🐐",
+        "product": "goat_cheese",
+        "durations": [
+          2400,
+          7200,
+          23400
+        ],
+        "quantities": {
+          "grey": [
+            [
+              25,
+              74,
+              248
+            ],
+            [
+              38,
+              112,
+              372
+            ],
+            [
+              50,
+              151,
+              496
+            ],
+            [
+              63,
+              190,
+              619
+            ],
+            [
+              76,
+              228,
+              743
+            ]
+          ],
+          "green": [
+            [
+              28,
+              82,
+              273
+            ],
+            [
+              42,
+              125,
+              409
+            ],
+            [
+              56,
+              168,
+              545
+            ],
+            [
+              70,
+              210,
+              681
+            ],
+            [
+              84,
+              253,
+              817
+            ]
+          ],
+          "blue": [
+            [
+              33,
+              94,
+              310
+            ],
+            [
+              49,
+              142,
+              465
+            ],
+            [
+              65,
+              190,
+              620
+            ],
+            [
+              81,
+              237,
+              774
+            ],
+            [
+              97,
+              285,
+              929
+            ]
+          ],
+          "purple": [
+            [
+              46,
+              134,
+              446
+            ],
+            [
+              69,
+              203,
+              669
+            ],
+            [
+              92,
+              272,
+              892
+            ],
+            [
+              114,
+              342,
+              1114
+            ],
+            [
+              137,
+              411,
+              1337
+            ]
+          ]
+        },
+        "_estimated": true
+      },
+      "duck": {
+        "name": "Canards",
+        "emoji": "🦆",
+        "product": "feather",
+        "durations": [
+          1800,
+          5400,
+          18000
+        ],
+        "quantities": {
+          "grey": [
+            [
+              14,
+              42,
+              143
+            ],
+            [
+              21,
+              64,
+              214
+            ],
+            [
+              28,
+              85,
+              286
+            ],
+            [
+              36,
+              106,
+              357
+            ],
+            [
+              43,
+              128,
+              428
+            ]
+          ],
+          "green": [
+            [
+              16,
+              46,
+              157
+            ],
+            [
+              24,
+              70,
+              236
+            ],
+            [
+              32,
+              94,
+              314
+            ],
+            [
+              39,
+              118,
+              392
+            ],
+            [
+              47,
+              142,
+              471
+            ]
+          ],
+          "blue": [
+            [
+              19,
+              53,
+              179
+            ],
+            [
+              28,
+              80,
+              268
+            ],
+            [
+              36,
+              106,
+              358
+            ],
+            [
+              45,
+              133,
+              447
+            ],
+            [
+              54,
+              160,
+              536
+            ]
+          ],
+          "purple": [
+            [
+              26,
+              75,
+              257
+            ],
+            [
+              39,
+              114,
+              386
+            ],
+            [
+              52,
+              153,
+              514
+            ],
+            [
+              64,
+              192,
+              643
+            ],
+            [
+              77,
+              231,
+              772
+            ]
+          ]
+        },
+        "_estimated": true
+      },
+      "rabbit": {
+        "name": "Lapins",
+        "emoji": "🐇",
+        "product": "gray_wool",
+        "durations": [
+          900,
+          2700,
+          10800
+        ],
+        "quantities": {
+          "grey": [
+            [
+              13,
+              37,
+              152
+            ],
+            [
+              19,
+              56,
+              228
+            ],
+            [
+              26,
+              76,
+              304
+            ],
+            [
+              32,
+              95,
+              381
+            ],
+            [
+              38,
+              114,
+              457
+            ]
+          ],
+          "green": [
+            [
+              14,
+              41,
+              168
+            ],
+            [
+              21,
+              62,
+              252
+            ],
+            [
+              28,
+              84,
+              336
+            ],
+            [
+              35,
+              105,
+              419
+            ],
+            [
+              42,
+              126,
+              503
+            ]
+          ],
+          "blue": [
+            [
+              17,
+              47,
+              191
+            ],
+            [
+              25,
+              71,
+              286
+            ],
+            [
+              32,
+              94,
+              382
+            ],
+            [
+              40,
+              118,
+              477
+            ],
+            [
+              48,
+              142,
+              572
+            ]
+          ],
+          "purple": [
+            [
+              23,
+              67,
+              275
+            ],
+            [
+              34,
+              102,
+              412
+            ],
+            [
+              46,
+              136,
+              549
+            ],
+            [
+              58,
+              171,
+              686
+            ],
+            [
+              69,
+              206,
+              823
+            ]
+          ]
+        },
+        "_estimated": true
+      },
+      "sheep": {
+        "name": "Moutons",
+        "emoji": "🐑",
+        "product": "sheep_wool",
+        "durations": [
+          1200,
+          3600,
+          14400
+        ],
+        "quantities": {
+          "grey": [
+            [
+              29,
+              84,
+              343
+            ],
+            [
+              43,
+              127,
+              514
+            ],
+            [
+              58,
+              170,
+              686
+            ],
+            [
+              72,
+              213,
+              857
+            ],
+            [
+              86,
+              256,
+              1028
+            ]
+          ],
+          "green": [
+            [
+              31,
+              92,
+              378
+            ],
+            [
+              47,
+              140,
+              566
+            ],
+            [
+              62,
+              188,
+              754
+            ],
+            [
+              78,
+              236,
+              943
+            ],
+            [
+              94,
+              284,
+              1131
+            ]
+          ],
+          "blue": [
+            [
+              37,
+              106,
+              429
+            ],
+            [
+              55,
+              160,
+              643
+            ],
+            [
+              73,
+              213,
+              858
+            ],
+            [
+              91,
+              266,
+              1072
+            ],
+            [
+              109,
+              320,
+              1286
+            ]
+          ],
+          "purple": [
+            [
+              51,
+              150,
+              618
+            ],
+            [
+              77,
+              228,
+              926
+            ],
+            [
+              102,
+              306,
+              1235
+            ],
+            [
+              128,
+              384,
+              1544
+            ],
+            [
+              154,
+              462,
+              1852
+            ]
+          ]
+        },
+        "_estimated": true
+      }
+    },
+    "animals": {
+      "chicken_grey_1": {
+        "name": "Grisette",
+        "species": "chicken",
+        "rarity": "grey"
+      },
+      "chicken_grey_2": {
+        "name": "Picorette",
+        "species": "chicken",
+        "rarity": "grey"
+      },
+      "chicken_grey_3": {
+        "name": "Cendrine",
+        "species": "chicken",
+        "rarity": "grey"
+      },
+      "chicken_green_1": {
+        "name": "Pomme-d'api",
+        "species": "chicken",
+        "rarity": "green"
+      },
+      "chicken_green_2": {
+        "name": "Sauterelle",
+        "species": "chicken",
+        "rarity": "green"
+      },
+      "chicken_green_3": {
+        "name": "Bergamote",
+        "species": "chicken",
+        "rarity": "green"
+      },
+      "chicken_blue_1": {
+        "name": "Myrtille",
+        "species": "chicken",
+        "rarity": "blue"
+      },
+      "chicken_blue_2": {
+        "name": "Azurine",
+        "species": "chicken",
+        "rarity": "blue"
+      },
+      "chicken_blue_3": {
+        "name": "Plume-Bleue",
+        "species": "chicken",
+        "rarity": "blue"
+      },
+      "chicken_purple_1": {
+        "name": "Améthyste",
+        "species": "chicken",
+        "rarity": "purple"
+      },
+      "chicken_purple_2": {
+        "name": "Reine-Lilas",
+        "species": "chicken",
+        "rarity": "purple"
+      },
+      "chicken_purple_3": {
+        "name": "Duchesse",
+        "species": "chicken",
+        "rarity": "purple"
+      },
+      "pig_grey_1": {
+        "name": "Gros-Lard",
+        "species": "pig",
+        "rarity": "grey"
+      },
+      "pig_grey_2": {
+        "name": "Truffinet",
+        "species": "pig",
+        "rarity": "grey"
+      },
+      "pig_grey_3": {
+        "name": "Boudin",
+        "species": "pig",
+        "rarity": "grey"
+      },
+      "pig_green_1": {
+        "name": "Pistache",
+        "species": "pig",
+        "rarity": "green"
+      },
+      "pig_green_2": {
+        "name": "Cornichon",
+        "species": "pig",
+        "rarity": "green"
+      },
+      "pig_green_3": {
+        "name": "Basilic",
+        "species": "pig",
+        "rarity": "green"
+      },
+      "pig_blue_1": {
+        "name": "Lagon",
+        "species": "pig",
+        "rarity": "blue"
+      },
+      "pig_blue_2": {
+        "name": "Saphir",
+        "species": "pig",
+        "rarity": "blue"
+      },
+      "pig_blue_3": {
+        "name": "Marin",
+        "species": "pig",
+        "rarity": "blue"
+      },
+      "pig_purple_1": {
+        "name": "Prune",
+        "species": "pig",
+        "rarity": "purple"
+      },
+      "pig_purple_2": {
+        "name": "Baron",
+        "species": "pig",
+        "rarity": "purple"
+      },
+      "pig_purple_3": {
+        "name": "Majesté",
+        "species": "pig",
+        "rarity": "purple"
+      },
+      "cow_grey_1": {
+        "name": "Marguerite",
+        "species": "cow",
+        "rarity": "grey"
+      },
+      "cow_grey_2": {
+        "name": "Pâquerette",
+        "species": "cow",
+        "rarity": "grey"
+      },
+      "cow_grey_3": {
+        "name": "Grisonne",
+        "species": "cow",
+        "rarity": "grey"
+      },
+      "cow_green_1": {
+        "name": "Menthe",
+        "species": "cow",
+        "rarity": "green"
+      },
+      "cow_green_2": {
+        "name": "Prairie",
+        "species": "cow",
+        "rarity": "green"
+      },
+      "cow_green_3": {
+        "name": "Trèfle",
+        "species": "cow",
+        "rarity": "green"
+      },
+      "cow_blue_1": {
+        "name": "Myosotis",
+        "species": "cow",
+        "rarity": "blue"
+      },
+      "cow_blue_2": {
+        "name": "Bleuette",
+        "species": "cow",
+        "rarity": "blue"
+      },
+      "cow_blue_3": {
+        "name": "Océane",
+        "species": "cow",
+        "rarity": "blue"
+      },
+      "cow_purple_1": {
+        "name": "Violette",
+        "species": "cow",
+        "rarity": "purple"
+      },
+      "cow_purple_2": {
+        "name": "Lavande",
+        "species": "cow",
+        "rarity": "purple"
+      },
+      "cow_purple_3": {
+        "name": "Impératrice",
+        "species": "cow",
+        "rarity": "purple"
+      },
+      "goat_grey_1": {
+        "name": "Biquette",
+        "species": "goat",
+        "rarity": "grey"
+      },
+      "goat_grey_2": {
+        "name": "Caillou",
+        "species": "goat",
+        "rarity": "grey"
+      },
+      "goat_grey_3": {
+        "name": "Grisou",
+        "species": "goat",
+        "rarity": "grey"
+      },
+      "goat_green_1": {
+        "name": "Sapinette",
+        "species": "goat",
+        "rarity": "green"
+      },
+      "goat_green_2": {
+        "name": "Mousse",
+        "species": "goat",
+        "rarity": "green"
+      },
+      "goat_green_3": {
+        "name": "Fougère",
+        "species": "goat",
+        "rarity": "green"
+      },
+      "goat_blue_1": {
+        "name": "Glacier",
+        "species": "goat",
+        "rarity": "blue"
+      },
+      "goat_blue_2": {
+        "name": "Nuage",
+        "species": "goat",
+        "rarity": "blue"
+      },
+      "goat_blue_3": {
+        "name": "Céleste",
+        "species": "goat",
+        "rarity": "blue"
+      },
+      "goat_purple_1": {
+        "name": "Mûre",
+        "species": "goat",
+        "rarity": "purple"
+      },
+      "goat_purple_2": {
+        "name": "Orchidée",
+        "species": "goat",
+        "rarity": "purple"
+      },
+      "goat_purple_3": {
+        "name": "Altesse",
+        "species": "goat",
+        "rarity": "purple"
+      },
+      "duck_grey_1": {
+        "name": "Coin-Coin",
+        "species": "duck",
+        "rarity": "grey"
+      },
+      "duck_grey_2": {
+        "name": "Barbotte",
+        "species": "duck",
+        "rarity": "grey"
+      },
+      "duck_grey_3": {
+        "name": "Galet",
+        "species": "duck",
+        "rarity": "grey"
+      },
+      "duck_green_1": {
+        "name": "Nénuphar",
+        "species": "duck",
+        "rarity": "green"
+      },
+      "duck_green_2": {
+        "name": "Roseau",
+        "species": "duck",
+        "rarity": "green"
+      },
+      "duck_green_3": {
+        "name": "Jade",
+        "species": "duck",
+        "rarity": "green"
+      },
+      "duck_blue_1": {
+        "name": "Ruisseau",
+        "species": "duck",
+        "rarity": "blue"
+      },
+      "duck_blue_2": {
+        "name": "Turquoise",
+        "species": "duck",
+        "rarity": "blue"
+      },
+      "duck_blue_3": {
+        "name": "Cobalt",
+        "species": "duck",
+        "rarity": "blue"
+      },
+      "duck_purple_1": {
+        "name": "Pervenche",
+        "species": "duck",
+        "rarity": "purple"
+      },
+      "duck_purple_2": {
+        "name": "Iris",
+        "species": "duck",
+        "rarity": "purple"
+      },
+      "duck_purple_3": {
+        "name": "Comtesse",
+        "species": "duck",
+        "rarity": "purple"
+      },
+      "rabbit_grey_1": {
+        "name": "Pompon",
+        "species": "rabbit",
+        "rarity": "grey"
+      },
+      "rabbit_grey_2": {
+        "name": "Noisette",
+        "species": "rabbit",
+        "rarity": "grey"
+      },
+      "rabbit_grey_3": {
+        "name": "Gris-Gris",
+        "species": "rabbit",
+        "rarity": "grey"
+      },
+      "rabbit_green_1": {
+        "name": "Persil",
+        "species": "rabbit",
+        "rarity": "green"
+      },
+      "rabbit_green_2": {
+        "name": "Cresson",
+        "species": "rabbit",
+        "rarity": "green"
+      },
+      "rabbit_green_3": {
+        "name": "Olive",
+        "species": "rabbit",
+        "rarity": "green"
+      },
+      "rabbit_blue_1": {
+        "name": "Bleuet",
+        "species": "rabbit",
+        "rarity": "blue"
+      },
+      "rabbit_blue_2": {
+        "name": "Lune",
+        "species": "rabbit",
+        "rarity": "blue"
+      },
+      "rabbit_blue_3": {
+        "name": "Givre",
+        "species": "rabbit",
+        "rarity": "blue"
+      },
+      "rabbit_purple_1": {
+        "name": "Cassis",
+        "species": "rabbit",
+        "rarity": "purple"
+      },
+      "rabbit_purple_2": {
+        "name": "Mauve",
+        "species": "rabbit",
+        "rarity": "purple"
+      },
+      "rabbit_purple_3": {
+        "name": "Princesse",
+        "species": "rabbit",
+        "rarity": "purple"
+      },
+      "sheep_grey_1": {
+        "name": "Frisette",
+        "species": "sheep",
+        "rarity": "grey"
+      },
+      "sheep_grey_2": {
+        "name": "Laineuse",
+        "species": "sheep",
+        "rarity": "grey"
+      },
+      "sheep_grey_3": {
+        "name": "Bouclette",
+        "species": "sheep",
+        "rarity": "grey"
+      },
+      "sheep_green_1": {
+        "name": "Pistou",
+        "species": "sheep",
+        "rarity": "green"
+      },
+      "sheep_green_2": {
+        "name": "Absinthe",
+        "species": "sheep",
+        "rarity": "green"
+      },
+      "sheep_green_3": {
+        "name": "Tilleul",
+        "species": "sheep",
+        "rarity": "green"
+      },
+      "sheep_blue_1": {
+        "name": "Brume",
+        "species": "sheep",
+        "rarity": "blue"
+      },
+      "sheep_blue_2": {
+        "name": "Indigo",
+        "species": "sheep",
+        "rarity": "blue"
+      },
+      "sheep_blue_3": {
+        "name": "Hortensia",
+        "species": "sheep",
+        "rarity": "blue"
+      },
+      "sheep_purple_1": {
+        "name": "Glycine",
+        "species": "sheep",
+        "rarity": "purple"
+      },
+      "sheep_purple_2": {
+        "name": "Parme",
+        "species": "sheep",
+        "rarity": "purple"
+      },
+      "sheep_purple_3": {
+        "name": "Souveraine",
+        "species": "sheep",
+        "rarity": "purple"
+      }
+    },
+    "_note": "Jetons, coffres, probabilités, 3 durées, quantités des poules : jeu (joueur). Autres espèces : durées et quantités estimées (même productivité relative que les poules). Cartes pour monter de niveau estimées (5, 20, 50, 100). Noms inventés."
   }
 }

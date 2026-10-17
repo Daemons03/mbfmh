@@ -15,8 +15,8 @@ final class FieldTest extends EngineTestCase
         self::assertSame(2000, $this->state['cash']);
         self::assertSame(50, $this->state['gold']);
         self::assertSame(6, $this->state['expansions']);
-        self::assertSame(['barn', 'field', 'field', 'farmhouse', 'fence'], array_column($this->state['buildings'], 'type'));
-        self::assertSame(['b1', 'b2', 'b3', 'farmhouse', 'fence'], array_column($this->state['buildings'], 'id'));
+        self::assertSame(['barn', 'field', 'field', 'show_animal', 'farmhouse', 'fence'], array_column($this->state['buildings'], 'type'));
+        self::assertSame(['b1', 'b2', 'b3', 'show_animal', 'farmhouse', 'fence'], array_column($this->state['buildings'], 'id'));
         self::assertSame(0, array_sum($this->state['materials']));
         self::assertSame(['speed' => 1], $this->state['settings']);
         self::assertStringContainsString('"items":{}', json_encode($this->engine->newState()));

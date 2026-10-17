@@ -82,7 +82,7 @@ final class BuildTest extends EngineTestCase
     {
         $this->act('demolish', ['id' => 'b3']);
 
-        self::assertSame(['b1', 'b2', 'farmhouse', 'fence'], array_column($this->state['buildings'], 'id'));
+        self::assertSame(['b1', 'b2', 'show_animal', 'farmhouse', 'fence'], array_column($this->state['buildings'], 'id'));
         self::assertSame(2000, $this->state['cash'], 'no refund');
     }
 

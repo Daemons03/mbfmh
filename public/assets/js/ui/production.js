@@ -68,7 +68,7 @@ function recipeCard(building, id, recipe, mode) {
     const outputs = times(recipe.outputs);
     const locked = store.state.level < item.unlock_level;
     const missing = Object.entries(inputs).some(([k, v]) => (store.state.barn.items[k] ?? 0) < v);
-    const tooBig = Object.entries(outputs).find(([, v]) => v > store.view.barn.capacity);
+    const tooBig = Object.entries(outputs).find(([k, v]) => v > store.view.barn.capacity && store.data.items[k].barn_limit !== false);
     const hasInputs = Object.keys(inputs).length > 0;
 
     const ready = mode === 'instant' ? 'Fabriquer' : 'Lancer';

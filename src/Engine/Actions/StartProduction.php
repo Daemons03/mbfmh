@@ -49,7 +49,7 @@ final class StartProduction implements Action
 
         $capacity = $farm->barnCapacity();
         foreach ($total['outputs'] as $item => $count) {
-            if ($count > $capacity) {
+            if ($count > $capacity && $farm->isBarnLimited($item)) {
                 $name = $farm->data->item($item)['name'];
                 throw new GameError('barn_too_small', "La grange est trop petite pour {$count} × {$name} : agrandissez-la d'abord.", [
                     'item' => $item,

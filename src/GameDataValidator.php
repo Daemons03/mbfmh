@@ -113,6 +113,9 @@ final class GameDataValidator
             $this->level($item['unlock_level'] ?? null, "{$path}.unlock_level");
             $this->nonNegativeNumber($item['barn_price'] ?? null, "{$path}.barn_price");
             $this->nonNegativeNumber($item['market_price'] ?? null, "{$path}.market_price");
+            if (array_key_exists('barn_limit', $item) && !is_bool($item['barn_limit'])) {
+                $this->errors[] = "{$path}.barn_limit: must be true or false";
+            }
             if (!is_bool($item['marketable'] ?? null)) {
                 $this->errors[] = "{$path}.marketable: must be true or false";
             }

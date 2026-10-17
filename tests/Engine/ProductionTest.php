@@ -152,13 +152,27 @@ final class ProductionTest extends EngineTestCase
 
     public function testCollectRefusedIfAnyOutputDoesNotFit(): void
     {
-        $this->state['barn']['items'] = ['chicken_feed' => 10, 'dung' => 195];
+        $this->state['barn']['items'] = ['chicken_feed' => 10, 'egg' => 195];
         $this->act('start_production', ['id' => 'b5']);
 
         $error = $this->assertGameError('barn_full', 'collect', ['id' => 'b5'], 390);
 
-        self::assertSame(['item' => 'dung', 'free' => 5, 'needed' => 7], $error->details);
+        self::assertSame(['item' => 'egg', 'free' => 5, 'needed' => 21], $error->details);
         self::assertArrayHasKey('job', $this->building('b5'), 'eggs wait in the coop');
+    }
+
+    public function testDungFeedFertilizerHumusAndLeavesAreNotLimited(): void
+    {
+        $this->state['barn']['items'] = ['chicken_feed' => 5000, 'dung' => 5000];
+        $this->act('start_production', ['id' => 'b5']);
+        $this->act('collect', ['id' => 'b5'], 390);
+
+        self::assertSame(5007, $this->state['barn']['items']['dung']);
+        $view = $this->decode($this->engine->view($this->state, self::NOW + 390));
+        self::assertSame([], $view['barn']['full'], 'unlimited items never count as full');
+        foreach (['dung', 'fertilizer', 'humus', 'leaves', 'chicken_feed', 'sheep_feed'] as $item) {
+            self::assertFalse($this->data->item($item)['barn_limit'], $item);
+        }
     }
 
     public function testJobIsFixedAtStart(): void

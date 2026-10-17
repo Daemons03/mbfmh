@@ -35,7 +35,7 @@ final class OutsideBuildingTest extends EngineTestCase
         $this->act('build', ['type' => 'library']);
 
         $this->act('build', ['type' => 'field', 'x' => 5, 'y' => 0]);
-        self::assertCount(7, $this->state['buildings'], 'barn, 2 fields, farmhouse, fence, library, new field');
+        self::assertCount(8, $this->state['buildings'], 'barn, 2 fields, farmhouse, fence, show animals, library, new field');
     }
 
     public function testOutsideBuildingRules(): void
