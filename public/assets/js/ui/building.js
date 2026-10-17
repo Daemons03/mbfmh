@@ -55,7 +55,7 @@ function jobStatusBlock(building) {
                 type: 'button',
                 class: 'btn btn-primary',
                 onclick: () => perform('harvest', { id: building.id }),
-            }, `Récolter (+${fmtInt(store.data.crops[building.job.product].yield)})`));
+            }, `Récolter (+${fmtInt(building.job.outputs?.[building.job.product] ?? 0)})`));
     }
 
     return h('p', { class: 'status' }, `${label} — `,
@@ -73,7 +73,12 @@ function plantList(field) {
         .sort((a, b) => a.item.unlock_level - b.item.unlock_level);
     const humusStock = state.barn.items.humus ?? 0;
     const humus = useHumus && humusStock > 0;
-    const yieldOf = (crop) => (humus ? Math.floor(crop.yield * 1.25) : crop.yield);
+    const index = Math.min(field.level, 18) - 1;
+    const yieldOf = (crop) => {
+        const base = crop.yields[Math.min(index, crop.yields.length - 1)];
+        return humus ? Math.floor(base * 1.25) : base;
+    };
+    const nectarOf = (crop) => crop.flower_nectar[Math.min(index, crop.flower_nectar.length - 1)] ?? 0;
 
     return [
         h('p', { class: 'section-title' }, 'Planter'),
@@ -96,7 +101,9 @@ function plantList(field) {
                 h('div', { class: 'row-main' },
                     h('div', { class: 'row-title' }, item.name),
                     h('div', { class: 'row-sub' },
-                        `${fmtCost(crop.plant_cost, data)} · ${fmtDuration(crop.duration / state.settings.speed)} · ${yieldOf(crop)} unités · +${crop.xp} XP`)),
+                        `${fmtCost(crop.plant_cost, data)} · ${fmtDuration(crop.duration / state.settings.speed)} · ${fmtInt(yieldOf(crop))} ${item.emoji}`
+                        + (nectarOf(crop) ? ` + ${fmtInt(nectarOf(crop))} ${data.items.flower_nectar.emoji}` : '')
+                        + ` · +${crop.xp} XP`)),
                 h('div', { class: 'row-actions' },
                     h('button', {
                         type: 'button',

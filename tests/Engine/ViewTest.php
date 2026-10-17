@@ -39,10 +39,11 @@ final class ViewTest extends EngineTestCase
         $this->state['barn']['items'] = ['corn' => 15, 'wildflower' => 200];
         $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
 
-        $before = $this->decode($this->engine->view($this->state, self::NOW + 149));
-        $after = $this->decode($this->engine->view($this->state, self::NOW + 150));
+        // corn: 120 s / speed 2
+        $before = $this->decode($this->engine->view($this->state, self::NOW + 59));
+        $after = $this->decode($this->engine->view($this->state, self::NOW + 60));
 
-        self::assertSame(['ready_at' => self::NOW + 150, 'ready' => false], $before['jobs']['b2']);
+        self::assertSame(['ready_at' => self::NOW + 60, 'ready' => false], $before['jobs']['b2']);
         self::assertTrue($after['jobs']['b2']['ready']);
         self::assertSame(['wildflower'], $after['barn']['full']);
     }

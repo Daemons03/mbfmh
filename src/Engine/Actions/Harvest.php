@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace FermeTranquille\Engine\Actions;
 
 use FermeTranquille\Engine\Clock;
+use FermeTranquille\Engine\Crop;
 use FermeTranquille\Engine\Farm;
 use FermeTranquille\Engine\GameError;
 use FermeTranquille\Engine\Payload;
 
 /**
- * payload: { id } — the whole yield goes to the barn, or nothing does.
+ * payload: { id } — the whole harvest (crop + flower nectar) goes to the barn, or nothing does.
  */
 final class Harvest implements Action
 {
@@ -27,20 +28,11 @@ final class Harvest implements Action
         }
 
         $crop = $farm->data->crop($job['product']);
-        $farm->addToBarn([$job['product'] => self::yield($crop['yield'], $job)]);
+        // Jobs planted before per-level yields stored no outputs: compute them now.
+        $farm->addToBarn($job['outputs'] ?? Crop::harvest($farm->data, $job['product'], $field['level'], !empty($job['humus'])));
         $farm->addXp($crop['xp']);
 
         unset($field['job']);
         $farm->saveBuilding($field);
-    }
-
-    public const float HUMUS_BONUS = 0.25;
-
-    /**
-     * @param array<string, mixed> $job
-     */
-    public static function yield(int $base, array $job): int
-    {
-        return empty($job['humus']) ? $base : (int) floor($base * (1 + self::HUMUS_BONUS));
     }
 }

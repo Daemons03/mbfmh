@@ -81,8 +81,9 @@ final readonly class Market
     }
 
     /**
-     * What the player can currently provide: unlocked crops, plus the outputs
-     * of production buildings they own.
+     * What contracts may ask for: marketable products (crops, animal, orchard,
+     * meadow and beehive products) the player can currently provide, i.e.
+     * unlocked crops plus the outputs of production buildings they own.
      *
      * @return list<string>
      */
@@ -101,7 +102,8 @@ final readonly class Market
                 Production::recipes($this->data, $building['type'], $building['level']),
             )));
             foreach ($outputs as $item => $_) {
-                if ($this->data->item($item)['unlock_level'] <= $level) {
+                $definition = $this->data->item($item);
+                if (($definition['marketable'] ?? false) && $definition['unlock_level'] <= $level) {
                     $eligible[$item] = true;
                 }
             }

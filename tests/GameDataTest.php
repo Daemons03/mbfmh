@@ -42,7 +42,7 @@ final class GameDataTest extends TestCase
     {
         $data = GameData::fromArray($this->realData());
 
-        self::assertSame(47, $data->crop('corn')['plant_cost']['cash']);
+        self::assertSame(43, $data->crop('corn')['plant_cost']['cash']);
         self::assertSame(5, $data->item('corn')['barn_price']);
         self::assertSame(7.5, $data->item('corn')['market_price']);
         self::assertSame(200, $data->buildingLevel('barn', 1)['capacity']);
@@ -131,7 +131,7 @@ final class GameDataTest extends TestCase
         $data = $this->realData();
         file_put_contents($file, json_encode($data));
 
-        self::assertSame(47, GameData::load($file, $cacheDir)->crop('corn')['plant_cost']['cash']);
+        self::assertSame(43, GameData::load($file, $cacheDir)->crop('corn')['plant_cost']['cash']);
         $cacheFiles = glob($cacheDir . '/game-data.*.php');
         self::assertCount(1, $cacheFiles);
 

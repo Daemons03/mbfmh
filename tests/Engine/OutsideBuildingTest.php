@@ -20,7 +20,7 @@ final class OutsideBuildingTest extends EngineTestCase
     {
         $this->state['level'] = 13;
         $this->act('build', ['type' => 'external_barn']);
-        $this->state['barn']['items'] = ['corn' => 240];
+        $this->state['barn']['items'] = ['corn' => 235];
 
         $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
         $this->act('harvest', ['id' => 'b2'], 300);

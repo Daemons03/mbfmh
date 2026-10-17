@@ -861,7 +861,7 @@
       ]
     },
     "_estimated": true,
-    "_note": "Paramètres de génération des contrats ; récompense cash = somme(quantité × market_price)."
+    "_note": "Contrats : uniquement les produits marquables (champs, animaux, vergers, prairie, ruche) ; récompense cash = somme(quantité × market_price)."
   },
   "items": {
     "wildflower": {
@@ -870,7 +870,8 @@
       "category": "crop",
       "unlock_level": 1,
       "barn_price": 1,
-      "market_price": 1.25
+      "market_price": 1.25,
+      "marketable": true
     },
     "corn": {
       "name": "Maïs",
@@ -878,7 +879,8 @@
       "category": "crop",
       "unlock_level": 1,
       "barn_price": 5,
-      "market_price": 7.5
+      "market_price": 7.5,
+      "marketable": true
     },
     "cabbage": {
       "name": "Chou",
@@ -886,7 +888,8 @@
       "category": "crop",
       "unlock_level": 8,
       "barn_price": 4,
-      "market_price": 6.25
+      "market_price": 6.25,
+      "marketable": true
     },
     "wheat": {
       "name": "Blé",
@@ -894,7 +897,8 @@
       "category": "crop",
       "unlock_level": 14,
       "barn_price": 25,
-      "market_price": 37.5
+      "market_price": 37.5,
+      "marketable": true
     },
     "dandelion": {
       "name": "Pissenlit",
@@ -902,7 +906,8 @@
       "category": "crop",
       "unlock_level": 18,
       "barn_price": 6,
-      "market_price": 10
+      "market_price": 10,
+      "marketable": true
     },
     "lettuce": {
       "name": "Mâche",
@@ -910,7 +915,8 @@
       "category": "crop",
       "unlock_level": 31,
       "barn_price": 7,
-      "market_price": 11.25
+      "market_price": 11.25,
+      "marketable": true
     },
     "potato": {
       "name": "Pomme de terre",
@@ -918,7 +924,8 @@
       "category": "crop",
       "unlock_level": 36,
       "barn_price": 24,
-      "market_price": 7.5
+      "market_price": 7.5,
+      "marketable": true
     },
     "carrot": {
       "name": "Carotte",
@@ -926,7 +933,8 @@
       "category": "crop",
       "unlock_level": 55,
       "barn_price": 4,
-      "market_price": 6.25
+      "market_price": 6.25,
+      "marketable": true
     },
     "barley": {
       "name": "Orge",
@@ -936,7 +944,8 @@
       "barn_price": 6,
       "market_price": 9.0,
       "_estimated": true,
-      "_note": "Prix marché inconnu : prix grange × 1,5."
+      "_note": "Prix marché inconnu : prix grange × 1,5.",
+      "marketable": true
     },
     "chicken_feed": {
       "name": "Nourriture pour volaille",
@@ -945,7 +954,8 @@
       "unlock_level": 1,
       "barn_price": 1,
       "market_price": 1.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": false
     },
     "egg": {
       "name": "Œuf",
@@ -954,7 +964,8 @@
       "unlock_level": 1,
       "barn_price": 4,
       "market_price": 6,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": true
     },
     "dung": {
       "name": "Fumier",
@@ -963,7 +974,8 @@
       "unlock_level": 1,
       "barn_price": 1,
       "market_price": 1.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": false
     },
     "pig": {
       "name": "Cochon",
@@ -972,7 +984,8 @@
       "unlock_level": 8,
       "barn_price": 1,
       "market_price": 1.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": true
     },
     "milk": {
       "name": "Lait",
@@ -981,7 +994,8 @@
       "unlock_level": 14,
       "barn_price": 1,
       "market_price": 1.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": true
     },
     "feather": {
       "name": "Plume",
@@ -990,7 +1004,8 @@
       "unlock_level": 31,
       "barn_price": 1,
       "market_price": 1.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": true
     },
     "sheep_wool": {
       "name": "Laine de mouton",
@@ -999,7 +1014,8 @@
       "unlock_level": 100,
       "barn_price": 2,
       "market_price": 3,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": true
     },
     "gray_wool": {
       "name": "Laine grise",
@@ -1008,7 +1024,8 @@
       "unlock_level": 55,
       "barn_price": 3,
       "market_price": 4.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": true
     },
     "white_wool": {
       "name": "Laine blanche",
@@ -1017,7 +1034,8 @@
       "unlock_level": 100,
       "barn_price": 6,
       "market_price": 9,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": true
     },
     "apple": {
       "name": "Pomme",
@@ -1026,7 +1044,8 @@
       "unlock_level": 6,
       "barn_price": 1,
       "market_price": 1.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": true
     },
     "cherry": {
       "name": "Cerise",
@@ -1035,7 +1054,8 @@
       "unlock_level": 16,
       "barn_price": 1,
       "market_price": 1.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": true
     },
     "almond": {
       "name": "Amande",
@@ -1044,7 +1064,8 @@
       "unlock_level": 24,
       "barn_price": 1,
       "market_price": 1.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": true
     },
     "peach": {
       "name": "Pêche",
@@ -1053,7 +1074,8 @@
       "unlock_level": 38,
       "barn_price": 1,
       "market_price": 1.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": true
     },
     "leaves": {
       "name": "Feuilles",
@@ -1062,7 +1084,8 @@
       "unlock_level": 6,
       "barn_price": 2,
       "market_price": 3,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": false
     },
     "nectar": {
       "name": "Nectar de forêt",
@@ -1071,7 +1094,8 @@
       "unlock_level": 67,
       "barn_price": 3,
       "market_price": 4.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": false
     },
     "fertilizer": {
       "name": "Engrais",
@@ -1080,7 +1104,8 @@
       "unlock_level": 5,
       "barn_price": 2,
       "market_price": 3,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": false
     },
     "pig_feed": {
       "name": "Nourriture pour cochons",
@@ -1089,7 +1114,8 @@
       "unlock_level": 8,
       "barn_price": 1,
       "market_price": 1.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": false
     },
     "cattle_feed": {
       "name": "Nourriture pour bovins",
@@ -1098,7 +1124,8 @@
       "unlock_level": 14,
       "barn_price": 1,
       "market_price": 1.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": false
     },
     "goat_feed": {
       "name": "Nourriture pour chèvres",
@@ -1107,7 +1134,8 @@
       "unlock_level": 18,
       "barn_price": 1,
       "market_price": 1.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": false
     },
     "duck_feed": {
       "name": "Nourriture pour canards",
@@ -1116,7 +1144,8 @@
       "unlock_level": 31,
       "barn_price": 1,
       "market_price": 1.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": false
     },
     "rabbit_feed": {
       "name": "Nourriture pour lapins",
@@ -1125,7 +1154,8 @@
       "unlock_level": 55,
       "barn_price": 1,
       "market_price": 1.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": false
     },
     "sheep_feed": {
       "name": "Nourriture pour moutons",
@@ -1134,7 +1164,8 @@
       "unlock_level": 100,
       "barn_price": 1,
       "market_price": 1.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": false
     },
     "humus": {
       "name": "Humus",
@@ -1144,7 +1175,8 @@
       "barn_price": 5,
       "market_price": 7.5,
       "_estimated": true,
-      "_note": "Augmente les récoltes des champs (effet à définir)."
+      "_note": "Augmente les récoltes des champs (effet à définir).",
+      "marketable": false
     },
     "goat_cheese": {
       "name": "Fromage de chèvre",
@@ -1153,7 +1185,8 @@
       "unlock_level": 18,
       "barn_price": 1,
       "market_price": 1.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": true
     },
     "cream": {
       "name": "Crème",
@@ -1162,7 +1195,8 @@
       "unlock_level": 60,
       "barn_price": 8,
       "market_price": 12,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": false
     },
     "butter": {
       "name": "Beurre",
@@ -1171,7 +1205,8 @@
       "unlock_level": 60,
       "barn_price": 40,
       "market_price": 60,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": false
     },
     "cheese": {
       "name": "Fromage",
@@ -1180,7 +1215,8 @@
       "unlock_level": 60,
       "barn_price": 20,
       "market_price": 30,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": false
     },
     "cherry_yoghurt": {
       "name": "Yaourt à la cerise",
@@ -1189,7 +1225,8 @@
       "unlock_level": 60,
       "barn_price": 8,
       "market_price": 12,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": false
     },
     "peach_jam": {
       "name": "Confiture de pêches",
@@ -1198,7 +1235,8 @@
       "unlock_level": 35,
       "barn_price": 25,
       "market_price": 37.5,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": false
     },
     "cherry_jam": {
       "name": "Confiture de cerises",
@@ -1207,7 +1245,8 @@
       "unlock_level": 35,
       "barn_price": 20,
       "market_price": 30,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": false
     },
     "forest_honey": {
       "name": "Miel de forêt",
@@ -1216,7 +1255,8 @@
       "unlock_level": 67,
       "barn_price": 40,
       "market_price": 60,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": true
     },
     "flower_honey": {
       "name": "Miel de fleur",
@@ -1225,17 +1265,19 @@
       "unlock_level": 67,
       "barn_price": 60,
       "market_price": 90,
-      "_estimated": true
+      "_estimated": true,
+      "marketable": true
     },
     "flower_nectar": {
       "name": "Nectar de fleur",
       "emoji": "🌷",
       "category": "goods",
-      "unlock_level": 67,
+      "unlock_level": 1,
       "barn_price": 3,
       "market_price": 4.5,
       "_estimated": true,
-      "_note": "Vient des champs de niveau élevé (quantités à confirmer) ; pour l'instant via l'admin."
+      "_note": "Récolté dans les champs dès le niveau 8 du champ.",
+      "marketable": false
     },
     "olive_oil": {
       "name": "Huile d'olive",
@@ -1245,7 +1287,8 @@
       "barn_price": 5,
       "market_price": 7.5,
       "_estimated": true,
-      "_note": "Producteur pas encore dans le jeu (oliveraie, V2)."
+      "_note": "Fabriqué à la fabrique artisanale à partir des produits de la prairie (recettes à venir).",
+      "marketable": false
     },
     "vanilla_extract": {
       "name": "Extrait de vanille",
@@ -1255,7 +1298,8 @@
       "barn_price": 5,
       "market_price": 7.5,
       "_estimated": true,
-      "_note": "Ingrédient de la confiture de cerises (à confirmer) ; producteur pas encore dans le jeu."
+      "_note": "Fabriqué à la fabrique artisanale à partir des produits de la prairie (recettes à venir).",
+      "marketable": false
     }
   },
   "crops": {
@@ -1264,90 +1308,433 @@
         "cash": 0
       },
       "duration": 60,
-      "yield": 10,
       "xp": 1,
-      "_estimated": true,
-      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+      "yields": [
+        11,
+        12,
+        14,
+        15,
+        17,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        27,
+        29,
+        30,
+        32,
+        33,
+        35,
+        36
+      ],
+      "flower_nectar": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "_note": "Coût, durée, XP, récolte et nectar de fleur par niveau de champ : valeurs du jeu (captures)."
     },
     "corn": {
       "plant_cost": {
-        "cash": 47
+        "cash": 43
       },
-      "duration": 300,
-      "yield": 10,
-      "xp": 2,
-      "_estimated": true,
-      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+      "duration": 120,
+      "xp": 1,
+      "yields": [
+        15,
+        17,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        27,
+        29,
+        30,
+        32,
+        33,
+        35,
+        36,
+        38,
+        39,
+        41
+      ],
+      "flower_nectar": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "_note": "Coût, durée, XP, récolte et nectar de fleur par niveau de champ : valeurs du jeu (captures)."
     },
     "cabbage": {
       "plant_cost": {
-        "cash": 95
+        "cash": 81
       },
-      "duration": 900,
-      "yield": 10,
-      "xp": 4,
-      "_estimated": true,
-      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+      "duration": 1800,
+      "xp": 10,
+      "yields": [
+        41,
+        45,
+        54,
+        60,
+        68,
+        75,
+        83,
+        90,
+        98,
+        105,
+        108,
+        113,
+        120,
+        128,
+        135,
+        143,
+        150,
+        158
+      ],
+      "flower_nectar": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        36,
+        41,
+        44,
+        45,
+        48,
+        50,
+        51,
+        53,
+        54,
+        57,
+        59
+      ],
+      "_note": "Coût, durée, XP, récolte et nectar de fleur par niveau de champ : valeurs du jeu (captures)."
     },
     "wheat": {
       "plant_cost": {
-        "cash": 973
+        "cash": 533
       },
-      "duration": 3600,
-      "yield": 10,
-      "xp": 10,
-      "_estimated": true,
-      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+      "duration": 21600,
+      "xp": 100,
+      "yields": [
+        60,
+        98,
+        102,
+        105,
+        135,
+        143,
+        150,
+        158,
+        165,
+        173,
+        176,
+        180,
+        188,
+        195,
+        203,
+        210,
+        218,
+        225
+      ],
+      "flower_nectar": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        135,
+        149,
+        162,
+        170,
+        176,
+        183,
+        189,
+        197,
+        203,
+        210,
+        216
+      ],
+      "_note": "Coût, durée, XP, récolte et nectar de fleur par niveau de champ : valeurs du jeu (captures)."
     },
     "dandelion": {
       "plant_cost": {
-        "cash": 165
+        "cash": 127
       },
-      "duration": 1800,
-      "yield": 10,
-      "xp": 6,
-      "_estimated": true,
-      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+      "duration": 3600,
+      "xp": 20,
+      "yields": [
+        57,
+        63,
+        71,
+        78,
+        87,
+        96,
+        107,
+        116,
+        125,
+        134,
+        138,
+        143,
+        150,
+        158,
+        165,
+        173,
+        180,
+        188
+      ],
+      "flower_nectar": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        54,
+        60,
+        66,
+        68,
+        71,
+        74,
+        77,
+        80,
+        81,
+        84,
+        87
+      ],
+      "_note": "Coût, durée, XP, récolte et nectar de fleur par niveau de champ : valeurs du jeu (captures)."
     },
     "lettuce": {
       "plant_cost": {
-        "cash": 237
+        "cash": 189
       },
-      "duration": 2700,
-      "yield": 10,
-      "xp": 8,
-      "_estimated": true,
-      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+      "duration": 7200,
+      "xp": 40,
+      "yields": [
+        75,
+        83,
+        92,
+        102,
+        113,
+        125,
+        138,
+        150,
+        162,
+        174,
+        179,
+        186,
+        198,
+        210,
+        222,
+        234,
+        246,
+        258
+      ],
+      "flower_nectar": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        72,
+        80,
+        87,
+        90,
+        95,
+        98,
+        102,
+        105,
+        108,
+        113,
+        116
+      ],
+      "_note": "Coût, durée, XP, récolte et nectar de fleur par niveau de champ : valeurs du jeu (captures)."
     },
     "potato": {
       "plant_cost": {
         "cash": 580
       },
       "duration": 7200,
-      "yield": 10,
       "xp": 14,
+      "yields": [
+        46,
+        51,
+        57,
+        64,
+        70,
+        78,
+        86,
+        96,
+        107,
+        118,
+        130,
+        143,
+        154,
+        165,
+        176,
+        186,
+        197,
+        208
+      ],
+      "flower_nectar": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        43,
+        48,
+        51,
+        53,
+        56,
+        58,
+        59,
+        62,
+        64,
+        67,
+        68
+      ],
       "_estimated": true,
-      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+      "_note": "Pomme de terre absente des captures : courbe de la carotte × 0,9."
     },
     "carrot": {
       "plant_cost": {
-        "cash": 120
+        "cash": 103
       },
-      "duration": 5400,
-      "yield": 10,
-      "xp": 12,
-      "_estimated": true,
-      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+      "duration": 2700,
+      "xp": 30,
+      "yields": [
+        51,
+        57,
+        63,
+        71,
+        78,
+        87,
+        96,
+        107,
+        119,
+        131,
+        144,
+        159,
+        171,
+        183,
+        195,
+        207,
+        219,
+        231
+      ],
+      "flower_nectar": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        48,
+        53,
+        57,
+        59,
+        62,
+        65,
+        66,
+        69,
+        71,
+        74,
+        75
+      ],
+      "_note": "Coût, durée, XP, récolte et nectar de fleur par niveau de champ : valeurs du jeu (captures)."
     },
     "barley": {
       "plant_cost": {
-        "cash": 180
+        "cash": 138
       },
-      "duration": 10800,
-      "yield": 10,
-      "xp": 16,
-      "_estimated": true,
-      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+      "duration": 2400,
+      "xp": 20,
+      "yields": [
+        48,
+        54,
+        60,
+        66,
+        74,
+        81,
+        90,
+        99,
+        110,
+        122,
+        131,
+        135,
+        143,
+        150,
+        158,
+        165,
+        173,
+        180
+      ],
+      "flower_nectar": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        39,
+        44,
+        47,
+        50,
+        53,
+        54,
+        56,
+        59,
+        60,
+        62,
+        65
+      ],
+      "_note": "Coût, durée, XP, récolte et nectar de fleur par niveau de champ : valeurs du jeu (captures)."
     }
   },
   "buildings": {
@@ -1491,6 +1878,26 @@
             "buckets": 62000
           },
           "_estimated": true
+        },
+        {
+          "level": 17,
+          "unlock_level": 120,
+          "cost": {
+            "cash": 26034000,
+            "buckets": 93000
+          },
+          "_estimated": true,
+          "_note": "Coût et niveau requis extrapolés."
+        },
+        {
+          "level": 18,
+          "unlock_level": 123,
+          "cost": {
+            "cash": 36448000,
+            "buckets": 140000
+          },
+          "_estimated": true,
+          "_note": "Coût et niveau requis extrapolés."
         }
       ]
     },
@@ -3833,8 +4240,8 @@
       "_note": "Fonctionnement prévu en V2. Niveaux > 1 : niveau requis inconnu, on reprend celui du déblocage."
     },
     "manufactory": {
-      "name": "Atelier de couture",
-      "emoji": "🧵",
+      "name": "Fabrique artisanale",
+      "emoji": "🏺",
       "kind": "special",
       "zone": "outside",
       "max_count": 1,
@@ -3967,7 +4374,7 @@
           "slots": 8
         }
       ],
-      "_note": "« Manufactory » sur le fan site. Transforme la laine de mouton (sheep-wool), la laine de lapin (gray-wool) et les plumes de canard (feather) ; slots = nombre de produits. Animaux et recettes prévus en V2."
+      "_note": "« Manufactory » sur le fan site : huile d'olive, extrait de vanille et autres produits de la prairie. slots = nombre de produits ; recettes à venir (captures du joueur)."
     },
     "pigsty": {
       "name": "Porcherie",

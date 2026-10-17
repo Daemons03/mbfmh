@@ -88,6 +88,9 @@ final class GameDataValidator
             $this->level($item['unlock_level'] ?? null, "{$path}.unlock_level");
             $this->nonNegativeNumber($item['barn_price'] ?? null, "{$path}.barn_price");
             $this->nonNegativeNumber($item['market_price'] ?? null, "{$path}.market_price");
+            if (!is_bool($item['marketable'] ?? null)) {
+                $this->errors[] = "{$path}.marketable: must be true or false";
+            }
         }
     }
 
@@ -100,7 +103,19 @@ final class GameDataValidator
             }
             $this->cost($crop['plant_cost'] ?? null, "{$path}.plant_cost");
             $this->positiveInt($crop['duration'] ?? null, "{$path}.duration");
-            $this->positiveInt($crop['yield'] ?? null, "{$path}.yield");
+            $fieldLevels = count($this->data['buildings']['field']['levels'] ?? []);
+            foreach (['yields' => 1, 'flower_nectar' => 0] as $key => $min) {
+                $list = $crop[$key] ?? null;
+                if (!is_array($list) || !array_is_list($list) || count($list) !== $fieldLevels) {
+                    $this->errors[] = "{$path}.{$key}: must list one value per field level ({$fieldLevels})";
+                    continue;
+                }
+                foreach ($list as $i => $value) {
+                    if (!is_int($value) || $value < $min) {
+                        $this->errors[] = "{$path}.{$key}[{$i}]: must be an integer >= {$min}";
+                    }
+                }
+            }
             $this->nonNegativeNumber($crop['xp'] ?? null, "{$path}.xp");
         }
         foreach ($this->entries($this->data['items']) as $id => $item) {

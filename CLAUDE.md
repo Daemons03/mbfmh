@@ -118,9 +118,9 @@ Opérations admin : `set_resources` (cash, or, matériaux, objets de grange — 
 
 ## Règles de jeu V1
 
-- **Champs** : construits sur la grille, on y plante une culture (coût par production), récolte → grange + XP.
+- **Champs** : construits sur la grille, on y plante une culture (cash, durée et XP fixes par culture). La récolte dépend du **niveau du champ** (`crops.*.yields[niveau-1]`, 18 niveaux) et donne du **nectar de fleur** dès le champ niveau 8 (`flower_nectar`). Récolte figée à la plantation (`job.outputs`). Humus : +25 % sur la culture.
 - **Grange** : capacité limitée **par produit** (ex. 200 fleurs ET 200 maïs à la fois ; la grange extérieure s'ajoute), améliorable, vente directe au prix « grange ».
-- **Marché** : 6 contrats visibles, chacun demande 1 à 3 produits que le joueur peut fournir (cultures débloquées + produits des bâtiments de production possédés), récompense cash + XP + parfois matériaux (planches, clous, scies). Un contrat jeté est remplacé après un délai. Les prix suivent la colonne « marché » des données.
+- **Marché** : 6 contrats visibles, chacun demande 1 à 3 produits **vendables au marché** (`items.*.marketable` : champs, animaux, vergers, prairie, ruche ; jamais nourritures, fumier, engrais, humus, feuilles, nectars ni produits d'usine) que le joueur peut fournir (cultures débloquées + produits des bâtiments possédés), récompense cash + XP + parfois matériaux (planches, clous, scies). Un contrat jeté est remplacé après un délai. Les prix suivent la colonne « marché » des données.
 - **Bâtiments de production** : chaque niveau liste ses `recipes` (clé = produit principal) `{ inputs, cost, outputs, duration, xp }` pour **un lot**. Mode `run` (animaux, vergers) : un lot par production. Mode `batch` : 1 à N lots, N = `max_batches` du niveau (laiterie, confitures) ou `max_output / sortie d'un lot` (moulin, silo, composteur, ruche), tout est multiplié (ingrédients, cash, produits, durée, XP). `start_production { id, recipe?, quantity? }` prend les ingrédients et paie ; `collect` met tous les produits en grange ou rien (job figé au lancement, XP comprise). Refus `barn_too_small` si un produit dépasse la capacité.
 - Animaux : 10 nourritures **de leur espèce** + cash par production (poules 4 💵 / 6 min 30, cochons 24 / 1 h 10, vaches 185 / 7 h, chèvres 43 / 2 h, canards 68 / 3 h, lapins 32 / 45 min, moutons 32 / 1 h). Moulin : 7 nourritures, chacune faite de la culture débloquée au même niveau que l'animal (maïs, chou, blé, pissenlit, mâche, carotte, orge) ; quantités, cash, durées et XP du jeu pour les 12 niveaux (ex. volaille : 25 maïs + 2 💵, 3 min → 10). Silo : 210 fumiers + 209 💵 → 10 engrais (56 min au niv. 1, 6 min au niv. 10). Vergers : engrais + cash par production (pommeraie 10 + 496 💵, cerisaie 30 + 1 419, amanderaie 20 + 700, pêcheraie 5 + 474). Composteur : 20 feuilles + 60 💵 → 1 humus (4 h au niv. 1). Les « + N » des écrans du jeu sont des bonus du joueur, non appliqués.
 - **Extensions** : `buy_expansion { option }` achète l'extension suivante avec `costs[option]` (alternatives : or, ou cash + matériaux dès la n° 11) + niveau minimum ; débloque le bloc suivant, la grille affichée grandit d'elle-même. Dernière extension : n° 55.
@@ -199,7 +199,8 @@ Données réelles (niveaux, coûts, quantités produites) reprises du fan site ;
 2. Vergers : pommeraie (10 engrais, 3 h), cerisaie (30, 12 h), amanderaie (20, 8 h), pêcheraie (5, 1 h) → fruit + feuilles (+ nectar dès le niveau 7). Silo : fumier des animaux → engrais. Consommation fixe par production via `inputs_per_run`.
 3. ✅ Usines à recettes multiples : laiterie (crème, beurre, fromage, yaourt à la cerise), cuisine de confitures (pêches, cerises), ruche (miel de forêt, miel de fleur). Humus : +25 % sur une récolte de champ (1 humus au moment de planter).
 4. Boulangerie (le joueur prépare les captures).
-5. Atelier de couture (laines et plumes → produits textiles).
+   (+) Prairie (olive, vanille, aloe vera, agrumes, jasmin, lavande) et fabrique artisanale (« Manufactory » : huile d'olive, extrait de vanille, gel, huiles, essences).
+5. Atelier de couture (laines et plumes → produits textiles) : absent du fan site, captures du joueur nécessaires.
 6. Maisons, ouvriers, bonheur et décorations.
 7. Bibliothèque : améliorations de produits (parchemins, encre, livres).
 8. Améliorations du marché.

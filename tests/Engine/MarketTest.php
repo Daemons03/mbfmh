@@ -104,7 +104,27 @@ final class MarketTest extends EngineTestCase
         $this->act('build', ['type' => 'chicken_coop', 'x' => 6, 'y' => 4]);
 
         $farm = new Farm($this->state, $this->data);
-        self::assertSame(['wildflower', 'corn', 'egg', 'dung'], (new Market($this->data))->eligibleItems($farm));
+        self::assertSame(['wildflower', 'corn', 'egg'], (new Market($this->data))->eligibleItems($farm), 'dung is not sold at the market');
+    }
+
+    public function testOnlyMarketableProductsAreRequested(): void
+    {
+        $this->state['level'] = 200;
+        $this->state['cash'] = 100_000_000;
+        $this->state['materials']['mallets'] = 100;
+        $this->state['expansions'] = 16;
+        foreach (['windmill' => [6, 4], 'silo' => [8, 4], 'composter' => [10, 4], 'dairy' => [6, 6], 'beehive' => [8, 6], 'apple_orchard' => [10, 6]] as $type => [$x, $y]) {
+            $this->act('build', ['type' => $type, 'x' => $x, 'y' => $y]);
+        }
+
+        $eligible = (new Market($this->data))->eligibleItems(new Farm($this->state, $this->data));
+
+        foreach (['chicken_feed', 'fertilizer', 'humus', 'leaves', 'nectar', 'dung', 'cream', 'butter'] as $never) {
+            self::assertNotContains($never, $eligible);
+        }
+        foreach (['apple', 'forest_honey', 'flower_honey', 'barley'] as $sold) {
+            self::assertContains($sold, $eligible);
+        }
     }
 
     public function testFulfillPaysAndRefillsTheSlot(): void

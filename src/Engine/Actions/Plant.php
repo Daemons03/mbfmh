@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FermeTranquille\Engine\Actions;
 
 use FermeTranquille\Engine\Clock;
+use FermeTranquille\Engine\Crop;
 use FermeTranquille\Engine\Farm;
 use FermeTranquille\Engine\GameError;
 use FermeTranquille\Engine\Payload;
@@ -42,7 +43,13 @@ final class Plant implements Action
             $farm->removeFromBarn('humus', 1);
         }
 
-        $field['job'] = ['product' => $cropId, 'started_at' => $clock->now, 'duration' => $crop['duration']];
+        $field['job'] = [
+            'product' => $cropId,
+            'started_at' => $clock->now,
+            'duration' => $crop['duration'],
+            // Fixed at planting, like production jobs.
+            'outputs' => Crop::harvest($farm->data, $cropId, $field['level'], $humus),
+        ];
         if ($humus) {
             $field['job']['humus'] = true;
         }
