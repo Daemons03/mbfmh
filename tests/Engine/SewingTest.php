@@ -71,11 +71,13 @@ final class SewingTest extends EngineTestCase
                 self::assertGreaterThanOrEqual(10, $quantity);
                 self::assertLessThanOrEqual(20, $quantity);
                 self::assertNotEmpty(array_intersect_key($contract['reward']['materials'], array_flip($bonus['materials'])), $item);
-                $seen[str_starts_with($item, 'green') || str_starts_with($item, 'purple') ? 'buckets' : 'tools'] = true;
+                $expected = str_starts_with($item, 'green') || str_starts_with($item, 'purple') ? 'buckets' : 'mallets';
+                self::assertArrayHasKey($expected, $contract['reward']['materials'], $item);
+                $seen[$expected] = true;
             }
         }
 
         self::assertArrayHasKey('buckets', $seen, 'green/purple goods bring buckets');
-        self::assertArrayHasKey('tools', $seen, 'light/red goods bring mallets, nails or saws');
+        self::assertArrayHasKey('mallets', $seen, 'light/red goods bring mallets');
     }
 }

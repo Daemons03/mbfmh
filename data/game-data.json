@@ -1474,7 +1474,7 @@
       "name": "Coussins clairs",
       "emoji": "🛋️🤍",
       "category": "goods",
-      "unlock_level": 100,
+      "unlock_level": 31,
       "barn_price": 60,
       "market_price": 90,
       "marketable": true,
@@ -1484,9 +1484,7 @@
       ],
       "contract_bonus": {
         "materials": [
-          "mallets",
-          "nails",
-          "saws"
+          "mallets"
         ],
         "quantity": [
           1,
@@ -1500,7 +1498,7 @@
       "name": "Chaussons lapins clairs",
       "emoji": "🥿🤍",
       "category": "goods",
-      "unlock_level": 100,
+      "unlock_level": 31,
       "barn_price": 468,
       "market_price": 702,
       "marketable": true,
@@ -1510,9 +1508,7 @@
       ],
       "contract_bonus": {
         "materials": [
-          "mallets",
-          "nails",
-          "saws"
+          "mallets"
         ],
         "quantity": [
           1,
@@ -1526,7 +1522,7 @@
       "name": "Bonnet clair",
       "emoji": "🧢🤍",
       "category": "goods",
-      "unlock_level": 100,
+      "unlock_level": 31,
       "barn_price": 300,
       "market_price": 450,
       "marketable": true,
@@ -1536,9 +1532,7 @@
       ],
       "contract_bonus": {
         "materials": [
-          "mallets",
-          "nails",
-          "saws"
+          "mallets"
         ],
         "quantity": [
           1,
@@ -1552,7 +1546,7 @@
       "name": "Chaussettes claires",
       "emoji": "🧦🤍",
       "category": "goods",
-      "unlock_level": 100,
+      "unlock_level": 31,
       "barn_price": 360,
       "market_price": 540,
       "marketable": true,
@@ -1562,9 +1556,7 @@
       ],
       "contract_bonus": {
         "materials": [
-          "mallets",
-          "nails",
-          "saws"
+          "mallets"
         ],
         "quantity": [
           1,
@@ -1578,7 +1570,7 @@
       "name": "Pull clair",
       "emoji": "🧥🤍",
       "category": "goods",
-      "unlock_level": 100,
+      "unlock_level": 31,
       "barn_price": 420,
       "market_price": 630,
       "marketable": true,
@@ -1588,9 +1580,7 @@
       ],
       "contract_bonus": {
         "materials": [
-          "mallets",
-          "nails",
-          "saws"
+          "mallets"
         ],
         "quantity": [
           1,
@@ -1614,9 +1604,7 @@
       ],
       "contract_bonus": {
         "materials": [
-          "mallets",
-          "nails",
-          "saws"
+          "mallets"
         ],
         "quantity": [
           1,
@@ -1640,9 +1628,7 @@
       ],
       "contract_bonus": {
         "materials": [
-          "mallets",
-          "nails",
-          "saws"
+          "mallets"
         ],
         "quantity": [
           1,
@@ -1666,9 +1652,7 @@
       ],
       "contract_bonus": {
         "materials": [
-          "mallets",
-          "nails",
-          "saws"
+          "mallets"
         ],
         "quantity": [
           1,
@@ -1692,9 +1676,7 @@
       ],
       "contract_bonus": {
         "materials": [
-          "mallets",
-          "nails",
-          "saws"
+          "mallets"
         ],
         "quantity": [
           1,
@@ -1718,9 +1700,7 @@
       ],
       "contract_bonus": {
         "materials": [
-          "mallets",
-          "nails",
-          "saws"
+          "mallets"
         ],
         "quantity": [
           1,
@@ -13164,7 +13144,7 @@
       "max_count": 1,
       "production": {
         "mode": "instant",
-        "_note": "Ingrédients relevés (captures) ; fabrication instantanée (pas de durée affichée). XP, coût de construction et niveau requis estimés."
+        "_note": "Ingrédients relevés (captures) ; fabrication instantanée. Débloqué au niveau 31 comme la cabane à canards (joueur). XP et coût de construction estimés."
       },
       "_estimated_fields": [
         "size",
@@ -13173,7 +13153,7 @@
       "levels": [
         {
           "level": 1,
-          "unlock_level": 100,
+          "unlock_level": 31,
           "cost": {
             "cash": 2500000
           },

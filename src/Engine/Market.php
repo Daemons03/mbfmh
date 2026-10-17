@@ -65,7 +65,7 @@ final readonly class Market
             $items[$item] = $quantity;
             $cash += $quantity * $definition['market_price'];
 
-            // Crafted goods (sewing) always bring materials, more for bigger orders.
+            // Crafted goods (sewing) always bring extra materials (mallets or buckets), more for bigger orders.
             if (isset($definition['contract_bonus'])) {
                 $materials = $definition['contract_bonus']['materials'];
                 [$min, $max] = $definition['contract_bonus']['quantity'];
@@ -78,12 +78,14 @@ final readonly class Market
         $reward = ['cash' => (int) round($cash)];
         $reward['xp'] = max(1, (int) round($reward['cash'] * $market['xp_per_cash']));
         $materialReward = $market['material_reward'];
-        if ($bonus !== []) {
-            $reward['materials'] = $bonus;
-        } elseif ($random->nextFloat() < $materialReward['chance']) {
+        // The usual random bonus (boards, nails, saws) can come on top of it.
+        if ($random->nextFloat() < $materialReward['chance']) {
             $materials = $materialReward['materials'];
             $material = $materials[$random->getInt(0, count($materials) - 1)];
-            $reward['materials'] = [$material => $random->getInt(...$materialReward['quantity'])];
+            $bonus[$material] = ($bonus[$material] ?? 0) + $random->getInt(...$materialReward['quantity']);
+        }
+        if ($bonus !== []) {
+            $reward['materials'] = $bonus;
         }
 
         $contract = ['id' => 'c' . $number, 'items' => $items, 'reward' => $reward];
