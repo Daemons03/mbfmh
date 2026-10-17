@@ -11,7 +11,7 @@ export function renderTopbar() {
         .filter(([, quantity]) => quantity > 0)
         .map(([id, quantity]) => h('span', { title: data.materials[id]?.name ?? id }, `${data.materials[id]?.emoji ?? id} ${fmtInt(quantity)}`));
 
-    const barnFull = view.barn.used >= view.barn.capacity;
+    const barnFull = view.barn.full.length > 0;
 
     const children = [
         h('div', { class: 'level' },
@@ -23,8 +23,11 @@ export function renderTopbar() {
         h('div', { class: 'wallet' },
             h('span', { class: 'res', title: data.currencies.cash.name }, `${data.currencies.cash.emoji} ${fmtInt(state.cash)}`),
             h('span', { class: 'res', title: data.currencies.gold.name }, `${data.currencies.gold.emoji} ${fmtInt(state.gold)}`),
-            h('span', { class: 'res', title: 'Grange', style: barnFull ? { color: 'var(--danger)' } : {} },
-                `🛖 ${fmtInt(view.barn.used)}/${fmtInt(view.barn.capacity)}`),
+            h('span', {
+                class: 'res',
+                title: barnFull ? 'Grange : un produit est plein' : 'Grange : capacité par produit',
+                style: barnFull ? { color: 'var(--danger)' } : {},
+            }, `🛖 ${fmtInt(view.barn.capacity)}`),
         ),
     ];
     if (materials.length) children.push(h('div', { class: 'materials' }, materials));

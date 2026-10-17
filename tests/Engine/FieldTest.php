@@ -122,27 +122,37 @@ final class FieldTest extends EngineTestCase
         self::assertSame(['corn' => 10], $this->state['barn']['items']);
     }
 
-    public function testHarvestRefusedWhenBarnFull(): void
+    public function testHarvestRefusedWhenThatProductIsFull(): void
     {
-        $this->state['barn']['items'] = ['wildflower' => 195];
+        $this->state['barn']['items'] = ['corn' => 195];
         $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
 
         $error = $this->assertGameError('barn_full', 'harvest', ['id' => 'b2'], 300);
 
-        self::assertSame(['free' => 5, 'needed' => 10], $error->details);
+        self::assertSame(['item' => 'corn', 'free' => 5, 'needed' => 10], $error->details);
         self::assertArrayHasKey('job', $this->building('b2'), 'crop stays in the field');
     }
 
-    public function testHarvestCanFillBarnExactly(): void
+    public function testCapacityIsPerProduct(): void
     {
-        $this->state['barn']['items'] = ['wildflower' => 190];
+        $this->state['barn']['items'] = ['wildflower' => 200, 'cabbage' => 200];
+        $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
+
+        $this->act('harvest', ['id' => 'b2'], 300);
+
+        self::assertSame(['wildflower' => 200, 'cabbage' => 200, 'corn' => 10], $this->state['barn']['items']);
+    }
+
+    public function testHarvestCanFillAProductExactly(): void
+    {
+        $this->state['barn']['items'] = ['corn' => 190];
         $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
         $this->act('plant', ['id' => 'b3', 'crop' => 'corn']);
 
         $this->act('harvest', ['id' => 'b2'], 300);
-        self::assertSame(200, array_sum($this->state['barn']['items']));
+        self::assertSame(['corn' => 200], $this->state['barn']['items']);
 
-        $this->state['barn']['items']['wildflower'] = 191 - 10;
+        $this->state['barn']['items']['corn'] = 191;
         $this->assertGameError('barn_full', 'harvest', ['id' => 'b3'], 300);
     }
 

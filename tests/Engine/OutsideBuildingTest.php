@@ -20,12 +20,12 @@ final class OutsideBuildingTest extends EngineTestCase
     {
         $this->state['level'] = 13;
         $this->act('build', ['type' => 'external_barn']);
-        $this->state['barn']['items'] = ['wildflower' => 240];
+        $this->state['barn']['items'] = ['corn' => 240];
 
         $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
         $this->act('harvest', ['id' => 'b2'], 300);
 
-        self::assertSame(250, array_sum($this->state['barn']['items']), '200 barn + 50 external barn');
+        self::assertSame(['corn' => 250], $this->state['barn']['items'], '200 barn + 50 external barn');
     }
 
     public function testOutsideBuildingsDoNotBlockTheGrid(): void

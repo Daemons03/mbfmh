@@ -113,7 +113,7 @@ Opérations admin : `set_resources` (cash, or, matériaux, objets de grange), `s
 ## Règles de jeu V1
 
 - **Champs** : construits sur la grille, on y plante une culture (coût par production), récolte → grange + XP.
-- **Grange** : capacité limitée (améliorable), vente directe au prix « grange ».
+- **Grange** : capacité limitée **par produit** (ex. 200 fleurs ET 200 maïs à la fois ; la grange extérieure s'ajoute), améliorable, vente directe au prix « grange ».
 - **Marché** : 6 contrats visibles, chacun demande 1 à 3 produits débloqués, récompense cash + XP + parfois matériaux (planches, clous, scies). Un contrat jeté est remplacé après un délai. Les prix suivent la colonne « marché » des données.
 - **Bâtiments de production** : consomment des ingrédients, produisent après une durée (ex. moulin à grain → aliment pour poules ; poulailler → œufs).
 - **Extensions** : coût cash ou or + niveau minimum, débloquent un bloc de grille.

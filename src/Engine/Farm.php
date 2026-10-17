@@ -183,11 +183,9 @@ final class Farm
         return $this->barnItems()[$item] ?? 0;
     }
 
-    public function barnUsed(): int
-    {
-        return array_sum($this->barnItems());
-    }
-
+    /**
+     * Capacity applies to each product separately (200 corn and 200 wheat fit together).
+     */
     public function barnCapacity(): int
     {
         $capacity = 0;
@@ -199,14 +197,33 @@ final class Farm
     }
 
     /**
+     * @return list<string> products stored at full capacity
+     */
+    public function barnFullItems(): array
+    {
+        $capacity = $this->barnCapacity();
+
+        return array_keys(array_filter($this->barnItems(), static fn (int $quantity): bool => $quantity >= $capacity));
+    }
+
+    /**
+     * All or nothing: refused if any product would exceed the capacity.
+     *
      * @param array<string, int> $items
      */
     public function addToBarn(array $items): void
     {
-        $free = $this->barnCapacity() - $this->barnUsed();
-        $incoming = array_sum($items);
-        if ($incoming > $free) {
-            throw new GameError('barn_full', 'La grange est pleine.', ['free' => max(0, $free), 'needed' => $incoming]);
+        $capacity = $this->barnCapacity();
+        foreach ($items as $item => $quantity) {
+            $free = $capacity - $this->barnQuantity($item);
+            if ($quantity > $free) {
+                $name = $this->data->item($item)['name'];
+                throw new GameError('barn_full', "Plus de place dans la grange pour : {$name}.", [
+                    'item' => $item,
+                    'free' => max(0, $free),
+                    'needed' => $quantity,
+                ]);
+            }
         }
 
         $stock = $this->barnItems();

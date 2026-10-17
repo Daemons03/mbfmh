@@ -91,12 +91,20 @@ function plantList(field) {
 }
 
 export function barnMeter() {
-    const { used, capacity } = store.view.barn;
-    const percent = capacity > 0 ? Math.min(100, (used / capacity) * 100) : 100;
+    const { capacity, full } = store.view.barn;
+    const names = full.map((id) => `${store.data.items[id].emoji} ${store.data.items[id].name}`);
 
     return h('div', {},
-        h('p', { class: 'status' }, 'Grange : ', h('strong', {}, `${fmtInt(used)} / ${fmtInt(capacity)}`), ' places'),
-        h('div', { class: `meter${used >= capacity ? ' full' : ''}` }, h('div', { style: { width: `${percent}%` } })));
+        h('p', { class: 'status' }, 'Capacité : ', h('strong', {}, fmtInt(capacity)), ' par produit'),
+        names.length ? h('p', { class: 'row-sub', style: { color: 'var(--danger)' } }, `Plein : ${names.join(', ')}`) : null);
+}
+
+/** Per-product fill bar. */
+export function itemMeter(quantity) {
+    const { capacity } = store.view.barn;
+    const percent = capacity > 0 ? Math.min(100, (quantity / capacity) * 100) : 100;
+
+    return h('div', { class: `meter${quantity >= capacity ? ' full' : ''}` }, h('div', { style: { width: `${percent}%` } }));
 }
 
 /** Row offering the next level, with the reason when it is not possible. */

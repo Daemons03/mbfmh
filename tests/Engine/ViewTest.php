@@ -10,7 +10,7 @@ final class ViewTest extends EngineTestCase
     {
         $view = $this->decode($this->engine->view($this->state, self::NOW));
 
-        self::assertSame(['used' => 0, 'capacity' => 200], $view['barn']);
+        self::assertSame(['capacity' => 200, 'full' => []], $view['barn']);
         self::assertSame([
             'side' => 12,
             'block_size' => 4,
@@ -35,7 +35,7 @@ final class ViewTest extends EngineTestCase
     public function testViewGivesJobReadyTimeWithSpeed(): void
     {
         $this->state['settings']['speed'] = 2;
-        $this->state['barn']['items'] = ['corn' => 15];
+        $this->state['barn']['items'] = ['corn' => 15, 'wildflower' => 200];
         $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
 
         $before = $this->decode($this->engine->view($this->state, self::NOW + 149));
@@ -43,6 +43,6 @@ final class ViewTest extends EngineTestCase
 
         self::assertSame(['ready_at' => self::NOW + 150, 'ready' => false], $before['jobs']['b2']);
         self::assertTrue($after['jobs']['b2']['ready']);
-        self::assertSame(15, $after['barn']['used']);
+        self::assertSame(['wildflower'], $after['barn']['full']);
     }
 }

@@ -38,16 +38,16 @@ final class BarnTest extends EngineTestCase
 
     public function testUpgradeBarnRaisesCapacity(): void
     {
-        $this->state['barn']['items'] = ['wildflower' => 195];
+        $this->state['barn']['items'] = ['corn' => 195];
         $this->act('upgrade', ['id' => 'b1']);
 
         self::assertSame(2, $this->building('b1')['level']);
         self::assertSame(2000 - 200, $this->state['cash']);
 
-        // 250 capacity now: a 10-unit harvest fits.
+        // 250 per product now: 195 + 10 corn fits.
         $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
         $this->act('harvest', ['id' => 'b2'], 300);
-        self::assertSame(205, array_sum($this->state['barn']['items']));
+        self::assertSame(['corn' => 205], $this->state['barn']['items']);
     }
 
     public function testUpgradeRules(): void

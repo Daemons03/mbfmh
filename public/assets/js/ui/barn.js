@@ -2,7 +2,7 @@ import { perform } from '../actions.js';
 import { h } from '../dom.js';
 import { fmtInt, fmtNumber } from '../format.js';
 import { store } from '../store.js';
-import { barnMeter, upgradeRow } from './building.js';
+import { barnMeter, itemMeter, upgradeRow } from './building.js';
 
 export function barnPanel() {
     return {
@@ -33,8 +33,9 @@ function itemRow(id, quantity) {
     return h('div', { class: 'row' },
         h('span', { class: 'row-emoji' }, item.emoji),
         h('div', { class: 'row-main' },
-            h('div', { class: 'row-title' }, `${item.name} × ${fmtInt(quantity)}`),
-            h('div', { class: 'row-sub' }, `${fmtNumber(item.barn_price)} ${store.data.currencies.cash.emoji} l'unité`)),
+            h('div', { class: 'row-title' }, item.name),
+            h('div', { class: 'row-sub' }, `${fmtInt(quantity)} / ${fmtInt(store.view.barn.capacity)} · ${fmtNumber(item.barn_price)} ${store.data.currencies.cash.emoji} l'unité`),
+            itemMeter(quantity)),
         h('div', { class: 'row-actions' },
             h('button', {
                 type: 'button',

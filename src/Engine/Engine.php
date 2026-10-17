@@ -92,7 +92,7 @@ final class Engine
         }
 
         return [
-            'barn' => ['used' => $farm->barnUsed(), 'capacity' => $farm->barnCapacity()],
+            'barn' => ['capacity' => $farm->barnCapacity(), 'full' => $farm->barnFullItems()],
             'grid' => [
                 'side' => (new Land($this->data->blockSize()))->gridSide($expansions),
                 'block_size' => $this->data->blockSize(),
