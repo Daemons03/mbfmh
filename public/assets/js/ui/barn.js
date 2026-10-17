@@ -30,7 +30,7 @@ function itemRow(id, quantity) {
     const item = store.data.items[id];
     const total = Math.floor(quantity * item.barn_price);
 
-    return h('div', { class: 'row' },
+    return h('div', { class: 'row stack' },
         h('span', { class: 'row-emoji' }, item.emoji),
         h('div', { class: 'row-main' },
             h('div', { class: 'row-title' }, item.name),

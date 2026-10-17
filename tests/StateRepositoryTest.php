@@ -34,6 +34,7 @@ final class StateRepositoryTest extends TestCase
 
         self::assertSame(1, $loaded['version']);
         self::assertSame(2000, $loaded['state']['cash']);
+        self::assertCount(6, $loaded['state']['contracts'], 'market filled at creation');
         self::assertSame(1, (int) $this->pdo->query('SELECT COUNT(*) FROM player_state')->fetchColumn());
 
         self::assertSame(json_encode($loaded), json_encode($this->repo->load(self::USER)), 'second load reads the same row');

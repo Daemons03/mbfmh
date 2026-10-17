@@ -232,6 +232,36 @@ final class ApiTest extends TestCase
         }
     }
 
+    public function testGetStatePersistsResolvedMarketForLegacyFarms(): void
+    {
+        $this->login();
+        ['state' => $state] = $this->states->load(1);
+        unset($state['contracts'], $state['market_seed'], $state['next_contract']);
+        $this->states->save(1, $state, 1);
+
+        $response = $this->api->handle('GET', 'state', [], null);
+
+        self::assertSame(3, $response->body['version'], 'migration saved');
+        self::assertCount(6, $this->states->load(1)['state']['contracts']);
+        self::assertSame(3, $this->api->handle('GET', 'state', [], null)->body['version'], 'no write when up to date');
+    }
+
+    public function testMarketFlowThroughApi(): void
+    {
+        $this->login();
+        $state = $this->api->handle('GET', 'state', [], null)->body['state'];
+        $contract = $state['contracts'][0];
+
+        $discard = $this->action('discard_contract', ['id' => $contract['id']], 1);
+        self::assertSame(200, $discard->status);
+        $waitingId = $discard->body['state']['contracts'][0]['id'];
+        self::assertFalse($discard->body['view']['contracts']->{$waitingId}['available']);
+
+        $early = $this->action('fulfill_contract', ['id' => $waitingId], 2);
+        self::assertSame(422, $early->status);
+        self::assertSame('contract_waiting', $early->body['error']);
+    }
+
     private function login(): void
     {
         $this->api->handle('POST', 'login', ['login' => 'maxime', 'password' => 'secret-pass'], $this->csrf());

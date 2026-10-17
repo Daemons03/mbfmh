@@ -112,6 +112,17 @@ final class Api
     {
         ['state' => $state, 'version' => $version] = $this->states->load($userId);
 
+        // Persist what time alone changes (e.g. empty market slots on a new farm).
+        $resolved = $this->engine->resolve($state, ($this->now)());
+        if (json_encode($resolved) !== json_encode($state)) {
+            try {
+                $version = $this->states->save($userId, $resolved, $version);
+                $state = $resolved;
+            } catch (StaleStateException) {
+                ['state' => $state, 'version' => $version] = $this->states->load($userId);
+            }
+        }
+
         return $this->ok($this->stateBody($state, $version));
     }
 

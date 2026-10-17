@@ -21,6 +21,8 @@ final class Engine
         'harvest' => Actions\Harvest::class,
         'sell_barn' => Actions\SellBarn::class,
         'upgrade' => Actions\Upgrade::class,
+        'fulfill_contract' => Actions\FulfillContract::class,
+        'discard_contract' => Actions\DiscardContract::class,
     ];
 
     public function __construct(private readonly GameData $data)
@@ -47,7 +49,24 @@ final class Engine
             ?? throw new GameError('unknown_action', 'Action inconnue.', ['type' => $type]);
 
         $farm = new Farm($state, $this->data);
-        (new $actionClass())->apply($farm, new Payload($payload), new Clock($now, $farm->speed()));
+        $clock = new Clock($now, $farm->speed());
+        (new Market($this->data))->resolve($farm, $clock);
+        (new $actionClass())->apply($farm, new Payload($payload), $clock);
+
+        return $farm->toArray();
+    }
+
+    /**
+     * Brings a stored state up to date without any player action (fills
+     * market slots). Returns the state unchanged when nothing was needed.
+     *
+     * @param array<string, mixed> $state
+     * @return array<string, mixed>
+     */
+    public function resolve(array $state, int $now): array
+    {
+        $farm = new Farm($state, $this->data);
+        (new Market($this->data))->resolve($farm, new Clock($now, $farm->speed()));
 
         return $farm->toArray();
     }
@@ -91,6 +110,16 @@ final class Engine
             $owned[] = Land::blockPosition($n);
         }
 
+        $contracts = [];
+        foreach ($farm->contracts() as $contract) {
+            if (isset($contract['wait'])) {
+                $contracts[$contract['id']] = [
+                    'available_at' => $clock->readyAt($contract['wait']),
+                    'available' => $clock->isReady($contract['wait']),
+                ];
+            }
+        }
+
         return [
             'barn' => ['capacity' => $farm->barnCapacity(), 'full' => $farm->barnFullItems()],
             'grid' => [
@@ -101,6 +130,7 @@ final class Engine
             ],
             'xp_needed' => $this->data->xpForLevel($farm->level()),
             'jobs' => (object) $jobs,
+            'contracts' => (object) $contracts,
         ];
     }
 

@@ -79,12 +79,18 @@ L'état complet de la ferme est un document JSON (`state_json`). `version` est i
       "job": { "product": "corn", "started_at": 1760000000, "duration": 300 } }
   ],
   "next_id": 3,
-  "contracts": [],
+  "contracts": [
+    { "id": "c1", "items": { "corn": 12 }, "reward": { "cash": 90, "xp": 9, "materials": { "nails": 2 } } },
+    { "id": "c7", "items": { "wildflower": 8 }, "reward": { "cash": 10, "xp": 1 },
+      "wait": { "started_at": 1760000000, "duration": 600 } }
+  ],
+  "market_seed": "27ea97fcb04b5d0b", "next_contract": 8,
   "settings": { "speed": 1 }
 }
 ```
 
 - La grange est un bâtiment de la grille ; sa capacité vient de son niveau (`game-data.json`), elle n'est pas stockée.
+- Contrats tirés de façon déterministe : contrat n = graine `sha256(market_seed:n)` (recharger ne relance pas le tirage). `wait` = contrat de remplacement après « jeter », utilisable quand `now >= started_at + duration / speed`.
 - `xp` = progression dans le niveau courant. `next_id` ne recule jamais (ids jamais réutilisés).
 - La grille est découpée en blocs d'extension (4×4 cases), numérotés en carré croissant (voir `Engine/Land.php`) ; posséder `n` extensions = posséder les blocs 1..n. La taille de grille affichée en découle (plus petit carré contenant le prochain bloc achetable). Les blocs non achetés sont verrouillés.
 
@@ -114,7 +120,7 @@ Opérations admin : `set_resources` (cash, or, matériaux, objets de grange), `s
 
 - **Champs** : construits sur la grille, on y plante une culture (coût par production), récolte → grange + XP.
 - **Grange** : capacité limitée **par produit** (ex. 200 fleurs ET 200 maïs à la fois ; la grange extérieure s'ajoute), améliorable, vente directe au prix « grange ».
-- **Marché** : 6 contrats visibles, chacun demande 1 à 3 produits débloqués, récompense cash + XP + parfois matériaux (planches, clous, scies). Un contrat jeté est remplacé après un délai. Les prix suivent la colonne « marché » des données.
+- **Marché** : 6 contrats visibles, chacun demande 1 à 3 produits que le joueur peut fournir (cultures débloquées + produits des bâtiments de production possédés), récompense cash + XP + parfois matériaux (planches, clous, scies). Un contrat jeté est remplacé après un délai. Les prix suivent la colonne « marché » des données.
 - **Bâtiments de production** : consomment des ingrédients, produisent après une durée (ex. moulin à grain → aliment pour poules ; poulailler → œufs).
 - **Extensions** : coût cash ou or + niveau minimum, débloquent un bloc de grille.
 - **Niveaux** : courbe d'XP dans les données, débloque cultures/bâtiments.

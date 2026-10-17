@@ -44,7 +44,7 @@ final class StateRepository
             return $row;
         }
 
-        $state = $this->engine->newState();
+        $state = $this->engine->resolve($this->engine->newState(), ($this->now)());
         try {
             $this->pdo->prepare('INSERT INTO player_state (user_id, state_json, version) VALUES (?, ?, 1)')
                 ->execute([$userId, self::encode($state)]);

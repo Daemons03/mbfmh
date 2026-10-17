@@ -6,6 +6,7 @@ import { applyResponse, buildingById, definition, jobStatus, notify, serverNow, 
 import { barnPanel } from './ui/barn.js';
 import { buildPanel } from './ui/build.js';
 import { buildingPanel } from './ui/building.js';
+import { canFulfill, marketPanel } from './ui/market.js';
 import { closeSheet, initSheet, openSheet, refreshSheet } from './ui/sheet.js';
 import { soonPanel } from './ui/soon.js';
 import { toast } from './ui/toast.js';
@@ -55,6 +56,14 @@ function startPlacement(type) {
 
 function startMove(id) {
     setMode({ kind: 'move', id });
+}
+
+/** Badge on the market tab: contracts deliverable right now. */
+function renderTabBadges() {
+    const ready = store.state.contracts.filter(canFulfill).length;
+    const button = $('#tabs [data-tab=market]');
+    button.querySelector('.tab-badge')?.remove();
+    if (ready > 0) button.append(h('span', { class: 'tab-badge', 'aria-label': `${ready} contrat(s) livrable(s)` }, ready));
 }
 
 function renderModeBanner() {
@@ -131,7 +140,7 @@ function openTab(tab) {
     const panels = {
         build: () => buildPanel({ startPlacement }),
         barn: () => barnPanel(),
-        market: () => soonPanel('🏪 Marché', 'Les contrats du marché arrivent bientôt.'),
+        market: () => marketPanel(),
         land: () => soonPanel('🗺️ Terrain', 'L\'achat d\'extensions arrive bientôt.'),
         admin: () => soonPanel('⚙️ Admin', 'Le panneau admin arrive bientôt.', () => h('div', { class: 'actions' },
             h('button', { type: 'button', class: 'btn btn-danger', onclick: logout }, 'Se déconnecter'))),
@@ -210,6 +219,7 @@ function wire() {
         renderTopbar();
         renderGrid();
         renderModeBanner();
+        renderTabBadges();
         refreshSheet();
     });
     setUnauthenticatedHandler(() => showLogin('Session expirée, reconnectez-vous.'));

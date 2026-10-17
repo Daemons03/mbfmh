@@ -251,6 +251,77 @@ final class Farm
         $this->state['barn']['items'] = $stock;
     }
 
+    // ------------------------------------------------------------ market
+
+    /**
+     * @return list<array<string, mixed>>
+     */
+    public function contracts(): array
+    {
+        return $this->state['contracts'] ?? [];
+    }
+
+    /**
+     * @return array{int, array<string, mixed>} [slot index, contract]
+     */
+    public function contract(string $id): array
+    {
+        foreach ($this->contracts() as $index => $contract) {
+            if ($contract['id'] === $id) {
+                return [$index, $contract];
+            }
+        }
+
+        throw new GameError('unknown_contract', 'Contrat introuvable.', ['id' => $id]);
+    }
+
+    /**
+     * @param array<string, mixed> $contract
+     */
+    public function addContract(array $contract): void
+    {
+        $this->state['contracts'][] = $contract;
+    }
+
+    /**
+     * @param array<string, mixed> $contract
+     */
+    public function replaceContract(int $index, array $contract): void
+    {
+        $this->state['contracts'][$index] = $contract;
+    }
+
+    /**
+     * Seed of the contract generator, created on first use.
+     */
+    public function marketSeed(int $now): string
+    {
+        return $this->state['market_seed'] ??= substr(hash('sha256', "market:{$now}"), 0, 16);
+    }
+
+    public function takeContractNumber(): int
+    {
+        $this->state['next_contract'] ??= 1;
+
+        return $this->state['next_contract']++;
+    }
+
+    /**
+     * @param array<string, int> $items
+     */
+    public function assertBarnHas(array $items): void
+    {
+        $missing = [];
+        foreach ($items as $item => $quantity) {
+            if ($this->barnQuantity($item) < $quantity) {
+                $missing[$item] = $quantity - $this->barnQuantity($item);
+            }
+        }
+        if ($missing !== []) {
+            throw new GameError('not_enough_items', 'Il manque des produits dans la grange.', ['missing' => $missing]);
+        }
+    }
+
     // ------------------------------------------------------------ buildings
 
     /**

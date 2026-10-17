@@ -159,6 +159,9 @@ button { font: inherit; color: inherit; }
 .xp-bar > div { height: 100%; background: var(--xp); transition: width 0.4s; }
 .xp-text { font-size: 12px; color: var(--muted); white-space: nowrap; }
 .wallet { display: flex; gap: 10px; flex-wrap: wrap; }
+@media (max-width: 599px) {
+    .level { flex-basis: 100%; }
+}
 .res { font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .materials {
     flex-basis: 100%;
@@ -207,6 +210,13 @@ button { font: inherit; color: inherit; }
 }
 .tabs button span { font-size: 22px; }
 .tabs button[aria-current="true"] { color: var(--accent); font-weight: 600; }
+.tabs button { position: relative; }
+.tab-badge {
+    position: absolute; top: 4px; left: calc(50% + 8px);
+    min-width: 18px; height: 18px; padding: 0 5px;
+    border-radius: 999px; background: var(--danger); color: #fff;
+    font-size: 11px; font-weight: 700; line-height: 18px;
+}
 
 /* ------------------------------------------------------------ grid */
 
@@ -312,6 +322,11 @@ button { font: inherit; color: inherit; }
     background: var(--surface-2);
 }
 .row.disabled { opacity: 0.55; }
+/* Rows with several buttons: buttons go below the text on narrow screens. */
+@media (max-width: 519px) {
+    .row.stack { grid-template-columns: auto 1fr; }
+    .row.stack .row-actions { grid-column: 1 / -1; }
+}
 .row-emoji { font-size: 28px; width: 36px; text-align: center; }
 .row-main { min-width: 0; }
 .row-title { font-weight: 600; }
@@ -322,6 +337,24 @@ button { font: inherit; color: inherit; }
 .meter { height: 10px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); overflow: hidden; }
 .meter > div { height: 100%; background: var(--accent); }
 .meter.full > div { background: var(--danger); }
+
+/* ------------------------------------------------------------ market */
+
+.contract {
+    display: grid; gap: 10px;
+    padding: 12px; border: 1px solid var(--border); border-radius: 12px;
+    background: var(--surface-2);
+}
+.contract.waiting { min-height: 64px; align-content: center; text-align: center; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+    padding: 4px 10px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.chip.missing { color: var(--danger); border-color: var(--danger); }
+.contract-foot { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.reward { font-size: 14px; font-weight: 600; }
 
 /* ------------------------------------------------------------ toasts */
 
