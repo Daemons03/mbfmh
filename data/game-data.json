@@ -4936,7 +4936,7 @@
           }
         }
       ],
-      "_note": "Fonctionnement prévu en V2. Niveaux > 1 : niveau requis inconnu, on reprend celui du déblocage."
+      "_note": "Le niveau du café débloque les recettes (cafe.recipes.*.cafe_level). Niveaux > 1 : niveau requis inconnu, on reprend celui du déblocage."
     },
     "manufactory": {
       "name": "Fabrique artisanale",
@@ -25171,5 +25171,323 @@
       ]
     ],
     "_note": "Multiplie le cash des productions (champs, animaux, vergers, usines). Points relevés par le joueur, interpolés."
+  },
+  "cafe": {
+    "building": "cafe",
+    "star_thresholds": [
+      3,
+      18,
+      58,
+      158,
+      358,
+      758,
+      1458
+    ],
+    "star_cash_bonus": 0.01,
+    "star_points_factor": 1.1,
+    "favourite_factor": 2,
+    "xp_per_point": 0.5,
+    "milestones": [
+      {
+        "points": 190,
+        "reward": {
+          "cash": 90000
+        }
+      },
+      {
+        "points": 760,
+        "reward": {
+          "keys": 9
+        }
+      },
+      {
+        "points": 1520,
+        "reward": {
+          "cash": 180000
+        }
+      },
+      {
+        "points": 2280,
+        "reward": {
+          "cash": 450000
+        }
+      },
+      {
+        "points": 3420,
+        "reward": {
+          "keys": 22
+        }
+      },
+      {
+        "points": 4560,
+        "reward": {
+          "mallets": 30
+        }
+      }
+    ],
+    "groups": [
+      {
+        "id": "children",
+        "name": "Enfants",
+        "emoji": "🧒",
+        "favourites": [
+          "hot_chocolate",
+          "pancakes",
+          "vanilla_ice_cream"
+        ]
+      },
+      {
+        "id": "athletes",
+        "name": "Sportifs",
+        "emoji": "🏃",
+        "favourites": [
+          "fruit_salad",
+          "scrambled_eggs",
+          "cherry_yoghurt_bowl"
+        ]
+      },
+      {
+        "id": "gourmets",
+        "name": "Gourmets",
+        "emoji": "🎩",
+        "favourites": [
+          "cheese_fondue",
+          "cheese_platter",
+          "millefeuille"
+        ]
+      },
+      {
+        "id": "hikers",
+        "name": "Randonneurs",
+        "emoji": "🥾",
+        "favourites": [
+          "jam_toast",
+          "honey_milk",
+          "jasmine_tea"
+        ]
+      },
+      {
+        "id": "students",
+        "name": "Étudiants",
+        "emoji": "🎒",
+        "favourites": [
+          "hot_chocolate",
+          "jam_toast",
+          "pancakes"
+        ]
+      },
+      {
+        "id": "families",
+        "name": "Familles",
+        "emoji": "👨‍👩‍👧",
+        "favourites": [
+          "vanilla_cake",
+          "cherry_pie",
+          "fruit_salad"
+        ]
+      },
+      {
+        "id": "artists",
+        "name": "Artistes",
+        "emoji": "🎨",
+        "favourites": [
+          "panna_cotta",
+          "chocolate_truffles",
+          "jasmine_tea"
+        ]
+      }
+    ],
+    "recipes": {
+      "scrambled_eggs": {
+        "name": "Œufs brouillés",
+        "emoji": "🍳",
+        "cafe_level": 1,
+        "inputs": {
+          "egg": 40,
+          "butter": 5
+        },
+        "cash": 3000,
+        "points": 60
+      },
+      "honey_milk": {
+        "name": "Lait chaud au miel",
+        "emoji": "🥛",
+        "cafe_level": 1,
+        "inputs": {
+          "milk": 60,
+          "forest_honey": 5
+        },
+        "cash": 3000,
+        "points": 60
+      },
+      "fruit_salad": {
+        "name": "Salade de fruits",
+        "emoji": "🥗",
+        "cafe_level": 1,
+        "inputs": {
+          "apple": 40,
+          "cherry": 30,
+          "peach": 20
+        },
+        "cash": 3000,
+        "points": 60
+      },
+      "pancakes": {
+        "name": "Crêpes",
+        "emoji": "🥞",
+        "cafe_level": 1,
+        "inputs": {
+          "egg": 30,
+          "milk": 40,
+          "wheat": 20
+        },
+        "cash": 3000,
+        "points": 60
+      },
+      "cherry_yoghurt_bowl": {
+        "name": "Bol yaourt et amandes",
+        "emoji": "🥣",
+        "cafe_level": 2,
+        "inputs": {
+          "cherry_yoghurt": 10,
+          "almond": 30
+        },
+        "cash": 4500,
+        "points": 80
+      },
+      "cheese_fondue": {
+        "name": "Fondue",
+        "emoji": "🫕",
+        "cafe_level": 2,
+        "inputs": {
+          "cheese": 15,
+          "goat_cheese": 40
+        },
+        "cash": 4500,
+        "points": 80
+      },
+      "jam_toast": {
+        "name": "Tartines à la confiture",
+        "emoji": "🍞",
+        "cafe_level": 2,
+        "inputs": {
+          "peach_jam": 6,
+          "butter": 6,
+          "wheat": 30
+        },
+        "cash": 4500,
+        "points": 80
+      },
+      "hot_chocolate": {
+        "name": "Chocolat chaud",
+        "emoji": "☕",
+        "cafe_level": 2,
+        "inputs": {
+          "cocoa_powder": 10,
+          "milk": 60,
+          "cream": 10
+        },
+        "cash": 4500,
+        "points": 80
+      },
+      "vanilla_cake": {
+        "name": "Gâteau à la vanille",
+        "emoji": "🍰",
+        "cafe_level": 3,
+        "inputs": {
+          "egg": 40,
+          "vanilla_extract": 20,
+          "butter": 10
+        },
+        "cash": 7000,
+        "points": 100
+      },
+      "cherry_pie": {
+        "name": "Tarte aux cerises",
+        "emoji": "🥧",
+        "cafe_level": 3,
+        "inputs": {
+          "cherry": 80,
+          "cherry_jam": 5,
+          "wheat": 40
+        },
+        "cash": 7000,
+        "points": 100
+      },
+      "jasmine_tea": {
+        "name": "Infusion au jasmin",
+        "emoji": "🍵",
+        "cafe_level": 3,
+        "inputs": {
+          "jasmine_essence": 5,
+          "flower_honey": 5
+        },
+        "cash": 7000,
+        "points": 100
+      },
+      "cheese_platter": {
+        "name": "Plateau de fromages",
+        "emoji": "🧀",
+        "cafe_level": 4,
+        "inputs": {
+          "cheese": 20,
+          "goat_cheese": 60,
+          "apple": 40
+        },
+        "cash": 9000,
+        "points": 120
+      },
+      "vanilla_ice_cream": {
+        "name": "Glace à la vanille",
+        "emoji": "🍨",
+        "cafe_level": 4,
+        "inputs": {
+          "cream": 20,
+          "vanilla_extract": 10,
+          "egg": 20
+        },
+        "cash": 9000,
+        "points": 120
+      },
+      "panna_cotta": {
+        "name": "Panna cotta",
+        "emoji": "🍮",
+        "cafe_level": 5,
+        "inputs": {
+          "cream": 30,
+          "peach_jam": 8,
+          "vanilla_extract": 10
+        },
+        "cash": 12000,
+        "points": 150
+      },
+      "chocolate_truffles": {
+        "name": "Truffes au chocolat",
+        "emoji": "🍫",
+        "cafe_level": 6,
+        "inputs": {
+          "cocoa_powder": 20,
+          "cream": 20,
+          "butter": 10
+        },
+        "cash": 16000,
+        "points": 190
+      },
+      "millefeuille": {
+        "name": "Mille-feuille",
+        "emoji": "🥐",
+        "cafe_level": 7,
+        "inputs": {
+          "butter": 20,
+          "cream": 30,
+          "vanilla_extract": 20,
+          "egg": 40
+        },
+        "cash": 22000,
+        "points": 240
+      }
+    },
+    "_estimated": true,
+    "_note": "Paliers de satisfaction, ×2, +1 % cash et +10 % points par étoile, 3 / +15 / … / +700 réalisations : jeu (joueur). Recettes inventées avec nos produits ; récompenses par palier de niveau du café (réf. niv. 3 : 7 000 💵 et 100 points) ; étoiles 3 à 6 et XP estimées."
   }
 }

@@ -183,6 +183,9 @@ final class Farm
         $state = $this->state;
         // Keep JSON objects as objects even when empty.
         $state['barn']['items'] = (object) $state['barn']['items'];
+        if (isset($state['cafe'])) {
+            $state['cafe']['served'] = (object) $state['cafe']['served'];
+        }
 
         return $state;
     }
@@ -379,6 +382,37 @@ final class Farm
             unset($stock[$item]);
         }
         $this->state['barn']['items'] = $stock;
+    }
+
+    // ------------------------------------------------------------ café
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function cafe(): array
+    {
+        $cafe = $this->state['cafe'] ?? [];
+        if (isset($cafe['served'])) {
+            $cafe['served'] = (array) $cafe['served']; // an object once normalized for JSON
+        }
+
+        return $cafe;
+    }
+
+    /**
+     * @param array<string, mixed> $cafe
+     */
+    public function setCafe(array $cafe): void
+    {
+        $this->state['cafe'] = $cafe;
+    }
+
+    /**
+     * @return list<array<string, mixed>>
+     */
+    public function buildingsOfType(string $type): array
+    {
+        return array_values(array_filter($this->state['buildings'], static fn (array $b): bool => $b['type'] === $type));
     }
 
     // ------------------------------------------------------------ market

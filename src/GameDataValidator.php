@@ -51,6 +51,9 @@ final class GameDataValidator
         $this->checkLand();
         $this->checkMarket();
         $this->checkInitialState();
+        if (isset($this->data['cafe'])) {
+            $this->checkCafe();
+        }
 
         return $this->errors;
     }
@@ -328,6 +331,61 @@ final class GameDataValidator
             }
         }
         $this->range($reward['quantity'] ?? null, 'market.material_reward.quantity');
+    }
+
+    private function checkCafe(): void
+    {
+        $cafe = $this->data['cafe'];
+        $building = $this->data['buildings'][$cafe['building'] ?? ''] ?? null;
+        if ($building === null) {
+            $this->errors[] = 'cafe.building: unknown building';
+
+            return;
+        }
+        $maxLevel = count($building['levels'] ?? []);
+
+        $previous = 0;
+        foreach ($cafe['star_thresholds'] ?? [] as $i => $threshold) {
+            if (!is_int($threshold) || $threshold <= $previous) {
+                $this->errors[] = "cafe.star_thresholds[{$i}]: must be increasing positive integers";
+            }
+            $previous = is_int($threshold) ? $threshold : $previous;
+        }
+        foreach (['star_cash_bonus', 'star_points_factor', 'favourite_factor', 'xp_per_point'] as $key) {
+            $this->nonNegativeNumber($cafe[$key] ?? null, "cafe.{$key}");
+        }
+
+        foreach ($this->entries($cafe['recipes'] ?? []) as $id => $recipe) {
+            $path = "cafe.recipes.{$id}";
+            $this->nameAndEmoji($recipe, $path);
+            $this->itemQuantities($recipe['inputs'] ?? null, "{$path}.inputs");
+            $this->positiveInt($recipe['cash'] ?? null, "{$path}.cash");
+            $this->positiveInt($recipe['points'] ?? null, "{$path}.points");
+            $level = $recipe['cafe_level'] ?? null;
+            if (!is_int($level) || $level < 1 || $level > $maxLevel) {
+                $this->errors[] = "{$path}.cafe_level: must be between 1 and {$maxLevel}";
+            }
+        }
+        foreach ($cafe['groups'] ?? [] as $i => $group) {
+            $this->nameAndEmoji($group, "cafe.groups[{$i}]");
+            foreach ($group['favourites'] ?? [] as $favourite) {
+                if (!isset($cafe['recipes'][$favourite])) {
+                    $this->errors[] = "cafe.groups[{$i}].favourites: unknown recipe {$favourite}";
+                }
+            }
+        }
+        if (($cafe['groups'] ?? []) === []) {
+            $this->errors[] = 'cafe.groups: needs at least one group';
+        }
+        $previous = 0;
+        foreach ($cafe['milestones'] ?? [] as $i => $milestone) {
+            $points = $milestone['points'] ?? null;
+            if (!is_int($points) || $points <= $previous) {
+                $this->errors[] = "cafe.milestones[{$i}].points: must be increasing";
+            }
+            $previous = is_int($points) ? $points : $previous;
+            $this->cost($milestone['reward'] ?? null, "cafe.milestones[{$i}].reward");
+        }
     }
 
     private function checkInitialState(): void

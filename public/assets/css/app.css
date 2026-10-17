@@ -197,7 +197,7 @@ button { font: inherit; color: inherit; }
 .mode-banner span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .tabs {
-    display: grid; grid-template-columns: repeat(5, 1fr);
+    display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
     background: var(--surface);
     border-top: 1px solid var(--border);
     padding-bottom: env(safe-area-inset-bottom);
@@ -358,7 +358,11 @@ button { font: inherit; color: inherit; }
 .checkbox { display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; }
 .checkbox input { width: 18px; height: 18px; accent-color: var(--accent); }
 .recipe { gap: 6px; }
-.recipe p { margin: 0; }
+.stars { color: var(--xp); letter-spacing: 1px; font-size: 13px; }
+.badge-x2 { margin-left: 6px; padding: 1px 6px; border-radius: 999px; background: var(--accent); color: var(--accent-text); font-size: 12px; }
+.milestones .chip { font-size: 12px; font-weight: 500; }
+.milestones .chip.done { border-color: var(--accent); color: var(--accent); }
+.contract p { margin: 0; }
 .recipe.disabled { opacity: 0.55; }
 .stepper { display: flex; align-items: center; gap: 6px; font-variant-numeric: tabular-nums; }
 .stepper .btn { padding: 6px 10px; }

@@ -26,6 +26,7 @@ final class Engine
         'start_production' => Actions\StartProduction::class,
         'collect' => Actions\Collect::class,
         'buy_expansion' => Actions\BuyExpansion::class,
+        'serve_cafe' => Actions\ServeCafe::class,
     ];
 
     public function __construct(private readonly GameData $data)
@@ -71,6 +72,10 @@ final class Engine
         $farm = new Farm($state, $this->data);
         $farm->ensureStarterBuildings();
         (new Market($this->data))->resolve($farm, new Clock($now, $farm->speed()));
+        if ($farm->cafe() !== []) {
+            // Daily reset is persisted, so the state always shows today's gauge.
+            $farm->setCafe((new Cafe($this->data))->today($farm, $now));
+        }
 
         return $farm->toArray();
     }
@@ -154,6 +159,7 @@ final class Engine
             'jobs' => (object) $jobs,
             'contracts' => (object) $contracts,
             'production' => (object) $production,
+            'cafe' => (new Cafe($this->data))->view($farm, $now),
         ];
     }
 

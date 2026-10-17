@@ -7,6 +7,7 @@ import { barnPanel } from './ui/barn.js';
 import { buildPanel } from './ui/build.js';
 import { adminPanel } from './ui/admin.js';
 import { buildingPanel } from './ui/building.js';
+import { cafePanel } from './ui/cafe.js';
 import { landPanel } from './ui/land.js';
 import { canFulfill, marketPanel } from './ui/market.js';
 import { closeSheet, initSheet, openSheet, refreshSheet } from './ui/sheet.js';
@@ -61,6 +62,7 @@ function startMove(id) {
 
 /** Badge on the market tab: contracts deliverable right now. */
 function renderTabBadges() {
+    $('#tabs [data-tab=cafe]').hidden = !store.view.cafe;
     const ready = store.state.contracts.filter(canFulfill).length;
     const button = $('#tabs [data-tab=market]');
     button.querySelector('.tab-badge')?.remove();
@@ -148,6 +150,7 @@ function openTab(tab) {
         build: () => buildPanel({ startPlacement }),
         barn: () => barnPanel(),
         market: () => marketPanel(),
+        cafe: () => cafePanel(),
         land: () => landPanel(),
         admin: () => adminPanel(() => h('section', { class: 'admin-section' },
             h('p', { class: 'section-title' }, 'Compte'),
