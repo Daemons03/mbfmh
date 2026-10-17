@@ -53,6 +53,50 @@ final class Engine
     }
 
     /**
+     * Restores JSON shapes lost by decoding as arrays (empty objects).
+     *
+     * @param array<string, mixed> $state
+     * @return array<string, mixed>
+     */
+    public function normalize(array $state): array
+    {
+        return (new Farm($state, $this->data))->toArray();
+    }
+
+    /**
+     * Derived values for the front, never stored: barn usage, visible grid,
+     * XP to next level and when each job is ready.
+     *
+     * @param array<string, mixed> $state
+     * @return array<string, mixed>
+     */
+    public function view(array $state, int $now): array
+    {
+        $farm = new Farm($state, $this->data);
+        $clock = new Clock($now, $farm->speed());
+
+        $jobs = [];
+        foreach ($farm->buildings() as $building) {
+            if (isset($building['job'])) {
+                $jobs[$building['id']] = [
+                    'ready_at' => $clock->readyAt($building['job']),
+                    'ready' => $clock->isReady($building['job']),
+                ];
+            }
+        }
+
+        return [
+            'barn' => ['used' => $farm->barnUsed(), 'capacity' => $farm->barnCapacity()],
+            'grid' => [
+                'side' => (new Land($this->data->blockSize()))->gridSide($farm->expansions()),
+                'block_size' => $this->data->blockSize(),
+            ],
+            'xp_needed' => $this->data->xpForLevel($farm->level()),
+            'jobs' => (object) $jobs,
+        ];
+    }
+
+    /**
      * @return list<string>
      */
     public static function actionTypes(): array

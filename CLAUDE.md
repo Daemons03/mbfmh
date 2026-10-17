@@ -98,9 +98,13 @@ Toutes les réponses : `{ ok, state?, server_now, error? }`. POST protégés par
 | POST | /api/login | login + mot de passe, ouvre session (cookie 30 jours) |
 | POST | /api/logout | ferme la session |
 | GET | /api/data | contenu de game-data.json |
-| GET | /api/state | état résolu |
-| POST | /api/action | `{ type, payload, version }` → nouvel état |
+| GET | /api/state | `{ state, version, view }` (créé au premier accès) |
+| POST | /api/action | `{ type, payload, version }` → `{ state, version, view }` |
 | POST | /api/admin | `{ op, payload }` → nouvel état |
+
+- `view` = valeurs dérivées jamais stockées : `barn {used, capacity}`, `grid {side, block_size}`, `xp_needed`, `jobs {id: {ready_at, ready}}`.
+- Codes d'erreur : 400 requête mal formée, 401 non connecté, 403 CSRF, 409 `stale_state` (renvoie `state` + `version` à jour), 422 règle de jeu (`error` = code stable, `message` en français, `details`).
+- Bâtiments `zone: "outside"` (grange extérieure, bibliothèque, animal de concours, café-boutique, atelier de couture) : hors grille, sans x/y, ni déplaçables ni démolissables.
 
 Types d'action V1 : `build`, `move`, `demolish`, `plant`, `harvest`, `start_production`, `collect`, `sell_barn`, `fulfill_contract`, `discard_contract`, `buy_expansion`, `upgrade`.
 
