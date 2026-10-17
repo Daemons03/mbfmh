@@ -2451,7 +2451,7 @@
           "slots": 8
         }
       ],
-      "_note": "« Manufactory » sur le fan site (correspondance à confirmer). slots = nombre de produits ; recettes prévues en V2."
+      "_note": "« Manufactory » sur le fan site. Transforme la laine de mouton (sheep-wool), la laine de lapin (gray-wool) et les plumes de canard (feather) ; slots = nombre de produits. Animaux et recettes prévus en V2."
     }
   }
 }

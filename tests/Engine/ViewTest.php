@@ -11,10 +11,25 @@ final class ViewTest extends EngineTestCase
         $view = $this->decode($this->engine->view($this->state, self::NOW));
 
         self::assertSame(['used' => 0, 'capacity' => 200], $view['barn']);
-        self::assertSame(['side' => 12, 'block_size' => 4], $view['grid']);
+        self::assertSame([
+            'side' => 12,
+            'block_size' => 4,
+            'owned_blocks' => [[0, 0], [1, 0], [1, 1], [0, 1], [2, 0], [2, 1]],
+            'next_block' => [2, 2],
+        ], $view['grid']);
         self::assertSame($this->data->xpForLevel(1), $view['xp_needed']);
         self::assertSame([], $view['jobs']);
         self::assertStringContainsString('"jobs":{}', json_encode($this->engine->view($this->state, self::NOW)));
+    }
+
+    public function testNoNextBlockWhenAllExpansionsBought(): void
+    {
+        $this->state['expansions'] = 55;
+
+        $view = $this->engine->view($this->state, self::NOW);
+
+        self::assertNull($view['grid']['next_block']);
+        self::assertCount(55, $view['grid']['owned_blocks']);
     }
 
     public function testViewGivesJobReadyTimeWithSpeed(): void

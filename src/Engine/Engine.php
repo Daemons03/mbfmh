@@ -85,11 +85,19 @@ final class Engine
             }
         }
 
+        $expansions = $farm->expansions();
+        $owned = [];
+        for ($n = 1; $n <= $expansions; $n++) {
+            $owned[] = Land::blockPosition($n);
+        }
+
         return [
             'barn' => ['used' => $farm->barnUsed(), 'capacity' => $farm->barnCapacity()],
             'grid' => [
-                'side' => (new Land($this->data->blockSize()))->gridSide($farm->expansions()),
+                'side' => (new Land($this->data->blockSize()))->gridSide($expansions),
                 'block_size' => $this->data->blockSize(),
+                'owned_blocks' => $owned,
+                'next_block' => $this->data->expansion($expansions + 1) === null ? null : Land::blockPosition($expansions + 1),
             ],
             'xp_needed' => $this->data->xpForLevel($farm->level()),
             'jobs' => (object) $jobs,

@@ -28,7 +28,7 @@ Un panneau admin permet de modifier librement ressources, niveau et vitesse du t
   admin.html            ← panneau admin
   api/index.php         ← routeur API unique
   assets/css/app.css
-  assets/js/            ← main.js, api.js, render.js, ui/*.js
+  assets/js/            ← main.js, api.js, store.js, actions.js, render.js, dom.js, format.js, ui/*.js
   .htaccess             ← réécriture /api/* → api/index.php
 /src
   Db.php                ← connexion PDO singleton
