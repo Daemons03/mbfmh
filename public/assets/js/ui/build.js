@@ -13,7 +13,8 @@ export function buildPanel({ cell = null, startPlacement }) {
     return {
         title: cell ? 'Construire ici' : 'Construire',
         render: () => {
-            const types = Object.entries(store.data.buildings);
+            const types = Object.entries(store.data.buildings)
+                .sort(([, a], [, b]) => (a.levels[0].unlock_level ?? 1) - (b.levels[0].unlock_level ?? 1));
             const farm = types.filter(([, def]) => (def.zone ?? 'farm') === 'farm');
             const outside = types.filter(([, def]) => def.zone === 'outside');
 

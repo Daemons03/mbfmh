@@ -189,3 +189,17 @@ Courbe XP estimée : `xp_needed(n) = round(50 * n^1.6)`.
 10. Admin : page + `/api/admin`.
 
 À la fin de chaque étape : résumé de ce qui est fait et commande pour tester en local (`php -S localhost:8000 -t public`).
+
+## Plan V2 (un commit par étape)
+
+Données réelles (niveaux, coûts, quantités produites) reprises du fan site ; recettes, consommations, durées et prix estimés (`_estimated`). L'aliment du moulin (`chicken_feed`, « Aliment pour animaux ») nourrit tous les animaux.
+
+1. Animaux : porcherie, étable, chèvrerie, cabane à canards, clapier, bergerie (aliment → produit + fumier). Nouveaux produits : cochon, lait, fromage, plumes, laine de mouton, laine de lapin, laine blanche.
+2. Vergers : pommier, cerisier, pêcher, amandier (production sans ingrédient, fruit + feuilles).
+3. Usines à recettes multiples et emplacements (`slots`) : moteur + laiterie (lait → crème, beurre…).
+4. Boulangerie et confiturerie.
+5. Atelier de couture (laines et plumes → produits textiles).
+6. Maisons, ouvriers, bonheur et décorations.
+7. Bibliothèque : améliorations de produits (parchemins, encre, livres).
+8. Améliorations du marché.
+Animal de concours et café-boutique : à préciser avec le joueur avant de les coder.

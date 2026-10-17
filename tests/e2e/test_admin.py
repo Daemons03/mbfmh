@@ -1,5 +1,9 @@
 """Step 10: admin tab and admin.html."""
-from conftest import close_sheet, grid_side, open_tab, settle, tap
+import json
+
+from conftest import ROOT, close_sheet, grid_side, open_tab, settle, tap
+
+MAX_LEVEL = json.loads((ROOT / "data" / "game-data.json").read_text())["player"]["max_level"]
 
 
 def test_finish_jobs_and_speed(game, farm):
@@ -60,7 +64,7 @@ def test_level_unlock_and_reset(game, farm):
 
     game.get_by_role("button", name="Tout débloquer").click()
     settle(game)
-    assert game.locator(".level-badge").inner_text() == "Niv. 200"
+    assert game.locator(".level-badge").inner_text() == f"Niv. {MAX_LEVEL}"
     assert grid_side(game) == 32
 
     game.get_by_role("button", name="Réinitialiser la ferme").click()  # prompt answered "RESET"

@@ -12,7 +12,8 @@ use FermeTranquille\Engine\Production;
 
 /**
  * payload: { id } — takes the inputs from the barn and starts a job. The job
- * keeps its own outputs, so the result is fixed at start.
+ * keeps its own outputs, so the result is fixed at start. Refused when an
+ * output is larger than the barn capacity (it could never be collected).
  */
 final class StartProduction implements Action
 {
@@ -28,6 +29,18 @@ final class StartProduction implements Action
         }
 
         $recipe = Production::recipe($farm->data, $building['type'], $building['level']);
+        // Outputs that can never fit would block the building forever.
+        $capacity = $farm->barnCapacity();
+        foreach ($recipe['outputs'] as $item => $quantity) {
+            if ($quantity > $capacity) {
+                $name = $farm->data->item($item)['name'];
+                throw new GameError('barn_too_small', "La grange est trop petite pour {$quantity} × {$name} : agrandissez-la d'abord.", [
+                    'item' => $item,
+                    'needed' => $quantity,
+                    'capacity' => $capacity,
+                ]);
+            }
+        }
         $farm->assertBarnHas($recipe['inputs']);
         foreach ($recipe['inputs'] as $item => $quantity) {
             $farm->removeFromBarn($item, $quantity);

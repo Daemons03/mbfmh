@@ -55,7 +55,7 @@
     }
   },
   "player": {
-    "max_level": 200,
+    "max_level": 250,
     "xp_curve": {
       "base": 50,
       "exponent": 1.6,
@@ -939,7 +939,7 @@
       "_note": "Prix marché inconnu : prix grange × 1,5."
     },
     "chicken_feed": {
-      "name": "Aliment pour poules",
+      "name": "Aliment pour animaux",
       "emoji": "🥣",
       "category": "goods",
       "unlock_level": 1,
@@ -963,6 +963,69 @@
       "unlock_level": 1,
       "barn_price": 1,
       "market_price": 1.5,
+      "_estimated": true
+    },
+    "pig": {
+      "name": "Cochon",
+      "emoji": "🐷",
+      "category": "goods",
+      "unlock_level": 8,
+      "barn_price": 1,
+      "market_price": 1.5,
+      "_estimated": true
+    },
+    "milk": {
+      "name": "Lait",
+      "emoji": "🥛",
+      "category": "goods",
+      "unlock_level": 14,
+      "barn_price": 1,
+      "market_price": 1.5,
+      "_estimated": true
+    },
+    "cheese": {
+      "name": "Fromage de chèvre",
+      "emoji": "🧀",
+      "category": "goods",
+      "unlock_level": 18,
+      "barn_price": 1,
+      "market_price": 1.5,
+      "_estimated": true
+    },
+    "feather": {
+      "name": "Plume",
+      "emoji": "🪶",
+      "category": "goods",
+      "unlock_level": 31,
+      "barn_price": 1,
+      "market_price": 1.5,
+      "_estimated": true
+    },
+    "sheep_wool": {
+      "name": "Laine de mouton",
+      "emoji": "🧶",
+      "category": "goods",
+      "unlock_level": 100,
+      "barn_price": 2,
+      "market_price": 3,
+      "_estimated": true
+    },
+    "gray_wool": {
+      "name": "Laine de lapin",
+      "emoji": "🐰",
+      "category": "goods",
+      "unlock_level": 55,
+      "barn_price": 3,
+      "market_price": 4.5,
+      "_estimated": true
+    },
+    "white_wool": {
+      "name": "Laine blanche",
+      "emoji": "🤍",
+      "category": "goods",
+      "unlock_level": 100,
+      "barn_price": 6,
+      "market_price": 9,
       "_estimated": true
     }
   },
@@ -2452,6 +2515,1057 @@
         }
       ],
       "_note": "« Manufactory » sur le fan site. Transforme la laine de mouton (sheep-wool), la laine de lapin (gray-wool) et les plumes de canard (feather) ; slots = nombre de produits. Animaux et recettes prévus en V2."
+    },
+    "pigsty": {
+      "name": "Porcherie",
+      "emoji": "🐖",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 2,
+      "production": {
+        "main_output": "pig",
+        "inputs_per_main_unit": {
+          "chicken_feed": 0.2
+        },
+        "duration": 3600,
+        "xp": 8,
+        "_estimated": true,
+        "_note": "Consommation d'aliment, durée et XP estimées ; quantités produites relevées."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 8,
+          "cost": {
+            "cash": 2000
+          },
+          "outputs": {
+            "pig": 130,
+            "dung": 35
+          }
+        },
+        {
+          "level": 2,
+          "unlock_level": 18,
+          "cost": {
+            "cash": 22000
+          },
+          "outputs": {
+            "pig": 140,
+            "dung": 40
+          }
+        },
+        {
+          "level": 3,
+          "unlock_level": 29,
+          "cost": {
+            "cash": 80000
+          },
+          "outputs": {
+            "pig": 150,
+            "dung": 45
+          }
+        },
+        {
+          "level": 4,
+          "unlock_level": 39,
+          "cost": {
+            "cash": 210000
+          },
+          "outputs": {
+            "pig": 155,
+            "dung": 50
+          }
+        },
+        {
+          "level": 5,
+          "unlock_level": 49,
+          "cost": {
+            "cash": 1200000
+          },
+          "outputs": {
+            "pig": 160,
+            "dung": 55
+          }
+        },
+        {
+          "level": 6,
+          "unlock_level": 59,
+          "cost": {
+            "cash": 1900000
+          },
+          "outputs": {
+            "pig": 165,
+            "dung": 60
+          }
+        },
+        {
+          "level": 7,
+          "unlock_level": 71,
+          "cost": {
+            "cash": 2470000,
+            "bricks": 11500,
+            "tiles": 11500,
+            "glass": 1600
+          },
+          "outputs": {
+            "pig": 175,
+            "dung": 65
+          }
+        },
+        {
+          "level": 8,
+          "unlock_level": 80,
+          "cost": {
+            "cash": 3705000,
+            "mallets": 90
+          },
+          "outputs": {
+            "pig": 185,
+            "dung": 70
+          }
+        },
+        {
+          "level": 9,
+          "unlock_level": 89,
+          "cost": {
+            "cash": 5558000,
+            "mallets": 360
+          },
+          "outputs": {
+            "pig": 195,
+            "dung": 75
+          },
+          "_estimated": true
+        },
+        {
+          "level": 10,
+          "unlock_level": 98,
+          "cost": {
+            "cash": 8337000,
+            "mallets": 1620
+          },
+          "outputs": {
+            "pig": 205,
+            "dung": 80
+          },
+          "_estimated": true
+        },
+        {
+          "level": 11,
+          "unlock_level": 107,
+          "cost": {
+            "cash": 12506000,
+            "buckets": 680
+          },
+          "outputs": {
+            "pig": 215,
+            "dung": 85
+          },
+          "_estimated": true
+        },
+        {
+          "level": 12,
+          "unlock_level": 116,
+          "cost": {
+            "cash": 18759000,
+            "buckets": 4600
+          },
+          "outputs": {
+            "pig": 225,
+            "dung": 90
+          },
+          "_estimated": true
+        }
+      ]
+    },
+    "cowshed": {
+      "name": "Étable",
+      "emoji": "🐄",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 2,
+      "production": {
+        "main_output": "milk",
+        "inputs_per_main_unit": {
+          "chicken_feed": 0.1
+        },
+        "duration": 7200,
+        "xp": 12,
+        "_estimated": true,
+        "_note": "Consommation d'aliment, durée et XP estimées ; quantités produites relevées."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 14,
+          "cost": {
+            "cash": 8000
+          },
+          "outputs": {
+            "milk": 230,
+            "dung": 100
+          }
+        },
+        {
+          "level": 2,
+          "unlock_level": 25,
+          "cost": {
+            "cash": 45000
+          },
+          "outputs": {
+            "milk": 265,
+            "dung": 110
+          }
+        },
+        {
+          "level": 3,
+          "unlock_level": 35,
+          "cost": {
+            "cash": 120000
+          },
+          "outputs": {
+            "milk": 290,
+            "dung": 120
+          }
+        },
+        {
+          "level": 4,
+          "unlock_level": 46,
+          "cost": {
+            "cash": 400000
+          },
+          "outputs": {
+            "milk": 320,
+            "dung": 130
+          }
+        },
+        {
+          "level": 5,
+          "unlock_level": 52,
+          "cost": {
+            "cash": 1500000
+          },
+          "outputs": {
+            "milk": 345,
+            "dung": 140
+          }
+        },
+        {
+          "level": 6,
+          "unlock_level": 61,
+          "cost": {
+            "cash": 2100000
+          },
+          "outputs": {
+            "milk": 375,
+            "dung": 150
+          }
+        },
+        {
+          "level": 7,
+          "unlock_level": 71,
+          "cost": {
+            "cash": 2730000,
+            "bricks": 12800,
+            "tiles": 12800,
+            "glass": 1800
+          },
+          "outputs": {
+            "milk": 395,
+            "dung": 160
+          }
+        },
+        {
+          "level": 8,
+          "unlock_level": 82,
+          "cost": {
+            "cash": 4095000,
+            "mallets": 180
+          },
+          "outputs": {
+            "milk": 415,
+            "dung": 170
+          }
+        },
+        {
+          "level": 9,
+          "unlock_level": 91,
+          "cost": {
+            "cash": 6143000,
+            "mallets": 720
+          },
+          "outputs": {
+            "milk": 435,
+            "dung": 180
+          }
+        },
+        {
+          "level": 10,
+          "unlock_level": 101,
+          "cost": {
+            "cash": 9215000,
+            "mallets": 3240
+          },
+          "outputs": {
+            "milk": 455,
+            "dung": 190
+          }
+        },
+        {
+          "level": 11,
+          "unlock_level": 111,
+          "cost": {
+            "cash": 13823000,
+            "buckets": 780
+          },
+          "outputs": {
+            "milk": 475,
+            "dung": 200
+          },
+          "_estimated": true
+        },
+        {
+          "level": 12,
+          "unlock_level": 121,
+          "cost": {
+            "cash": 20735000,
+            "buckets": 5300
+          },
+          "outputs": {
+            "milk": 495,
+            "dung": 210
+          },
+          "_estimated": true
+        }
+      ]
+    },
+    "goat_stable": {
+      "name": "Chèvrerie",
+      "emoji": "🐐",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 2,
+      "production": {
+        "main_output": "cheese",
+        "inputs_per_main_unit": {
+          "chicken_feed": 0.15
+        },
+        "duration": 7200,
+        "xp": 10,
+        "_estimated": true,
+        "_note": "Consommation d'aliment, durée et XP estimées ; quantités produites relevées."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 18,
+          "cost": {
+            "cash": 15000
+          },
+          "outputs": {
+            "cheese": 160,
+            "dung": 50
+          }
+        },
+        {
+          "level": 2,
+          "unlock_level": 27,
+          "cost": {
+            "cash": 60000
+          },
+          "outputs": {
+            "cheese": 176,
+            "dung": 55
+          }
+        },
+        {
+          "level": 3,
+          "unlock_level": 36,
+          "cost": {
+            "cash": 120000
+          },
+          "outputs": {
+            "cheese": 194,
+            "dung": 61
+          }
+        },
+        {
+          "level": 4,
+          "unlock_level": 46,
+          "cost": {
+            "cash": 500000
+          },
+          "outputs": {
+            "cheese": 213,
+            "dung": 67
+          }
+        },
+        {
+          "level": 5,
+          "unlock_level": 56,
+          "cost": {
+            "cash": 1700000
+          },
+          "outputs": {
+            "cheese": 234,
+            "dung": 74
+          }
+        },
+        {
+          "level": 6,
+          "unlock_level": 66,
+          "cost": {
+            "cash": 2200000
+          },
+          "outputs": {
+            "cheese": 257,
+            "dung": 81
+          }
+        },
+        {
+          "level": 7,
+          "unlock_level": 76,
+          "cost": {
+            "cash": 2860000,
+            "bricks": 13400,
+            "tiles": 13400,
+            "glass": 1900
+          },
+          "outputs": {
+            "cheese": 270,
+            "dung": 85
+          }
+        },
+        {
+          "level": 8,
+          "unlock_level": 86,
+          "cost": {
+            "cash": 4290000,
+            "mallets": 220
+          },
+          "outputs": {
+            "cheese": 285,
+            "dung": 89
+          }
+        },
+        {
+          "level": 9,
+          "unlock_level": 96,
+          "cost": {
+            "cash": 6435000,
+            "mallets": 880
+          },
+          "outputs": {
+            "cheese": 300,
+            "dung": 93
+          }
+        },
+        {
+          "level": 10,
+          "unlock_level": 106,
+          "cost": {
+            "cash": 9653000,
+            "mallets": 3960
+          },
+          "outputs": {
+            "cheese": 315,
+            "dung": 98
+          }
+        },
+        {
+          "level": 11,
+          "unlock_level": 116,
+          "cost": {
+            "cash": 14480000,
+            "buckets": 820
+          },
+          "outputs": {
+            "cheese": 330,
+            "dung": 103
+          },
+          "_estimated": true
+        },
+        {
+          "level": 12,
+          "unlock_level": 126,
+          "cost": {
+            "cash": 21720000,
+            "buckets": 5700
+          },
+          "outputs": {
+            "cheese": 345,
+            "dung": 108
+          },
+          "_estimated": true
+        }
+      ]
+    },
+    "duck_coop": {
+      "name": "Cabane à canards",
+      "emoji": "🦆",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 2,
+      "production": {
+        "main_output": "feather",
+        "inputs_per_main_unit": {
+          "chicken_feed": 0.15
+        },
+        "duration": 5400,
+        "xp": 10,
+        "_estimated": true,
+        "_note": "Consommation d'aliment, durée et XP estimées ; quantités produites relevées."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 31,
+          "cost": {
+            "cash": 100000
+          },
+          "outputs": {
+            "feather": 180,
+            "dung": 65
+          }
+        },
+        {
+          "level": 2,
+          "unlock_level": 41,
+          "cost": {
+            "cash": 250000
+          },
+          "outputs": {
+            "feather": 200,
+            "dung": 72
+          }
+        },
+        {
+          "level": 3,
+          "unlock_level": 51,
+          "cost": {
+            "cash": 1300000
+          },
+          "outputs": {
+            "feather": 220,
+            "dung": 79
+          }
+        },
+        {
+          "level": 4,
+          "unlock_level": 61,
+          "cost": {
+            "cash": 2000000
+          },
+          "outputs": {
+            "feather": 240,
+            "dung": 87
+          }
+        },
+        {
+          "level": 5,
+          "unlock_level": 71,
+          "cost": {
+            "cash": 2500000
+          },
+          "outputs": {
+            "feather": 265,
+            "dung": 96
+          }
+        },
+        {
+          "level": 6,
+          "unlock_level": 81,
+          "cost": {
+            "cash": 3000000
+          },
+          "outputs": {
+            "feather": 290,
+            "dung": 106
+          }
+        },
+        {
+          "level": 7,
+          "unlock_level": 92,
+          "cost": {
+            "cash": 4980000,
+            "bricks": 13800,
+            "tiles": 13800,
+            "glass": 1900
+          },
+          "outputs": {
+            "feather": 305,
+            "dung": 111
+          }
+        },
+        {
+          "level": 8,
+          "unlock_level": 101,
+          "cost": {
+            "cash": 7470000,
+            "mallets": 260
+          },
+          "outputs": {
+            "feather": 320,
+            "dung": 117
+          }
+        },
+        {
+          "level": 9,
+          "unlock_level": 111,
+          "cost": {
+            "cash": 11205000,
+            "mallets": 1040
+          },
+          "outputs": {
+            "feather": 335,
+            "dung": 123
+          }
+        },
+        {
+          "level": 10,
+          "unlock_level": 121,
+          "cost": {
+            "cash": 16808000,
+            "mallets": 4680
+          },
+          "outputs": {
+            "feather": 350,
+            "dung": 129
+          },
+          "_estimated": true
+        },
+        {
+          "level": 11,
+          "unlock_level": 131,
+          "cost": {
+            "cash": 25212000,
+            "buckets": 870
+          },
+          "outputs": {
+            "feather": 365,
+            "dung": 135
+          },
+          "_estimated": true
+        },
+        {
+          "level": 12,
+          "unlock_level": 141,
+          "cost": {
+            "cash": 37818000,
+            "buckets": 6100
+          },
+          "outputs": {
+            "feather": 380,
+            "dung": 141
+          },
+          "_estimated": true
+        }
+      ]
+    },
+    "rabbit_hutch": {
+      "name": "Clapier",
+      "emoji": "🐇",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 2,
+      "production": {
+        "main_output": "gray_wool",
+        "inputs_per_main_unit": {
+          "chicken_feed": 0.3
+        },
+        "duration": 7200,
+        "xp": 14,
+        "_estimated": true,
+        "_note": "Consommation d'aliment, durée et XP estimées ; quantités produites relevées."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 55,
+          "cost": {
+            "cash": 250000
+          },
+          "outputs": {
+            "gray_wool": 80,
+            "dung": 21
+          }
+        },
+        {
+          "level": 2,
+          "unlock_level": 64,
+          "cost": {
+            "cash": 1300000,
+            "bricks": 4500,
+            "tiles": 4500,
+            "glass": 800
+          },
+          "outputs": {
+            "gray_wool": 90,
+            "dung": 23
+          }
+        },
+        {
+          "level": 3,
+          "unlock_level": 72,
+          "cost": {
+            "cash": 2000000,
+            "mallets": 60
+          },
+          "outputs": {
+            "gray_wool": 100,
+            "dung": 25
+          }
+        },
+        {
+          "level": 4,
+          "unlock_level": 81,
+          "cost": {
+            "cash": 2500000,
+            "mallets": 100
+          },
+          "outputs": {
+            "gray_wool": 110,
+            "dung": 28
+          }
+        },
+        {
+          "level": 5,
+          "unlock_level": 100,
+          "cost": {
+            "cash": 3000000,
+            "buckets": 50
+          },
+          "outputs": {
+            "gray_wool": 120,
+            "white_wool": 10,
+            "dung": 31
+          }
+        },
+        {
+          "level": 6,
+          "unlock_level": 109,
+          "cost": {
+            "cash": 4980000,
+            "buckets": 700,
+            "mallets": 260
+          },
+          "outputs": {
+            "gray_wool": 130,
+            "white_wool": 12,
+            "dung": 34
+          }
+        },
+        {
+          "level": 7,
+          "unlock_level": 118,
+          "cost": {
+            "cash": 7470000,
+            "buckets": 1190,
+            "mallets": 340
+          },
+          "outputs": {
+            "gray_wool": 145,
+            "white_wool": 14,
+            "dung": 36
+          },
+          "_estimated": true
+        },
+        {
+          "level": 8,
+          "unlock_level": 127,
+          "cost": {
+            "cash": 11205000,
+            "buckets": 2020,
+            "mallets": 440
+          },
+          "outputs": {
+            "gray_wool": 160,
+            "white_wool": 16,
+            "dung": 38
+          },
+          "_estimated": true
+        },
+        {
+          "level": 9,
+          "unlock_level": 136,
+          "cost": {
+            "cash": 16808000,
+            "buckets": 5450,
+            "mallets": 570
+          },
+          "outputs": {
+            "gray_wool": 175,
+            "white_wool": 18,
+            "dung": 40
+          },
+          "_estimated": true
+        },
+        {
+          "level": 10,
+          "unlock_level": 145,
+          "cost": {
+            "cash": 25212000,
+            "buckets": 9270,
+            "mallets": 740
+          },
+          "outputs": {
+            "gray_wool": 195,
+            "white_wool": 20,
+            "dung": 42
+          },
+          "_estimated": true
+        },
+        {
+          "level": 11,
+          "unlock_level": 154,
+          "cost": {
+            "cash": 37818000,
+            "buckets": 15760,
+            "mallets": 960
+          },
+          "outputs": {
+            "gray_wool": 210,
+            "white_wool": 25,
+            "dung": 44
+          },
+          "_estimated": true
+        },
+        {
+          "level": 12,
+          "unlock_level": 163,
+          "cost": {
+            "cash": 56727000,
+            "buckets": 26790,
+            "mallets": 1250
+          },
+          "outputs": {
+            "gray_wool": 225,
+            "white_wool": 30,
+            "dung": 46
+          },
+          "_estimated": true
+        }
+      ]
+    },
+    "sheep_pen": {
+      "name": "Bergerie",
+      "emoji": "🐑",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 2,
+      "production": {
+        "main_output": "sheep_wool",
+        "inputs_per_main_unit": {
+          "chicken_feed": 0.15
+        },
+        "duration": 10800,
+        "xp": 18,
+        "_estimated": true,
+        "_note": "Consommation d'aliment, durée et XP estimées ; quantités produites relevées."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 100,
+          "cost": {
+            "buckets": 100
+          },
+          "outputs": {
+            "sheep_wool": 180,
+            "dung": 65
+          }
+        },
+        {
+          "level": 2,
+          "unlock_level": 108,
+          "cost": {
+            "cash": 750000,
+            "mallets": 75,
+            "buckets": 400
+          },
+          "outputs": {
+            "sheep_wool": 200,
+            "dung": 72
+          }
+        },
+        {
+          "level": 3,
+          "unlock_level": 116,
+          "cost": {
+            "cash": 1250000,
+            "mallets": 150,
+            "buckets": 680
+          },
+          "outputs": {
+            "sheep_wool": 220,
+            "dung": 79
+          }
+        },
+        {
+          "level": 4,
+          "unlock_level": 126,
+          "cost": {
+            "cash": 1800000,
+            "mallets": 240,
+            "buckets": 1160
+          },
+          "outputs": {
+            "sheep_wool": 240,
+            "dung": 87
+          },
+          "_estimated": true
+        },
+        {
+          "level": 5,
+          "unlock_level": 135,
+          "cost": {
+            "cash": 2400000,
+            "mallets": 380,
+            "buckets": 1970
+          },
+          "outputs": {
+            "sheep_wool": 265,
+            "dung": 96
+          },
+          "_estimated": true
+        },
+        {
+          "level": 6,
+          "unlock_level": 145,
+          "cost": {
+            "cash": 3100000,
+            "mallets": 610,
+            "buckets": 3350
+          },
+          "outputs": {
+            "sheep_wool": 290,
+            "dung": 106
+          }
+        },
+        {
+          "level": 7,
+          "unlock_level": 155,
+          "cost": {
+            "cash": 3800000,
+            "mallets": 980,
+            "buckets": 5700
+          },
+          "outputs": {
+            "sheep_wool": 305,
+            "dung": 111
+          },
+          "_estimated": true
+        },
+        {
+          "level": 8,
+          "unlock_level": 165,
+          "cost": {
+            "cash": 5700000,
+            "mallets": 1570,
+            "buckets": 9690
+          },
+          "outputs": {
+            "sheep_wool": 320,
+            "dung": 117
+          }
+        },
+        {
+          "level": 9,
+          "unlock_level": 175,
+          "cost": {
+            "cash": 8550000,
+            "mallets": 2510,
+            "buckets": 16470
+          },
+          "outputs": {
+            "sheep_wool": 335,
+            "dung": 123
+          }
+        },
+        {
+          "level": 10,
+          "unlock_level": 185,
+          "cost": {
+            "cash": 12825000,
+            "mallets": 4020,
+            "buckets": 28000
+          },
+          "outputs": {
+            "sheep_wool": 350,
+            "dung": 129
+          },
+          "_estimated": true
+        },
+        {
+          "level": 11,
+          "unlock_level": 195,
+          "cost": {
+            "cash": 19237500,
+            "mallets": 6430,
+            "buckets": 47600
+          },
+          "outputs": {
+            "sheep_wool": 365,
+            "dung": 135
+          }
+        },
+        {
+          "level": 12,
+          "unlock_level": 205,
+          "cost": {
+            "cash": 28856250,
+            "mallets": 10290,
+            "buckets": 80920
+          },
+          "outputs": {
+            "sheep_wool": 380,
+            "dung": 141
+          }
+        }
+      ]
     }
   }
 }

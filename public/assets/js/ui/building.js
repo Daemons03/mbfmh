@@ -126,7 +126,15 @@ function productionBlock(building) {
     }
 
     const missing = Object.entries(recipe.inputs).some(([id, quantity]) => (store.state.barn.items[id] ?? 0) < quantity);
+    const tooBig = Object.entries(recipe.outputs).find(([, quantity]) => quantity > store.view.barn.capacity);
+    let label = 'Lancer la production';
+    if (tooBig) label = 'Grange trop petite';
+    else if (missing) label = 'Ingrédients manquants';
+
     return [
+        tooBig ? h('p', { class: 'row-sub', style: { color: 'var(--danger)' } },
+            `La grange (${fmtInt(store.view.barn.capacity)} par produit) est trop petite pour ${fmtInt(tooBig[1])} `
+            + `${store.data.items[tooBig[0]].emoji} : agrandissez-la d'abord.`) : null,
         h('p', { class: 'section-title' }, 'Consomme (grange)'),
         itemChips(recipe.inputs, { compareToBarn: true }),
         h('p', { class: 'section-title' }, 'Produit'),
@@ -136,9 +144,9 @@ function productionBlock(building) {
             h('button', {
                 type: 'button',
                 class: 'btn btn-primary',
-                disabled: missing,
+                disabled: missing || Boolean(tooBig),
                 onclick: () => perform('start_production', { id: building.id }),
-            }, missing ? 'Ingrédients manquants' : 'Lancer la production')),
+            }, label)),
     ];
 }
 
