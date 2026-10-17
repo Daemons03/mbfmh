@@ -10,8 +10,8 @@ use FermeTranquille\Engine\GameError;
 use FermeTranquille\Engine\Payload;
 
 /**
- * payload: { id } — no refund. Storage cannot be destroyed (barn stock would
- * have nowhere to go), nor a building with a job in progress.
+ * payload: { id } — no refund. Storage (barn stock would have nowhere to go),
+ * outside buildings and buildings with a job in progress cannot be destroyed.
  */
 final class Demolish implements Action
 {
@@ -19,8 +19,8 @@ final class Demolish implements Action
     {
         $building = $farm->building($payload->string('id'));
 
-        if ($farm->data->building($building['type'])['kind'] === 'storage') {
-            throw new GameError('not_demolishable', 'La grange ne peut pas être détruite.');
+        if ($farm->data->building($building['type'])['kind'] === 'storage' || $farm->data->isOutside($building['type'])) {
+            throw new GameError('not_demolishable', 'Ce bâtiment ne peut pas être détruit.');
         }
         if (isset($building['job'])) {
             throw new GameError('busy', 'Récoltez ou attendez la fin de la production avant de détruire.');

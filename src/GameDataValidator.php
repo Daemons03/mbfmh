@@ -120,9 +120,13 @@ final class GameDataValidator
                 $this->errors[] = "{$path}.kind: must be one of " . implode(', ', $this->buildingKinds);
             }
 
+            $zone = $building['zone'] ?? 'farm';
+            if (!in_array($zone, ['farm', 'outside'], true)) {
+                $this->errors[] = "{$path}.zone: must be farm or outside";
+            }
             $size = $building['size'] ?? null;
-            if (!is_array($size) || !array_is_list($size) || count($size) !== 2
-                || !is_int($size[0]) || !is_int($size[1]) || $size[0] < 1 || $size[1] < 1) {
+            if ($zone === 'farm' && (!is_array($size) || !array_is_list($size) || count($size) !== 2
+                || !is_int($size[0]) || !is_int($size[1]) || $size[0] < 1 || $size[1] < 1)) {
                 $this->errors[] = "{$path}.size: must be [width, height] positive integers";
             }
             $this->positiveInt($building['max_count'] ?? null, "{$path}.max_count");
@@ -263,8 +267,11 @@ final class GameDataValidator
         }
         foreach ($buildings as $index => $building) {
             $path = "initial_state.buildings[{$index}]";
-            if (!isset($this->data['buildings'][$building['type'] ?? null])) {
+            $definition = $this->data['buildings'][$building['type'] ?? null] ?? null;
+            if ($definition === null) {
                 $this->errors[] = "{$path}.type: unknown building";
+            } elseif (($definition['zone'] ?? 'farm') !== 'farm') {
+                $this->errors[] = "{$path}.type: only farm-zone buildings can be placed at start";
             }
             $this->nonNegativeInt($building['x'] ?? null, "{$path}.x");
             $this->nonNegativeInt($building['y'] ?? null, "{$path}.y");

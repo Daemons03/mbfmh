@@ -11,15 +11,13 @@ use FermeTranquille\Engine\Payload;
 use InvalidArgumentException;
 
 /**
- * payload: { type, x, y }
+ * payload: { type, x, y } — x/y are ignored for outside buildings.
  */
 final class Build implements Action
 {
     public function apply(Farm $farm, Payload $payload, Clock $clock): void
     {
         $type = $payload->string('type');
-        $x = $payload->int('x', 0);
-        $y = $payload->int('y', 0);
 
         try {
             $definition = $farm->data->building($type);
@@ -27,6 +25,9 @@ final class Build implements Action
             throw new GameError('unknown_building_type', 'Type de bâtiment inconnu.', ['type' => $type]);
         }
         $first = $definition['levels'][0];
+        $outside = $farm->data->isOutside($type);
+        $x = $outside ? null : $payload->int('x', 0);
+        $y = $outside ? null : $payload->int('y', 0);
 
         $farm->assertLevel($first['unlock_level'] ?? 1);
         if ($farm->countBuildings($type) >= $definition['max_count']) {
@@ -34,7 +35,9 @@ final class Build implements Action
                 'max' => $definition['max_count'],
             ]);
         }
-        $farm->assertPlaceable($type, $x, $y);
+        if (!$outside) {
+            $farm->assertPlaceable($type, $x, $y);
+        }
         $farm->pay($first['cost']);
         $farm->addBuilding($type, $x, $y);
     }

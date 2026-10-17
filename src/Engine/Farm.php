@@ -275,11 +275,15 @@ final class Farm
     }
 
     /**
-     * @return array<string, mixed> the new building
+     * @return array<string, mixed> the new building (outside buildings have no x/y)
      */
-    public function addBuilding(string $type, int $x, int $y): array
+    public function addBuilding(string $type, ?int $x = null, ?int $y = null): array
     {
-        $building = ['id' => 'b' . $this->state['next_id']++, 'type' => $type, 'x' => $x, 'y' => $y, 'level' => 1];
+        $building = ['id' => 'b' . $this->state['next_id']++, 'type' => $type];
+        if ($x !== null && $y !== null) {
+            $building += ['x' => $x, 'y' => $y];
+        }
+        $building['level'] = 1;
         $this->state['buildings'][] = $building;
 
         return $building;
@@ -320,7 +324,7 @@ final class Farm
 
         $occupied = [];
         foreach ($this->state['buildings'] as $other) {
-            if ($other['id'] === $ignoreId) {
+            if ($other['id'] === $ignoreId || $this->data->isOutside($other['type'])) {
                 continue;
             }
             [$w, $h] = $this->data->building($other['type'])['size'];

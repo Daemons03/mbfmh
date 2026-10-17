@@ -48,10 +48,14 @@
     "glass": {
       "name": "Verre",
       "emoji": "🪟"
+    },
+    "blueprints": {
+      "name": "Plans",
+      "emoji": "📜"
     }
   },
   "player": {
-    "max_level": 120,
+    "max_level": 200,
     "xp_curve": {
       "base": 50,
       "exponent": 1.6,
@@ -1725,6 +1729,729 @@
           }
         }
       ]
+    },
+    "external_barn": {
+      "name": "Grange extérieure",
+      "emoji": "🏚️",
+      "kind": "storage",
+      "zone": "outside",
+      "max_count": 1,
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 50
+          },
+          "capacity": 50
+        },
+        {
+          "level": 2,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 100
+          },
+          "capacity": 100
+        },
+        {
+          "level": 3,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 300
+          },
+          "capacity": 150
+        },
+        {
+          "level": 4,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 900
+          },
+          "capacity": 200
+        },
+        {
+          "level": 5,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 1500
+          },
+          "capacity": 250
+        },
+        {
+          "level": 6,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 3800
+          },
+          "capacity": 300
+        },
+        {
+          "level": 7,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 6600
+          },
+          "capacity": 350
+        },
+        {
+          "level": 8,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 10400
+          },
+          "capacity": 400
+        },
+        {
+          "level": 9,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 14800
+          },
+          "capacity": 450
+        },
+        {
+          "level": 10,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 24420
+          },
+          "capacity": 500
+        },
+        {
+          "level": 11,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 36300
+          },
+          "capacity": 550
+        },
+        {
+          "level": 12,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 61600
+          },
+          "capacity": 600
+        },
+        {
+          "level": 13,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 102500
+          },
+          "capacity": 650
+        },
+        {
+          "level": 14,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 152500
+          },
+          "capacity": 700
+        },
+        {
+          "level": 15,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 212500
+          },
+          "capacity": 750
+        },
+        {
+          "level": 16,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 285000
+          },
+          "capacity": 800
+        },
+        {
+          "level": 17,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 370000
+          },
+          "capacity": 850
+        },
+        {
+          "level": 18,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 465000
+          },
+          "capacity": 900
+        },
+        {
+          "level": 19,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 570000
+          },
+          "capacity": 950
+        },
+        {
+          "level": 20,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 687000
+          },
+          "capacity": 1000
+        },
+        {
+          "level": 21,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 750000
+          },
+          "capacity": 1050
+        },
+        {
+          "level": 22,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 800000
+          },
+          "capacity": 1100
+        },
+        {
+          "level": 23,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 850000
+          },
+          "capacity": 1150
+        },
+        {
+          "level": 24,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 900000
+          },
+          "capacity": 1200
+        },
+        {
+          "level": 25,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 950000
+          },
+          "capacity": 1250
+        },
+        {
+          "level": 26,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 1000000
+          },
+          "capacity": 1300
+        },
+        {
+          "level": 27,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 1000000
+          },
+          "capacity": 1350
+        }
+      ],
+      "_note": "Capacité ajoutée à celle de la grange (hypothèse). Niveaux > 1 : niveau requis inconnu, on reprend celui du déblocage."
+    },
+    "library": {
+      "name": "Bibliothèque",
+      "emoji": "📚",
+      "kind": "special",
+      "zone": "outside",
+      "max_count": 1,
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 0,
+            "tiles": 0,
+            "glass": 0
+          }
+        },
+        {
+          "level": 2,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 150,
+            "tiles": 150,
+            "glass": 10
+          }
+        },
+        {
+          "level": 3,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 300,
+            "tiles": 300,
+            "glass": 20
+          }
+        },
+        {
+          "level": 4,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 600,
+            "tiles": 600,
+            "glass": 40
+          }
+        },
+        {
+          "level": 5,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 1050,
+            "tiles": 1050,
+            "glass": 90
+          }
+        },
+        {
+          "level": 6,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 1650,
+            "tiles": 1650,
+            "glass": 165
+          }
+        },
+        {
+          "level": 7,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 2400,
+            "tiles": 2400,
+            "glass": 265
+          }
+        },
+        {
+          "level": 8,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 3300,
+            "tiles": 3300,
+            "glass": 390
+          }
+        },
+        {
+          "level": 9,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 4350,
+            "tiles": 4350,
+            "glass": 540
+          }
+        },
+        {
+          "level": 10,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 5550,
+            "tiles": 5550,
+            "glass": 715
+          }
+        },
+        {
+          "level": 11,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 6900,
+            "tiles": 6900,
+            "glass": 915
+          }
+        },
+        {
+          "level": 12,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 8400,
+            "tiles": 8400,
+            "glass": 1140
+          }
+        },
+        {
+          "level": 13,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 10050,
+            "tiles": 10050,
+            "glass": 1390
+          }
+        },
+        {
+          "level": 14,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 11850,
+            "tiles": 11850,
+            "glass": 1665
+          }
+        },
+        {
+          "level": 15,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 13800,
+            "tiles": 13800,
+            "glass": 1965
+          }
+        },
+        {
+          "level": 16,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 20700,
+            "tiles": 20700,
+            "glass": 2900
+          }
+        },
+        {
+          "level": 17,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 31000,
+            "tiles": 31000,
+            "glass": 4300
+          }
+        },
+        {
+          "level": 18,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 46500,
+            "tiles": 46500,
+            "glass": 6400
+          }
+        },
+        {
+          "level": 19,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 69700,
+            "tiles": 69700,
+            "glass": 9600
+          }
+        },
+        {
+          "level": 20,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 104500,
+            "tiles": 104500,
+            "glass": 14400
+          }
+        },
+        {
+          "level": 21,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 156700,
+            "tiles": 156700,
+            "glass": 21600
+          }
+        },
+        {
+          "level": 22,
+          "unlock_level": 15,
+          "cost": {
+            "bricks": 235000,
+            "tiles": 235000,
+            "glass": 32000
+          }
+        }
+      ],
+      "_note": "Améliorations de produits (parchemins, encre, livres) prévues en V2. Niveaux > 1 : niveau requis inconnu, on reprend celui du déblocage."
+    },
+    "show_animal": {
+      "name": "Animal de concours",
+      "emoji": "🏆",
+      "kind": "special",
+      "zone": "outside",
+      "max_count": 1,
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 21,
+          "cost": {
+            "cash": 0
+          },
+          "animals": 1
+        },
+        {
+          "level": 2,
+          "unlock_level": 21,
+          "cost": {
+            "cash": 2160000,
+            "blueprints": 1
+          },
+          "animals": 2
+        },
+        {
+          "level": 3,
+          "unlock_level": 21,
+          "cost": {
+            "cash": 3150000,
+            "blueprints": 3
+          },
+          "animals": 2
+        },
+        {
+          "level": 4,
+          "unlock_level": 21,
+          "cost": {
+            "cash": 4230000,
+            "blueprints": 8
+          },
+          "animals": 2
+        },
+        {
+          "level": 5,
+          "unlock_level": 21,
+          "cost": {
+            "cash": 5400000,
+            "blueprints": 15
+          },
+          "animals": 3
+        },
+        {
+          "level": 6,
+          "unlock_level": 21,
+          "cost": {
+            "cash": 6750000,
+            "blueprints": 30
+          },
+          "animals": 3
+        },
+        {
+          "level": 7,
+          "unlock_level": 21,
+          "cost": {
+            "cash": 8550000,
+            "blueprints": 50
+          },
+          "animals": 3
+        },
+        {
+          "level": 8,
+          "unlock_level": 21,
+          "cost": {
+            "cash": 11250000,
+            "blueprints": 100
+          },
+          "animals": 4
+        }
+      ],
+      "_note": "animals = nombre d'emplacements ; jetons de coffre et effets prévus en V2. Niveau 9 inconnu, omis. Niveaux > 1 : niveau requis inconnu, on reprend celui du déblocage."
+    },
+    "cafe": {
+      "name": "Café-boutique",
+      "emoji": "☕",
+      "kind": "special",
+      "zone": "outside",
+      "max_count": 1,
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 40,
+          "cost": {},
+          "_estimated": true,
+          "_note": "Niveau 1 absent du fan site : construit gratuitement au déblocage."
+        },
+        {
+          "level": 2,
+          "unlock_level": 40,
+          "cost": {
+            "nails": 2900,
+            "boards": 2900,
+            "saws": 480
+          }
+        },
+        {
+          "level": 3,
+          "unlock_level": 40,
+          "cost": {
+            "nails": 5200,
+            "boards": 5200,
+            "saws": 860
+          }
+        },
+        {
+          "level": 4,
+          "unlock_level": 40,
+          "cost": {
+            "nails": 8900,
+            "boards": 8900,
+            "saws": 1480
+          }
+        },
+        {
+          "level": 5,
+          "unlock_level": 40,
+          "cost": {
+            "nails": 15000,
+            "boards": 15000,
+            "saws": 2500
+          }
+        },
+        {
+          "level": 6,
+          "unlock_level": 40,
+          "cost": {
+            "nails": 32000,
+            "boards": 44000,
+            "saws": 8000
+          }
+        },
+        {
+          "level": 7,
+          "unlock_level": 40,
+          "cost": {
+            "nails": 56000,
+            "boards": 86000,
+            "mallets": 2900
+          }
+        }
+      ],
+      "_note": "Fonctionnement prévu en V2. Niveaux > 1 : niveau requis inconnu, on reprend celui du déblocage."
+    },
+    "manufactory": {
+      "name": "Atelier de couture",
+      "emoji": "🧵",
+      "kind": "special",
+      "zone": "outside",
+      "max_count": 1,
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 44,
+          "cost": {
+            "cash": 1260000
+          },
+          "slots": 2
+        },
+        {
+          "level": 2,
+          "unlock_level": 49,
+          "cost": {
+            "cash": 2160000,
+            "bricks": 2100,
+            "tiles": 2100,
+            "glass": 300
+          },
+          "slots": 3
+        },
+        {
+          "level": 3,
+          "unlock_level": 57,
+          "cost": {
+            "cash": 3150000,
+            "bricks": 4900,
+            "tiles": 4900,
+            "glass": 700
+          },
+          "slots": 4
+        },
+        {
+          "level": 4,
+          "unlock_level": 64,
+          "cost": {
+            "cash": 4230000,
+            "bricks": 9500,
+            "tiles": 9500,
+            "glass": 1400
+          },
+          "slots": 5
+        },
+        {
+          "level": 5,
+          "unlock_level": 74,
+          "cost": {
+            "cash": 5400000,
+            "bricks": 14200,
+            "tiles": 14200,
+            "glass": 2100
+          },
+          "slots": 6
+        },
+        {
+          "level": 6,
+          "unlock_level": 79,
+          "cost": {
+            "cash": 6750000,
+            "bricks": 20900,
+            "tiles": 20900,
+            "glass": 3500
+          },
+          "slots": 6
+        },
+        {
+          "level": 7,
+          "unlock_level": 87,
+          "cost": {
+            "cash": 8550000,
+            "bricks": 28700,
+            "tiles": 28700,
+            "glass": 5500
+          },
+          "slots": 6
+        },
+        {
+          "level": 8,
+          "unlock_level": 95,
+          "cost": {
+            "cash": 11250000,
+            "bricks": 37300,
+            "tiles": 37300,
+            "glass": 7200
+          },
+          "slots": 6
+        },
+        {
+          "level": 9,
+          "unlock_level": 104,
+          "cost": {
+            "cash": 14400000,
+            "bricks": 48500,
+            "tiles": 48500,
+            "glass": 9400
+          },
+          "slots": 6
+        },
+        {
+          "level": 10,
+          "unlock_level": 112,
+          "cost": {
+            "cash": 18000000,
+            "bricks": 63100,
+            "tiles": 63100,
+            "glass": 12200
+          },
+          "slots": 6
+        },
+        {
+          "level": 11,
+          "unlock_level": 134,
+          "cost": {
+            "cash": 22000000,
+            "mallets": 40,
+            "buckets": 300
+          },
+          "slots": 7
+        },
+        {
+          "level": 12,
+          "unlock_level": 164,
+          "cost": {
+            "cash": 27000000,
+            "mallets": 1200,
+            "buckets": 9000
+          },
+          "slots": 8
+        }
+      ],
+      "_note": "« Manufactory » sur le fan site (correspondance à confirmer). slots = nombre de produits ; recettes prévues en V2."
     }
   }
 }

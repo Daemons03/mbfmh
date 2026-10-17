@@ -19,7 +19,7 @@ final class GameData
     public const string DEFAULT_FILE = __DIR__ . '/../data/game-data.json';
     public const string DEFAULT_CACHE_DIR = __DIR__ . '/../var/cache';
 
-    private const array BUILDING_KINDS = ['field', 'storage', 'production'];
+    private const array BUILDING_KINDS = ['field', 'storage', 'production', 'special'];
 
     /**
      * @param array<string, mixed> $data
@@ -94,6 +94,14 @@ final class GameData
     public function buildingLevel(string $type, int $level): ?array
     {
         return $this->building($type)['levels'][$level - 1] ?? null;
+    }
+
+    /**
+     * Outside buildings live off the grid (no position, size or move).
+     */
+    public function isOutside(string $type): bool
+    {
+        return ($this->building($type)['zone'] ?? 'farm') === 'outside';
     }
 
     public function maxBuildingLevel(string $type): int
