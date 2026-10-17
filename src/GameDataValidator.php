@@ -254,6 +254,21 @@ final class GameDataValidator
         if (($state['expansions'] ?? null) !== ($this->data['land']['initial_expansions'] ?? null)) {
             $this->errors[] = 'initial_state.expansions: must equal land.initial_expansions';
         }
+
+        $buildings = $state['buildings'] ?? null;
+        if (!is_array($buildings) || !array_is_list($buildings)) {
+            $this->errors[] = 'initial_state.buildings: must be a list';
+
+            return;
+        }
+        foreach ($buildings as $index => $building) {
+            $path = "initial_state.buildings[{$index}]";
+            if (!isset($this->data['buildings'][$building['type'] ?? null])) {
+                $this->errors[] = "{$path}.type: unknown building";
+            }
+            $this->nonNegativeInt($building['x'] ?? null, "{$path}.x");
+            $this->nonNegativeInt($building['y'] ?? null, "{$path}.y");
+        }
     }
 
     // ------------------------------------------------------------ helpers

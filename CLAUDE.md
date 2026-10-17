@@ -70,20 +70,23 @@ L'état complet de la ferme est un document JSON (`state_json`). `version` est i
 {
   "level": 1, "xp": 0,
   "cash": 2000, "gold": 50,
-  "materials": { "boards": 0, "nails": 0, "saws": 0, "mallets": 0, "buckets": 0 },
-  "barn": { "capacity": 200, "items": { "corn": 0 } },
+  "materials": { "boards": 0, "nails": 0, "saws": 0, "mallets": 0, "buckets": 0, "bricks": 0, "tiles": 0, "glass": 0 },
+  "barn": { "items": { "corn": 10 } },
   "expansions": 6,
-  "grid": { "cols": 12, "rows": 12 },
   "buildings": [
-    { "id": "b1", "type": "field", "x": 2, "y": 3, "level": 1,
+    { "id": "b1", "type": "barn", "x": 0, "y": 0, "level": 1 },
+    { "id": "b2", "type": "field", "x": 3, "y": 0, "level": 1,
       "job": { "product": "corn", "started_at": 1760000000, "duration": 300 } }
   ],
+  "next_id": 3,
   "contracts": [],
   "settings": { "speed": 1 }
 }
 ```
 
-La grille est découpée en blocs d'extension (4×4 cases). Les blocs non achetés sont verrouillés.
+- La grange est un bâtiment de la grille ; sa capacité vient de son niveau (`game-data.json`), elle n'est pas stockée.
+- `xp` = progression dans le niveau courant. `next_id` ne recule jamais (ids jamais réutilisés).
+- La grille est découpée en blocs d'extension (4×4 cases), numérotés en carré croissant (voir `Engine/Land.php`) ; posséder `n` extensions = posséder les blocs 1..n. La taille de grille affichée en découle (plus petit carré contenant le prochain bloc achetable). Les blocs non achetés sont verrouillés.
 
 ## API
 

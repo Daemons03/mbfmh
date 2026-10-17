@@ -109,6 +109,11 @@ final class GameData
         return $this->data['land']['expansions'][$number - $this->initialExpansions() - 1] ?? null;
     }
 
+    public function blockSize(): int
+    {
+        return $this->data['land']['block_size'];
+    }
+
     public function initialExpansions(): int
     {
         return $this->data['land']['initial_expansions'];

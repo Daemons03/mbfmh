@@ -65,11 +65,29 @@
     "cash": 2000,
     "gold": 50,
     "expansions": 6,
+    "buildings": [
+      {
+        "type": "barn",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "type": "field",
+        "x": 3,
+        "y": 0
+      },
+      {
+        "type": "field",
+        "x": 3,
+        "y": 1
+      }
+    ],
     "_estimated": true
   },
   "land": {
     "block_size": 4,
     "initial_expansions": 6,
+    "_layout": "Blocs ajoutés en carré croissant : n°1 (0,0) ; carré k = colonne x=k-1 de haut en bas, puis ligne y=k-1 de gauche à droite.",
     "expansions": [
       {
         "number": 7,
