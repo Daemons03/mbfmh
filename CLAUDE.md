@@ -39,7 +39,7 @@ Un panneau admin permet de modifier librement ressources, niveau et vitesse du t
     Engine.php          ← applique une action à un état
     Actions/*.php       ← une classe par type d'action
     Clock.php           ← temps serveur × multiplicateur admin
-/data/game-data.json
+/data/game-data.json   ← valeurs de jeu (éditable à la main, validé au chargement)
 /sql/schema.sql
 /config/config.example.php   ← config.php réel ignoré par Git
 /scripts/create-user.php     ← CLI : création du compte joueur
@@ -71,7 +71,7 @@ L'état complet de la ferme est un document JSON (`state_json`). `version` est i
   "level": 1, "xp": 0,
   "cash": 2000, "gold": 50,
   "materials": { "boards": 0, "nails": 0, "saws": 0, "mallets": 0, "buckets": 0 },
-  "barn": { "capacity": 50, "items": { "corn": 0 } },
+  "barn": { "capacity": 200, "items": { "corn": 0 } },
   "expansions": 6,
   "grid": { "cols": 12, "rows": 12 },
   "buildings": [
@@ -138,7 +138,7 @@ Maison (niveau, niveau joueur requis, ouvriers, bonheur, coût) — pour V2 :
 
 Extensions (n°, niveau requis, or, cash) : 7/4/50/400 · 8/5/120/1 200 · 9/6/400/4 500 · 10/8/1 200/15 200. Au-delà : estimer cash ×3 par extension, niveau requis croissant, matériaux (planches/clous/scies) à partir de la 11 — tout marqué `_estimated`.
 
-Bâtiments V1 à créer avec valeurs estimées : champ, grange, moulin à grain (maïs + blé → aliment poules), poulailler (aliment poules → œufs). Le joueur complétera les données réelles plus tard.
+Bâtiments V1 : champ, grange, moulin à grain (maïs → aliment poules ; le blé, débloqué au niveau 14, n'est pas requis pour que la chaîne marche dès le niveau 1), poulailler (aliment poules → œufs + fumier). Niveaux, coûts, capacités et quantités produites relevés sur le fan site ; recettes, durées et tailles estimées. Le joueur complétera les données réelles plus tard.
 
 Courbe XP estimée : `xp_needed(n) = round(50 * n^1.6)`.
 

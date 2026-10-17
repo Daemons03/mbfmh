@@ -1,0 +1,1712 @@
+{
+  "version": 1,
+  "_source": "Valeurs chiffrées relevées sur bfmhfansite.com (oct. 2026) ; le reste est estimé (_estimated).",
+  "_conventions": {
+    "costs": "Objet {ressource: quantité}. Ressources : cash, gold et les clés de materials.",
+    "durations": "En secondes de jeu (divisées par settings.speed).",
+    "_estimated": "true = valeurs de l'objet estimées, à compléter ; _estimated_fields liste les clés estimées."
+  },
+  "currencies": {
+    "cash": {
+      "name": "Argent",
+      "emoji": "💵"
+    },
+    "gold": {
+      "name": "Or",
+      "emoji": "🪙"
+    }
+  },
+  "materials": {
+    "boards": {
+      "name": "Planches",
+      "emoji": "🪵"
+    },
+    "nails": {
+      "name": "Clous",
+      "emoji": "📌"
+    },
+    "saws": {
+      "name": "Scies",
+      "emoji": "🪚"
+    },
+    "mallets": {
+      "name": "Maillets",
+      "emoji": "🔨"
+    },
+    "buckets": {
+      "name": "Seaux",
+      "emoji": "🪣"
+    },
+    "bricks": {
+      "name": "Briques",
+      "emoji": "🧱"
+    },
+    "tiles": {
+      "name": "Tuiles",
+      "emoji": "🟥"
+    },
+    "glass": {
+      "name": "Verre",
+      "emoji": "🪟"
+    }
+  },
+  "player": {
+    "max_level": 120,
+    "xp_curve": {
+      "base": 50,
+      "exponent": 1.6,
+      "_estimated": true,
+      "_note": "XP pour passer du niveau n à n+1 : round(base × n^exponent)."
+    }
+  },
+  "initial_state": {
+    "level": 1,
+    "xp": 0,
+    "cash": 2000,
+    "gold": 50,
+    "expansions": 6,
+    "_estimated": true
+  },
+  "land": {
+    "block_size": 4,
+    "initial_expansions": 6,
+    "expansions": [
+      {
+        "number": 7,
+        "unlock_level": 4,
+        "costs": [
+          {
+            "gold": 50
+          },
+          {
+            "cash": 400
+          }
+        ]
+      },
+      {
+        "number": 8,
+        "unlock_level": 5,
+        "costs": [
+          {
+            "gold": 120
+          },
+          {
+            "cash": 1200
+          }
+        ]
+      },
+      {
+        "number": 9,
+        "unlock_level": 6,
+        "costs": [
+          {
+            "gold": 400
+          },
+          {
+            "cash": 4500
+          }
+        ]
+      },
+      {
+        "number": 10,
+        "unlock_level": 8,
+        "costs": [
+          {
+            "gold": 1200
+          },
+          {
+            "cash": 15200
+          }
+        ]
+      },
+      {
+        "number": 11,
+        "unlock_level": 14,
+        "costs": [
+          {
+            "gold": 1850
+          },
+          {
+            "cash": 42000,
+            "nails": 5
+          }
+        ]
+      },
+      {
+        "number": 12,
+        "unlock_level": 16,
+        "costs": [
+          {
+            "gold": 2300
+          },
+          {
+            "cash": 80000,
+            "nails": 7,
+            "boards": 10
+          }
+        ]
+      },
+      {
+        "number": 13,
+        "unlock_level": 18,
+        "costs": [
+          {
+            "gold": 2800
+          },
+          {
+            "cash": 120000,
+            "nails": 20,
+            "boards": 15,
+            "saws": 2
+          }
+        ]
+      },
+      {
+        "number": 14,
+        "unlock_level": 20,
+        "costs": [
+          {
+            "gold": 3500
+          },
+          {
+            "cash": 180000,
+            "nails": 100,
+            "boards": 80,
+            "saws": 10
+          }
+        ]
+      },
+      {
+        "number": 15,
+        "unlock_level": 22,
+        "costs": [
+          {
+            "gold": 4200
+          },
+          {
+            "cash": 230000,
+            "nails": 150,
+            "boards": 120,
+            "saws": 15
+          }
+        ]
+      },
+      {
+        "number": 16,
+        "unlock_level": 24,
+        "costs": [
+          {
+            "gold": 4900
+          },
+          {
+            "cash": 300000,
+            "nails": 300,
+            "boards": 240,
+            "saws": 30
+          }
+        ],
+        "_estimated": true,
+        "_note": "Le fan site indique 30 000 (faute probable entre 230 000 et 360 000) : corrigé en 300 000."
+      },
+      {
+        "number": 17,
+        "unlock_level": 26,
+        "costs": [
+          {
+            "gold": 4900
+          },
+          {
+            "cash": 360000,
+            "nails": 500,
+            "boards": 400,
+            "saws": 50
+          }
+        ]
+      },
+      {
+        "number": 18,
+        "unlock_level": 28,
+        "costs": [
+          {
+            "gold": 6300
+          },
+          {
+            "cash": 430000,
+            "nails": 700,
+            "boards": 560,
+            "saws": 70
+          }
+        ]
+      },
+      {
+        "number": 19,
+        "unlock_level": 30,
+        "costs": [
+          {
+            "gold": 7000
+          },
+          {
+            "cash": 530000,
+            "nails": 900,
+            "boards": 720,
+            "saws": 90
+          }
+        ]
+      },
+      {
+        "number": 20,
+        "unlock_level": 32,
+        "costs": [
+          {
+            "gold": 7800
+          },
+          {
+            "cash": 630000,
+            "nails": 1100,
+            "boards": 880,
+            "saws": 110
+          }
+        ]
+      },
+      {
+        "number": 21,
+        "unlock_level": 34,
+        "costs": [
+          {
+            "gold": 9000
+          },
+          {
+            "cash": 750000,
+            "nails": 1300,
+            "boards": 1040,
+            "saws": 130
+          }
+        ]
+      },
+      {
+        "number": 22,
+        "unlock_level": 36,
+        "costs": [
+          {
+            "gold": 11000
+          },
+          {
+            "cash": 900000,
+            "nails": 1500,
+            "boards": 1200,
+            "saws": 150
+          }
+        ]
+      },
+      {
+        "number": 23,
+        "unlock_level": 38,
+        "costs": [
+          {
+            "gold": 13500
+          },
+          {
+            "cash": 1100000,
+            "nails": 1800,
+            "boards": 1440,
+            "saws": 180
+          }
+        ]
+      },
+      {
+        "number": 24,
+        "unlock_level": 40,
+        "costs": [
+          {
+            "gold": 16000
+          },
+          {
+            "cash": 1500000,
+            "nails": 2100,
+            "boards": 1680,
+            "saws": 210
+          }
+        ]
+      },
+      {
+        "number": 25,
+        "unlock_level": 42,
+        "costs": [
+          {
+            "gold": 19000
+          },
+          {
+            "cash": 2000000,
+            "nails": 2400,
+            "boards": 1920,
+            "saws": 240
+          }
+        ]
+      },
+      {
+        "number": 26,
+        "unlock_level": 44,
+        "costs": [
+          {
+            "gold": 21000
+          },
+          {
+            "cash": 3000000,
+            "nails": 2700,
+            "boards": 2160,
+            "saws": 270
+          }
+        ]
+      },
+      {
+        "number": 27,
+        "unlock_level": 46,
+        "costs": [
+          {
+            "gold": 25000
+          },
+          {
+            "cash": 4500000,
+            "nails": 3900,
+            "boards": 3600,
+            "saws": 450
+          }
+        ]
+      },
+      {
+        "number": 28,
+        "unlock_level": 48,
+        "costs": [
+          {
+            "gold": 35000
+          },
+          {
+            "cash": 7000000,
+            "nails": 4620,
+            "boards": 4224,
+            "saws": 528
+          }
+        ]
+      },
+      {
+        "number": 29,
+        "unlock_level": 50,
+        "costs": [
+          {
+            "gold": 55000
+          },
+          {
+            "cash": 11000000,
+            "nails": 5040,
+            "boards": 4600,
+            "saws": 576
+          }
+        ]
+      },
+      {
+        "number": 30,
+        "unlock_level": 52,
+        "costs": [
+          {
+            "gold": 80000
+          },
+          {
+            "cash": 17000000,
+            "nails": 5460,
+            "boards": 4992,
+            "saws": 624
+          }
+        ]
+      },
+      {
+        "number": 31,
+        "unlock_level": 54,
+        "costs": [
+          {
+            "gold": 100000
+          },
+          {
+            "cash": 26000000,
+            "nails": 5880,
+            "boards": 5376,
+            "saws": 672
+          }
+        ]
+      },
+      {
+        "number": 32,
+        "unlock_level": 56,
+        "costs": [
+          {
+            "gold": 130000
+          },
+          {
+            "cash": 39000000,
+            "nails": 7200,
+            "boards": 7200,
+            "saws": 900
+          }
+        ]
+      },
+      {
+        "number": 33,
+        "unlock_level": 58,
+        "costs": [
+          {
+            "gold": 170000
+          },
+          {
+            "cash": 47000000,
+            "nails": 7680,
+            "boards": 7680,
+            "saws": 960
+          }
+        ]
+      },
+      {
+        "number": 34,
+        "unlock_level": 60,
+        "costs": [
+          {
+            "gold": 210000
+          },
+          {
+            "cash": 57000000,
+            "nails": 8160,
+            "boards": 8160,
+            "saws": 1020
+          }
+        ]
+      },
+      {
+        "number": 35,
+        "unlock_level": 62,
+        "costs": [
+          {
+            "gold": 250000
+          },
+          {
+            "cash": 69000000,
+            "nails": 8640,
+            "boards": 8640,
+            "saws": 1080
+          }
+        ]
+      },
+      {
+        "number": 36,
+        "unlock_level": 64,
+        "costs": [
+          {
+            "gold": 300000
+          },
+          {
+            "cash": 83000000,
+            "nails": 9120,
+            "boards": 9120,
+            "saws": 1140
+          }
+        ]
+      },
+      {
+        "number": 37,
+        "unlock_level": 66,
+        "costs": [
+          {
+            "gold": 390000
+          },
+          {
+            "cash": 92000000,
+            "nails": 14000,
+            "boards": 14000,
+            "saws": 2000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 38,
+        "unlock_level": 68,
+        "costs": [
+          {
+            "gold": 500000
+          },
+          {
+            "cash": 102000000,
+            "nails": 21000,
+            "boards": 21000,
+            "saws": 3000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 39,
+        "unlock_level": 70,
+        "costs": [
+          {
+            "gold": 650000
+          },
+          {
+            "cash": 113000000,
+            "nails": 32000,
+            "boards": 32000,
+            "saws": 5000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 40,
+        "unlock_level": 72,
+        "costs": [
+          {
+            "gold": 850000
+          },
+          {
+            "cash": 125000000,
+            "nails": 48000,
+            "boards": 48000,
+            "saws": 8000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 41,
+        "unlock_level": 74,
+        "costs": [
+          {
+            "gold": 1020000
+          },
+          {
+            "cash": 138000000,
+            "nails": 72000,
+            "boards": 72000,
+            "saws": 12000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 42,
+        "unlock_level": 76,
+        "costs": [
+          {
+            "gold": 1230000
+          },
+          {
+            "cash": 152000000,
+            "nails": 108000,
+            "boards": 108000,
+            "saws": 18000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 43,
+        "unlock_level": 78,
+        "costs": [
+          {
+            "gold": 1480000
+          },
+          {
+            "cash": 168000000,
+            "nails": 162000,
+            "boards": 162000,
+            "saws": 27000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 44,
+        "unlock_level": 80,
+        "costs": [
+          {
+            "gold": 1770000
+          },
+          {
+            "cash": 185000000,
+            "nails": 250000,
+            "boards": 250000,
+            "saws": 50000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 45,
+        "unlock_level": 82,
+        "costs": [
+          {
+            "gold": 2130000
+          },
+          {
+            "cash": 204000000,
+            "nails": 380000,
+            "boards": 380000,
+            "saws": 80000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 46,
+        "unlock_level": 84,
+        "costs": [
+          {
+            "gold": 2550000
+          },
+          {
+            "cash": 226000000,
+            "nails": 570000,
+            "boards": 570000,
+            "saws": 120000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 47,
+        "unlock_level": 86,
+        "costs": [
+          {
+            "gold": 3070000
+          },
+          {
+            "cash": 248000000,
+            "nails": 860000,
+            "boards": 860000,
+            "saws": 180000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 48,
+        "unlock_level": 88,
+        "costs": [
+          {
+            "gold": 3680000
+          },
+          {
+            "cash": 273000000,
+            "nails": 1290000,
+            "boards": 1290000,
+            "saws": 270000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 49,
+        "unlock_level": 90,
+        "costs": [
+          {
+            "gold": 4420000
+          },
+          {
+            "cash": 301000000,
+            "nails": 1940000,
+            "boards": 1940000,
+            "saws": 730000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 50,
+        "unlock_level": 92,
+        "costs": [
+          {
+            "gold": 5380000
+          },
+          {
+            "cash": 332000000,
+            "nails": 3460000,
+            "boards": 3460000,
+            "saws": 730000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 51,
+        "unlock_level": 94,
+        "costs": [
+          {
+            "gold": 6540000
+          },
+          {
+            "cash": 365000000,
+            "nails": 5680000,
+            "boards": 5680000,
+            "saws": 1230000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 52,
+        "unlock_level": 96,
+        "costs": [
+          {
+            "gold": 7850000
+          },
+          {
+            "cash": 401000000,
+            "nails": 9420000,
+            "boards": 9420000,
+            "saws": 2240000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 53,
+        "unlock_level": 98,
+        "costs": [
+          {
+            "gold": 9430000
+          },
+          {
+            "cash": 438000000,
+            "nails": 15490000,
+            "boards": 15490000,
+            "saws": 3780000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 54,
+        "unlock_level": 100,
+        "costs": [
+          {
+            "gold": 11140000
+          },
+          {
+            "cash": 478000000,
+            "nails": 22530000,
+            "boards": 22530000,
+            "saws": 6230000
+          }
+        ],
+        "_estimated": true
+      },
+      {
+        "number": 55,
+        "unlock_level": 102,
+        "costs": [
+          {
+            "gold": 13200000
+          },
+          {
+            "cash": 520000000,
+            "nails": 41670000,
+            "boards": 41670000,
+            "saws": 10200000
+          }
+        ],
+        "_estimated": true
+      }
+    ]
+  },
+  "market": {
+    "slots": 6,
+    "products_per_contract": [
+      1,
+      3
+    ],
+    "quantity_per_product": [
+      5,
+      30
+    ],
+    "replace_delay": 600,
+    "xp_per_cash": 0.1,
+    "material_reward": {
+      "chance": 0.3,
+      "materials": [
+        "boards",
+        "nails",
+        "saws"
+      ],
+      "quantity": [
+        1,
+        3
+      ]
+    },
+    "_estimated": true,
+    "_note": "Paramètres de génération des contrats ; récompense cash = somme(quantité × market_price)."
+  },
+  "items": {
+    "wildflower": {
+      "name": "Fleurs sauvages",
+      "emoji": "🌼",
+      "category": "crop",
+      "unlock_level": 1,
+      "barn_price": 1,
+      "market_price": 1.25
+    },
+    "corn": {
+      "name": "Maïs",
+      "emoji": "🌽",
+      "category": "crop",
+      "unlock_level": 1,
+      "barn_price": 5,
+      "market_price": 7.5
+    },
+    "cabbage": {
+      "name": "Chou",
+      "emoji": "🥬",
+      "category": "crop",
+      "unlock_level": 8,
+      "barn_price": 4,
+      "market_price": 6.25
+    },
+    "wheat": {
+      "name": "Blé",
+      "emoji": "🌾",
+      "category": "crop",
+      "unlock_level": 14,
+      "barn_price": 25,
+      "market_price": 37.5
+    },
+    "dandelion": {
+      "name": "Pissenlit",
+      "emoji": "🌻",
+      "category": "crop",
+      "unlock_level": 18,
+      "barn_price": 6,
+      "market_price": 10
+    },
+    "lettuce": {
+      "name": "Laitue",
+      "emoji": "🥗",
+      "category": "crop",
+      "unlock_level": 31,
+      "barn_price": 7,
+      "market_price": 11.25
+    },
+    "potato": {
+      "name": "Pomme de terre",
+      "emoji": "🥔",
+      "category": "crop",
+      "unlock_level": 36,
+      "barn_price": 24,
+      "market_price": 7.5
+    },
+    "carrot": {
+      "name": "Carotte",
+      "emoji": "🥕",
+      "category": "crop",
+      "unlock_level": 55,
+      "barn_price": 4,
+      "market_price": 6.25
+    },
+    "barley": {
+      "name": "Orge",
+      "emoji": "🌿",
+      "category": "crop",
+      "unlock_level": 100,
+      "barn_price": 6,
+      "market_price": 9.0,
+      "_estimated": true,
+      "_note": "Prix marché inconnu : prix grange × 1,5."
+    },
+    "chicken_feed": {
+      "name": "Aliment pour poules",
+      "emoji": "🥣",
+      "category": "goods",
+      "unlock_level": 1,
+      "barn_price": 2,
+      "market_price": 3,
+      "_estimated": true
+    },
+    "egg": {
+      "name": "Œuf",
+      "emoji": "🥚",
+      "category": "goods",
+      "unlock_level": 1,
+      "barn_price": 4,
+      "market_price": 6,
+      "_estimated": true
+    },
+    "dung": {
+      "name": "Fumier",
+      "emoji": "💩",
+      "category": "byproduct",
+      "unlock_level": 1,
+      "barn_price": 1,
+      "market_price": 1.5,
+      "_estimated": true
+    }
+  },
+  "crops": {
+    "wildflower": {
+      "plant_cost": {
+        "cash": 0
+      },
+      "duration": 60,
+      "yield": 10,
+      "xp": 1,
+      "_estimated": true,
+      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+    },
+    "corn": {
+      "plant_cost": {
+        "cash": 47
+      },
+      "duration": 300,
+      "yield": 10,
+      "xp": 2,
+      "_estimated": true,
+      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+    },
+    "cabbage": {
+      "plant_cost": {
+        "cash": 95
+      },
+      "duration": 900,
+      "yield": 10,
+      "xp": 4,
+      "_estimated": true,
+      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+    },
+    "wheat": {
+      "plant_cost": {
+        "cash": 973
+      },
+      "duration": 3600,
+      "yield": 10,
+      "xp": 10,
+      "_estimated": true,
+      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+    },
+    "dandelion": {
+      "plant_cost": {
+        "cash": 165
+      },
+      "duration": 1800,
+      "yield": 10,
+      "xp": 6,
+      "_estimated": true,
+      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+    },
+    "lettuce": {
+      "plant_cost": {
+        "cash": 237
+      },
+      "duration": 2700,
+      "yield": 10,
+      "xp": 8,
+      "_estimated": true,
+      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+    },
+    "potato": {
+      "plant_cost": {
+        "cash": 580
+      },
+      "duration": 7200,
+      "yield": 10,
+      "xp": 14,
+      "_estimated": true,
+      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+    },
+    "carrot": {
+      "plant_cost": {
+        "cash": 120
+      },
+      "duration": 5400,
+      "yield": 10,
+      "xp": 12,
+      "_estimated": true,
+      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+    },
+    "barley": {
+      "plant_cost": {
+        "cash": 180
+      },
+      "duration": 10800,
+      "yield": 10,
+      "xp": 16,
+      "_estimated": true,
+      "_note": "Durée, rendement et XP estimés ; seul plant_cost est relevé."
+    }
+  },
+  "buildings": {
+    "field": {
+      "name": "Champ",
+      "emoji": "🟫",
+      "kind": "field",
+      "size": [
+        1,
+        1
+      ],
+      "max_count": 30,
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 1,
+          "cost": {
+            "cash": 250
+          }
+        },
+        {
+          "level": 2,
+          "unlock_level": 13,
+          "cost": {
+            "cash": 15000
+          }
+        },
+        {
+          "level": 3,
+          "unlock_level": 19,
+          "cost": {
+            "cash": 20000
+          }
+        },
+        {
+          "level": 4,
+          "unlock_level": 21,
+          "cost": {
+            "cash": 40000
+          }
+        },
+        {
+          "level": 5,
+          "unlock_level": 32,
+          "cost": {
+            "cash": 120000
+          }
+        },
+        {
+          "level": 6,
+          "unlock_level": 42,
+          "cost": {
+            "cash": 350000
+          }
+        },
+        {
+          "level": 7,
+          "unlock_level": 53,
+          "cost": {
+            "cash": 900000
+          }
+        },
+        {
+          "level": 8,
+          "unlock_level": 68,
+          "cost": {
+            "cash": 1260000,
+            "mallets": 200
+          }
+        },
+        {
+          "level": 9,
+          "unlock_level": 84,
+          "cost": {
+            "cash": 1764000,
+            "mallets": 1000
+          }
+        },
+        {
+          "level": 10,
+          "unlock_level": 99,
+          "cost": {
+            "cash": 2470000,
+            "mallets": 5000
+          }
+        },
+        {
+          "level": 11,
+          "unlock_level": 102,
+          "cost": {
+            "cash": 3458000,
+            "buckets": 4000
+          },
+          "_estimated": true
+        },
+        {
+          "level": 12,
+          "unlock_level": 105,
+          "cost": {
+            "cash": 4841000,
+            "buckets": 12000
+          },
+          "_estimated": true
+        },
+        {
+          "level": 13,
+          "unlock_level": 108,
+          "cost": {
+            "cash": 6777000,
+            "buckets": 18000
+          },
+          "_estimated": true
+        },
+        {
+          "level": 14,
+          "unlock_level": 111,
+          "cost": {
+            "cash": 9488000,
+            "buckets": 27000
+          },
+          "_estimated": true
+        },
+        {
+          "level": 15,
+          "unlock_level": 114,
+          "cost": {
+            "cash": 13283000,
+            "buckets": 41000
+          },
+          "_estimated": true
+        },
+        {
+          "level": 16,
+          "unlock_level": 117,
+          "cost": {
+            "cash": 18596000,
+            "buckets": 62000
+          },
+          "_estimated": true
+        }
+      ]
+    },
+    "barn": {
+      "name": "Grange",
+      "emoji": "🛖",
+      "kind": "storage",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 1,
+      "_estimated_fields": [
+        "size"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "cost": {
+            "cash": 0
+          },
+          "capacity": 200
+        },
+        {
+          "level": 2,
+          "cost": {
+            "cash": 200
+          },
+          "capacity": 250
+        },
+        {
+          "level": 3,
+          "cost": {
+            "cash": 1100
+          },
+          "capacity": 300
+        },
+        {
+          "level": 4,
+          "cost": {
+            "cash": 11000
+          },
+          "capacity": 350
+        },
+        {
+          "level": 5,
+          "cost": {
+            "cash": 33000
+          },
+          "capacity": 400
+        },
+        {
+          "level": 6,
+          "cost": {
+            "cash": 55000
+          },
+          "capacity": 450
+        },
+        {
+          "level": 7,
+          "cost": {
+            "cash": 110000
+          },
+          "capacity": 500
+        },
+        {
+          "level": 8,
+          "cost": {
+            "cash": 198000
+          },
+          "capacity": 550
+        },
+        {
+          "level": 9,
+          "cost": {
+            "cash": 308000
+          },
+          "capacity": 600
+        },
+        {
+          "level": 10,
+          "cost": {
+            "cash": 440000
+          },
+          "capacity": 650
+        },
+        {
+          "level": 11,
+          "cost": {
+            "cash": 660000
+          },
+          "capacity": 700
+        },
+        {
+          "level": 12,
+          "cost": {
+            "cash": 990000
+          },
+          "capacity": 750
+        },
+        {
+          "level": 13,
+          "cost": {
+            "cash": 1650000
+          },
+          "capacity": 800
+        },
+        {
+          "level": 14,
+          "cost": {
+            "cash": 2420000
+          },
+          "capacity": 850
+        },
+        {
+          "level": 15,
+          "cost": {
+            "cash": 3630000
+          },
+          "capacity": 900
+        },
+        {
+          "level": 16,
+          "cost": {
+            "cash": 4000000,
+            "bricks": 10000,
+            "tiles": 10000,
+            "glass": 1400
+          },
+          "capacity": 950
+        },
+        {
+          "level": 17,
+          "cost": {
+            "cash": 4500000,
+            "bricks": 14000,
+            "tiles": 14000,
+            "glass": 2000
+          },
+          "capacity": 1000
+        },
+        {
+          "level": 18,
+          "cost": {
+            "cash": 5000000,
+            "bricks": 18000,
+            "tiles": 18000,
+            "glass": 2600
+          },
+          "capacity": 1050
+        },
+        {
+          "level": 19,
+          "cost": {
+            "cash": 5500000,
+            "bricks": 22000,
+            "tiles": 22000,
+            "glass": 3200
+          },
+          "capacity": 1100
+        },
+        {
+          "level": 20,
+          "cost": {
+            "cash": 6000000,
+            "bricks": 26000,
+            "tiles": 26000,
+            "glass": 3800
+          },
+          "capacity": 1150
+        },
+        {
+          "level": 21,
+          "cost": {
+            "cash": 6500000,
+            "mallets": 1800
+          },
+          "capacity": 1200
+        },
+        {
+          "level": 22,
+          "cost": {
+            "cash": 7000000,
+            "mallets": 2400
+          },
+          "capacity": 1250
+        },
+        {
+          "level": 23,
+          "cost": {
+            "cash": 7500000,
+            "mallets": 3500
+          },
+          "capacity": 1300
+        },
+        {
+          "level": 24,
+          "cost": {
+            "cash": 8000000,
+            "mallets": 4500,
+            "buckets": 8000
+          },
+          "capacity": 1350
+        },
+        {
+          "level": 25,
+          "cost": {
+            "cash": 8500000,
+            "mallets": 6000,
+            "buckets": 14000
+          },
+          "capacity": 1400
+        }
+      ]
+    },
+    "windmill": {
+      "name": "Moulin à grain",
+      "emoji": "🌬️",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 2,
+      "production": {
+        "main_output": "chicken_feed",
+        "inputs_per_main_unit": {
+          "corn": 0.5
+        },
+        "duration": 600,
+        "xp": 3,
+        "_estimated": true,
+        "_note": "Recette inconnue : 1 maïs donne 2 aliments. Le blé n'est pas requis (débloqué au niveau 14 seulement)."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 1,
+          "cost": {
+            "cash": 50
+          },
+          "outputs": {
+            "chicken_feed": 20
+          }
+        },
+        {
+          "level": 2,
+          "unlock_level": 11,
+          "cost": {
+            "cash": 20000
+          },
+          "outputs": {
+            "chicken_feed": 40
+          }
+        },
+        {
+          "level": 3,
+          "unlock_level": 15,
+          "cost": {
+            "cash": 30000
+          },
+          "outputs": {
+            "chicken_feed": 60
+          }
+        },
+        {
+          "level": 4,
+          "unlock_level": 20,
+          "cost": {
+            "cash": 100000
+          },
+          "outputs": {
+            "chicken_feed": 70
+          }
+        },
+        {
+          "level": 5,
+          "unlock_level": 28,
+          "cost": {
+            "cash": 300000
+          },
+          "outputs": {
+            "chicken_feed": 90
+          }
+        },
+        {
+          "level": 6,
+          "unlock_level": 33,
+          "cost": {
+            "cash": 1000000
+          },
+          "outputs": {
+            "chicken_feed": 120
+          },
+          "_estimated": true
+        },
+        {
+          "level": 7,
+          "unlock_level": 39,
+          "cost": {
+            "cash": 1300000
+          },
+          "outputs": {
+            "chicken_feed": 140
+          }
+        },
+        {
+          "level": 8,
+          "unlock_level": 45,
+          "cost": {
+            "cash": 1500000
+          },
+          "outputs": {
+            "chicken_feed": 160
+          }
+        },
+        {
+          "level": 9,
+          "unlock_level": 50,
+          "cost": {
+            "cash": 2000000
+          },
+          "outputs": {
+            "chicken_feed": 180
+          }
+        },
+        {
+          "level": 10,
+          "unlock_level": 62,
+          "cost": {
+            "cash": 2500000
+          },
+          "outputs": {
+            "chicken_feed": 200
+          }
+        },
+        {
+          "level": 11,
+          "unlock_level": 68,
+          "cost": {
+            "cash": 3000000,
+            "mallets": 95
+          },
+          "outputs": {
+            "chicken_feed": 220
+          }
+        },
+        {
+          "level": 12,
+          "unlock_level": 80,
+          "cost": {
+            "cash": 3500000,
+            "mallets": 525
+          },
+          "outputs": {
+            "chicken_feed": 240
+          }
+        }
+      ]
+    },
+    "chicken_coop": {
+      "name": "Poulailler",
+      "emoji": "🐔",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 2,
+      "production": {
+        "main_output": "egg",
+        "inputs_per_main_unit": {
+          "chicken_feed": 1
+        },
+        "duration": 1800,
+        "xp": 5,
+        "_estimated": true,
+        "_note": "Consommation et durée inconnues : 1 aliment par œuf."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 1,
+          "cost": {
+            "cash": 1500
+          },
+          "outputs": {
+            "egg": 21,
+            "dung": 7
+          }
+        },
+        {
+          "level": 2,
+          "unlock_level": 9,
+          "cost": {
+            "cash": 3500
+          },
+          "outputs": {
+            "egg": 23,
+            "dung": 7
+          }
+        },
+        {
+          "level": 3,
+          "unlock_level": 20,
+          "cost": {
+            "cash": 25000
+          },
+          "outputs": {
+            "egg": 25,
+            "dung": 8
+          }
+        },
+        {
+          "level": 4,
+          "unlock_level": 28,
+          "cost": {
+            "cash": 70000
+          },
+          "outputs": {
+            "egg": 26,
+            "dung": 8
+          }
+        },
+        {
+          "level": 5,
+          "unlock_level": 37,
+          "cost": {
+            "cash": 150000
+          },
+          "outputs": {
+            "egg": 28,
+            "dung": 9
+          }
+        },
+        {
+          "level": 6,
+          "unlock_level": 47,
+          "cost": {
+            "cash": 750000
+          },
+          "outputs": {
+            "egg": 30,
+            "dung": 9
+          }
+        },
+        {
+          "level": 7,
+          "unlock_level": 58,
+          "cost": {
+            "cash": 1200000,
+            "bricks": 8500,
+            "tiles": 8500,
+            "glass": 1200
+          },
+          "outputs": {
+            "egg": 32,
+            "dung": 10
+          }
+        },
+        {
+          "level": 8,
+          "unlock_level": 69,
+          "cost": {
+            "cash": 1800000,
+            "mallets": 50
+          },
+          "outputs": {
+            "egg": 34,
+            "dung": 10
+          }
+        },
+        {
+          "level": 9,
+          "unlock_level": 78,
+          "cost": {
+            "cash": 2700000,
+            "mallets": 200
+          },
+          "outputs": {
+            "egg": 36,
+            "dung": 11
+          }
+        },
+        {
+          "level": 10,
+          "unlock_level": 88,
+          "cost": {
+            "cash": 4050000,
+            "mallets": 900
+          },
+          "outputs": {
+            "egg": 38,
+            "dung": 12
+          }
+        },
+        {
+          "level": 11,
+          "unlock_level": 100,
+          "cost": {
+            "cash": 6075000,
+            "buckets": 550
+          },
+          "outputs": {
+            "egg": 40,
+            "dung": 13
+          },
+          "_estimated": true
+        },
+        {
+          "level": 12,
+          "unlock_level": 116,
+          "cost": {
+            "cash": 9113000,
+            "buckets": 4000
+          },
+          "outputs": {
+            "egg": 42,
+            "dung": 14
+          }
+        }
+      ]
+    }
+  }
+}

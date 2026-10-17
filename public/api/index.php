@@ -7,6 +7,7 @@ use FermeTranquille\Api\ApiResponse;
 use FermeTranquille\Auth;
 use FermeTranquille\Config;
 use FermeTranquille\Db;
+use FermeTranquille\GameData;
 use FermeTranquille\Session\NativeSession;
 
 require dirname(__DIR__, 2) . '/vendor/autoload.php';
@@ -28,7 +29,7 @@ try {
     $debug = (bool) ($config['app']['debug'] ?? false);
     date_default_timezone_set((string) ($config['app']['timezone'] ?? 'UTC'));
 
-    $api = new Api(new Auth(Db::pdo(), new NativeSession(Config::section('session'))));
+    $api = new Api(new Auth(Db::pdo(), new NativeSession(Config::section('session'))), GameData::load());
 
     $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
     $path = (string) parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);

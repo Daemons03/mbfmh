@@ -6,6 +6,7 @@ namespace FermeTranquille\Api;
 
 use Closure;
 use FermeTranquille\Auth;
+use FermeTranquille\GameData;
 
 /**
  * HTTP-agnostic API dispatcher: public/api/index.php feeds it the request.
@@ -21,6 +22,7 @@ final class Api
      */
     public function __construct(
         private readonly Auth $auth,
+        private readonly GameData $gameData,
         ?Closure $now = null,
     ) {
         $this->now = $now ?? time(...);
@@ -40,6 +42,7 @@ final class Api
 
         return match ([$method, $route]) {
             ['GET', 'session'] => $this->session(),
+            ['GET', 'data'] => $this->data(),
             ['POST', 'login'] => $this->login($body),
             ['POST', 'logout'] => $this->logout(),
             default => $this->notFound($method, $route),
@@ -85,9 +88,18 @@ final class Api
         return $this->session();
     }
 
+    private function data(): ApiResponse
+    {
+        if ($this->auth->userId() === null) {
+            return $this->error(401, 'unauthenticated');
+        }
+
+        return $this->ok(['data' => $this->gameData->toArray()]);
+    }
+
     private function notFound(string $method, string $route): ApiResponse
     {
-        $knownRoutes = ['session' => 'GET', 'login' => 'POST', 'logout' => 'POST'];
+        $knownRoutes = ['session' => 'GET', 'data' => 'GET', 'login' => 'POST', 'logout' => 'POST'];
         if (isset($knownRoutes[$route]) && $knownRoutes[$route] !== $method) {
             return $this->error(405, 'method_not_allowed');
         }

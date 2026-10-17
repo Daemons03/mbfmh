@@ -6,6 +6,7 @@ namespace FermeTranquille\Tests\Api;
 
 use FermeTranquille\Api\Api;
 use FermeTranquille\Auth;
+use FermeTranquille\GameData;
 use FermeTranquille\Tests\Support\ArraySession;
 use FermeTranquille\Tests\Support\TestDb;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +22,7 @@ final class ApiTest extends TestCase
     {
         $this->auth = new Auth(TestDb::create(), new ArraySession());
         $this->auth->createUser('maxime', 'secret-pass');
-        $this->api = new Api($this->auth, static fn (): int => self::NOW);
+        $this->api = new Api($this->auth, GameData::load(cacheDir: null), static fn (): int => self::NOW);
     }
 
     public function testSessionReturnsCsrfTokenWhenAnonymous(): void
@@ -105,6 +106,24 @@ final class ApiTest extends TestCase
 
         self::assertSame(405, $response->status);
         self::assertSame('method_not_allowed', $response->body['error']);
+    }
+
+    public function testDataRequiresLogin(): void
+    {
+        $response = $this->api->handle('GET', 'data', [], null);
+
+        self::assertSame(401, $response->status);
+        self::assertSame('unauthenticated', $response->body['error']);
+    }
+
+    public function testDataReturnsGameData(): void
+    {
+        $this->api->handle('POST', 'login', ['login' => 'maxime', 'password' => 'secret-pass'], $this->csrf());
+
+        $response = $this->api->handle('GET', 'data', [], null);
+
+        self::assertSame(200, $response->status);
+        self::assertSame('Maïs', $response->body['data']['items']['corn']['name']);
     }
 
     private function csrf(): string
