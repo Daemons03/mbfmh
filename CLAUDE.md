@@ -199,7 +199,7 @@ Données réelles (niveaux, coûts, quantités produites) reprises du fan site ;
 2. Vergers : pommeraie (10 engrais, 3 h), cerisaie (30, 12 h), amanderaie (20, 8 h), pêcheraie (5, 1 h) → fruit + feuilles (+ nectar dès le niveau 7). Silo : fumier des animaux → engrais. Consommation fixe par production via `inputs_per_run`.
 3. ✅ Usines à recettes multiples : laiterie (crème, beurre, fromage, yaourt à la cerise), cuisine de confitures (pêches, cerises), ruche (miel de forêt, miel de fleur). Humus : +25 % sur une récolte de champ (1 humus au moment de planter).
 4. Boulangerie (le joueur prépare les captures).
-   (+) Prairie (olive, vanille, aloe vera, agrumes, jasmin, lavande) et fabrique artisanale (« Manufactory » : huile d'olive, extrait de vanille, gel, huiles, essences).
+   ✅ Prairie (lavande, aloe vera, vanille, cacao, jasmin, olive, agrume ; une semence par production) et fabrique artisanale (gel d'aloe vera, extrait de vanille, essences, poudre de cacao, huiles d'olive et d'agrume, teintures rouge/verte/violette) : valeurs du jeu.
 5. Atelier de couture (laines et plumes → produits textiles) : absent du fan site, captures du joueur nécessaires.
 6. Maisons, ouvriers, bonheur et décorations.
 7. Bibliothèque : améliorations de produits (parchemins, encre, livres).

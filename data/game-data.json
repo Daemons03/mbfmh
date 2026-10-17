@@ -1283,23 +1283,188 @@
       "name": "Huile d'olive",
       "emoji": "🫒",
       "category": "goods",
-      "unlock_level": 60,
+      "unlock_level": 44,
       "barn_price": 5,
       "market_price": 7.5,
+      "marketable": false,
       "_estimated": true,
-      "_note": "Fabriqué à la fabrique artisanale à partir des produits de la prairie (recettes à venir).",
-      "marketable": false
+      "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
     },
     "vanilla_extract": {
       "name": "Extrait de vanille",
       "emoji": "🍮",
       "category": "goods",
-      "unlock_level": 35,
+      "unlock_level": 44,
       "barn_price": 5,
       "market_price": 7.5,
+      "marketable": false,
       "_estimated": true,
-      "_note": "Fabriqué à la fabrique artisanale à partir des produits de la prairie (recettes à venir).",
-      "marketable": false
+      "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
+    },
+    "lavender": {
+      "name": "Lavande",
+      "emoji": "💜",
+      "category": "goods",
+      "unlock_level": 40,
+      "barn_price": 2,
+      "market_price": 3,
+      "marketable": true,
+      "_estimated": true,
+      "_note": "Prix estimés ; disponible avec la prairie (niveau 40)."
+    },
+    "aloe_vera": {
+      "name": "Aloe vera",
+      "emoji": "🌵",
+      "category": "goods",
+      "unlock_level": 40,
+      "barn_price": 2,
+      "market_price": 3,
+      "marketable": true,
+      "_estimated": true,
+      "_note": "Prix estimés ; disponible avec la prairie (niveau 40)."
+    },
+    "vanilla": {
+      "name": "Vanille",
+      "emoji": "🌼",
+      "category": "goods",
+      "unlock_level": 40,
+      "barn_price": 2,
+      "market_price": 3,
+      "marketable": true,
+      "_estimated": true,
+      "_note": "Prix estimés ; disponible avec la prairie (niveau 40)."
+    },
+    "cocoa": {
+      "name": "Cacao",
+      "emoji": "🫘",
+      "category": "goods",
+      "unlock_level": 40,
+      "barn_price": 2,
+      "market_price": 3,
+      "marketable": true,
+      "_estimated": true,
+      "_note": "Prix estimés ; disponible avec la prairie (niveau 40)."
+    },
+    "jasmine": {
+      "name": "Jasmin",
+      "emoji": "🤍",
+      "category": "goods",
+      "unlock_level": 40,
+      "barn_price": 2,
+      "market_price": 3,
+      "marketable": true,
+      "_estimated": true,
+      "_note": "Prix estimés ; disponible avec la prairie (niveau 40)."
+    },
+    "olive": {
+      "name": "Olive",
+      "emoji": "🫒",
+      "category": "goods",
+      "unlock_level": 40,
+      "barn_price": 2,
+      "market_price": 3,
+      "marketable": true,
+      "_estimated": true,
+      "_note": "Prix estimés ; disponible avec la prairie (niveau 40)."
+    },
+    "citrus": {
+      "name": "Agrume",
+      "emoji": "🍊",
+      "category": "goods",
+      "unlock_level": 40,
+      "barn_price": 2,
+      "market_price": 3,
+      "marketable": true,
+      "_estimated": true,
+      "_note": "Prix estimés ; disponible avec la prairie (niveau 40)."
+    },
+    "aloe_vera_gel": {
+      "name": "Gel à l'aloe vera",
+      "emoji": "🧴",
+      "category": "goods",
+      "unlock_level": 44,
+      "barn_price": 5,
+      "market_price": 7.5,
+      "marketable": false,
+      "_estimated": true,
+      "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
+    },
+    "lavender_essence": {
+      "name": "Essence de lavande",
+      "emoji": "🔮",
+      "category": "goods",
+      "unlock_level": 44,
+      "barn_price": 5,
+      "market_price": 7.5,
+      "marketable": false,
+      "_estimated": true,
+      "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
+    },
+    "cocoa_powder": {
+      "name": "Poudre de cacao",
+      "emoji": "🍫",
+      "category": "goods",
+      "unlock_level": 44,
+      "barn_price": 5,
+      "market_price": 7.5,
+      "marketable": false,
+      "_estimated": true,
+      "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
+    },
+    "jasmine_essence": {
+      "name": "Essence de jasmin",
+      "emoji": "🫗",
+      "category": "goods",
+      "unlock_level": 44,
+      "barn_price": 5,
+      "market_price": 7.5,
+      "marketable": false,
+      "_estimated": true,
+      "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
+    },
+    "citrus_oil": {
+      "name": "Huile d'agrume",
+      "emoji": "🍋",
+      "category": "goods",
+      "unlock_level": 44,
+      "barn_price": 5,
+      "market_price": 7.5,
+      "marketable": false,
+      "_estimated": true,
+      "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
+    },
+    "red_dye": {
+      "name": "Teinture rouge",
+      "emoji": "🔴",
+      "category": "goods",
+      "unlock_level": 44,
+      "barn_price": 5,
+      "market_price": 7.5,
+      "marketable": false,
+      "_estimated": true,
+      "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
+    },
+    "green_dye": {
+      "name": "Teinture verte",
+      "emoji": "🟢",
+      "category": "goods",
+      "unlock_level": 44,
+      "barn_price": 5,
+      "market_price": 7.5,
+      "marketable": false,
+      "_estimated": true,
+      "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
+    },
+    "purple_dye": {
+      "name": "Teinture violette",
+      "emoji": "🟣",
+      "category": "goods",
+      "unlock_level": 44,
+      "barn_price": 5,
+      "market_price": 7.5,
+      "marketable": false,
+      "_estimated": true,
+      "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
     }
   },
   "crops": {
@@ -4242,8 +4407,7 @@
     "manufactory": {
       "name": "Fabrique artisanale",
       "emoji": "🏺",
-      "kind": "special",
-      "zone": "outside",
+      "kind": "production",
       "max_count": 1,
       "levels": [
         {
@@ -4252,7 +4416,100 @@
           "cost": {
             "cash": 1260000
           },
-          "slots": 2
+          "max_batches": 2,
+          "recipes": {
+            "aloe_vera_gel": {
+              "inputs": {
+                "aloe_vera": 115
+              },
+              "cost": {
+                "cash": 14
+              },
+              "outputs": {
+                "aloe_vera_gel": 40
+              },
+              "duration": 1560,
+              "xp": 18
+            },
+            "vanilla_extract": {
+              "inputs": {
+                "vanilla": 55
+              },
+              "cost": {
+                "cash": 3
+              },
+              "outputs": {
+                "vanilla_extract": 80
+              },
+              "duration": 2400,
+              "xp": 28
+            },
+            "lavender_essence": {
+              "inputs": {
+                "lavender": 100
+              },
+              "cost": {
+                "cash": 12
+              },
+              "outputs": {
+                "lavender_essence": 30
+              },
+              "duration": 900,
+              "xp": 10
+            },
+            "cocoa_powder": {
+              "inputs": {
+                "cocoa": 125
+              },
+              "cost": {
+                "cash": 15
+              },
+              "outputs": {
+                "cocoa_powder": 60
+              },
+              "duration": 3600,
+              "xp": 42
+            },
+            "jasmine_essence": {
+              "inputs": {
+                "jasmine": 130
+              },
+              "cost": {
+                "cash": 17
+              },
+              "outputs": {
+                "jasmine_essence": 50
+              },
+              "duration": 4800,
+              "xp": 56
+            },
+            "olive_oil": {
+              "inputs": {
+                "olive": 145
+              },
+              "cost": {
+                "cash": 16
+              },
+              "outputs": {
+                "olive_oil": 130
+              },
+              "duration": 18000,
+              "xp": 208
+            },
+            "citrus_oil": {
+              "inputs": {
+                "citrus": 165
+              },
+              "cost": {
+                "cash": 18
+              },
+              "outputs": {
+                "citrus_oil": 170
+              },
+              "duration": 18000,
+              "xp": 208
+            }
+          }
         },
         {
           "level": 2,
@@ -4263,7 +4520,100 @@
             "tiles": 2100,
             "glass": 300
           },
-          "slots": 3
+          "max_batches": 3,
+          "recipes": {
+            "aloe_vera_gel": {
+              "inputs": {
+                "aloe_vera": 112
+              },
+              "cost": {
+                "cash": 14
+              },
+              "outputs": {
+                "aloe_vera_gel": 40
+              },
+              "duration": 1100,
+              "xp": 18
+            },
+            "vanilla_extract": {
+              "inputs": {
+                "vanilla": 53
+              },
+              "cost": {
+                "cash": 3
+              },
+              "outputs": {
+                "vanilla_extract": 80
+              },
+              "duration": 1700,
+              "xp": 28
+            },
+            "lavender_essence": {
+              "inputs": {
+                "lavender": 97
+              },
+              "cost": {
+                "cash": 12
+              },
+              "outputs": {
+                "lavender_essence": 30
+              },
+              "duration": 640,
+              "xp": 10
+            },
+            "cocoa_powder": {
+              "inputs": {
+                "cocoa": 121
+              },
+              "cost": {
+                "cash": 15
+              },
+              "outputs": {
+                "cocoa_powder": 60
+              },
+              "duration": 2550,
+              "xp": 42
+            },
+            "jasmine_essence": {
+              "inputs": {
+                "jasmine": 126
+              },
+              "cost": {
+                "cash": 17
+              },
+              "outputs": {
+                "jasmine_essence": 50
+              },
+              "duration": 3390,
+              "xp": 56
+            },
+            "olive_oil": {
+              "inputs": {
+                "olive": 141
+              },
+              "cost": {
+                "cash": 16
+              },
+              "outputs": {
+                "olive_oil": 130
+              },
+              "duration": 12730,
+              "xp": 208
+            },
+            "citrus_oil": {
+              "inputs": {
+                "citrus": 160
+              },
+              "cost": {
+                "cash": 18
+              },
+              "outputs": {
+                "citrus_oil": 170
+              },
+              "duration": 12730,
+              "xp": 208
+            }
+          }
         },
         {
           "level": 3,
@@ -4274,7 +4624,100 @@
             "tiles": 4900,
             "glass": 700
           },
-          "slots": 4
+          "max_batches": 4,
+          "recipes": {
+            "aloe_vera_gel": {
+              "inputs": {
+                "aloe_vera": 109
+              },
+              "cost": {
+                "cash": 14
+              },
+              "outputs": {
+                "aloe_vera_gel": 40
+              },
+              "duration": 900,
+              "xp": 18
+            },
+            "vanilla_extract": {
+              "inputs": {
+                "vanilla": 51
+              },
+              "cost": {
+                "cash": 3
+              },
+              "outputs": {
+                "vanilla_extract": 80
+              },
+              "duration": 1390,
+              "xp": 28
+            },
+            "lavender_essence": {
+              "inputs": {
+                "lavender": 94
+              },
+              "cost": {
+                "cash": 12
+              },
+              "outputs": {
+                "lavender_essence": 30
+              },
+              "duration": 520,
+              "xp": 10
+            },
+            "cocoa_powder": {
+              "inputs": {
+                "cocoa": 117
+              },
+              "cost": {
+                "cash": 15
+              },
+              "outputs": {
+                "cocoa_powder": 60
+              },
+              "duration": 2080,
+              "xp": 42
+            },
+            "jasmine_essence": {
+              "inputs": {
+                "jasmine": 122
+              },
+              "cost": {
+                "cash": 17
+              },
+              "outputs": {
+                "jasmine_essence": 50
+              },
+              "duration": 2770,
+              "xp": 56
+            },
+            "olive_oil": {
+              "inputs": {
+                "olive": 137
+              },
+              "cost": {
+                "cash": 16
+              },
+              "outputs": {
+                "olive_oil": 130
+              },
+              "duration": 10390,
+              "xp": 208
+            },
+            "citrus_oil": {
+              "inputs": {
+                "citrus": 155
+              },
+              "cost": {
+                "cash": 18
+              },
+              "outputs": {
+                "citrus_oil": 170
+              },
+              "duration": 10390,
+              "xp": 208
+            }
+          }
         },
         {
           "level": 4,
@@ -4285,7 +4728,100 @@
             "tiles": 9500,
             "glass": 1400
           },
-          "slots": 5
+          "max_batches": 5,
+          "recipes": {
+            "aloe_vera_gel": {
+              "inputs": {
+                "aloe_vera": 106
+              },
+              "cost": {
+                "cash": 14
+              },
+              "outputs": {
+                "aloe_vera_gel": 40
+              },
+              "duration": 780,
+              "xp": 18
+            },
+            "vanilla_extract": {
+              "inputs": {
+                "vanilla": 49
+              },
+              "cost": {
+                "cash": 3
+              },
+              "outputs": {
+                "vanilla_extract": 80
+              },
+              "duration": 1200,
+              "xp": 28
+            },
+            "lavender_essence": {
+              "inputs": {
+                "lavender": 91
+              },
+              "cost": {
+                "cash": 12
+              },
+              "outputs": {
+                "lavender_essence": 30
+              },
+              "duration": 450,
+              "xp": 10
+            },
+            "cocoa_powder": {
+              "inputs": {
+                "cocoa": 113
+              },
+              "cost": {
+                "cash": 15
+              },
+              "outputs": {
+                "cocoa_powder": 60
+              },
+              "duration": 1800,
+              "xp": 42
+            },
+            "jasmine_essence": {
+              "inputs": {
+                "jasmine": 118
+              },
+              "cost": {
+                "cash": 17
+              },
+              "outputs": {
+                "jasmine_essence": 50
+              },
+              "duration": 2400,
+              "xp": 56
+            },
+            "olive_oil": {
+              "inputs": {
+                "olive": 133
+              },
+              "cost": {
+                "cash": 16
+              },
+              "outputs": {
+                "olive_oil": 130
+              },
+              "duration": 9000,
+              "xp": 208
+            },
+            "citrus_oil": {
+              "inputs": {
+                "citrus": 150
+              },
+              "cost": {
+                "cash": 18
+              },
+              "outputs": {
+                "citrus_oil": 170
+              },
+              "duration": 9000,
+              "xp": 208
+            }
+          }
         },
         {
           "level": 5,
@@ -4296,7 +4832,100 @@
             "tiles": 14200,
             "glass": 2100
           },
-          "slots": 6
+          "max_batches": 6,
+          "recipes": {
+            "aloe_vera_gel": {
+              "inputs": {
+                "aloe_vera": 103
+              },
+              "cost": {
+                "cash": 14
+              },
+              "outputs": {
+                "aloe_vera_gel": 40
+              },
+              "duration": 700,
+              "xp": 18
+            },
+            "vanilla_extract": {
+              "inputs": {
+                "vanilla": 48
+              },
+              "cost": {
+                "cash": 3
+              },
+              "outputs": {
+                "vanilla_extract": 80
+              },
+              "duration": 1070,
+              "xp": 28
+            },
+            "lavender_essence": {
+              "inputs": {
+                "lavender": 88
+              },
+              "cost": {
+                "cash": 12
+              },
+              "outputs": {
+                "lavender_essence": 30
+              },
+              "duration": 400,
+              "xp": 10
+            },
+            "cocoa_powder": {
+              "inputs": {
+                "cocoa": 110
+              },
+              "cost": {
+                "cash": 15
+              },
+              "outputs": {
+                "cocoa_powder": 60
+              },
+              "duration": 1610,
+              "xp": 42
+            },
+            "jasmine_essence": {
+              "inputs": {
+                "jasmine": 114
+              },
+              "cost": {
+                "cash": 17
+              },
+              "outputs": {
+                "jasmine_essence": 50
+              },
+              "duration": 2150,
+              "xp": 56
+            },
+            "olive_oil": {
+              "inputs": {
+                "olive": 129
+              },
+              "cost": {
+                "cash": 16
+              },
+              "outputs": {
+                "olive_oil": 130
+              },
+              "duration": 8050,
+              "xp": 208
+            },
+            "citrus_oil": {
+              "inputs": {
+                "citrus": 146
+              },
+              "cost": {
+                "cash": 18
+              },
+              "outputs": {
+                "citrus_oil": 170
+              },
+              "duration": 8050,
+              "xp": 208
+            }
+          }
         },
         {
           "level": 6,
@@ -4307,7 +4936,100 @@
             "tiles": 20900,
             "glass": 3500
           },
-          "slots": 6
+          "max_batches": 6,
+          "recipes": {
+            "aloe_vera_gel": {
+              "inputs": {
+                "aloe_vera": 100
+              },
+              "cost": {
+                "cash": 14
+              },
+              "outputs": {
+                "aloe_vera_gel": 40
+              },
+              "duration": 640,
+              "xp": 18
+            },
+            "vanilla_extract": {
+              "inputs": {
+                "vanilla": 47
+              },
+              "cost": {
+                "cash": 3
+              },
+              "outputs": {
+                "vanilla_extract": 80
+              },
+              "duration": 980,
+              "xp": 28
+            },
+            "lavender_essence": {
+              "inputs": {
+                "lavender": 85
+              },
+              "cost": {
+                "cash": 12
+              },
+              "outputs": {
+                "lavender_essence": 30
+              },
+              "duration": 370,
+              "xp": 10
+            },
+            "cocoa_powder": {
+              "inputs": {
+                "cocoa": 107
+              },
+              "cost": {
+                "cash": 15
+              },
+              "outputs": {
+                "cocoa_powder": 60
+              },
+              "duration": 1470,
+              "xp": 42
+            },
+            "jasmine_essence": {
+              "inputs": {
+                "jasmine": 111
+              },
+              "cost": {
+                "cash": 17
+              },
+              "outputs": {
+                "jasmine_essence": 50
+              },
+              "duration": 1960,
+              "xp": 56
+            },
+            "olive_oil": {
+              "inputs": {
+                "olive": 125
+              },
+              "cost": {
+                "cash": 16
+              },
+              "outputs": {
+                "olive_oil": 130
+              },
+              "duration": 7350,
+              "xp": 208
+            },
+            "citrus_oil": {
+              "inputs": {
+                "citrus": 142
+              },
+              "cost": {
+                "cash": 18
+              },
+              "outputs": {
+                "citrus_oil": 170
+              },
+              "duration": 7350,
+              "xp": 208
+            }
+          }
         },
         {
           "level": 7,
@@ -4318,7 +5040,100 @@
             "tiles": 28700,
             "glass": 5500
           },
-          "slots": 6
+          "max_batches": 6,
+          "recipes": {
+            "aloe_vera_gel": {
+              "inputs": {
+                "aloe_vera": 97
+              },
+              "cost": {
+                "cash": 14
+              },
+              "outputs": {
+                "aloe_vera_gel": 40
+              },
+              "duration": 590,
+              "xp": 18
+            },
+            "vanilla_extract": {
+              "inputs": {
+                "vanilla": 46
+              },
+              "cost": {
+                "cash": 3
+              },
+              "outputs": {
+                "vanilla_extract": 80
+              },
+              "duration": 910,
+              "xp": 28
+            },
+            "lavender_essence": {
+              "inputs": {
+                "lavender": 82
+              },
+              "cost": {
+                "cash": 12
+              },
+              "outputs": {
+                "lavender_essence": 30
+              },
+              "duration": 340,
+              "xp": 10
+            },
+            "cocoa_powder": {
+              "inputs": {
+                "cocoa": 104
+              },
+              "cost": {
+                "cash": 15
+              },
+              "outputs": {
+                "cocoa_powder": 60
+              },
+              "duration": 1360,
+              "xp": 42
+            },
+            "jasmine_essence": {
+              "inputs": {
+                "jasmine": 108
+              },
+              "cost": {
+                "cash": 17
+              },
+              "outputs": {
+                "jasmine_essence": 50
+              },
+              "duration": 1810,
+              "xp": 56
+            },
+            "olive_oil": {
+              "inputs": {
+                "olive": 121
+              },
+              "cost": {
+                "cash": 16
+              },
+              "outputs": {
+                "olive_oil": 130
+              },
+              "duration": 6800,
+              "xp": 208
+            },
+            "citrus_oil": {
+              "inputs": {
+                "citrus": 138
+              },
+              "cost": {
+                "cash": 18
+              },
+              "outputs": {
+                "citrus_oil": 170
+              },
+              "duration": 6800,
+              "xp": 208
+            }
+          }
         },
         {
           "level": 8,
@@ -4329,7 +5144,113 @@
             "tiles": 37300,
             "glass": 7200
           },
-          "slots": 6
+          "max_batches": 6,
+          "recipes": {
+            "aloe_vera_gel": {
+              "inputs": {
+                "aloe_vera": 94
+              },
+              "cost": {
+                "cash": 14
+              },
+              "outputs": {
+                "aloe_vera_gel": 40
+              },
+              "duration": 550,
+              "xp": 18
+            },
+            "vanilla_extract": {
+              "inputs": {
+                "vanilla": 45
+              },
+              "cost": {
+                "cash": 3
+              },
+              "outputs": {
+                "vanilla_extract": 80
+              },
+              "duration": 850,
+              "xp": 28
+            },
+            "lavender_essence": {
+              "inputs": {
+                "lavender": 80
+              },
+              "cost": {
+                "cash": 12
+              },
+              "outputs": {
+                "lavender_essence": 30
+              },
+              "duration": 320,
+              "xp": 10
+            },
+            "cocoa_powder": {
+              "inputs": {
+                "cocoa": 101
+              },
+              "cost": {
+                "cash": 15
+              },
+              "outputs": {
+                "cocoa_powder": 60
+              },
+              "duration": 1270,
+              "xp": 42
+            },
+            "jasmine_essence": {
+              "inputs": {
+                "jasmine": 105
+              },
+              "cost": {
+                "cash": 17
+              },
+              "outputs": {
+                "jasmine_essence": 50
+              },
+              "duration": 1700,
+              "xp": 56
+            },
+            "olive_oil": {
+              "inputs": {
+                "olive": 117
+              },
+              "cost": {
+                "cash": 16
+              },
+              "outputs": {
+                "olive_oil": 130
+              },
+              "duration": 6360,
+              "xp": 208
+            },
+            "citrus_oil": {
+              "inputs": {
+                "citrus": 134
+              },
+              "cost": {
+                "cash": 18
+              },
+              "outputs": {
+                "citrus_oil": 170
+              },
+              "duration": 6360,
+              "xp": 208
+            },
+            "red_dye": {
+              "inputs": {
+                "cherry": 50
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "red_dye": 10
+              },
+              "duration": 5660,
+              "xp": 10
+            }
+          }
         },
         {
           "level": 9,
@@ -4340,7 +5261,113 @@
             "tiles": 48500,
             "glass": 9400
           },
-          "slots": 6
+          "max_batches": 6,
+          "recipes": {
+            "aloe_vera_gel": {
+              "inputs": {
+                "aloe_vera": 91
+              },
+              "cost": {
+                "cash": 14
+              },
+              "outputs": {
+                "aloe_vera_gel": 40
+              },
+              "duration": 520,
+              "xp": 18
+            },
+            "vanilla_extract": {
+              "inputs": {
+                "vanilla": 44
+              },
+              "cost": {
+                "cash": 3
+              },
+              "outputs": {
+                "vanilla_extract": 80
+              },
+              "duration": 800,
+              "xp": 28
+            },
+            "lavender_essence": {
+              "inputs": {
+                "lavender": 78
+              },
+              "cost": {
+                "cash": 12
+              },
+              "outputs": {
+                "lavender_essence": 30
+              },
+              "duration": 300,
+              "xp": 10
+            },
+            "cocoa_powder": {
+              "inputs": {
+                "cocoa": 98
+              },
+              "cost": {
+                "cash": 15
+              },
+              "outputs": {
+                "cocoa_powder": 60
+              },
+              "duration": 1200,
+              "xp": 42
+            },
+            "jasmine_essence": {
+              "inputs": {
+                "jasmine": 102
+              },
+              "cost": {
+                "cash": 17
+              },
+              "outputs": {
+                "jasmine_essence": 50
+              },
+              "duration": 1600,
+              "xp": 56
+            },
+            "olive_oil": {
+              "inputs": {
+                "olive": 113
+              },
+              "cost": {
+                "cash": 16
+              },
+              "outputs": {
+                "olive_oil": 130
+              },
+              "duration": 6000,
+              "xp": 208
+            },
+            "citrus_oil": {
+              "inputs": {
+                "citrus": 130
+              },
+              "cost": {
+                "cash": 18
+              },
+              "outputs": {
+                "citrus_oil": 170
+              },
+              "duration": 6000,
+              "xp": 208
+            },
+            "red_dye": {
+              "inputs": {
+                "cherry": 49
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "red_dye": 10
+              },
+              "duration": 5330,
+              "xp": 10
+            }
+          }
         },
         {
           "level": 10,
@@ -4351,7 +5378,113 @@
             "tiles": 63100,
             "glass": 12200
           },
-          "slots": 6
+          "max_batches": 6,
+          "recipes": {
+            "aloe_vera_gel": {
+              "inputs": {
+                "aloe_vera": 88
+              },
+              "cost": {
+                "cash": 14
+              },
+              "outputs": {
+                "aloe_vera_gel": 40
+              },
+              "duration": 490,
+              "xp": 18
+            },
+            "vanilla_extract": {
+              "inputs": {
+                "vanilla": 43
+              },
+              "cost": {
+                "cash": 3
+              },
+              "outputs": {
+                "vanilla_extract": 80
+              },
+              "duration": 760,
+              "xp": 28
+            },
+            "lavender_essence": {
+              "inputs": {
+                "lavender": 76
+              },
+              "cost": {
+                "cash": 12
+              },
+              "outputs": {
+                "lavender_essence": 30
+              },
+              "duration": 280,
+              "xp": 10
+            },
+            "cocoa_powder": {
+              "inputs": {
+                "cocoa": 95
+              },
+              "cost": {
+                "cash": 15
+              },
+              "outputs": {
+                "cocoa_powder": 60
+              },
+              "duration": 1140,
+              "xp": 42
+            },
+            "jasmine_essence": {
+              "inputs": {
+                "jasmine": 99
+              },
+              "cost": {
+                "cash": 17
+              },
+              "outputs": {
+                "jasmine_essence": 50
+              },
+              "duration": 1520,
+              "xp": 56
+            },
+            "olive_oil": {
+              "inputs": {
+                "olive": 110
+              },
+              "cost": {
+                "cash": 16
+              },
+              "outputs": {
+                "olive_oil": 130
+              },
+              "duration": 5690,
+              "xp": 208
+            },
+            "citrus_oil": {
+              "inputs": {
+                "citrus": 126
+              },
+              "cost": {
+                "cash": 18
+              },
+              "outputs": {
+                "citrus_oil": 170
+              },
+              "duration": 5690,
+              "xp": 208
+            },
+            "red_dye": {
+              "inputs": {
+                "cherry": 48
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "red_dye": 10
+              },
+              "duration": 5060,
+              "xp": 10
+            }
+          }
         },
         {
           "level": 11,
@@ -4361,7 +5494,126 @@
             "mallets": 40,
             "buckets": 300
           },
-          "slots": 7
+          "max_batches": 7,
+          "recipes": {
+            "aloe_vera_gel": {
+              "inputs": {
+                "aloe_vera": 85
+              },
+              "cost": {
+                "cash": 14
+              },
+              "outputs": {
+                "aloe_vera_gel": 40
+              },
+              "duration": 470,
+              "xp": 18
+            },
+            "vanilla_extract": {
+              "inputs": {
+                "vanilla": 42
+              },
+              "cost": {
+                "cash": 3
+              },
+              "outputs": {
+                "vanilla_extract": 80
+              },
+              "duration": 720,
+              "xp": 28
+            },
+            "lavender_essence": {
+              "inputs": {
+                "lavender": 74
+              },
+              "cost": {
+                "cash": 12
+              },
+              "outputs": {
+                "lavender_essence": 30
+              },
+              "duration": 270,
+              "xp": 10
+            },
+            "cocoa_powder": {
+              "inputs": {
+                "cocoa": 92
+              },
+              "cost": {
+                "cash": 15
+              },
+              "outputs": {
+                "cocoa_powder": 60
+              },
+              "duration": 1090,
+              "xp": 42
+            },
+            "jasmine_essence": {
+              "inputs": {
+                "jasmine": 96
+              },
+              "cost": {
+                "cash": 17
+              },
+              "outputs": {
+                "jasmine_essence": 50
+              },
+              "duration": 1450,
+              "xp": 56
+            },
+            "olive_oil": {
+              "inputs": {
+                "olive": 107
+              },
+              "cost": {
+                "cash": 16
+              },
+              "outputs": {
+                "olive_oil": 130
+              },
+              "duration": 5430,
+              "xp": 208
+            },
+            "citrus_oil": {
+              "inputs": {
+                "citrus": 122
+              },
+              "cost": {
+                "cash": 18
+              },
+              "outputs": {
+                "citrus_oil": 170
+              },
+              "duration": 5430,
+              "xp": 208
+            },
+            "red_dye": {
+              "inputs": {
+                "cherry": 47
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "red_dye": 10
+              },
+              "duration": 4820,
+              "xp": 10
+            },
+            "green_dye": {
+              "inputs": {
+                "lettuce": 100
+              },
+              "cost": {
+                "cash": 159
+              },
+              "outputs": {
+                "green_dye": 10
+              },
+              "duration": 6030,
+              "xp": 10
+            }
+          }
         },
         {
           "level": 12,
@@ -4371,10 +5623,153 @@
             "mallets": 1200,
             "buckets": 9000
           },
-          "slots": 8
+          "max_batches": 8,
+          "recipes": {
+            "aloe_vera_gel": {
+              "inputs": {
+                "aloe_vera": 82
+              },
+              "cost": {
+                "cash": 14
+              },
+              "outputs": {
+                "aloe_vera_gel": 40
+              },
+              "duration": 450,
+              "xp": 18
+            },
+            "vanilla_extract": {
+              "inputs": {
+                "vanilla": 41
+              },
+              "cost": {
+                "cash": 3
+              },
+              "outputs": {
+                "vanilla_extract": 80
+              },
+              "duration": 690,
+              "xp": 28
+            },
+            "lavender_essence": {
+              "inputs": {
+                "lavender": 72
+              },
+              "cost": {
+                "cash": 12
+              },
+              "outputs": {
+                "lavender_essence": 30
+              },
+              "duration": 260,
+              "xp": 10
+            },
+            "cocoa_powder": {
+              "inputs": {
+                "cocoa": 89
+              },
+              "cost": {
+                "cash": 15
+              },
+              "outputs": {
+                "cocoa_powder": 60
+              },
+              "duration": 1040,
+              "xp": 42
+            },
+            "jasmine_essence": {
+              "inputs": {
+                "jasmine": 93
+              },
+              "cost": {
+                "cash": 17
+              },
+              "outputs": {
+                "jasmine_essence": 50
+              },
+              "duration": 1390,
+              "xp": 56
+            },
+            "olive_oil": {
+              "inputs": {
+                "olive": 104
+              },
+              "cost": {
+                "cash": 16
+              },
+              "outputs": {
+                "olive_oil": 130
+              },
+              "duration": 5200,
+              "xp": 208
+            },
+            "citrus_oil": {
+              "inputs": {
+                "citrus": 118
+              },
+              "cost": {
+                "cash": 18
+              },
+              "outputs": {
+                "citrus_oil": 170
+              },
+              "duration": 5200,
+              "xp": 208
+            },
+            "red_dye": {
+              "inputs": {
+                "cherry": 46
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "red_dye": 10
+              },
+              "duration": 4620,
+              "xp": 10
+            },
+            "green_dye": {
+              "inputs": {
+                "lettuce": 97
+              },
+              "cost": {
+                "cash": 159
+              },
+              "outputs": {
+                "green_dye": 10
+              },
+              "duration": 5770,
+              "xp": 10
+            },
+            "purple_dye": {
+              "inputs": {
+                "lavender": 300
+              },
+              "cost": {
+                "cash": 239
+              },
+              "outputs": {
+                "purple_dye": 10
+              },
+              "duration": 7220,
+              "xp": 10
+            }
+          }
         }
       ],
-      "_note": "« Manufactory » sur le fan site : huile d'olive, extrait de vanille et autres produits de la prairie. slots = nombre de produits ; recettes à venir (captures du joueur)."
+      "size": [
+        2,
+        2
+      ],
+      "production": {
+        "mode": "batch",
+        "_note": "Recettes, cash, durées, XP : valeurs du jeu (captures) ; niveaux et nombre de lots relevés. Teintures : rouge dès le niveau 8 (niveaux 1-7 non visibles), verte dès le 11, violette au 12."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ]
     },
     "pigsty": {
       "name": "Porcherie",
@@ -10034,6 +11429,912 @@
               },
               "duration": 2830,
               "xp": 1800
+            }
+          }
+        }
+      ]
+    },
+    "meadow": {
+      "name": "Prairie",
+      "emoji": "🌾",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 2,
+      "production": {
+        "mode": "run",
+        "_note": "Semences : cash, durée, XP et récolte par niveau : valeurs du jeu (captures)."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 40,
+          "cost": {
+            "cash": 380000
+          },
+          "recipes": {
+            "lavender": {
+              "inputs": {},
+              "cost": {
+                "cash": 103
+              },
+              "outputs": {
+                "lavender": 60
+              },
+              "duration": 600,
+              "xp": 3
+            },
+            "aloe_vera": {
+              "inputs": {},
+              "cost": {
+                "cash": 276
+              },
+              "outputs": {
+                "aloe_vera": 80
+              },
+              "duration": 1800,
+              "xp": 10
+            },
+            "vanilla": {
+              "inputs": {},
+              "cost": {
+                "cash": 162
+              },
+              "outputs": {
+                "vanilla": 50
+              },
+              "duration": 3600,
+              "xp": 21
+            },
+            "cocoa": {
+              "inputs": {},
+              "cost": {
+                "cash": 1070
+              },
+              "outputs": {
+                "cocoa": 120
+              },
+              "duration": 7200,
+              "xp": 42
+            },
+            "jasmine": {
+              "inputs": {},
+              "cost": {
+                "cash": 1804
+              },
+              "outputs": {
+                "jasmine": 100
+              },
+              "duration": 14400,
+              "xp": 83
+            },
+            "olive": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "olive": 130
+              },
+              "duration": 28800,
+              "xp": 167
+            },
+            "citrus": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "citrus": 170
+              },
+              "duration": 28800,
+              "xp": 167
+            }
+          }
+        },
+        {
+          "level": 2,
+          "unlock_level": 47,
+          "cost": {
+            "cash": 558000,
+            "bricks": 1500,
+            "tiles": 1500,
+            "glass": 230
+          },
+          "recipes": {
+            "lavender": {
+              "inputs": {},
+              "cost": {
+                "cash": 103
+              },
+              "outputs": {
+                "lavender": 66
+              },
+              "duration": 600,
+              "xp": 3
+            },
+            "aloe_vera": {
+              "inputs": {},
+              "cost": {
+                "cash": 276
+              },
+              "outputs": {
+                "aloe_vera": 88
+              },
+              "duration": 1800,
+              "xp": 10
+            },
+            "vanilla": {
+              "inputs": {},
+              "cost": {
+                "cash": 162
+              },
+              "outputs": {
+                "vanilla": 55
+              },
+              "duration": 3600,
+              "xp": 21
+            },
+            "cocoa": {
+              "inputs": {},
+              "cost": {
+                "cash": 1070
+              },
+              "outputs": {
+                "cocoa": 132
+              },
+              "duration": 7200,
+              "xp": 42
+            },
+            "jasmine": {
+              "inputs": {},
+              "cost": {
+                "cash": 1804
+              },
+              "outputs": {
+                "jasmine": 110
+              },
+              "duration": 14400,
+              "xp": 83
+            },
+            "olive": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "olive": 144
+              },
+              "duration": 28800,
+              "xp": 167
+            },
+            "citrus": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "citrus": 188
+              },
+              "duration": 28800,
+              "xp": 167
+            }
+          }
+        },
+        {
+          "level": 3,
+          "unlock_level": 55,
+          "cost": {
+            "cash": 900000,
+            "bricks": 3500,
+            "tiles": 3500,
+            "glass": 520
+          },
+          "recipes": {
+            "lavender": {
+              "inputs": {},
+              "cost": {
+                "cash": 103
+              },
+              "outputs": {
+                "lavender": 72
+              },
+              "duration": 600,
+              "xp": 3
+            },
+            "aloe_vera": {
+              "inputs": {},
+              "cost": {
+                "cash": 276
+              },
+              "outputs": {
+                "aloe_vera": 96
+              },
+              "duration": 1800,
+              "xp": 10
+            },
+            "vanilla": {
+              "inputs": {},
+              "cost": {
+                "cash": 162
+              },
+              "outputs": {
+                "vanilla": 60
+              },
+              "duration": 3600,
+              "xp": 21
+            },
+            "cocoa": {
+              "inputs": {},
+              "cost": {
+                "cash": 1070
+              },
+              "outputs": {
+                "cocoa": 146
+              },
+              "duration": 7200,
+              "xp": 42
+            },
+            "jasmine": {
+              "inputs": {},
+              "cost": {
+                "cash": 1804
+              },
+              "outputs": {
+                "jasmine": 122
+              },
+              "duration": 14400,
+              "xp": 83
+            },
+            "olive": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "olive": 158
+              },
+              "duration": 28800,
+              "xp": 167
+            },
+            "citrus": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "citrus": 206
+              },
+              "duration": 28800,
+              "xp": 167
+            }
+          }
+        },
+        {
+          "level": 4,
+          "unlock_level": 63,
+          "cost": {
+            "cash": 1350000,
+            "bricks": 6800,
+            "tiles": 6800,
+            "glass": 1000
+          },
+          "recipes": {
+            "lavender": {
+              "inputs": {},
+              "cost": {
+                "cash": 103
+              },
+              "outputs": {
+                "lavender": 80
+              },
+              "duration": 600,
+              "xp": 3
+            },
+            "aloe_vera": {
+              "inputs": {},
+              "cost": {
+                "cash": 276
+              },
+              "outputs": {
+                "aloe_vera": 106
+              },
+              "duration": 1800,
+              "xp": 10
+            },
+            "vanilla": {
+              "inputs": {},
+              "cost": {
+                "cash": 162
+              },
+              "outputs": {
+                "vanilla": 65
+              },
+              "duration": 3600,
+              "xp": 21
+            },
+            "cocoa": {
+              "inputs": {},
+              "cost": {
+                "cash": 1070
+              },
+              "outputs": {
+                "cocoa": 160
+              },
+              "duration": 7200,
+              "xp": 42
+            },
+            "jasmine": {
+              "inputs": {},
+              "cost": {
+                "cash": 1804
+              },
+              "outputs": {
+                "jasmine": 134
+              },
+              "duration": 14400,
+              "xp": 83
+            },
+            "olive": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "olive": 174
+              },
+              "duration": 28800,
+              "xp": 167
+            },
+            "citrus": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "citrus": 226
+              },
+              "duration": 28800,
+              "xp": 167
+            }
+          }
+        },
+        {
+          "level": 5,
+          "unlock_level": 72,
+          "cost": {
+            "cash": 2016000,
+            "bricks": 10900,
+            "tiles": 10900,
+            "glass": 1500
+          },
+          "recipes": {
+            "lavender": {
+              "inputs": {},
+              "cost": {
+                "cash": 103
+              },
+              "outputs": {
+                "lavender": 88
+              },
+              "duration": 600,
+              "xp": 3
+            },
+            "aloe_vera": {
+              "inputs": {},
+              "cost": {
+                "cash": 276
+              },
+              "outputs": {
+                "aloe_vera": 116
+              },
+              "duration": 1800,
+              "xp": 10
+            },
+            "vanilla": {
+              "inputs": {},
+              "cost": {
+                "cash": 162
+              },
+              "outputs": {
+                "vanilla": 70
+              },
+              "duration": 3600,
+              "xp": 21
+            },
+            "cocoa": {
+              "inputs": {},
+              "cost": {
+                "cash": 1070
+              },
+              "outputs": {
+                "cocoa": 176
+              },
+              "duration": 7200,
+              "xp": 42
+            },
+            "jasmine": {
+              "inputs": {},
+              "cost": {
+                "cash": 1804
+              },
+              "outputs": {
+                "jasmine": 148
+              },
+              "duration": 14400,
+              "xp": 83
+            },
+            "olive": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "olive": 192
+              },
+              "duration": 28800,
+              "xp": 167
+            },
+            "citrus": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "citrus": 248
+              },
+              "duration": 28800,
+              "xp": 167
+            }
+          }
+        },
+        {
+          "level": 6,
+          "unlock_level": 77,
+          "cost": {
+            "cash": 2475000,
+            "bricks": 17400,
+            "tiles": 17400,
+            "glass": 2500
+          },
+          "recipes": {
+            "lavender": {
+              "inputs": {},
+              "cost": {
+                "cash": 103
+              },
+              "outputs": {
+                "lavender": 96
+              },
+              "duration": 600,
+              "xp": 3
+            },
+            "aloe_vera": {
+              "inputs": {},
+              "cost": {
+                "cash": 276
+              },
+              "outputs": {
+                "aloe_vera": 128
+              },
+              "duration": 1800,
+              "xp": 10
+            },
+            "vanilla": {
+              "inputs": {},
+              "cost": {
+                "cash": 162
+              },
+              "outputs": {
+                "vanilla": 75
+              },
+              "duration": 3600,
+              "xp": 21
+            },
+            "cocoa": {
+              "inputs": {},
+              "cost": {
+                "cash": 1070
+              },
+              "outputs": {
+                "cocoa": 194
+              },
+              "duration": 7200,
+              "xp": 42
+            },
+            "jasmine": {
+              "inputs": {},
+              "cost": {
+                "cash": 1804
+              },
+              "outputs": {
+                "jasmine": 162
+              },
+              "duration": 14400,
+              "xp": 83
+            },
+            "olive": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "olive": 212
+              },
+              "duration": 28800,
+              "xp": 167
+            },
+            "citrus": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "citrus": 272
+              },
+              "duration": 28800,
+              "xp": 167
+            }
+          }
+        },
+        {
+          "level": 7,
+          "unlock_level": 85,
+          "cost": {
+            "cash": 3330000,
+            "bricks": 26100,
+            "tiles": 26100,
+            "glass": 3900
+          },
+          "recipes": {
+            "lavender": {
+              "inputs": {},
+              "cost": {
+                "cash": 103
+              },
+              "outputs": {
+                "lavender": 106
+              },
+              "duration": 600,
+              "xp": 3
+            },
+            "aloe_vera": {
+              "inputs": {},
+              "cost": {
+                "cash": 276
+              },
+              "outputs": {
+                "aloe_vera": 140
+              },
+              "duration": 1800,
+              "xp": 10
+            },
+            "vanilla": {
+              "inputs": {},
+              "cost": {
+                "cash": 162
+              },
+              "outputs": {
+                "vanilla": 85
+              },
+              "duration": 3600,
+              "xp": 21
+            },
+            "cocoa": {
+              "inputs": {},
+              "cost": {
+                "cash": 1070
+              },
+              "outputs": {
+                "cocoa": 214
+              },
+              "duration": 7200,
+              "xp": 42
+            },
+            "jasmine": {
+              "inputs": {},
+              "cost": {
+                "cash": 1804
+              },
+              "outputs": {
+                "jasmine": 178
+              },
+              "duration": 14400,
+              "xp": 83
+            },
+            "olive": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "olive": 234
+              },
+              "duration": 28800,
+              "xp": 167
+            },
+            "citrus": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "citrus": 300
+              },
+              "duration": 28800,
+              "xp": 167
+            }
+          }
+        },
+        {
+          "level": 8,
+          "unlock_level": 93,
+          "cost": {
+            "cash": 4329000,
+            "mallets": 40
+          },
+          "_estimated": true,
+          "recipes": {
+            "lavender": {
+              "inputs": {},
+              "cost": {
+                "cash": 103
+              },
+              "outputs": {
+                "lavender": 116
+              },
+              "duration": 600,
+              "xp": 3
+            },
+            "aloe_vera": {
+              "inputs": {},
+              "cost": {
+                "cash": 276
+              },
+              "outputs": {
+                "aloe_vera": 154
+              },
+              "duration": 1800,
+              "xp": 10
+            },
+            "vanilla": {
+              "inputs": {},
+              "cost": {
+                "cash": 162
+              },
+              "outputs": {
+                "vanilla": 95
+              },
+              "duration": 3600,
+              "xp": 21
+            },
+            "cocoa": {
+              "inputs": {},
+              "cost": {
+                "cash": 1070
+              },
+              "outputs": {
+                "cocoa": 236
+              },
+              "duration": 7200,
+              "xp": 42
+            },
+            "jasmine": {
+              "inputs": {},
+              "cost": {
+                "cash": 1804
+              },
+              "outputs": {
+                "jasmine": 194
+              },
+              "duration": 14400,
+              "xp": 83
+            },
+            "olive": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "olive": 258
+              },
+              "duration": 28800,
+              "xp": 167
+            },
+            "citrus": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "citrus": 330
+              },
+              "duration": 28800,
+              "xp": 167
+            }
+          }
+        },
+        {
+          "level": 9,
+          "unlock_level": 101,
+          "cost": {
+            "cash": 5628000,
+            "mallets": 1200,
+            "buckets": 250
+          },
+          "_estimated": true,
+          "recipes": {
+            "lavender": {
+              "inputs": {},
+              "cost": {
+                "cash": 103
+              },
+              "outputs": {
+                "lavender": 128
+              },
+              "duration": 600,
+              "xp": 3
+            },
+            "aloe_vera": {
+              "inputs": {},
+              "cost": {
+                "cash": 276
+              },
+              "outputs": {
+                "aloe_vera": 168
+              },
+              "duration": 1800,
+              "xp": 10
+            },
+            "vanilla": {
+              "inputs": {},
+              "cost": {
+                "cash": 162
+              },
+              "outputs": {
+                "vanilla": 105
+              },
+              "duration": 3600,
+              "xp": 21
+            },
+            "cocoa": {
+              "inputs": {},
+              "cost": {
+                "cash": 1070
+              },
+              "outputs": {
+                "cocoa": 260
+              },
+              "duration": 7200,
+              "xp": 42
+            },
+            "jasmine": {
+              "inputs": {},
+              "cost": {
+                "cash": 1804
+              },
+              "outputs": {
+                "jasmine": 212
+              },
+              "duration": 14400,
+              "xp": 83
+            },
+            "olive": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "olive": 284
+              },
+              "duration": 28800,
+              "xp": 167
+            },
+            "citrus": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "citrus": 364
+              },
+              "duration": 28800,
+              "xp": 167
+            }
+          }
+        },
+        {
+          "level": 10,
+          "unlock_level": 109,
+          "cost": {
+            "cash": 7316000,
+            "mallets": 4500,
+            "buckets": 7200
+          },
+          "_estimated": true,
+          "recipes": {
+            "lavender": {
+              "inputs": {},
+              "cost": {
+                "cash": 103
+              },
+              "outputs": {
+                "lavender": 140
+              },
+              "duration": 600,
+              "xp": 3
+            },
+            "aloe_vera": {
+              "inputs": {},
+              "cost": {
+                "cash": 276
+              },
+              "outputs": {
+                "aloe_vera": 184
+              },
+              "duration": 1800,
+              "xp": 10
+            },
+            "vanilla": {
+              "inputs": {},
+              "cost": {
+                "cash": 162
+              },
+              "outputs": {
+                "vanilla": 120
+              },
+              "duration": 3600,
+              "xp": 21
+            },
+            "cocoa": {
+              "inputs": {},
+              "cost": {
+                "cash": 1070
+              },
+              "outputs": {
+                "cocoa": 286
+              },
+              "duration": 7200,
+              "xp": 42
+            },
+            "jasmine": {
+              "inputs": {},
+              "cost": {
+                "cash": 1804
+              },
+              "outputs": {
+                "jasmine": 230
+              },
+              "duration": 14400,
+              "xp": 83
+            },
+            "olive": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "olive": 312
+              },
+              "duration": 28800,
+              "xp": 167
+            },
+            "citrus": {
+              "inputs": {},
+              "cost": {
+                "cash": 3338
+              },
+              "outputs": {
+                "citrus": 400
+              },
+              "duration": 28800,
+              "xp": 167
             }
           }
         }
