@@ -20,7 +20,8 @@
         }
     },
     "scripts": {
-        "test": "phpunit"
+        "test": "phpunit",
+        "test:e2e": ".venv/bin/python -m pytest tests/e2e -q -p no:cacheprovider"
     },
     "config": {
         "sort-packages": true

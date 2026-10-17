@@ -22,3 +22,7 @@ __pycache__/
 Thumbs.db
 .idea/
 .vscode/
+
+# Browser test artifacts
+/tests/e2e/artifacts/
+.pytest_cache/

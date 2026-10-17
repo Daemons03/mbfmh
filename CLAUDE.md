@@ -164,6 +164,11 @@ Courbe XP estimée : `xp_needed(n) = round(50 * n^1.6)`.
 - Comptes à rebours mis à jour chaque seconde côté client, synchronisation `GET /api/state` toutes les 30 s et au retour sur l'onglet.
 - Thème clair/sombre via `prefers-color-scheme`. Responsive dès 360 px.
 
+## Tests
+
+- `composer test` : PHPUnit (moteur, données, API, sessions) sur SQLite en mémoire, sans MySQL.
+- `composer test:e2e` : tests navigateur (Playwright + pytest, `tests/e2e/`) sur le vrai jeu via `php -S` et la base de `config/config.php`. Ils utilisent un compte dédié `e2e-playwright`, recréé à chaque test puis supprimé ; `tests/e2e/helper.php` refuse tout login ne commençant pas par `e2e-`. Installation : `python3 -m venv .venv && .venv/bin/pip install -r tests/e2e/requirements.txt && .venv/bin/playwright install chromium`. `FT_E2E_HEADED=1` pour voir le navigateur ; captures des échecs dans `tests/e2e/artifacts/`.
+
 ## Sécurité
 
 - `password_hash` / `password_verify`, session régénérée au login, cookie `HttpOnly`, `Secure`, `SameSite=Lax`.

@@ -1431,7 +1431,7 @@
         "duration": 600,
         "xp": 3,
         "_estimated": true,
-        "_note": "Recette inconnue : 1 maïs donne 2 aliments. Le blé n'est pas requis (débloqué au niveau 14 seulement)."
+        "_note": "Maïs seul (confirmé) ; quantité estimée : 1 maïs donne 2 aliments. Durée et XP estimées."
       },
       "_estimated_fields": [
         "size",
@@ -1954,7 +1954,7 @@
           "capacity": 1350
         }
       ],
-      "_note": "Capacité ajoutée à celle de la grange (hypothèse). Niveaux > 1 : niveau requis inconnu, on reprend celui du déblocage."
+      "_note": "Sa capacité s'ajoute à celle de la grange, pour chaque produit. Niveaux > 1 : niveau requis inconnu, on reprend celui du déblocage."
     },
     "library": {
       "name": "Bibliothèque",
