@@ -91,6 +91,17 @@ final class GameDataValidator
             if (!is_bool($item['marketable'] ?? null)) {
                 $this->errors[] = "{$path}.marketable: must be true or false";
             }
+            if (isset($item['contract_quantity'])) {
+                $this->range($item['contract_quantity'], "{$path}.contract_quantity");
+            }
+            if (isset($item['contract_bonus'])) {
+                foreach ((array) ($item['contract_bonus']['materials'] ?? []) as $material) {
+                    if (!isset($this->data['materials'][$material])) {
+                        $this->errors[] = "{$path}.contract_bonus.materials: unknown material " . json_encode($material);
+                    }
+                }
+                $this->range($item['contract_bonus']['quantity'] ?? null, "{$path}.contract_bonus.quantity");
+            }
         }
     }
 
@@ -155,8 +166,8 @@ final class GameDataValidator
             $mode = null;
             if ($kind === 'production') {
                 $mode = $building['production']['mode'] ?? null;
-                if (!in_array($mode, ['run', 'batch'], true)) {
-                    $this->errors[] = "{$path}.production.mode: must be run or batch";
+                if (!in_array($mode, ['run', 'batch', 'instant'], true)) {
+                    $this->errors[] = "{$path}.production.mode: must be run, batch or instant";
                 }
             }
 
@@ -210,7 +221,11 @@ final class GameDataValidator
             $this->itemQuantities($recipe['inputs'] ?? null, "{$path}.inputs", allowEmpty: true);
             $this->cost($recipe['cost'] ?? null, "{$path}.cost");
             $this->itemQuantities($recipe['outputs'] ?? null, "{$path}.outputs");
-            $this->positiveInt($recipe['duration'] ?? null, "{$path}.duration");
+            if ($mode === 'instant') {
+                $this->nonNegativeInt($recipe['duration'] ?? null, "{$path}.duration");
+            } else {
+                $this->positiveInt($recipe['duration'] ?? null, "{$path}.duration");
+            }
             $this->nonNegativeNumber($recipe['xp'] ?? null, "{$path}.xp");
 
             $mainQuantity = $recipe['outputs'][$main] ?? null;

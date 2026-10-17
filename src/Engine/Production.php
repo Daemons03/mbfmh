@@ -58,6 +58,11 @@ final readonly class Production
         return ['id' => $recipeId] + $recipe;
     }
 
+    public static function isInstant(GameData $data, string $type): bool
+    {
+        return ($data->building($type)['production']['mode'] ?? 'run') === 'instant';
+    }
+
     public static function isBatch(GameData $data, string $type): bool
     {
         return ($data->building($type)['production']['mode'] ?? 'run') === 'batch';

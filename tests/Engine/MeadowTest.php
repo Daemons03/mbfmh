@@ -69,13 +69,22 @@ final class MeadowTest extends EngineTestCase
         $this->assertGameError('unknown_recipe', 'start_production', ['id' => 'b5', 'recipe' => 'red_dye']);
     }
 
-    public function testMeadowProductsAreSoldButNotFactoryGoods(): void
+    public function testMeadowAndFabriqueGoodsAreSold(): void
     {
         $eligible = (new Market($this->data))->eligibleItems(new Farm($this->state, $this->data));
 
-        self::assertContains('olive', $eligible);
-        self::assertContains('lavender', $eligible);
-        self::assertNotContains('olive_oil', $eligible);
-        self::assertNotContains('red_dye', $eligible);
+        foreach (['olive', 'lavender', 'olive_oil', 'vanilla_extract'] as $item) {
+            self::assertContains($item, $eligible);
+        }
+    }
+
+    public function testEachSeedNeedsTenMoreLevels(): void
+    {
+        $levels = array_map(fn (string $seed): int => $this->data->item($seed)['unlock_level'],
+            ['lavender', 'aloe_vera', 'vanilla', 'cocoa', 'jasmine', 'olive', 'citrus']);
+
+        self::assertSame([40, 50, 60, 70, 80, 90, 100], $levels);
+        $this->state['level'] = 89;
+        $this->assertGameError('level_too_low', 'start_production', ['id' => 'b4', 'recipe' => 'olive']);
     }
 }

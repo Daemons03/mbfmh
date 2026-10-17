@@ -57,16 +57,30 @@ final readonly class Market
 
         $items = [];
         $cash = 0.0;
+        $bonus = [];
         foreach ($picked as $item) {
-            $quantity = $random->getInt(...$market['quantity_per_product']);
+            $definition = $this->data->item($item);
+            $range = $definition['contract_quantity'] ?? $market['quantity_per_product'];
+            $quantity = $random->getInt(...$range);
             $items[$item] = $quantity;
-            $cash += $quantity * $this->data->item($item)['market_price'];
+            $cash += $quantity * $definition['market_price'];
+
+            // Crafted goods (sewing) always bring materials, more for bigger orders.
+            if (isset($definition['contract_bonus'])) {
+                $materials = $definition['contract_bonus']['materials'];
+                [$min, $max] = $definition['contract_bonus']['quantity'];
+                $material = $materials[$random->getInt(0, count($materials) - 1)];
+                $share = $range[1] > $range[0] ? ($quantity - $range[0]) / ($range[1] - $range[0]) : 1.0;
+                $bonus[$material] = ($bonus[$material] ?? 0) + (int) round($min + $share * ($max - $min));
+            }
         }
 
         $reward = ['cash' => (int) round($cash)];
         $reward['xp'] = max(1, (int) round($reward['cash'] * $market['xp_per_cash']));
         $materialReward = $market['material_reward'];
-        if ($random->nextFloat() < $materialReward['chance']) {
+        if ($bonus !== []) {
+            $reward['materials'] = $bonus;
+        } elseif ($random->nextFloat() < $materialReward['chance']) {
             $materials = $materialReward['materials'];
             $material = $materials[$random->getInt(0, count($materials) - 1)];
             $reward['materials'] = [$material => $random->getInt(...$materialReward['quantity'])];

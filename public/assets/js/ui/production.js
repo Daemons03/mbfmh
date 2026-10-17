@@ -71,7 +71,8 @@ function recipeCard(building, id, recipe, mode) {
     const tooBig = Object.entries(outputs).find(([, v]) => v > store.view.barn.capacity);
     const hasInputs = Object.keys(inputs).length > 0;
 
-    let label = 'Lancer';
+    const ready = mode === 'instant' ? 'Fabriquer' : 'Lancer';
+    let label = ready;
     if (locked) label = `Niv. ${item.unlock_level}`;
     else if (tooBig) label = 'Grange trop petite';
     else if (missing) label = 'Ingrédients manquants';
@@ -92,7 +93,7 @@ function recipeCard(building, id, recipe, mode) {
             `${i ? ' + ' : ''}${fmtInt(v)} ${store.data.items[k].emoji}`)),
         h('p', { class: 'row-sub' }, [
             Object.keys(cost).length ? fmtCost(cost, store.data) : null,
-            fmtDuration(recipe.duration * quantity / store.state.settings.speed),
+            recipe.duration ? fmtDuration(recipe.duration * quantity / store.state.settings.speed) : 'Instantané',
             `+${fmtInt(recipe.xp * quantity)} XP`,
         ].filter(Boolean).join(' · ')),
         h('div', { class: 'contract-foot' },
@@ -105,7 +106,7 @@ function recipeCard(building, id, recipe, mode) {
             h('button', {
                 type: 'button',
                 class: 'btn btn-primary',
-                disabled: label !== 'Lancer',
+                disabled: label !== ready,
                 onclick: () => perform('start_production', mode === 'batch'
                     ? { id: building.id, recipe: id, quantity }
                     : { id: building.id, recipe: id }),

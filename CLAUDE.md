@@ -200,7 +200,7 @@ Données réelles (niveaux, coûts, quantités produites) reprises du fan site ;
 3. ✅ Usines à recettes multiples : laiterie (crème, beurre, fromage, yaourt à la cerise), cuisine de confitures (pêches, cerises), ruche (miel de forêt, miel de fleur). Humus : +25 % sur une récolte de champ (1 humus au moment de planter).
 4. Boulangerie (le joueur prépare les captures).
    ✅ Prairie (lavande, aloe vera, vanille, cacao, jasmin, olive, agrume ; une semence par production) et fabrique artisanale (gel d'aloe vera, extrait de vanille, essences, poudre de cacao, huiles d'olive et d'agrume, teintures rouge/verte/violette) : valeurs du jeu.
-5. Atelier de couture (laines et plumes → produits textiles) : absent du fan site, captures du joueur nécessaires.
+5. ✅ Atelier de couture : 20 articles (coussins, chaussons lapins, bonnet, chaussettes, pull × clair/rouge/vert/violet), 10 par fabrication **instantanée** (mode `instant`). Vendus au marché : contrats de 10 à 20 pièces avec bonus de matériaux (`contract_bonus`) : clair/rouge → maillets, clous ou scies ; vert/violet → seaux (1 à 10 selon la commande).
 6. Maisons, ouvriers, bonheur et décorations.
 7. Bibliothèque : améliorations de produits (parchemins, encre, livres).
 8. Améliorations du marché.

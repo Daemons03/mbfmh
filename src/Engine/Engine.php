@@ -108,7 +108,7 @@ final class Engine
                     ];
                 }
                 $production[$building['id']] = [
-                    'mode' => Production::isBatch($this->data, $building['type']) ? 'batch' : 'run',
+                    'mode' => $this->data->building($building['type'])['production']['mode'] ?? 'run',
                     'recipes' => $recipes,
                 ];
             }

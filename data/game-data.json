@@ -1283,10 +1283,10 @@
       "name": "Huile d'olive",
       "emoji": "🫒",
       "category": "goods",
-      "unlock_level": 44,
+      "unlock_level": 90,
       "barn_price": 5,
       "market_price": 7.5,
-      "marketable": false,
+      "marketable": true,
       "_estimated": true,
       "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
     },
@@ -1294,10 +1294,10 @@
       "name": "Extrait de vanille",
       "emoji": "🍮",
       "category": "goods",
-      "unlock_level": 44,
+      "unlock_level": 60,
       "barn_price": 5,
       "market_price": 7.5,
-      "marketable": false,
+      "marketable": true,
       "_estimated": true,
       "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
     },
@@ -1310,82 +1310,82 @@
       "market_price": 3,
       "marketable": true,
       "_estimated": true,
-      "_note": "Prix estimés ; disponible avec la prairie (niveau 40)."
+      "_note": "Prix estimés ; niveau requis : +10 par semence (joueur)."
     },
     "aloe_vera": {
       "name": "Aloe vera",
       "emoji": "🌵",
       "category": "goods",
-      "unlock_level": 40,
+      "unlock_level": 50,
       "barn_price": 2,
       "market_price": 3,
       "marketable": true,
       "_estimated": true,
-      "_note": "Prix estimés ; disponible avec la prairie (niveau 40)."
+      "_note": "Prix estimés ; niveau requis : +10 par semence (joueur)."
     },
     "vanilla": {
       "name": "Vanille",
       "emoji": "🌼",
       "category": "goods",
-      "unlock_level": 40,
+      "unlock_level": 60,
       "barn_price": 2,
       "market_price": 3,
       "marketable": true,
       "_estimated": true,
-      "_note": "Prix estimés ; disponible avec la prairie (niveau 40)."
+      "_note": "Prix estimés ; niveau requis : +10 par semence (joueur)."
     },
     "cocoa": {
       "name": "Cacao",
       "emoji": "🫘",
       "category": "goods",
-      "unlock_level": 40,
+      "unlock_level": 70,
       "barn_price": 2,
       "market_price": 3,
       "marketable": true,
       "_estimated": true,
-      "_note": "Prix estimés ; disponible avec la prairie (niveau 40)."
+      "_note": "Prix estimés ; niveau requis : +10 par semence (joueur)."
     },
     "jasmine": {
       "name": "Jasmin",
       "emoji": "🤍",
       "category": "goods",
-      "unlock_level": 40,
+      "unlock_level": 80,
       "barn_price": 2,
       "market_price": 3,
       "marketable": true,
       "_estimated": true,
-      "_note": "Prix estimés ; disponible avec la prairie (niveau 40)."
+      "_note": "Prix estimés ; niveau requis : +10 par semence (joueur)."
     },
     "olive": {
       "name": "Olive",
       "emoji": "🫒",
       "category": "goods",
-      "unlock_level": 40,
+      "unlock_level": 90,
       "barn_price": 2,
       "market_price": 3,
       "marketable": true,
       "_estimated": true,
-      "_note": "Prix estimés ; disponible avec la prairie (niveau 40)."
+      "_note": "Prix estimés ; niveau requis : +10 par semence (joueur)."
     },
     "citrus": {
       "name": "Agrume",
       "emoji": "🍊",
       "category": "goods",
-      "unlock_level": 40,
+      "unlock_level": 100,
       "barn_price": 2,
       "market_price": 3,
       "marketable": true,
       "_estimated": true,
-      "_note": "Prix estimés ; disponible avec la prairie (niveau 40)."
+      "_note": "Prix estimés ; niveau requis : +10 par semence (joueur)."
     },
     "aloe_vera_gel": {
       "name": "Gel à l'aloe vera",
       "emoji": "🧴",
       "category": "goods",
-      "unlock_level": 44,
+      "unlock_level": 50,
       "barn_price": 5,
       "market_price": 7.5,
-      "marketable": false,
+      "marketable": true,
       "_estimated": true,
       "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
     },
@@ -1396,7 +1396,7 @@
       "unlock_level": 44,
       "barn_price": 5,
       "market_price": 7.5,
-      "marketable": false,
+      "marketable": true,
       "_estimated": true,
       "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
     },
@@ -1404,10 +1404,10 @@
       "name": "Poudre de cacao",
       "emoji": "🍫",
       "category": "goods",
-      "unlock_level": 44,
+      "unlock_level": 70,
       "barn_price": 5,
       "market_price": 7.5,
-      "marketable": false,
+      "marketable": true,
       "_estimated": true,
       "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
     },
@@ -1415,10 +1415,10 @@
       "name": "Essence de jasmin",
       "emoji": "🫗",
       "category": "goods",
-      "unlock_level": 44,
+      "unlock_level": 80,
       "barn_price": 5,
       "market_price": 7.5,
-      "marketable": false,
+      "marketable": true,
       "_estimated": true,
       "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
     },
@@ -1426,10 +1426,10 @@
       "name": "Huile d'agrume",
       "emoji": "🍋",
       "category": "goods",
-      "unlock_level": 44,
+      "unlock_level": 100,
       "barn_price": 5,
       "market_price": 7.5,
-      "marketable": false,
+      "marketable": true,
       "_estimated": true,
       "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
     },
@@ -1437,10 +1437,10 @@
       "name": "Teinture rouge",
       "emoji": "🔴",
       "category": "goods",
-      "unlock_level": 44,
+      "unlock_level": 95,
       "barn_price": 5,
       "market_price": 7.5,
-      "marketable": false,
+      "marketable": true,
       "_estimated": true,
       "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
     },
@@ -1448,10 +1448,10 @@
       "name": "Teinture verte",
       "emoji": "🟢",
       "category": "goods",
-      "unlock_level": 44,
+      "unlock_level": 134,
       "barn_price": 5,
       "market_price": 7.5,
-      "marketable": false,
+      "marketable": true,
       "_estimated": true,
       "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
     },
@@ -1459,12 +1459,512 @@
       "name": "Teinture violette",
       "emoji": "🟣",
       "category": "goods",
-      "unlock_level": 44,
+      "unlock_level": 164,
       "barn_price": 5,
       "market_price": 7.5,
-      "marketable": false,
+      "marketable": true,
       "_estimated": true,
       "_note": "Prix estimés ; fabriqué à la fabrique artisanale (niveau 44)."
+    },
+    "light_pillows": {
+      "name": "Coussins clairs",
+      "emoji": "🛋️🤍",
+      "category": "goods",
+      "unlock_level": 100,
+      "barn_price": 60,
+      "market_price": 90,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "mallets",
+          "nails",
+          "saws"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2). Niveau requis estimé."
+    },
+    "light_slippers": {
+      "name": "Chaussons lapins clairs",
+      "emoji": "🥿🤍",
+      "category": "goods",
+      "unlock_level": 100,
+      "barn_price": 468,
+      "market_price": 702,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "mallets",
+          "nails",
+          "saws"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2). Niveau requis estimé."
+    },
+    "light_beanie": {
+      "name": "Bonnet clair",
+      "emoji": "🧢🤍",
+      "category": "goods",
+      "unlock_level": 100,
+      "barn_price": 300,
+      "market_price": 450,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "mallets",
+          "nails",
+          "saws"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2). Niveau requis estimé."
+    },
+    "light_socks": {
+      "name": "Chaussettes claires",
+      "emoji": "🧦🤍",
+      "category": "goods",
+      "unlock_level": 100,
+      "barn_price": 360,
+      "market_price": 540,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "mallets",
+          "nails",
+          "saws"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2). Niveau requis estimé."
+    },
+    "light_sweater": {
+      "name": "Pull clair",
+      "emoji": "🧥🤍",
+      "category": "goods",
+      "unlock_level": 100,
+      "barn_price": 420,
+      "market_price": 630,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "mallets",
+          "nails",
+          "saws"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2). Niveau requis estimé."
+    },
+    "red_pillows": {
+      "name": "Coussins rouges",
+      "emoji": "🛋️❤️",
+      "category": "goods",
+      "unlock_level": 110,
+      "barn_price": 66,
+      "market_price": 99,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "mallets",
+          "nails",
+          "saws"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2). Niveau requis estimé."
+    },
+    "red_slippers": {
+      "name": "Chaussons lapins rouges",
+      "emoji": "🥿❤️",
+      "category": "goods",
+      "unlock_level": 110,
+      "barn_price": 150,
+      "market_price": 225,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "mallets",
+          "nails",
+          "saws"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2). Niveau requis estimé."
+    },
+    "red_beanie": {
+      "name": "Bonnet rouge",
+      "emoji": "🧢❤️",
+      "category": "goods",
+      "unlock_level": 110,
+      "barn_price": 306,
+      "market_price": 459,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "mallets",
+          "nails",
+          "saws"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2). Niveau requis estimé."
+    },
+    "red_socks": {
+      "name": "Chaussettes rouges",
+      "emoji": "🧦❤️",
+      "category": "goods",
+      "unlock_level": 110,
+      "barn_price": 366,
+      "market_price": 549,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "mallets",
+          "nails",
+          "saws"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2). Niveau requis estimé."
+    },
+    "red_sweater": {
+      "name": "Pull rouge",
+      "emoji": "🧥❤️",
+      "category": "goods",
+      "unlock_level": 110,
+      "barn_price": 426,
+      "market_price": 639,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "mallets",
+          "nails",
+          "saws"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2). Niveau requis estimé."
+    },
+    "green_pillows": {
+      "name": "Coussins verts",
+      "emoji": "🛋️💚",
+      "category": "goods",
+      "unlock_level": 140,
+      "barn_price": 66,
+      "market_price": 99,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "buckets"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2). Niveau requis estimé."
+    },
+    "green_slippers": {
+      "name": "Chaussons lapins verts",
+      "emoji": "🥿💚",
+      "category": "goods",
+      "unlock_level": 140,
+      "barn_price": 150,
+      "market_price": 225,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "buckets"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2). Niveau requis estimé."
+    },
+    "green_beanie": {
+      "name": "Bonnet vert",
+      "emoji": "🧢💚",
+      "category": "goods",
+      "unlock_level": 140,
+      "barn_price": 306,
+      "market_price": 459,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "buckets"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2). Niveau requis estimé."
+    },
+    "green_socks": {
+      "name": "Chaussettes vertes",
+      "emoji": "🧦💚",
+      "category": "goods",
+      "unlock_level": 140,
+      "barn_price": 366,
+      "market_price": 549,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "buckets"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2). Niveau requis estimé."
+    },
+    "green_sweater": {
+      "name": "Pull vert",
+      "emoji": "🧥💚",
+      "category": "goods",
+      "unlock_level": 140,
+      "barn_price": 426,
+      "market_price": 639,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "buckets"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2). Niveau requis estimé."
+    },
+    "purple_pillows": {
+      "name": "Coussins violets",
+      "emoji": "🛋️💜",
+      "category": "goods",
+      "unlock_level": 164,
+      "barn_price": 66,
+      "market_price": 99,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "buckets"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2)."
+    },
+    "purple_slippers": {
+      "name": "Chaussons lapins violets",
+      "emoji": "🥿💜",
+      "category": "goods",
+      "unlock_level": 169,
+      "barn_price": 150,
+      "market_price": 225,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "buckets"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2)."
+    },
+    "purple_beanie": {
+      "name": "Bonnet violet",
+      "emoji": "🧢💜",
+      "category": "goods",
+      "unlock_level": 175,
+      "barn_price": 306,
+      "market_price": 459,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "buckets"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2)."
+    },
+    "purple_socks": {
+      "name": "Chaussettes violettes",
+      "emoji": "🧦💜",
+      "category": "goods",
+      "unlock_level": 185,
+      "barn_price": 366,
+      "market_price": 549,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "buckets"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2)."
+    },
+    "purple_sweater": {
+      "name": "Pull violet",
+      "emoji": "🧥💜",
+      "category": "goods",
+      "unlock_level": 197,
+      "barn_price": 426,
+      "market_price": 639,
+      "marketable": true,
+      "contract_quantity": [
+        10,
+        20
+      ],
+      "contract_bonus": {
+        "materials": [
+          "buckets"
+        ],
+        "quantity": [
+          1,
+          10
+        ]
+      },
+      "_estimated": true,
+      "_note": "Prix estimés (valeur des ingrédients × 1,2)."
     }
   },
   "crops": {
@@ -12337,6 +12837,271 @@
               "xp": 167
             }
           }
+        }
+      ]
+    },
+    "sewing_workshop": {
+      "name": "Atelier de couture",
+      "emoji": "🧵",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 1,
+      "production": {
+        "mode": "instant",
+        "_note": "Ingrédients relevés (captures) ; fabrication instantanée (pas de durée affichée). XP, coût de construction et niveau requis estimés."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 100,
+          "cost": {
+            "cash": 2500000
+          },
+          "recipes": {
+            "light_pillows": {
+              "inputs": {
+                "feather": 500
+              },
+              "cost": {},
+              "outputs": {
+                "light_pillows": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "light_slippers": {
+              "inputs": {
+                "gray_wool": 1300
+              },
+              "cost": {},
+              "outputs": {
+                "light_slippers": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "light_beanie": {
+              "inputs": {
+                "sheep_wool": 1250
+              },
+              "cost": {},
+              "outputs": {
+                "light_beanie": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "light_socks": {
+              "inputs": {
+                "sheep_wool": 1500
+              },
+              "cost": {},
+              "outputs": {
+                "light_socks": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "light_sweater": {
+              "inputs": {
+                "sheep_wool": 1750
+              },
+              "cost": {},
+              "outputs": {
+                "light_sweater": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "red_pillows": {
+              "inputs": {
+                "feather": 500,
+                "red_dye": 10
+              },
+              "cost": {},
+              "outputs": {
+                "red_pillows": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "red_slippers": {
+              "inputs": {
+                "white_wool": 200,
+                "red_dye": 10
+              },
+              "cost": {},
+              "outputs": {
+                "red_slippers": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "red_beanie": {
+              "inputs": {
+                "sheep_wool": 1250,
+                "red_dye": 10
+              },
+              "cost": {},
+              "outputs": {
+                "red_beanie": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "red_socks": {
+              "inputs": {
+                "sheep_wool": 1500,
+                "red_dye": 10
+              },
+              "cost": {},
+              "outputs": {
+                "red_socks": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "red_sweater": {
+              "inputs": {
+                "sheep_wool": 1750,
+                "red_dye": 10
+              },
+              "cost": {},
+              "outputs": {
+                "red_sweater": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "green_pillows": {
+              "inputs": {
+                "feather": 500,
+                "green_dye": 10
+              },
+              "cost": {},
+              "outputs": {
+                "green_pillows": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "green_slippers": {
+              "inputs": {
+                "white_wool": 200,
+                "green_dye": 10
+              },
+              "cost": {},
+              "outputs": {
+                "green_slippers": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "green_beanie": {
+              "inputs": {
+                "sheep_wool": 1250,
+                "green_dye": 10
+              },
+              "cost": {},
+              "outputs": {
+                "green_beanie": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "green_socks": {
+              "inputs": {
+                "sheep_wool": 1500,
+                "green_dye": 10
+              },
+              "cost": {},
+              "outputs": {
+                "green_socks": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "green_sweater": {
+              "inputs": {
+                "sheep_wool": 1750,
+                "green_dye": 10
+              },
+              "cost": {},
+              "outputs": {
+                "green_sweater": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "purple_pillows": {
+              "inputs": {
+                "feather": 500,
+                "purple_dye": 10
+              },
+              "cost": {},
+              "outputs": {
+                "purple_pillows": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "purple_slippers": {
+              "inputs": {
+                "white_wool": 200,
+                "purple_dye": 10
+              },
+              "cost": {},
+              "outputs": {
+                "purple_slippers": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "purple_beanie": {
+              "inputs": {
+                "sheep_wool": 1250,
+                "purple_dye": 10
+              },
+              "cost": {},
+              "outputs": {
+                "purple_beanie": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "purple_socks": {
+              "inputs": {
+                "sheep_wool": 1500,
+                "purple_dye": 10
+              },
+              "cost": {},
+              "outputs": {
+                "purple_socks": 10
+              },
+              "duration": 0,
+              "xp": 50
+            },
+            "purple_sweater": {
+              "inputs": {
+                "sheep_wool": 1750,
+                "purple_dye": 10
+              },
+              "cost": {},
+              "outputs": {
+                "purple_sweater": 10
+              },
+              "duration": 0,
+              "xp": 50
+            }
+          },
+          "_estimated": true
         }
       ]
     }

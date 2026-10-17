@@ -16,6 +16,7 @@ use FermeTranquille\Engine\Production;
  * buildings. Takes inputs from the barn and pays the cost; the job keeps its
  * own outputs and XP, so the result is fixed at start. Refused when an output
  * is larger than the barn capacity (it could never be collected).
+ * "instant" buildings deliver right away, without a job.
  */
 final class StartProduction implements Action
 {
@@ -62,6 +63,14 @@ final class StartProduction implements Action
         $farm->pay($total['cost']);
         foreach ($total['inputs'] as $item => $count) {
             $farm->removeFromBarn($item, $count);
+        }
+
+        if (Production::isInstant($farm->data, $building['type'])) {
+            // Crafted on the spot (sewing workshop): straight to the barn.
+            $farm->addToBarn($total['outputs']);
+            $farm->addXp($total['xp']);
+
+            return;
         }
 
         $building['job'] = [

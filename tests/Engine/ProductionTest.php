@@ -220,7 +220,7 @@ final class ProductionTest extends EngineTestCase
 
         self::assertStringContainsString('windmill.levels[0].recipes.chicken_feed: max_output is smaller than one batch', $errors);
         self::assertStringContainsString('silo.levels[0].recipes.fertilizer.outputs: must contain the main output fertilizer', $errors);
-        self::assertStringContainsString('chicken_coop.production.mode: must be run or batch', $errors);
+        self::assertStringContainsString('chicken_coop.production.mode: must be run, batch or instant', $errors);
         self::assertStringContainsString('cowshed.levels[2].recipes: must be a non-empty object', $errors);
     }
 
