@@ -106,6 +106,11 @@ final class Farm
         return $this->state['expansions'];
     }
 
+    public function addExpansion(): void
+    {
+        $this->state['expansions']++;
+    }
+
     // ------------------------------------------------------------ resources
 
     public function resource(string $id): int

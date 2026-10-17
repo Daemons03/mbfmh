@@ -6,6 +6,7 @@ import { applyResponse, buildingById, definition, jobStatus, notify, serverNow, 
 import { barnPanel } from './ui/barn.js';
 import { buildPanel } from './ui/build.js';
 import { buildingPanel } from './ui/building.js';
+import { landPanel } from './ui/land.js';
 import { canFulfill, marketPanel } from './ui/market.js';
 import { closeSheet, initSheet, openSheet, refreshSheet } from './ui/sheet.js';
 import { soonPanel } from './ui/soon.js';
@@ -97,8 +98,8 @@ function cellFromEvent(event) {
     return { x, y };
 }
 
-function isOwned(cell) {
-    return !$(`#grid .cell[data-x="${cell.x}"][data-y="${cell.y}"]`)?.classList.contains('locked');
+function cellClasses(cell) {
+    return $(`#grid .cell[data-x="${cell.x}"][data-y="${cell.y}"]`)?.classList;
 }
 
 async function onGridClick(event) {
@@ -127,8 +128,13 @@ async function onGridClick(event) {
         return;
     }
 
-    if (!isOwned(cell)) {
-        toast('Ce terrain n\'est pas encore à vous (onglet Terrain).', 'warn');
+    const classes = cellClasses(cell);
+    if (classes?.contains('next')) {
+        openTab('land');
+        return;
+    }
+    if (classes?.contains('locked')) {
+        toast('Achetez d\'abord le terrain marqué 🔒 (onglet Terrain).', 'warn');
         return;
     }
     openSheet(buildPanel({ cell, startPlacement }));
@@ -142,7 +148,7 @@ function openTab(tab) {
         build: () => buildPanel({ startPlacement }),
         barn: () => barnPanel(),
         market: () => marketPanel(),
-        land: () => soonPanel('🗺️ Terrain', 'L\'achat d\'extensions arrive bientôt.'),
+        land: () => landPanel(),
         admin: () => soonPanel('⚙️ Admin', 'Le panneau admin arrive bientôt.', () => h('div', { class: 'actions' },
             h('button', { type: 'button', class: 'btn btn-danger', onclick: logout }, 'Se déconnecter'))),
     };

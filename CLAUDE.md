@@ -122,7 +122,7 @@ Opérations admin : `set_resources` (cash, or, matériaux, objets de grange), `s
 - **Grange** : capacité limitée **par produit** (ex. 200 fleurs ET 200 maïs à la fois ; la grange extérieure s'ajoute), améliorable, vente directe au prix « grange ».
 - **Marché** : 6 contrats visibles, chacun demande 1 à 3 produits que le joueur peut fournir (cultures débloquées + produits des bâtiments de production possédés), récompense cash + XP + parfois matériaux (planches, clous, scies). Un contrat jeté est remplacé après un délai. Les prix suivent la colonne « marché » des données.
 - **Bâtiments de production** : `start_production` prend les ingrédients dans la grange (quantité principale du niveau × `inputs_per_main_unit`, arrondi au supérieur), `collect` met tous les produits du job en grange ou rien (produits figés au lancement). Ex. moulin : 10 maïs → 20 aliments ; poulailler : 21 aliments → 21 œufs + 7 fumiers.
-- **Extensions** : coût cash ou or + niveau minimum, débloquent un bloc de grille.
+- **Extensions** : `buy_expansion { option }` achète l'extension suivante avec `costs[option]` (alternatives : or, ou cash + matériaux dès la n° 11) + niveau minimum ; débloque le bloc suivant, la grille affichée grandit d'elle-même. Dernière extension : n° 55.
 - **Niveaux** : courbe d'XP dans les données, débloque cultures/bâtiments.
 - Hors V1 (V2) : ouvriers/maisons, bonheur/décorations, améliorations de niveau multiples, verger, laiterie, boulangerie.
 

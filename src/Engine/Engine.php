@@ -25,6 +25,7 @@ final class Engine
         'discard_contract' => Actions\DiscardContract::class,
         'start_production' => Actions\StartProduction::class,
         'collect' => Actions\Collect::class,
+        'buy_expansion' => Actions\BuyExpansion::class,
     ];
 
     public function __construct(private readonly GameData $data)
