@@ -1081,6 +1081,15 @@
       "barn_price": 3,
       "market_price": 4.5,
       "_estimated": true
+    },
+    "fertilizer": {
+      "name": "Engrais",
+      "emoji": "🧪",
+      "category": "goods",
+      "unlock_level": 5,
+      "barn_price": 2,
+      "market_price": 3,
+      "_estimated": true
     }
   },
   "crops": {
@@ -3633,10 +3642,13 @@
       "production": {
         "main_output": "apple",
         "inputs_per_main_unit": {},
-        "duration": 7200,
+        "duration": 10800,
         "xp": 10,
         "_estimated": true,
-        "_note": "Verger : aucun ingrédient. Durée et XP estimées ; quantités relevées. Niveaux au coût inconnu omis."
+        "_note": "Engrais par production et durée : valeurs du jeu (joueur). XP estimée ; quantités relevées. Niveaux au coût inconnu omis.",
+        "inputs_per_run": {
+          "fertilizer": 10
+        }
       },
       "_estimated_fields": [
         "size",
@@ -3887,10 +3899,13 @@
       "production": {
         "main_output": "cherry",
         "inputs_per_main_unit": {},
-        "duration": 10800,
+        "duration": 43200,
         "xp": 14,
         "_estimated": true,
-        "_note": "Verger : aucun ingrédient. Durée et XP estimées ; quantités relevées. Niveaux au coût inconnu omis."
+        "_note": "Engrais par production et durée : valeurs du jeu (joueur). XP estimée ; quantités relevées. Niveaux au coût inconnu omis.",
+        "inputs_per_run": {
+          "fertilizer": 30
+        }
       },
       "_estimated_fields": [
         "size",
@@ -4083,10 +4098,13 @@
       "production": {
         "main_output": "almond",
         "inputs_per_main_unit": {},
-        "duration": 14400,
+        "duration": 28800,
         "xp": 16,
         "_estimated": true,
-        "_note": "Verger : aucun ingrédient. Durée et XP estimées ; quantités relevées. Niveaux au coût inconnu omis."
+        "_note": "Engrais par production et durée : valeurs du jeu (joueur). XP estimée ; quantités relevées. Niveaux au coût inconnu omis.",
+        "inputs_per_run": {
+          "fertilizer": 20
+        }
       },
       "_estimated_fields": [
         "size",
@@ -4281,10 +4299,13 @@
       "production": {
         "main_output": "peach",
         "inputs_per_main_unit": {},
-        "duration": 18000,
+        "duration": 3600,
         "xp": 20,
         "_estimated": true,
-        "_note": "Verger : aucun ingrédient. Durée et XP estimées ; quantités relevées. Niveaux au coût inconnu omis."
+        "_note": "Engrais par production et durée : valeurs du jeu (joueur). XP estimée ; quantités relevées. Niveaux au coût inconnu omis.",
+        "inputs_per_run": {
+          "fertilizer": 5
+        }
       },
       "_estimated_fields": [
         "size",
@@ -4463,6 +4484,142 @@
             "peach": 530,
             "leaves": 15,
             "nectar": 38
+          },
+          "_estimated": true
+        }
+      ]
+    },
+    "silo": {
+      "name": "Silo",
+      "emoji": "🏭",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 2,
+      "production": {
+        "main_output": "fertilizer",
+        "inputs_per_main_unit": {
+          "dung": 1
+        },
+        "duration": 1800,
+        "xp": 4,
+        "_estimated": true,
+        "_note": "Fumier consommé et durée estimés (à confirmer) ; quantités d'engrais par niveau relevées."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 5,
+          "cost": {
+            "cash": 1000
+          },
+          "outputs": {
+            "fertilizer": 30
+          }
+        },
+        {
+          "level": 2,
+          "unlock_level": 22,
+          "cost": {
+            "cash": 50000
+          },
+          "outputs": {
+            "fertilizer": 100
+          }
+        },
+        {
+          "level": 3,
+          "unlock_level": 44,
+          "cost": {
+            "cash": 750000
+          },
+          "outputs": {
+            "fertilizer": 200
+          }
+        },
+        {
+          "level": 4,
+          "unlock_level": 50,
+          "cost": {
+            "cash": 1400000
+          },
+          "outputs": {
+            "fertilizer": 300
+          }
+        },
+        {
+          "level": 5,
+          "unlock_level": 60,
+          "cost": {
+            "cash": 2380000,
+            "mallets": 80
+          },
+          "outputs": {
+            "fertilizer": 400
+          }
+        },
+        {
+          "level": 6,
+          "unlock_level": 75,
+          "cost": {
+            "cash": 4046000,
+            "mallets": 490
+          },
+          "outputs": {
+            "fertilizer": 500
+          }
+        },
+        {
+          "level": 7,
+          "unlock_level": 90,
+          "cost": {
+            "cash": 6878000,
+            "mallets": 1550
+          },
+          "outputs": {
+            "fertilizer": 600
+          },
+          "_estimated": true
+        },
+        {
+          "level": 8,
+          "unlock_level": 105,
+          "cost": {
+            "cash": 11693000,
+            "mallets": 6500
+          },
+          "outputs": {
+            "fertilizer": 750
+          },
+          "_estimated": true
+        },
+        {
+          "level": 9,
+          "unlock_level": 120,
+          "cost": {
+            "cash": 17540000,
+            "buckets": 13500
+          },
+          "outputs": {
+            "fertilizer": 900
+          },
+          "_estimated": true
+        },
+        {
+          "level": 10,
+          "unlock_level": 135,
+          "cost": {
+            "cash": 24556000,
+            "buckets": 28500
+          },
+          "outputs": {
+            "fertilizer": 1050
           },
           "_estimated": true
         }

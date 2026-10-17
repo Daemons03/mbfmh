@@ -8,7 +8,8 @@ use FermeTranquille\GameData;
 
 /**
  * Recipe of a production building at a given level: outputs come from the
- * level, inputs are main output quantity x inputs_per_main_unit, rounded up.
+ * level; inputs are main output quantity x inputs_per_main_unit (rounded up)
+ * plus the fixed inputs_per_run (e.g. 10 fertilizer for an apple orchard).
  */
 final readonly class Production
 {
@@ -25,6 +26,9 @@ final readonly class Production
         foreach ($production['inputs_per_main_unit'] as $item => $perUnit) {
             // round() first: 90 x 1.1 is 99.000000000000014 in floats and must not become 100.
             $inputs[$item] = (int) ceil(round($main * $perUnit, 6));
+        }
+        foreach ($production['inputs_per_run'] ?? [] as $item => $quantity) {
+            $inputs[$item] = ($inputs[$item] ?? 0) + (int) $quantity;
         }
 
         return [

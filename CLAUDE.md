@@ -195,7 +195,7 @@ Courbe XP estimée : `xp_needed(n) = round(50 * n^1.6)`.
 Données réelles (niveaux, coûts, quantités produites) reprises du fan site ; recettes, consommations, durées et prix estimés (`_estimated`). L'aliment du moulin (`chicken_feed`, « Aliment pour animaux ») nourrit tous les animaux.
 
 1. Animaux : porcherie, étable, chèvrerie, cabane à canards, clapier, bergerie (aliment → produit + fumier). Nouveaux produits : cochon, lait, fromage, plumes, laine de mouton, laine de lapin, laine blanche.
-2. Vergers : pommier, cerisier, pêcher, amandier (production sans ingrédient, fruit + feuilles).
+2. Vergers : pommeraie (10 engrais, 3 h), cerisaie (30, 12 h), amanderaie (20, 8 h), pêcheraie (5, 1 h) → fruit + feuilles (+ nectar dès le niveau 7). Silo : fumier des animaux → engrais. Consommation fixe par production via `inputs_per_run`.
 3. Usines à recettes multiples et emplacements (`slots`) : moteur + laiterie (lait → crème, beurre…).
 4. Boulangerie et confiturerie.
 5. Atelier de couture (laines et plumes → produits textiles).

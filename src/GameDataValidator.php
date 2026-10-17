@@ -176,6 +176,9 @@ final class GameDataValidator
         }
         // Empty inputs are allowed: orchards grow without ingredients.
         $this->itemQuantities($production['inputs_per_main_unit'] ?? null, "{$path}.inputs_per_main_unit", allowEmpty: true);
+        if (array_key_exists('inputs_per_run', $production)) {
+            $this->itemQuantities($production['inputs_per_run'], "{$path}.inputs_per_run");
+        }
         $this->positiveInt($production['duration'] ?? null, "{$path}.duration");
         $this->nonNegativeNumber($production['xp'] ?? null, "{$path}.xp");
 
