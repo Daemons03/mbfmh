@@ -983,15 +983,6 @@
       "market_price": 1.5,
       "_estimated": true
     },
-    "cheese": {
-      "name": "Fromage de chèvre",
-      "emoji": "🧀",
-      "category": "goods",
-      "unlock_level": 18,
-      "barn_price": 1,
-      "market_price": 1.5,
-      "_estimated": true
-    },
     "feather": {
       "name": "Plume",
       "emoji": "🪶",
@@ -1074,7 +1065,7 @@
       "_estimated": true
     },
     "nectar": {
-      "name": "Nectar",
+      "name": "Nectar de forêt",
       "emoji": "🌺",
       "category": "byproduct",
       "unlock_level": 67,
@@ -1154,6 +1145,117 @@
       "market_price": 7.5,
       "_estimated": true,
       "_note": "Augmente les récoltes des champs (effet à définir)."
+    },
+    "goat_cheese": {
+      "name": "Fromage de chèvre",
+      "emoji": "🧀",
+      "category": "goods",
+      "unlock_level": 18,
+      "barn_price": 1,
+      "market_price": 1.5,
+      "_estimated": true
+    },
+    "cream": {
+      "name": "Crème",
+      "emoji": "🍶",
+      "category": "goods",
+      "unlock_level": 60,
+      "barn_price": 8,
+      "market_price": 12,
+      "_estimated": true
+    },
+    "butter": {
+      "name": "Beurre",
+      "emoji": "🧈",
+      "category": "goods",
+      "unlock_level": 60,
+      "barn_price": 40,
+      "market_price": 60,
+      "_estimated": true
+    },
+    "cheese": {
+      "name": "Fromage",
+      "emoji": "🧀",
+      "category": "goods",
+      "unlock_level": 60,
+      "barn_price": 20,
+      "market_price": 30,
+      "_estimated": true
+    },
+    "cherry_yoghurt": {
+      "name": "Yaourt à la cerise",
+      "emoji": "🍧",
+      "category": "goods",
+      "unlock_level": 60,
+      "barn_price": 8,
+      "market_price": 12,
+      "_estimated": true
+    },
+    "peach_jam": {
+      "name": "Confiture de pêches",
+      "emoji": "🍑",
+      "category": "goods",
+      "unlock_level": 35,
+      "barn_price": 25,
+      "market_price": 37.5,
+      "_estimated": true
+    },
+    "cherry_jam": {
+      "name": "Confiture de cerises",
+      "emoji": "🍒",
+      "category": "goods",
+      "unlock_level": 35,
+      "barn_price": 20,
+      "market_price": 30,
+      "_estimated": true
+    },
+    "forest_honey": {
+      "name": "Miel de forêt",
+      "emoji": "🍯",
+      "category": "goods",
+      "unlock_level": 67,
+      "barn_price": 40,
+      "market_price": 60,
+      "_estimated": true
+    },
+    "flower_honey": {
+      "name": "Miel de fleur",
+      "emoji": "🌸",
+      "category": "goods",
+      "unlock_level": 67,
+      "barn_price": 60,
+      "market_price": 90,
+      "_estimated": true
+    },
+    "flower_nectar": {
+      "name": "Nectar de fleur",
+      "emoji": "🌷",
+      "category": "goods",
+      "unlock_level": 67,
+      "barn_price": 3,
+      "market_price": 4.5,
+      "_estimated": true,
+      "_note": "Vient des champs de niveau élevé (quantités à confirmer) ; pour l'instant via l'admin."
+    },
+    "olive_oil": {
+      "name": "Huile d'olive",
+      "emoji": "🫒",
+      "category": "goods",
+      "unlock_level": 60,
+      "barn_price": 5,
+      "market_price": 7.5,
+      "_estimated": true,
+      "_note": "Producteur pas encore dans le jeu (oliveraie, V2)."
+    },
+    "vanilla_extract": {
+      "name": "Extrait de vanille",
+      "emoji": "🍮",
+      "category": "goods",
+      "unlock_level": 35,
+      "barn_price": 5,
+      "market_price": 7.5,
+      "_estimated": true,
+      "_note": "Ingrédient de la confiture de cerises (à confirmer) ; producteur pas encore dans le jeu."
     }
   },
   "crops": {
@@ -4506,7 +4608,7 @@
             "cash": 15000
           },
           "recipes": {
-            "cheese": {
+            "goat_cheese": {
               "inputs": {
                 "goat_feed": 10
               },
@@ -4514,7 +4616,7 @@
                 "cash": 43
               },
               "outputs": {
-                "cheese": 160,
+                "goat_cheese": 160,
                 "dung": 50
               },
               "duration": 7200,
@@ -4529,7 +4631,7 @@
             "cash": 60000
           },
           "recipes": {
-            "cheese": {
+            "goat_cheese": {
               "inputs": {
                 "goat_feed": 10
               },
@@ -4537,7 +4639,7 @@
                 "cash": 43
               },
               "outputs": {
-                "cheese": 176,
+                "goat_cheese": 176,
                 "dung": 55
               },
               "duration": 7200,
@@ -4552,7 +4654,7 @@
             "cash": 120000
           },
           "recipes": {
-            "cheese": {
+            "goat_cheese": {
               "inputs": {
                 "goat_feed": 10
               },
@@ -4560,7 +4662,7 @@
                 "cash": 43
               },
               "outputs": {
-                "cheese": 194,
+                "goat_cheese": 194,
                 "dung": 61
               },
               "duration": 7200,
@@ -4575,7 +4677,7 @@
             "cash": 500000
           },
           "recipes": {
-            "cheese": {
+            "goat_cheese": {
               "inputs": {
                 "goat_feed": 10
               },
@@ -4583,7 +4685,7 @@
                 "cash": 43
               },
               "outputs": {
-                "cheese": 213,
+                "goat_cheese": 213,
                 "dung": 67
               },
               "duration": 7200,
@@ -4598,7 +4700,7 @@
             "cash": 1700000
           },
           "recipes": {
-            "cheese": {
+            "goat_cheese": {
               "inputs": {
                 "goat_feed": 10
               },
@@ -4606,7 +4708,7 @@
                 "cash": 43
               },
               "outputs": {
-                "cheese": 234,
+                "goat_cheese": 234,
                 "dung": 74
               },
               "duration": 7200,
@@ -4621,7 +4723,7 @@
             "cash": 2200000
           },
           "recipes": {
-            "cheese": {
+            "goat_cheese": {
               "inputs": {
                 "goat_feed": 10
               },
@@ -4629,7 +4731,7 @@
                 "cash": 43
               },
               "outputs": {
-                "cheese": 257,
+                "goat_cheese": 257,
                 "dung": 81
               },
               "duration": 7200,
@@ -4647,7 +4749,7 @@
             "glass": 1900
           },
           "recipes": {
-            "cheese": {
+            "goat_cheese": {
               "inputs": {
                 "goat_feed": 10
               },
@@ -4655,7 +4757,7 @@
                 "cash": 43
               },
               "outputs": {
-                "cheese": 270,
+                "goat_cheese": 270,
                 "dung": 85
               },
               "duration": 7200,
@@ -4671,7 +4773,7 @@
             "mallets": 220
           },
           "recipes": {
-            "cheese": {
+            "goat_cheese": {
               "inputs": {
                 "goat_feed": 10
               },
@@ -4679,7 +4781,7 @@
                 "cash": 43
               },
               "outputs": {
-                "cheese": 285,
+                "goat_cheese": 285,
                 "dung": 89
               },
               "duration": 7200,
@@ -4695,7 +4797,7 @@
             "mallets": 880
           },
           "recipes": {
-            "cheese": {
+            "goat_cheese": {
               "inputs": {
                 "goat_feed": 10
               },
@@ -4703,7 +4805,7 @@
                 "cash": 43
               },
               "outputs": {
-                "cheese": 300,
+                "goat_cheese": 300,
                 "dung": 93
               },
               "duration": 7200,
@@ -4719,7 +4821,7 @@
             "mallets": 3960
           },
           "recipes": {
-            "cheese": {
+            "goat_cheese": {
               "inputs": {
                 "goat_feed": 10
               },
@@ -4727,7 +4829,7 @@
                 "cash": 43
               },
               "outputs": {
-                "cheese": 315,
+                "goat_cheese": 315,
                 "dung": 98
               },
               "duration": 7200,
@@ -4744,7 +4846,7 @@
           },
           "_estimated": true,
           "recipes": {
-            "cheese": {
+            "goat_cheese": {
               "inputs": {
                 "goat_feed": 10
               },
@@ -4752,7 +4854,7 @@
                 "cash": 43
               },
               "outputs": {
-                "cheese": 330,
+                "goat_cheese": 330,
                 "dung": 103
               },
               "duration": 7200,
@@ -4769,7 +4871,7 @@
           },
           "_estimated": true,
           "recipes": {
-            "cheese": {
+            "goat_cheese": {
               "inputs": {
                 "goat_feed": 10
               },
@@ -4777,7 +4879,7 @@
                 "cash": 43
               },
               "outputs": {
-                "cheese": 345,
+                "goat_cheese": 345,
                 "dung": 108
               },
               "duration": 7200,
@@ -6223,7 +6325,7 @@
       "max_count": 4,
       "production": {
         "mode": "run",
-        "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux dont le coût d'amélioration est inconnu omis."
+        "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux 15-18 : coût extrapolé."
       },
       "_estimated_fields": [
         "size",
@@ -6569,6 +6671,114 @@
               "xp": 500
             }
           }
+        },
+        {
+          "level": 15,
+          "unlock_level": 147,
+          "cost": {
+            "cash": 36158000,
+            "buckets": 54000
+          },
+          "recipes": {
+            "cherry": {
+              "inputs": {
+                "fertilizer": 30
+              },
+              "cost": {
+                "cash": 1419
+              },
+              "outputs": {
+                "cherry": 590,
+                "leaves": 40,
+                "nectar": 263
+              },
+              "duration": 43200,
+              "xp": 500
+            }
+          },
+          "_estimated": true,
+          "_note": "Coût d'amélioration et niveau requis extrapolés (sorties relevées)."
+        },
+        {
+          "level": 16,
+          "unlock_level": 157,
+          "cost": {
+            "cash": 50621000,
+            "buckets": 81000
+          },
+          "recipes": {
+            "cherry": {
+              "inputs": {
+                "fertilizer": 30
+              },
+              "cost": {
+                "cash": 1419
+              },
+              "outputs": {
+                "cherry": 615,
+                "leaves": 42,
+                "nectar": 300
+              },
+              "duration": 43200,
+              "xp": 500
+            }
+          },
+          "_estimated": true,
+          "_note": "Coût d'amélioration et niveau requis extrapolés (sorties relevées)."
+        },
+        {
+          "level": 17,
+          "unlock_level": 167,
+          "cost": {
+            "cash": 70869000,
+            "buckets": 122000
+          },
+          "recipes": {
+            "cherry": {
+              "inputs": {
+                "fertilizer": 30
+              },
+              "cost": {
+                "cash": 1419
+              },
+              "outputs": {
+                "cherry": 640,
+                "leaves": 44,
+                "nectar": 338
+              },
+              "duration": 43200,
+              "xp": 500
+            }
+          },
+          "_estimated": true,
+          "_note": "Coût d'amélioration et niveau requis extrapolés (sorties relevées)."
+        },
+        {
+          "level": 18,
+          "unlock_level": 177,
+          "cost": {
+            "cash": 99217000,
+            "buckets": 183000
+          },
+          "recipes": {
+            "cherry": {
+              "inputs": {
+                "fertilizer": 30
+              },
+              "cost": {
+                "cash": 1419
+              },
+              "outputs": {
+                "cherry": 665,
+                "leaves": 46,
+                "nectar": 375
+              },
+              "duration": 43200,
+              "xp": 500
+            }
+          },
+          "_estimated": true,
+          "_note": "Coût d'amélioration et niveau requis extrapolés (sorties relevées)."
         }
       ]
     },
@@ -6583,7 +6793,7 @@
       "max_count": 4,
       "production": {
         "mode": "run",
-        "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux dont le coût d'amélioration est inconnu omis."
+        "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux 15-18 : coût extrapolé."
       },
       "_estimated_fields": [
         "size",
@@ -6931,6 +7141,114 @@
               "xp": 350
             }
           }
+        },
+        {
+          "level": 15,
+          "unlock_level": 163,
+          "cost": {
+            "cash": 25036000,
+            "buckets": 48000
+          },
+          "recipes": {
+            "almond": {
+              "inputs": {
+                "fertilizer": 20
+              },
+              "cost": {
+                "cash": 700
+              },
+              "outputs": {
+                "almond": 760,
+                "leaves": 38,
+                "nectar": 219
+              },
+              "duration": 28800,
+              "xp": 350
+            }
+          },
+          "_estimated": true,
+          "_note": "Coût d'amélioration et niveau requis extrapolés (sorties relevées)."
+        },
+        {
+          "level": 16,
+          "unlock_level": 173,
+          "cost": {
+            "cash": 35050000,
+            "buckets": 72000
+          },
+          "recipes": {
+            "almond": {
+              "inputs": {
+                "fertilizer": 20
+              },
+              "cost": {
+                "cash": 700
+              },
+              "outputs": {
+                "almond": 795,
+                "leaves": 40,
+                "nectar": 250
+              },
+              "duration": 28800,
+              "xp": 350
+            }
+          },
+          "_estimated": true,
+          "_note": "Coût d'amélioration et niveau requis extrapolés (sorties relevées)."
+        },
+        {
+          "level": 17,
+          "unlock_level": 183,
+          "cost": {
+            "cash": 49070000,
+            "buckets": 108000
+          },
+          "recipes": {
+            "almond": {
+              "inputs": {
+                "fertilizer": 20
+              },
+              "cost": {
+                "cash": 700
+              },
+              "outputs": {
+                "almond": 830,
+                "leaves": 42,
+                "nectar": 281
+              },
+              "duration": 28800,
+              "xp": 350
+            }
+          },
+          "_estimated": true,
+          "_note": "Coût d'amélioration et niveau requis extrapolés (sorties relevées)."
+        },
+        {
+          "level": 18,
+          "unlock_level": 193,
+          "cost": {
+            "cash": 68698000,
+            "buckets": 162000
+          },
+          "recipes": {
+            "almond": {
+              "inputs": {
+                "fertilizer": 20
+              },
+              "cost": {
+                "cash": 700
+              },
+              "outputs": {
+                "almond": 865,
+                "leaves": 44,
+                "nectar": 313
+              },
+              "duration": 28800,
+              "xp": 350
+            }
+          },
+          "_estimated": true,
+          "_note": "Coût d'amélioration et niveau requis extrapolés (sorties relevées)."
         }
       ]
     },
@@ -6945,7 +7263,7 @@
       "max_count": 4,
       "production": {
         "mode": "run",
-        "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux dont le coût d'amélioration est inconnu omis."
+        "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux 15-18 : coût extrapolé."
       },
       "_estimated_fields": [
         "size",
@@ -7294,6 +7612,114 @@
               "xp": 50
             }
           }
+        },
+        {
+          "level": 15,
+          "unlock_level": 178,
+          "cost": {
+            "cash": 20107000,
+            "buckets": 36000
+          },
+          "recipes": {
+            "peach": {
+              "inputs": {
+                "fertilizer": 5
+              },
+              "cost": {
+                "cash": 474
+              },
+              "outputs": {
+                "peach": 555,
+                "leaves": 16,
+                "nectar": 44
+              },
+              "duration": 3600,
+              "xp": 50
+            }
+          },
+          "_estimated": true,
+          "_note": "Coût d'amélioration et niveau requis extrapolés (sorties relevées)."
+        },
+        {
+          "level": 16,
+          "unlock_level": 188,
+          "cost": {
+            "cash": 28150000,
+            "buckets": 54000
+          },
+          "recipes": {
+            "peach": {
+              "inputs": {
+                "fertilizer": 5
+              },
+              "cost": {
+                "cash": 474
+              },
+              "outputs": {
+                "peach": 580,
+                "leaves": 17,
+                "nectar": 50
+              },
+              "duration": 3600,
+              "xp": 50
+            }
+          },
+          "_estimated": true,
+          "_note": "Coût d'amélioration et niveau requis extrapolés (sorties relevées)."
+        },
+        {
+          "level": 17,
+          "unlock_level": 198,
+          "cost": {
+            "cash": 39410000,
+            "buckets": 81000
+          },
+          "recipes": {
+            "peach": {
+              "inputs": {
+                "fertilizer": 5
+              },
+              "cost": {
+                "cash": 474
+              },
+              "outputs": {
+                "peach": 605,
+                "leaves": 18,
+                "nectar": 56
+              },
+              "duration": 3600,
+              "xp": 50
+            }
+          },
+          "_estimated": true,
+          "_note": "Coût d'amélioration et niveau requis extrapolés (sorties relevées)."
+        },
+        {
+          "level": 18,
+          "unlock_level": 208,
+          "cost": {
+            "cash": 55174000,
+            "buckets": 122000
+          },
+          "recipes": {
+            "peach": {
+              "inputs": {
+                "fertilizer": 5
+              },
+              "cost": {
+                "cash": 474
+              },
+              "outputs": {
+                "peach": 630,
+                "leaves": 19,
+                "nectar": 63
+              },
+              "duration": 3600,
+              "xp": 50
+            }
+          },
+          "_estimated": true,
+          "_note": "Coût d'amélioration et niveau requis extrapolés (sorties relevées)."
         }
       ]
     },
@@ -7812,6 +8238,1397 @@
             }
           },
           "_estimated": true
+        }
+      ]
+    },
+    "dairy": {
+      "name": "Laiterie",
+      "emoji": "🥛",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 1,
+      "production": {
+        "mode": "batch",
+        "_note": "Recettes, cash, durées, XP : valeurs du jeu (captures) ; niveaux et nombre de lots relevés."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "cost": {
+            "cash": 5400000
+          },
+          "unlock_level": 60,
+          "max_batches": 4,
+          "recipes": {
+            "cream": {
+              "inputs": {
+                "milk": 250
+              },
+              "cost": {
+                "cash": 308
+              },
+              "outputs": {
+                "cream": 60
+              },
+              "duration": 10800,
+              "xp": 225
+            },
+            "butter": {
+              "inputs": {
+                "cream": 30
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "butter": 15
+              },
+              "duration": 2700,
+              "xp": 50
+            },
+            "cheese": {
+              "inputs": {
+                "olive_oil": 110,
+                "milk": 160
+              },
+              "cost": {
+                "cash": 41
+              },
+              "outputs": {
+                "cheese": 30
+              },
+              "duration": 1500,
+              "xp": 30
+            },
+            "cherry_yoghurt": {
+              "inputs": {
+                "cherry": 190,
+                "milk": 90
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "cherry_yoghurt": 60
+              },
+              "duration": 7200,
+              "xp": 150
+            }
+          }
+        },
+        {
+          "level": 2,
+          "cost": {
+            "cash": 6750000,
+            "bricks": 17400,
+            "tiles": 17400,
+            "glass": 2500
+          },
+          "unlock_level": 67,
+          "max_batches": 6,
+          "recipes": {
+            "cream": {
+              "inputs": {
+                "milk": 245
+              },
+              "cost": {
+                "cash": 308
+              },
+              "outputs": {
+                "cream": 60
+              },
+              "duration": 10560,
+              "xp": 225
+            },
+            "butter": {
+              "inputs": {
+                "cream": 29
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "butter": 15
+              },
+              "duration": 2580,
+              "xp": 50
+            },
+            "cheese": {
+              "inputs": {
+                "olive_oil": 106,
+                "milk": 157
+              },
+              "cost": {
+                "cash": 41
+              },
+              "outputs": {
+                "cheese": 30
+              },
+              "duration": 1440,
+              "xp": 30
+            },
+            "cherry_yoghurt": {
+              "inputs": {
+                "cherry": 187,
+                "milk": 87
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "cherry_yoghurt": 60
+              },
+              "duration": 7020,
+              "xp": 150
+            }
+          }
+        },
+        {
+          "level": 3,
+          "cost": {
+            "cash": 8550000,
+            "bricks": 26100,
+            "tiles": 26100,
+            "glass": 3900
+          },
+          "unlock_level": 75,
+          "max_batches": 8,
+          "recipes": {
+            "cream": {
+              "inputs": {
+                "milk": 240
+              },
+              "cost": {
+                "cash": 308
+              },
+              "outputs": {
+                "cream": 60
+              },
+              "duration": 10320,
+              "xp": 225
+            },
+            "butter": {
+              "inputs": {
+                "cream": 28
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "butter": 15
+              },
+              "duration": 2460,
+              "xp": 50
+            },
+            "cheese": {
+              "inputs": {
+                "olive_oil": 102,
+                "milk": 155
+              },
+              "cost": {
+                "cash": 41
+              },
+              "outputs": {
+                "cheese": 30
+              },
+              "duration": 1380,
+              "xp": 30
+            },
+            "cherry_yoghurt": {
+              "inputs": {
+                "cherry": 184,
+                "milk": 85
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "cherry_yoghurt": 60
+              },
+              "duration": 6840,
+              "xp": 150
+            }
+          }
+        },
+        {
+          "level": 4,
+          "cost": {
+            "cash": 11250000,
+            "glass": 5000,
+            "mallets": 1350
+          },
+          "_estimated": true,
+          "unlock_level": 83,
+          "max_batches": 10,
+          "recipes": {
+            "cream": {
+              "inputs": {
+                "milk": 235
+              },
+              "cost": {
+                "cash": 308
+              },
+              "outputs": {
+                "cream": 60
+              },
+              "duration": 10080,
+              "xp": 225
+            },
+            "butter": {
+              "inputs": {
+                "cream": 27
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "butter": 15
+              },
+              "duration": 2280,
+              "xp": 50
+            },
+            "cheese": {
+              "inputs": {
+                "olive_oil": 98,
+                "milk": 152
+              },
+              "cost": {
+                "cash": 41
+              },
+              "outputs": {
+                "cheese": 30
+              },
+              "duration": 1320,
+              "xp": 30
+            },
+            "cherry_yoghurt": {
+              "inputs": {
+                "cherry": 181,
+                "milk": 82
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "cherry_yoghurt": 60
+              },
+              "duration": 6660,
+              "xp": 150
+            }
+          }
+        },
+        {
+          "level": 5,
+          "cost": {
+            "cash": 14400000,
+            "mallets": 1900
+          },
+          "_estimated": true,
+          "unlock_level": 91,
+          "max_batches": 12,
+          "recipes": {
+            "cream": {
+              "inputs": {
+                "milk": 230
+              },
+              "cost": {
+                "cash": 308
+              },
+              "outputs": {
+                "cream": 60
+              },
+              "duration": 9840,
+              "xp": 225
+            },
+            "butter": {
+              "inputs": {
+                "cream": 26
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "butter": 15
+              },
+              "duration": 2100,
+              "xp": 50
+            },
+            "cheese": {
+              "inputs": {
+                "olive_oil": 94,
+                "milk": 150
+              },
+              "cost": {
+                "cash": 41
+              },
+              "outputs": {
+                "cheese": 30
+              },
+              "duration": 1260,
+              "xp": 30
+            },
+            "cherry_yoghurt": {
+              "inputs": {
+                "cherry": 178,
+                "milk": 80
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "cherry_yoghurt": 60
+              },
+              "duration": 6480,
+              "xp": 150
+            }
+          }
+        },
+        {
+          "level": 6,
+          "cost": {
+            "cash": 18000000,
+            "mallets": 2600
+          },
+          "_estimated": true,
+          "unlock_level": 99,
+          "max_batches": 14,
+          "recipes": {
+            "cream": {
+              "inputs": {
+                "milk": 225
+              },
+              "cost": {
+                "cash": 308
+              },
+              "outputs": {
+                "cream": 60
+              },
+              "duration": 9600,
+              "xp": 225
+            },
+            "butter": {
+              "inputs": {
+                "cream": 25
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "butter": 15
+              },
+              "duration": 1860,
+              "xp": 50
+            },
+            "cheese": {
+              "inputs": {
+                "olive_oil": 90,
+                "milk": 147
+              },
+              "cost": {
+                "cash": 41
+              },
+              "outputs": {
+                "cheese": 30
+              },
+              "duration": 1200,
+              "xp": 30
+            },
+            "cherry_yoghurt": {
+              "inputs": {
+                "cherry": 175,
+                "milk": 77
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "cherry_yoghurt": 60
+              },
+              "duration": 6300,
+              "xp": 150
+            }
+          }
+        },
+        {
+          "level": 7,
+          "cost": {
+            "cash": 22000000,
+            "mallets": 4000,
+            "buckets": 2900
+          },
+          "_estimated": true,
+          "unlock_level": 107,
+          "max_batches": 16,
+          "recipes": {
+            "cream": {
+              "inputs": {
+                "milk": 220
+              },
+              "cost": {
+                "cash": 308
+              },
+              "outputs": {
+                "cream": 60
+              },
+              "duration": 9360,
+              "xp": 225
+            },
+            "butter": {
+              "inputs": {
+                "cream": 24
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "butter": 15
+              },
+              "duration": 1680,
+              "xp": 50
+            },
+            "cheese": {
+              "inputs": {
+                "olive_oil": 86,
+                "milk": 145
+              },
+              "cost": {
+                "cash": 41
+              },
+              "outputs": {
+                "cheese": 30
+              },
+              "duration": 1140,
+              "xp": 30
+            },
+            "cherry_yoghurt": {
+              "inputs": {
+                "cherry": 172,
+                "milk": 75
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "cherry_yoghurt": 60
+              },
+              "duration": 6120,
+              "xp": 150
+            }
+          }
+        },
+        {
+          "level": 8,
+          "cost": {
+            "cash": 26000000,
+            "mallets": 7400,
+            "buckets": 5700
+          },
+          "_estimated": true,
+          "unlock_level": 115,
+          "max_batches": 18,
+          "recipes": {
+            "cream": {
+              "inputs": {
+                "milk": 215
+              },
+              "cost": {
+                "cash": 308
+              },
+              "outputs": {
+                "cream": 60
+              },
+              "duration": 9120,
+              "xp": 225
+            },
+            "butter": {
+              "inputs": {
+                "cream": 23
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "butter": 15
+              },
+              "duration": 1500,
+              "xp": 50
+            },
+            "cheese": {
+              "inputs": {
+                "olive_oil": 82,
+                "milk": 142
+              },
+              "cost": {
+                "cash": 41
+              },
+              "outputs": {
+                "cheese": 30
+              },
+              "duration": 1080,
+              "xp": 30
+            },
+            "cherry_yoghurt": {
+              "inputs": {
+                "cherry": 169,
+                "milk": 72
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "cherry_yoghurt": 60
+              },
+              "duration": 5940,
+              "xp": 150
+            }
+          }
+        },
+        {
+          "level": 9,
+          "cost": {
+            "cash": 30000000,
+            "buckets": 11000
+          },
+          "_estimated": true,
+          "unlock_level": 123,
+          "max_batches": 20,
+          "recipes": {
+            "cream": {
+              "inputs": {
+                "milk": 210
+              },
+              "cost": {
+                "cash": 308
+              },
+              "outputs": {
+                "cream": 60
+              },
+              "duration": 8880,
+              "xp": 225
+            },
+            "butter": {
+              "inputs": {
+                "cream": 22
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "butter": 15
+              },
+              "duration": 1380,
+              "xp": 50
+            },
+            "cheese": {
+              "inputs": {
+                "olive_oil": 78,
+                "milk": 140
+              },
+              "cost": {
+                "cash": 41
+              },
+              "outputs": {
+                "cheese": 30
+              },
+              "duration": 1020,
+              "xp": 30
+            },
+            "cherry_yoghurt": {
+              "inputs": {
+                "cherry": 166,
+                "milk": 70
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "cherry_yoghurt": 60
+              },
+              "duration": 5760,
+              "xp": 150
+            }
+          }
+        },
+        {
+          "level": 10,
+          "cost": {
+            "cash": 35000000,
+            "buckets": 20000
+          },
+          "_estimated": true,
+          "unlock_level": 131,
+          "max_batches": 22,
+          "recipes": {
+            "cream": {
+              "inputs": {
+                "milk": 205
+              },
+              "cost": {
+                "cash": 308
+              },
+              "outputs": {
+                "cream": 60
+              },
+              "duration": 8640,
+              "xp": 225
+            },
+            "butter": {
+              "inputs": {
+                "cream": 21
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "butter": 15
+              },
+              "duration": 1260,
+              "xp": 50
+            },
+            "cheese": {
+              "inputs": {
+                "olive_oil": 74,
+                "milk": 137
+              },
+              "cost": {
+                "cash": 41
+              },
+              "outputs": {
+                "cheese": 30
+              },
+              "duration": 960,
+              "xp": 30
+            },
+            "cherry_yoghurt": {
+              "inputs": {
+                "cherry": 163,
+                "milk": 65
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "cherry_yoghurt": 60
+              },
+              "duration": 5580,
+              "xp": 150
+            }
+          }
+        }
+      ]
+    },
+    "jam_kitchen": {
+      "name": "Cuisine de confitures",
+      "emoji": "🫙",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 1,
+      "production": {
+        "mode": "batch",
+        "_note": "Recettes, cash, durées, XP : valeurs du jeu (captures) ; niveaux et nombre de lots relevés (9-10 estimés)."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "cost": {
+            "cash": 1404000
+          },
+          "unlock_level": 35,
+          "max_batches": 4,
+          "recipes": {
+            "peach_jam": {
+              "inputs": {
+                "peach": 290,
+                "flower_honey": 24
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "peach_jam": 40
+              },
+              "duration": 7200,
+              "xp": 150
+            },
+            "cherry_jam": {
+              "inputs": {
+                "cherry": 30,
+                "vanilla_extract": 80
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "cherry_jam": 20
+              },
+              "duration": 2700,
+              "xp": 50
+            }
+          }
+        },
+        {
+          "level": 2,
+          "cost": {
+            "cash": 2047500,
+            "bricks": 950,
+            "tiles": 950,
+            "glass": 150
+          },
+          "unlock_level": 42,
+          "max_batches": 6,
+          "recipes": {
+            "peach_jam": {
+              "inputs": {
+                "peach": 280,
+                "flower_honey": 23
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "peach_jam": 40
+              },
+              "duration": 7020,
+              "xp": 150
+            },
+            "cherry_jam": {
+              "inputs": {
+                "cherry": 28,
+                "vanilla_extract": 77
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "cherry_jam": 20
+              },
+              "duration": 2580,
+              "xp": 50
+            }
+          }
+        },
+        {
+          "level": 3,
+          "cost": {
+            "cash": 2749500,
+            "bricks": 1800,
+            "tiles": 1800,
+            "glass": 280
+          },
+          "unlock_level": 50,
+          "max_batches": 8,
+          "recipes": {
+            "peach_jam": {
+              "inputs": {
+                "peach": 270,
+                "flower_honey": 22
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "peach_jam": 40
+              },
+              "duration": 6840,
+              "xp": 150
+            },
+            "cherry_jam": {
+              "inputs": {
+                "cherry": 26,
+                "vanilla_extract": 74
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "cherry_jam": 20
+              },
+              "duration": 2460,
+              "xp": 50
+            }
+          }
+        },
+        {
+          "level": 4,
+          "cost": {
+            "cash": 3510000,
+            "bricks": 3500,
+            "tiles": 3500,
+            "glass": 520
+          },
+          "unlock_level": 57,
+          "max_batches": 10,
+          "recipes": {
+            "peach_jam": {
+              "inputs": {
+                "peach": 260,
+                "flower_honey": 21
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "peach_jam": 40
+              },
+              "duration": 6660,
+              "xp": 150
+            },
+            "cherry_jam": {
+              "inputs": {
+                "cherry": 24,
+                "vanilla_extract": 71
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "cherry_jam": 20
+              },
+              "duration": 2280,
+              "xp": 50
+            }
+          }
+        },
+        {
+          "level": 5,
+          "cost": {
+            "cash": 4387500,
+            "bricks": 6800,
+            "tiles": 6800,
+            "glass": 1000
+          },
+          "_estimated": true,
+          "unlock_level": 65,
+          "max_batches": 12,
+          "recipes": {
+            "peach_jam": {
+              "inputs": {
+                "peach": 250,
+                "flower_honey": 20
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "peach_jam": 40
+              },
+              "duration": 6480,
+              "xp": 150
+            },
+            "cherry_jam": {
+              "inputs": {
+                "cherry": 23,
+                "vanilla_extract": 68
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "cherry_jam": 20
+              },
+              "duration": 2100,
+              "xp": 50
+            }
+          }
+        },
+        {
+          "level": 6,
+          "cost": {
+            "cash": 5557500,
+            "tiles": 10900,
+            "glass": 1500,
+            "mallets": 430
+          },
+          "_estimated": true,
+          "unlock_level": 73,
+          "max_batches": 14,
+          "recipes": {
+            "peach_jam": {
+              "inputs": {
+                "peach": 240,
+                "flower_honey": 19
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "peach_jam": 40
+              },
+              "duration": 6300,
+              "xp": 150
+            },
+            "cherry_jam": {
+              "inputs": {
+                "cherry": 22,
+                "vanilla_extract": 65
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "cherry_jam": 20
+              },
+              "duration": 1860,
+              "xp": 50
+            }
+          }
+        },
+        {
+          "level": 7,
+          "cost": {
+            "cash": 7312500,
+            "tiles": 17400,
+            "glass": 2500,
+            "mallets": 980
+          },
+          "_estimated": true,
+          "unlock_level": 81,
+          "max_batches": 16,
+          "recipes": {
+            "peach_jam": {
+              "inputs": {
+                "peach": 230,
+                "flower_honey": 18
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "peach_jam": 40
+              },
+              "duration": 6120,
+              "xp": 150
+            },
+            "cherry_jam": {
+              "inputs": {
+                "cherry": 21,
+                "vanilla_extract": 62
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "cherry_jam": 20
+              },
+              "duration": 1680,
+              "xp": 50
+            }
+          }
+        },
+        {
+          "level": 8,
+          "cost": {
+            "cash": 9360000,
+            "tiles": 26100,
+            "glass": 3900,
+            "mallets": 1350
+          },
+          "_estimated": true,
+          "unlock_level": 89,
+          "max_batches": 18,
+          "recipes": {
+            "peach_jam": {
+              "inputs": {
+                "peach": 220,
+                "flower_honey": 17
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "peach_jam": 40
+              },
+              "duration": 5940,
+              "xp": 150
+            },
+            "cherry_jam": {
+              "inputs": {
+                "cherry": 20,
+                "vanilla_extract": 59
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "cherry_jam": 20
+              },
+              "duration": 1500,
+              "xp": 50
+            }
+          }
+        },
+        {
+          "level": 9,
+          "cost": {
+            "cash": 11700000,
+            "mallets": 1900
+          },
+          "_estimated": true,
+          "unlock_level": 97,
+          "max_batches": 20,
+          "recipes": {
+            "peach_jam": {
+              "inputs": {
+                "peach": 210,
+                "flower_honey": 16
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "peach_jam": 40
+              },
+              "duration": 5760,
+              "xp": 150
+            },
+            "cherry_jam": {
+              "inputs": {
+                "cherry": 19,
+                "vanilla_extract": 55
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "cherry_jam": 20
+              },
+              "duration": 1380,
+              "xp": 50
+            }
+          }
+        },
+        {
+          "level": 10,
+          "cost": {
+            "cash": 14300000,
+            "mallets": 2600,
+            "buckets": 2900
+          },
+          "_estimated": true,
+          "unlock_level": 105,
+          "max_batches": 22,
+          "recipes": {
+            "peach_jam": {
+              "inputs": {
+                "peach": 200,
+                "flower_honey": 15
+              },
+              "cost": {
+                "cash": 179
+              },
+              "outputs": {
+                "peach_jam": 40
+              },
+              "duration": 5580,
+              "xp": 150
+            },
+            "cherry_jam": {
+              "inputs": {
+                "cherry": 18,
+                "vanilla_extract": 50
+              },
+              "cost": {
+                "cash": 50
+              },
+              "outputs": {
+                "cherry_jam": 20
+              },
+              "duration": 1260,
+              "xp": 50
+            }
+          }
+        }
+      ]
+    },
+    "beehive": {
+      "name": "Ruche",
+      "emoji": "🐝",
+      "kind": "production",
+      "size": [
+        1,
+        1
+      ],
+      "max_count": 2,
+      "production": {
+        "mode": "batch",
+        "_note": "Recettes, cash, durées, XP : valeurs du jeu (captures) ; capacité relevée."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "cost": {
+            "mallets": 50
+          },
+          "unlock_level": 67,
+          "max_output": 50,
+          "recipes": {
+            "forest_honey": {
+              "inputs": {
+                "nectar": 50
+              },
+              "cost": {
+                "cash": 1431
+              },
+              "outputs": {
+                "forest_honey": 50
+              },
+              "duration": 7200,
+              "xp": 600
+            },
+            "flower_honey": {
+              "inputs": {
+                "flower_nectar": 600
+              },
+              "cost": {
+                "cash": 2385
+              },
+              "outputs": {
+                "flower_honey": 50
+              },
+              "duration": 10800,
+              "xp": 1800
+            }
+          }
+        },
+        {
+          "level": 2,
+          "cost": {
+            "cash": 5000000,
+            "mallets": 500
+          },
+          "unlock_level": 77,
+          "max_output": 100,
+          "recipes": {
+            "forest_honey": {
+              "inputs": {
+                "nectar": 48
+              },
+              "cost": {
+                "cash": 1431
+              },
+              "outputs": {
+                "forest_honey": 50
+              },
+              "duration": 5760,
+              "xp": 600
+            },
+            "flower_honey": {
+              "inputs": {
+                "flower_nectar": 580
+              },
+              "cost": {
+                "cash": 2385
+              },
+              "outputs": {
+                "flower_honey": 50
+              },
+              "duration": 8640,
+              "xp": 1800
+            }
+          }
+        },
+        {
+          "level": 3,
+          "cost": {
+            "cash": 6250000,
+            "mallets": 1500
+          },
+          "unlock_level": 87,
+          "max_output": 150,
+          "recipes": {
+            "forest_honey": {
+              "inputs": {
+                "nectar": 46
+              },
+              "cost": {
+                "cash": 1431
+              },
+              "outputs": {
+                "forest_honey": 50
+              },
+              "duration": 4610,
+              "xp": 600
+            },
+            "flower_honey": {
+              "inputs": {
+                "flower_nectar": 560
+              },
+              "cost": {
+                "cash": 2385
+              },
+              "outputs": {
+                "flower_honey": 50
+              },
+              "duration": 6910,
+              "xp": 1800
+            }
+          }
+        },
+        {
+          "level": 4,
+          "cost": {
+            "cash": 7813000,
+            "buckets": 500
+          },
+          "unlock_level": 97,
+          "max_output": 300,
+          "recipes": {
+            "forest_honey": {
+              "inputs": {
+                "nectar": 40
+              },
+              "cost": {
+                "cash": 1431
+              },
+              "outputs": {
+                "forest_honey": 50
+              },
+              "duration": 3690,
+              "xp": 600
+            },
+            "flower_honey": {
+              "inputs": {
+                "flower_nectar": 500
+              },
+              "cost": {
+                "cash": 2385
+              },
+              "outputs": {
+                "flower_honey": 50
+              },
+              "duration": 5530,
+              "xp": 1800
+            }
+          }
+        },
+        {
+          "level": 5,
+          "cost": {
+            "cash": 9766000,
+            "buckets": 5000
+          },
+          "unlock_level": 109,
+          "max_output": 400,
+          "recipes": {
+            "forest_honey": {
+              "inputs": {
+                "nectar": 38
+              },
+              "cost": {
+                "cash": 1431
+              },
+              "outputs": {
+                "forest_honey": 50
+              },
+              "duration": 2950,
+              "xp": 600
+            },
+            "flower_honey": {
+              "inputs": {
+                "flower_nectar": 480
+              },
+              "cost": {
+                "cash": 2385
+              },
+              "outputs": {
+                "flower_honey": 50
+              },
+              "duration": 4420,
+              "xp": 1800
+            }
+          }
+        },
+        {
+          "level": 6,
+          "cost": {
+            "cash": 12208000,
+            "buckets": 8500
+          },
+          "unlock_level": 116,
+          "max_output": 500,
+          "recipes": {
+            "forest_honey": {
+              "inputs": {
+                "nectar": 36
+              },
+              "cost": {
+                "cash": 1431
+              },
+              "outputs": {
+                "forest_honey": 50
+              },
+              "duration": 2360,
+              "xp": 600
+            },
+            "flower_honey": {
+              "inputs": {
+                "flower_nectar": 460
+              },
+              "cost": {
+                "cash": 2385
+              },
+              "outputs": {
+                "flower_honey": 50
+              },
+              "duration": 3540,
+              "xp": 1800
+            }
+          }
+        },
+        {
+          "level": 7,
+          "cost": {
+            "cash": 15260000,
+            "buckets": 14500
+          },
+          "unlock_level": 127,
+          "max_output": 600,
+          "recipes": {
+            "forest_honey": {
+              "inputs": {
+                "nectar": 34
+              },
+              "cost": {
+                "cash": 1431
+              },
+              "outputs": {
+                "forest_honey": 50
+              },
+              "duration": 1890,
+              "xp": 600
+            },
+            "flower_honey": {
+              "inputs": {
+                "flower_nectar": 440
+              },
+              "cost": {
+                "cash": 2385
+              },
+              "outputs": {
+                "flower_honey": 50
+              },
+              "duration": 2830,
+              "xp": 1800
+            }
+          }
         }
       ]
     }

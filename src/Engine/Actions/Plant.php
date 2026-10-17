@@ -11,7 +11,7 @@ use FermeTranquille\Engine\Payload;
 use InvalidArgumentException;
 
 /**
- * payload: { id, crop }
+ * payload: { id, crop, humus? } — humus: true spends 1 humus for +25 % yield.
  */
 final class Plant implements Action
 {
@@ -33,9 +33,19 @@ final class Plant implements Action
         }
 
         $farm->assertLevel($farm->data->item($cropId)['unlock_level']);
+        $humus = $payload->has('humus') && $payload->bool('humus');
+        if ($humus) {
+            $farm->assertBarnHas(['humus' => 1]);
+        }
         $farm->pay($crop['plant_cost']);
+        if ($humus) {
+            $farm->removeFromBarn('humus', 1);
+        }
 
         $field['job'] = ['product' => $cropId, 'started_at' => $clock->now, 'duration' => $crop['duration']];
+        if ($humus) {
+            $field['job']['humus'] = true;
+        }
         $farm->saveBuilding($field);
     }
 }

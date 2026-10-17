@@ -33,7 +33,7 @@ final class AnimalTest extends EngineTestCase
         yield 'chickens' => ['chicken_coop', 'egg', 21, 7, 'chicken_feed', 4, 390, 5];
         yield 'pigs' => ['pigsty', 'pig', 130, 35, 'pig_feed', 24, 4200, 50];
         yield 'cows' => ['cowshed', 'milk', 230, 100, 'cattle_feed', 185, 25200, 300];
-        yield 'goats' => ['goat_stable', 'cheese', 160, 50, 'goat_feed', 43, 7200, 85];
+        yield 'goats' => ['goat_stable', 'goat_cheese', 160, 50, 'goat_feed', 43, 7200, 85];
         yield 'ducks' => ['duck_coop', 'feather', 180, 65, 'duck_feed', 68, 10800, 130];
         yield 'rabbits' => ['rabbit_hutch', 'gray_wool', 80, 21, 'rabbit_feed', 32, 2700, 30];
         yield 'sheep' => ['sheep_pen', 'sheep_wool', 180, 65, 'sheep_feed', 32, 3600, 60];
@@ -118,7 +118,7 @@ final class AnimalTest extends EngineTestCase
         $eligible = (new Market($this->data))->eligibleItems(new Farm($this->state, $this->data));
 
         self::assertContains('milk', $eligible);
-        self::assertNotContains('cheese', $eligible, 'no goat stable');
+        self::assertNotContains('goat_cheese', $eligible, 'no goat stable');
     }
 
     public function testUnlockLevelsAreRequired(): void

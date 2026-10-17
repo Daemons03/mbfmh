@@ -27,10 +27,20 @@ final class Harvest implements Action
         }
 
         $crop = $farm->data->crop($job['product']);
-        $farm->addToBarn([$job['product'] => $crop['yield']]);
+        $farm->addToBarn([$job['product'] => self::yield($crop['yield'], $job)]);
         $farm->addXp($crop['xp']);
 
         unset($field['job']);
         $farm->saveBuilding($field);
+    }
+
+    public const float HUMUS_BONUS = 0.25;
+
+    /**
+     * @param array<string, mixed> $job
+     */
+    public static function yield(int $base, array $job): int
+    {
+        return empty($job['humus']) ? $base : (int) floor($base * (1 + self::HUMUS_BONUS));
     }
 }

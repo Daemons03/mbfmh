@@ -11,8 +11,9 @@ use FermeTranquille\GameData;
  * main output: { inputs, cost, outputs, duration, xp } for one batch.
  *
  * - "run" buildings (animals, orchards) always make exactly one batch.
- * - "batch" buildings (windmill, silo, composter) make 1..n batches at once,
- *   up to the level's max_output units: inputs, cost, outputs, duration and
+ * - "batch" buildings make 1..n batches at once, up to the level's capacity:
+ *   max_output units of the main output (windmill, silo, composter, beehive)
+ *   or max_batches (dairy, jam kitchen). Inputs, cost, outputs, duration and
  *   XP are multiplied by the number of batches.
  */
 final readonly class Production
@@ -70,9 +71,13 @@ final readonly class Production
         if (!self::isBatch($data, $type)) {
             return 1;
         }
+        $definition = $data->buildingLevel($type, $level);
+        if (isset($definition['max_batches'])) {
+            return $definition['max_batches'];
+        }
         $perBatch = self::recipes($data, $type, $level)[$recipeId]['outputs'][$recipeId];
 
-        return max(1, intdiv($data->buildingLevel($type, $level)['max_output'], $perBatch));
+        return max(1, intdiv($definition['max_output'], $perBatch));
     }
 
     /**

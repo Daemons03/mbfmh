@@ -36,6 +36,7 @@ final class StartProduction implements Action
             $building['level'],
             $payload->has('recipe') ? $payload->string('recipe') : null,
         );
+        $farm->assertLevel($farm->data->item($recipe['id'])['unlock_level']);
         $quantity = $payload->has('quantity') ? $payload->int('quantity', 1) : 1;
         $max = Production::maxQuantity($farm->data, $building['type'], $building['level'], $recipe['id']);
         if ($quantity > $max) {

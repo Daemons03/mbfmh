@@ -176,6 +176,28 @@ final class FieldTest extends EngineTestCase
         self::assertSame(3, $this->state['xp']);
     }
 
+    public function testHumusGivesTwentyFivePercentMore(): void
+    {
+        $this->state['barn']['items'] = ['humus' => 1];
+        $this->act('plant', ['id' => 'b2', 'crop' => 'corn', 'humus' => true]);
+        self::assertSame([], $this->state['barn']['items'], 'humus spent at planting');
+        self::assertTrue($this->building('b2')['job']['humus']);
+
+        $this->act('harvest', ['id' => 'b2'], 300);
+
+        self::assertSame(['corn' => 12], $this->state['barn']['items'], '10 x 1.25 = 12.5, rounded down');
+    }
+
+    public function testHumusRules(): void
+    {
+        $error = $this->assertGameError('not_enough_items', 'plant', ['id' => 'b2', 'crop' => 'corn', 'humus' => true]);
+        self::assertSame(['missing' => ['humus' => 1]], $error->details);
+        $this->assertGameError('invalid_payload', 'plant', ['id' => 'b2', 'crop' => 'corn', 'humus' => 'yes']);
+
+        $this->act('plant', ['id' => 'b2', 'crop' => 'corn', 'humus' => false]);
+        self::assertArrayNotHasKey('humus', $this->building('b2')['job']);
+    }
+
     public function testInputStateIsNeverModified(): void
     {
         $before = $this->state;

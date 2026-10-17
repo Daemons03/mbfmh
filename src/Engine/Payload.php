@@ -36,6 +36,16 @@ final readonly class Payload
         return $value;
     }
 
+    public function bool(string $key): bool
+    {
+        $value = $this->values[$key] ?? null;
+        if (!is_bool($value)) {
+            throw self::invalid($key);
+        }
+
+        return $value;
+    }
+
     public function has(string $key): bool
     {
         return array_key_exists($key, $this->values);

@@ -28,15 +28,15 @@ final class OrchardTest extends EngineTestCase
     {
         // type, fertilizer, hours, fruit, quantity, leaves, levels kept
         yield 'apple' => ['apple_orchard', 10, 3, 'apple', 325, 8, 18];
-        yield 'cherry' => ['cherry_orchard', 30, 12, 'cherry', 220, 12, 14];
-        yield 'almond' => ['almond_orchard', 20, 8, 'almond', 270, 10, 14];
-        yield 'peach' => ['peach_orchard', 5, 1, 'peach', 200, 2, 14];
+        yield 'cherry' => ['cherry_orchard', 30, 12, 'cherry', 220, 12, 18];
+        yield 'almond' => ['almond_orchard', 20, 8, 'almond', 270, 10, 18];
+        yield 'peach' => ['peach_orchard', 5, 1, 'peach', 200, 2, 18];
     }
 
     #[DataProvider('orchards')]
     public function testFertilizeThenCollect(string $type, int $fertilizer, int $hours, string $fruit, int $quantity, int $leaves, int $levels): void
     {
-        self::assertSame($levels, $this->data->maxBuildingLevel($type), 'levels with unknown cost are left out');
+        self::assertSame($levels, $this->data->maxBuildingLevel($type), '18 levels (15-18 extrapolated for cherry, almond, peach)');
         $this->act('build', ['type' => $type, 'x' => 6, 'y' => 4]);
         $this->state['barn']['items'] = ['fertilizer' => $fertilizer - 1];
         $error = $this->assertGameError('not_enough_items', 'start_production', ['id' => 'b4']);

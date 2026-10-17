@@ -3,7 +3,7 @@ import { h } from '../dom.js';
 import { fmtCost, fmtDuration, fmtInt } from '../format.js';
 import { buildingById, canAfford, definition, jobStatus, store } from '../store.js';
 import { productionBlock } from './production.js';
-import { closeSheet } from './sheet.js';
+import { closeSheet, refreshSheet } from './sheet.js';
 
 /**
  * Context panel for one building. startMove(id) enters move mode.
@@ -63,14 +63,31 @@ function jobStatusBlock(building) {
             `prêt dans ${fmtDuration(status.remaining)}`));
 }
 
+/** "Use humus" choice, kept while the panel re-renders. */
+let useHumus = false;
+
 function plantList(field) {
     const { data, state } = store;
     const crops = Object.entries(data.crops)
         .map(([id, crop]) => ({ id, crop, item: data.items[id] }))
         .sort((a, b) => a.item.unlock_level - b.item.unlock_level);
+    const humusStock = state.barn.items.humus ?? 0;
+    const humus = useHumus && humusStock > 0;
+    const yieldOf = (crop) => (humus ? Math.floor(crop.yield * 1.25) : crop.yield);
 
     return [
         h('p', { class: 'section-title' }, 'Planter'),
+        humusStock > 0 ? h('label', { class: 'checkbox' },
+            h('input', {
+                type: 'checkbox',
+                checked: humus,
+                onchange: (event) => {
+                    useHumus = event.currentTarget.checked;
+                    event.currentTarget.blur();
+                    refreshSheet();
+                },
+            }),
+            ` Utiliser 1 ${data.items.humus.emoji} humus : +25 % de récolte (${fmtInt(humusStock)} en grange)`) : null,
         h('div', { class: 'list' }, crops.map(({ id, crop, item }) => {
             const locked = state.level < item.unlock_level;
             const affordable = canAfford(crop.plant_cost);
@@ -79,13 +96,13 @@ function plantList(field) {
                 h('div', { class: 'row-main' },
                     h('div', { class: 'row-title' }, item.name),
                     h('div', { class: 'row-sub' },
-                        `${fmtCost(crop.plant_cost, data)} · ${fmtDuration(crop.duration / state.settings.speed)} · ${crop.yield} unités · +${crop.xp} XP`)),
+                        `${fmtCost(crop.plant_cost, data)} · ${fmtDuration(crop.duration / state.settings.speed)} · ${yieldOf(crop)} unités · +${crop.xp} XP`)),
                 h('div', { class: 'row-actions' },
                     h('button', {
                         type: 'button',
                         class: 'btn btn-primary',
                         disabled: locked || !affordable,
-                        onclick: () => perform('plant', { id: field.id, crop: id }),
+                        onclick: () => perform('plant', humus ? { id: field.id, crop: id, humus: true } : { id: field.id, crop: id }),
                     }, locked ? `Niv. ${item.unlock_level}` : 'Planter')));
         })),
     ];

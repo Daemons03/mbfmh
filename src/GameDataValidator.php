@@ -178,7 +178,11 @@ final class GameDataValidator
             return;
         }
         if ($mode === 'batch') {
-            $this->positiveInt($level['max_output'] ?? null, "{$levelPath}.max_output");
+            if (isset($level['max_batches'])) {
+                $this->positiveInt($level['max_batches'], "{$levelPath}.max_batches");
+            } else {
+                $this->positiveInt($level['max_output'] ?? null, "{$levelPath}.max_output");
+            }
         }
 
         foreach ($recipes as $main => $recipe) {
