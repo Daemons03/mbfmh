@@ -190,6 +190,11 @@ final class Farm
             $state['show']['animals'] = (object) ($state['show']['animals'] ?? []);
             $state['show']['active'] = (object) ($state['show']['active'] ?? []);
         }
+        foreach (['library', 'market_upgrades'] as $key) {
+            if (isset($state[$key])) {
+                $state[$key] = (object) $state[$key];
+            }
+        }
 
         return $state;
     }
@@ -426,6 +431,34 @@ final class Farm
     public function setShow(array $show): void
     {
         $this->state['show'] = $show;
+    }
+
+    // ------------------------------------------------------------ library, market upgrades
+
+    /**
+     * @return array<string, int>
+     */
+    public function library(): array
+    {
+        return (array) ($this->state['library'] ?? []); // an object once normalized
+    }
+
+    public function setLibraryLevel(string $item, int $level): void
+    {
+        $this->state['library'] = [$item => $level] + $this->library();
+    }
+
+    /**
+     * @return array<string, int>
+     */
+    public function marketUpgrades(): array
+    {
+        return (array) ($this->state['market_upgrades'] ?? []);
+    }
+
+    public function setMarketUpgradeLevel(string $track, int $level): void
+    {
+        $this->state['market_upgrades'] = [$track => $level] + $this->marketUpgrades();
     }
 
     // ------------------------------------------------------------ café

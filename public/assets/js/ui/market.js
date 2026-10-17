@@ -1,7 +1,7 @@
 import { perform } from '../actions.js';
 import { h } from '../dom.js';
-import { fmtDuration, fmtInt, resourceEmoji } from '../format.js';
-import { serverNow, store } from '../store.js';
+import { fmtCost, fmtDuration, fmtInt, resourceEmoji } from '../format.js';
+import { canAfford, serverNow, store } from '../store.js';
 
 export function marketPanel() {
     return {
@@ -9,6 +9,9 @@ export function marketPanel() {
         render: () => [
             h('p', { class: 'muted' }, 'Livrez des produits de la grange contre de l\'argent, de l\'XP et parfois des matériaux.'),
             h('div', { class: 'list' }, store.state.contracts.map(contractCard)),
+            h('p', { class: 'section-title' }, 'Améliorations du marché'),
+            h('p', { class: 'muted' }, 'Chaque contrat livré rapporte en plus le bonus de ses améliorations.'),
+            h('div', { class: 'list' }, Object.entries(store.data.market_upgrades.tracks).map(([id, track]) => upgradeTrackRow(id, track))),
         ],
     };
 }
@@ -40,11 +43,15 @@ function contractCard(contract) {
             `${data.items[item].emoji} ${fmtInt(Math.min(have, quantity))}/${fmtInt(quantity)}`);
     });
 
-    const reward = contract.reward;
+    // Contract reward plus the market upgrades bonus, as the server pays it.
+    const { reward } = contract;
+    const bonus = store.view.market.bonus;
+    const materials = { ...reward.materials };
+    for (const [id, quantity] of Object.entries(bonus.materials)) materials[id] = (materials[id] ?? 0) + quantity;
     const rewards = [
-        `+${fmtInt(reward.cash)} ${data.currencies.cash.emoji}`,
-        `+${fmtInt(reward.xp)} XP`,
-        ...Object.entries(reward.materials ?? {}).map(([id, quantity]) => `+${fmtInt(quantity)} ${resourceEmoji(id, data)}`),
+        `+${fmtInt(reward.cash + bonus.cash)} ${data.currencies.cash.emoji}`,
+        `+${fmtInt(reward.xp + bonus.xp)} XP`,
+        ...Object.entries(materials).map(([id, quantity]) => `+${fmtInt(quantity)} ${resourceEmoji(id, data)}`),
     ];
 
     return h('div', { class: 'contract' },
@@ -68,4 +75,34 @@ function contractCard(contract) {
                     disabled: !canFulfill(contract),
                     onclick: () => perform('fulfill_contract', { id: contract.id }),
                 }, 'Livrer'))));
+}
+
+function effectText(effect, bonus) {
+    const { data } = store;
+    switch (effect.type) {
+        case 'slots': return `+${fmtInt(bonus)} contrat(s) au marché`;
+        case 'cash': return `+${fmtInt(bonus)} ${data.currencies.cash.emoji} par contrat`;
+        case 'xp': return `+${fmtInt(bonus)} XP par contrat`;
+        default: return `+${fmtInt(bonus)} ${resourceEmoji(effect.material, data)} par contrat`;
+    }
+}
+
+function upgradeTrackRow(id, track) {
+    const level = store.state.market_upgrades?.[id] ?? 0;
+    const next = track.levels[level] ?? null;
+    const current = level ? effectText(track.effect, track.levels[level - 1].bonus) : 'Aucun bonus';
+
+    return h('div', { class: 'row' },
+        h('span', { class: 'row-emoji' }, track.emoji),
+        h('div', { class: 'row-main' },
+            h('div', { class: 'row-title' }, `${track.name} — niv. ${level} / ${track.levels.length}`),
+            h('div', { class: 'row-sub' }, current
+                + (next ? ` · niv. ${next.level} : ${effectText(track.effect, next.bonus)} pour ${fmtCost(next.cost, store.data)}` : ''))),
+        h('div', { class: 'row-actions' },
+            h('button', {
+                type: 'button',
+                class: 'btn btn-primary',
+                disabled: !next || !canAfford(next.cost),
+                onclick: () => perform('upgrade_market', { track: id }),
+            }, next ? 'Améliorer' : 'Max')));
 }

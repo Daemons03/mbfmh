@@ -54,6 +54,12 @@ final class GameDataValidator
         if (isset($this->data['cafe'])) {
             $this->checkCafe();
         }
+        if (isset($this->data['library'])) {
+            $this->checkLibrary();
+        }
+        if (isset($this->data['market_upgrades'])) {
+            $this->checkMarketUpgrades();
+        }
 
         return $this->errors;
     }
@@ -388,6 +394,60 @@ final class GameDataValidator
             }
             $previous = is_int($points) ? $points : $previous;
             $this->cost($milestone['reward'] ?? null, "cafe.milestones[{$i}].reward");
+        }
+    }
+
+    private function checkLibrary(): void
+    {
+        $library = $this->data['library'];
+        if (!isset($this->data['buildings'][$library['building'] ?? ''])) {
+            $this->errors[] = 'library.building: unknown building';
+        }
+        foreach ($this->entries($library['items'] ?? []) as $item => $entry) {
+            if (!isset($this->data['items'][$item])) {
+                $this->errors[] = "library.items.{$item}: unknown item";
+            }
+            $this->upgradeLevels($entry['levels'] ?? null, "library.items.{$item}");
+        }
+    }
+
+    private function checkMarketUpgrades(): void
+    {
+        foreach ($this->entries($this->data['market_upgrades']['tracks'] ?? []) as $id => $track) {
+            $path = "market_upgrades.tracks.{$id}";
+            $this->nameAndEmoji($track, $path);
+            $effect = $track['effect'] ?? [];
+            if (!in_array($effect['type'] ?? null, ['slots', 'cash', 'xp', 'material'], true)) {
+                $this->errors[] = "{$path}.effect.type: must be slots, cash, xp or material";
+            } elseif ($effect['type'] === 'material' && !isset($this->data['materials'][$effect['material'] ?? ''])) {
+                $this->errors[] = "{$path}.effect.material: unknown material";
+            }
+            $this->upgradeLevels($track['levels'] ?? null, $path);
+        }
+    }
+
+    /**
+     * Levels 1..n, each with a cost and a total bonus that never goes down.
+     */
+    private function upgradeLevels(mixed $levels, string $path): void
+    {
+        if (!is_array($levels) || $levels === [] || !array_is_list($levels)) {
+            $this->errors[] = "{$path}.levels: must be a non-empty list";
+
+            return;
+        }
+        $previous = 0;
+        foreach ($levels as $i => $level) {
+            if (($level['level'] ?? null) !== $i + 1) {
+                $this->errors[] = "{$path}.levels[{$i}].level: must be " . ($i + 1);
+            }
+            $this->cost($level['cost'] ?? null, "{$path}.levels[{$i}].cost");
+            $bonus = $level['bonus'] ?? null;
+            if (!is_int($bonus) || $bonus < $previous || $bonus < 1) {
+                $this->errors[] = "{$path}.levels[{$i}].bonus: must be a positive integer, never lower than the level before";
+            } else {
+                $previous = $bonus;
+            }
         }
     }
 

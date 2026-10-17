@@ -8,6 +8,7 @@ use FermeTranquille\Engine\Clock;
 use FermeTranquille\Engine\Crop;
 use FermeTranquille\Engine\Farm;
 use FermeTranquille\Engine\GameError;
+use FermeTranquille\Engine\Library;
 use FermeTranquille\Engine\Payload;
 use InvalidArgumentException;
 
@@ -43,12 +44,14 @@ final class Plant implements Action
             $farm->removeFromBarn('humus', 1);
         }
 
+        // Fixed at planting, like production jobs; the library bonus comes on top.
+        $outputs = Crop::harvest($farm->data, $cropId, $field['type'], $field['level'], $humus);
+        $outputs[$cropId] += (new Library($farm->data))->bonus($farm, $cropId);
         $field['job'] = [
             'product' => $cropId,
             'started_at' => $clock->now,
             'duration' => $crop['duration'],
-            // Fixed at planting, like production jobs.
-            'outputs' => Crop::harvest($farm->data, $cropId, $field['type'], $field['level'], $humus),
+            'outputs' => $outputs,
         ];
         if ($humus) {
             $field['job']['humus'] = true;

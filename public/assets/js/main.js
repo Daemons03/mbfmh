@@ -10,6 +10,7 @@ import { buildingPanel } from './ui/building.js';
 import { cafePanel } from './ui/cafe.js';
 import { showPanel } from './ui/show.js';
 import { landPanel } from './ui/land.js';
+import { libraryPanel } from './ui/library.js';
 import { canFulfill, marketPanel } from './ui/market.js';
 import { closeSheet, initSheet, openSheet, refreshSheet } from './ui/sheet.js';
 import { toast } from './ui/toast.js';
@@ -64,6 +65,7 @@ function startMove(id) {
 /** Badge on the market tab: contracts deliverable right now. */
 function renderTabBadges() {
     $('#tabs [data-tab=cafe]').hidden = !store.view.cafe;
+    $('#tabs [data-tab=library]').hidden = !store.view.library.building_level;
     const ready = store.state.contracts.filter(canFulfill).length;
     const button = $('#tabs [data-tab=market]');
     button.querySelector('.tab-badge')?.remove();
@@ -153,6 +155,7 @@ function openTab(tab) {
         market: () => marketPanel(),
         cafe: () => cafePanel(),
         show: () => showPanel(),
+        library: () => libraryPanel(),
         land: () => landPanel(),
         admin: () => adminPanel(() => h('section', { class: 'admin-section' },
             h('p', { class: 'section-title' }, 'Compte'),

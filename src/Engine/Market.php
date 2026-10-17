@@ -23,11 +23,12 @@ final readonly class Market
     }
 
     /**
-     * Fills empty slots (new farm, legacy state, more slots in the data).
+     * Fills empty slots (new farm, legacy state, more slots from the data or
+     * the contracts upgrade).
      */
     public function resolve(Farm $farm, Clock $clock): void
     {
-        $slots = $this->data->market()['slots'];
+        $slots = (new MarketUpgrades($this->data))->slots($farm);
         while (count($farm->contracts()) < $slots) {
             $contract = $this->generate($farm, $clock, waiting: false);
             if ($contract === null) {

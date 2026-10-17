@@ -8,11 +8,12 @@ use FermeTranquille\Engine\Clock;
 use FermeTranquille\Engine\Farm;
 use FermeTranquille\Engine\GameError;
 use FermeTranquille\Engine\Market;
+use FermeTranquille\Engine\MarketUpgrades;
 use FermeTranquille\Engine\Payload;
 
 /**
- * payload: { id } — delivers the products, collects the reward; a new
- * contract takes the slot immediately.
+ * payload: { id } — delivers the products, collects the reward plus the
+ * market upgrades bonus; a new contract takes the slot immediately.
  */
 final class FulfillContract implements Action
 {
@@ -31,8 +32,11 @@ final class FulfillContract implements Action
             $farm->removeFromBarn($item, $quantity);
         }
         $reward = $contract['reward'];
-        $farm->gain(['cash' => $reward['cash']] + ($reward['materials'] ?? []));
-        $farm->addXp($reward['xp']);
+        $bonus = (new MarketUpgrades($farm->data))->contractBonus($farm);
+        $farm->gain(['cash' => $reward['cash'] + $bonus['cash']]);
+        $farm->gain($reward['materials'] ?? []);
+        $farm->gain($bonus['materials']);
+        $farm->addXp($reward['xp'] + $bonus['xp']);
 
         $market = new Market($farm->data);
         $next = $market->generate($farm, $clock, waiting: false);

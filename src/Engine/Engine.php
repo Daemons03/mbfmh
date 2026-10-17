@@ -31,6 +31,8 @@ final class Engine
         'buy_tokens' => Actions\BuyTokens::class,
         'start_show_animal' => Actions\StartShowAnimal::class,
         'collect_show_animal' => Actions\CollectShowAnimal::class,
+        'upgrade_library' => Actions\UpgradeLibrary::class,
+        'upgrade_market' => Actions\UpgradeMarket::class,
     ];
 
     public function __construct(private readonly GameData $data)
@@ -119,12 +121,14 @@ final class Engine
         $farm = new Farm($state, $this->data);
         $clock = new Clock($now, $farm->speed());
 
+        $library = new Library($this->data);
         $jobs = [];
         $production = [];
         foreach ($farm->buildings() as $building) {
             if ($this->data->building($building['type'])['kind'] === 'production') {
                 $recipes = [];
                 foreach (Production::recipes($this->data, $building['type'], $building['level']) as $id => $recipe) {
+                    $recipe['outputs'][$id] += $library->bonus($farm, $id); // as StartProduction does
                     $recipes[$id] = $recipe + [
                         'max_quantity' => Production::maxQuantity($this->data, $building['type'], $building['level'], $id),
                     ];
@@ -177,6 +181,8 @@ final class Engine
             'production' => (object) $production,
             'cafe' => (new Cafe($this->data))->view($farm, $now),
             'show' => isset($this->data->toArray()['show_animals']) ? (new ShowAnimals($this->data))->view($farm, $clock) : null,
+            'library' => $library->view($farm),
+            'market' => (new MarketUpgrades($this->data))->view($farm),
         ];
     }
 

@@ -89,9 +89,10 @@ function plantList(field) {
     const factor = data.buildings[field.type].yield_factor ?? 1;
     // Same rounding as the server: field factor rounded up, humus rounded down.
     const up = (value) => Math.ceil(Number((value * factor).toFixed(6)));
-    const yieldOf = (crop) => {
+    // The library bonus comes on top, as on the server.
+    const yieldOf = (id, crop) => {
         const quantity = up(crop.yields[Math.min(index, crop.yields.length - 1)]);
-        return humus ? Math.floor(Number((quantity * 1.25).toFixed(6))) : quantity;
+        return (humus ? Math.floor(Number((quantity * 1.25).toFixed(6))) : quantity) + (store.view.library.bonus[id] ?? 0);
     };
     const nectarOf = (crop) => up(crop.flower_nectar[Math.min(index, crop.flower_nectar.length - 1)] ?? 0);
 
@@ -117,7 +118,7 @@ function plantList(field) {
                 h('div', { class: 'row-main' },
                     h('div', { class: 'row-title' }, item.name),
                     h('div', { class: 'row-sub' },
-                        `${fmtCost(cost, data)} · ${fmtDuration(crop.duration / state.settings.speed)} · ${fmtInt(yieldOf(crop))} ${item.emoji}`
+                        `${fmtCost(cost, data)} · ${fmtDuration(crop.duration / state.settings.speed)} · ${fmtInt(yieldOf(id, crop))} ${item.emoji}`
                         + (nectarOf(crop) ? ` + ${fmtInt(nectarOf(crop))} ${data.items.flower_nectar.emoji}` : '')
                         + ` · +${crop.xp} XP`)),
                 h('div', { class: 'row-actions' },

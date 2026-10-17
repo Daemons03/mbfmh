@@ -7,6 +7,7 @@ namespace FermeTranquille\Engine\Actions;
 use FermeTranquille\Engine\Clock;
 use FermeTranquille\Engine\Farm;
 use FermeTranquille\Engine\GameError;
+use FermeTranquille\Engine\Library;
 use FermeTranquille\Engine\Payload;
 use FermeTranquille\Engine\Production;
 
@@ -14,7 +15,7 @@ use FermeTranquille\Engine\Production;
  * payload: { id, recipe?, quantity? } — recipe can be omitted when the
  * building has only one; quantity (batches, default 1) only for batch
  * buildings. Takes inputs from the barn and pays the cost; the job keeps its
- * own outputs and XP, so the result is fixed at start. Refused when an output
+ * own outputs (library bonus included) and XP, so the result is fixed at start. Refused when an output
  * is larger than the barn capacity (it could never be collected).
  * "instant" buildings deliver right away, without a job.
  */
@@ -38,6 +39,7 @@ final class StartProduction implements Action
             $payload->has('recipe') ? $payload->string('recipe') : null,
         );
         $farm->assertLevel($farm->data->item($recipe['id'])['unlock_level']);
+        $recipe['outputs'][$recipe['id']] += (new Library($farm->data))->bonus($farm, $recipe['id']); // per batch
         $quantity = $payload->has('quantity') ? $payload->int('quantity', 1) : 1;
         $max = Production::maxQuantity($farm->data, $building['type'], $building['level'], $recipe['id']);
         if ($quantity > $max) {
