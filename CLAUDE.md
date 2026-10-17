@@ -203,23 +203,27 @@ Données réelles (niveaux, coûts, quantités produites) reprises du fan site ;
 7. Bibliothèque : améliorations de produits (parchemins, encre, livres).
 8. Améliorations du marché.
 9. Café-boutique (voir ci-dessous).
+   (+) Variantes de bâtiments (plein air, fertile, de luxe…, présentes dans les données du fan site), dont certaines améliorations coûtent des clés : étape à placer après le café.
 10. Animaux de concours (voir ci-dessous).
 
 ### Café-boutique (V2.9)
 
 - Recettes (≈ 9 par page, plusieurs pages) : consomment des produits de la grange, rapportent du cash et des **points de satisfaction**. Ex. de référence : 40 œufs + 20 vanille + 25 bonbons → 7 000 💵 et 100 points.
-- Chaque recette a un niveau d'étoiles (0 à 7) amélioré à part : récompenses en hausse (cash +1 % par étoile : 7 000, 7 070, 7 140… ; points +10 % composés : 100, 110, 121, 134, 148).
-- Un **groupe de clients** du jour (Enfants, Athlètes…) tourne ; certaines recettes rapportent **×2** certains jours.
+- Chaque recette a un niveau d'étoiles (0 à 7) qui monte **en la réalisant** : 3 réalisations pour la 1ʳᵉ étoile, puis 15 de plus pour la 2ᵉ (18 au total)… 700 de plus pour la 7ᵉ (étoiles 3 à 6 estimées). Récompenses en hausse : cash +1 % par étoile (7 000, 7 070, 7 140…), points +10 % composés (100, 110, 121, 134, 148).
+- Un **groupe de clients** du jour (Enfants, Athlètes…) tourne ; certaines recettes rapportent **×2** ce jour-là.
+- **Remise à zéro chaque jour** (heure serveur) : jauge de satisfaction et rotation des bonus.
 - **Jauge de satisfaction** à paliers : chaque palier donne une récompense (cash, clés, maillets…). Réf. : 190 → 90 000 💵, 760 → 9 clés, 1 520 → 180 000 💵, 2 280 → 450 000 💵, 3 420 → 22 clés, 4 560 → 30 maillets.
+- Les **clés** (nouveau matériau) servent à améliorer certaines variantes de bâtiments (ex. cerisier plein air).
 
 ### Animaux de concours (V2.10)
 
-- **Coffres** achetés → cartes d'animaux + **plans** (le matériau `blueprints`, qui sert à améliorer le bâtiment).
-- Bâtiment : son niveau fixe le nombre d'animaux actifs en même temps (1 au niveau 1, puis 2, 3, 4 : voir `levels[].animals`), **un seul animal actif par espèce**.
+- **Jetons** : +20 par jour à la connexion (1ʳᵉ lecture de l'état du jour), ou 10 jetons pour 1 000 or.
+- **Coffres** : 1 coffre = 10 jetons, ou 11 coffres = 100 jetons ; une ouverture de 11 donne **11 fois le même tirage**. Tirage : plan (`blueprints`) 0,4 % ; chaque animal gris 3 %, vert 1,3 %, bleu 0,4 %, violet 0,1 % (7 espèces × 3 animaux par rareté ≈ 100 %).
+- Bâtiment : son niveau fixe le nombre d'animaux actifs en même temps (`levels[].animals` du fan site : 1, 2, 2, 2, 3, 3, 3, 4), **un seul animal actif par espèce** ; amélioration avec cash + plans.
 - Chaque animal a une **rareté** (gris, vert, bleu, violet) et un **niveau 1 à 5** ; la 1ʳᵉ carte le débloque, les suivantes l'améliorent (ex. 13/50 cartes pour le niveau suivant).
-- Activer un animal = choisir une des **3 durées** de son espèce ; la quantité dépend de la rareté et du niveau. Réf. poules (6 min 30 | 20 min | 3 h 30) :
+- Activer un animal est **gratuit** : choisir une des **3 durées** de son espèce ; la quantité dépend de la rareté et du niveau. Réf. poules (6 min 30 | 20 min | 3 h 30) :
   - niveau 1 : gris 10|30|323 · vert 11|33|356 · bleu 13|38|404 · violet 18|54|582
-  - niveau 5 : gris 30|92|969 · vert 33|?|1 066 · bleu 38|115|1 212 · violet 54|166|1 745 (niveaux 2–4 interpolés)
+  - niveau 5 : gris 30|92|969 · vert 33|102|1 066 · bleu 38|115|1 212 · violet 54|166|1 745 (niveaux 2–4 interpolés)
   - autres espèces (réf. durée longue) : cochon 2 h 30, vache 7 h, chèvre 6 h 30 ; quantités estimées.
 - Noms des animaux : inventés pour Ferme Tranquille (jamais ceux du jeu d'origine).
 
