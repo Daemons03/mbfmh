@@ -1,0 +1,21 @@
+# Dependencies
+/vendor/
+
+# Local config (secrets)
+/config/config.php
+
+# Scraper (local tooling, raw data)
+/.venv/
+/scraped/
+__pycache__/
+
+# Tooling
+/.phpunit.cache/
+.phpunit.result.cache
+
+# OS / editors
+*:Zone.Identifier
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

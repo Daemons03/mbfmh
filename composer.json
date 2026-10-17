@@ -1,0 +1,31 @@
+{
+    "name": "maxime/ferme-tranquille",
+    "description": "Ferme Tranquille - jeu de ferme personnel, solo, dans le navigateur.",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.4",
+        "ext-json": "*",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "FermeTranquille\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FermeTranquille\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^13.4"
+    }
+}
