@@ -178,6 +178,12 @@ final class GameDataValidator
                 $this->errors[] = "{$path}.size: must be [width, height] positive integers";
             }
             $this->positiveInt($building['max_count'] ?? null, "{$path}.max_count");
+            if (array_key_exists('yield_factor', $building)) {
+                $this->positiveNumber($building['yield_factor'], "{$path}.yield_factor");
+            }
+            if (isset($building['variant_of']) && !isset($this->data['buildings'][$building['variant_of']])) {
+                $this->errors[] = "{$path}.variant_of: unknown building";
+            }
 
             $levels = $building['levels'] ?? null;
             if (!is_array($levels) || !array_is_list($levels) || $levels === []) {

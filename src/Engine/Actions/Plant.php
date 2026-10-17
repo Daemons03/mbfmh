@@ -48,7 +48,7 @@ final class Plant implements Action
             'started_at' => $clock->now,
             'duration' => $crop['duration'],
             // Fixed at planting, like production jobs.
-            'outputs' => Crop::harvest($farm->data, $cropId, $field['level'], $humus),
+            'outputs' => Crop::harvest($farm->data, $cropId, $field['type'], $field['level'], $humus),
         ];
         if ($humus) {
             $field['job']['humus'] = true;

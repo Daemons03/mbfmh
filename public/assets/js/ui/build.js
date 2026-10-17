@@ -18,8 +18,13 @@ export function buildPanel({ cell = null, startPlacement }) {
             const farm = types.filter(([, def]) => (def.zone ?? 'farm') === 'farm');
             const outside = types.filter(([, def]) => def.zone === 'outside');
 
+            const standard = farm.filter(([, def]) => !def.variant);
+            const variants = farm.filter(([, def]) => def.variant);
+
             return [
-                h('div', { class: 'list' }, farm.map(([type, def]) => farmRow(type, def, cell, startPlacement))),
+                h('div', { class: 'list' }, standard.map(([type, def]) => farmRow(type, def, cell, startPlacement))),
+                variants.length ? h('p', { class: 'section-title' }, 'Variantes (premium, fertile, plein air)') : null,
+                h('div', { class: 'list' }, variants.map(([type, def]) => farmRow(type, def, cell, startPlacement))),
                 cell ? null : h('p', { class: 'section-title' }, 'Hors de la ferme'),
                 cell ? null : h('div', { class: 'list' }, outside.map(([type, def]) => outsideRow(type, def))),
             ];

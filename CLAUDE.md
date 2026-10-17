@@ -205,7 +205,7 @@ Données réelles (niveaux, coûts, quantités produites) reprises du fan site ;
 7. Bibliothèque : améliorations de produits (parchemins, encre, livres).
 8. Améliorations du marché.
 9. Café-boutique (voir ci-dessous).
-   (+) Variantes de bâtiments (plein air, fertile, de luxe…, présentes dans les données du fan site), dont certaines améliorations coûtent des clés : étape à placer après le café.
+   ✅ Variantes (`variant_of`, `variant`) : **premium** (or ; produit ×1,6, fumier ×1,6, feuilles +2 ; prairie ×1,5, moulin 16/lot, ruche 80) pour champs, vergers, 5 animaux, moulin, prairie, ruche, habitation (14 → 133 ouvriers) ; **fertile** (or) pour champs et vergers ; **plein air** (clés `keys`) pour vergers et 5 animaux (produit ×1,2). Coûts, ouvriers et sorties du fan site, recettes de base. Le prix boutique « niveau N » = somme des niveaux 1..N. Champs : `yield_factor` (premium 1,1, fertile 1,05, estimés).
 10. Animaux de concours (voir ci-dessous).
 
 ### Café-boutique (V2.9)

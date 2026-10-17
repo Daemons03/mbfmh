@@ -29,7 +29,7 @@ final class Harvest implements Action
 
         $crop = $farm->data->crop($job['product']);
         // Jobs planted before per-level yields stored no outputs: compute them now.
-        $farm->addToBarn($job['outputs'] ?? Crop::harvest($farm->data, $job['product'], $field['level'], !empty($job['humus'])));
+        $farm->addToBarn($job['outputs'] ?? Crop::harvest($farm->data, $job['product'], $field['type'], $field['level'], !empty($job['humus'])));
         $farm->addXp($crop['xp']);
 
         unset($field['job']);

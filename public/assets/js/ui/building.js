@@ -86,10 +86,9 @@ function plantList(field) {
     const humusStock = state.barn.items.humus ?? 0;
     const humus = useHumus && humusStock > 0;
     const index = Math.min(field.level, 18) - 1;
-    const yieldOf = (crop) => {
-        const base = crop.yields[Math.min(index, crop.yields.length - 1)];
-        return humus ? Math.floor(base * 1.25) : base;
-    };
+    const factor = (data.buildings[field.type].yield_factor ?? 1) * (humus ? 1.25 : 1);
+    // Same rounding as the server: round to 6 decimals, then down.
+    const yieldOf = (crop) => Math.floor(Number((crop.yields[Math.min(index, crop.yields.length - 1)] * factor).toFixed(6)));
     const nectarOf = (crop) => crop.flower_nectar[Math.min(index, crop.flower_nectar.length - 1)] ?? 0;
 
     return [
