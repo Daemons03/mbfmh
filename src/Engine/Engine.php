@@ -23,6 +23,8 @@ final class Engine
         'upgrade' => Actions\Upgrade::class,
         'fulfill_contract' => Actions\FulfillContract::class,
         'discard_contract' => Actions\DiscardContract::class,
+        'start_production' => Actions\StartProduction::class,
+        'collect' => Actions\Collect::class,
     ];
 
     public function __construct(private readonly GameData $data)
@@ -95,7 +97,11 @@ final class Engine
         $clock = new Clock($now, $farm->speed());
 
         $jobs = [];
+        $production = [];
         foreach ($farm->buildings() as $building) {
+            if ($this->data->building($building['type'])['kind'] === 'production') {
+                $production[$building['id']] = Production::recipe($this->data, $building['type'], $building['level']);
+            }
             if (isset($building['job'])) {
                 $jobs[$building['id']] = [
                     'ready_at' => $clock->readyAt($building['job']),
@@ -131,6 +137,7 @@ final class Engine
             'xp_needed' => $this->data->xpForLevel($farm->level()),
             'jobs' => (object) $jobs,
             'contracts' => (object) $contracts,
+            'production' => (object) $production,
         ];
     }
 

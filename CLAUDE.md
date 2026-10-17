@@ -108,7 +108,7 @@ Toutes les réponses : `{ ok, state?, server_now, error? }`. POST protégés par
 | POST | /api/action | `{ type, payload, version }` → `{ state, version, view }` |
 | POST | /api/admin | `{ op, payload }` → nouvel état |
 
-- `view` = valeurs dérivées jamais stockées : `barn {used, capacity}`, `grid {side, block_size}`, `xp_needed`, `jobs {id: {ready_at, ready}}`.
+- `view` = valeurs dérivées jamais stockées : `barn {capacity, full}`, `grid {side, block_size, owned_blocks, next_block}`, `xp_needed`, `jobs {id: {ready_at, ready}}`, `contracts {id: {available_at, available}}`, `production {id: {inputs, outputs, duration, xp}}`.
 - Codes d'erreur : 400 requête mal formée, 401 non connecté, 403 CSRF, 409 `stale_state` (renvoie `state` + `version` à jour), 422 règle de jeu (`error` = code stable, `message` en français, `details`).
 - Bâtiments `zone: "outside"` (grange extérieure, bibliothèque, animal de concours, café-boutique, atelier de couture) : hors grille, sans x/y, ni déplaçables ni démolissables.
 
@@ -121,7 +121,7 @@ Opérations admin : `set_resources` (cash, or, matériaux, objets de grange), `s
 - **Champs** : construits sur la grille, on y plante une culture (coût par production), récolte → grange + XP.
 - **Grange** : capacité limitée **par produit** (ex. 200 fleurs ET 200 maïs à la fois ; la grange extérieure s'ajoute), améliorable, vente directe au prix « grange ».
 - **Marché** : 6 contrats visibles, chacun demande 1 à 3 produits que le joueur peut fournir (cultures débloquées + produits des bâtiments de production possédés), récompense cash + XP + parfois matériaux (planches, clous, scies). Un contrat jeté est remplacé après un délai. Les prix suivent la colonne « marché » des données.
-- **Bâtiments de production** : consomment des ingrédients, produisent après une durée (ex. moulin à grain → aliment pour poules ; poulailler → œufs).
+- **Bâtiments de production** : `start_production` prend les ingrédients dans la grange (quantité principale du niveau × `inputs_per_main_unit`, arrondi au supérieur), `collect` met tous les produits du job en grange ou rien (produits figés au lancement). Ex. moulin : 10 maïs → 20 aliments ; poulailler : 21 aliments → 21 œufs + 7 fumiers.
 - **Extensions** : coût cash ou or + niveau minimum, débloquent un bloc de grille.
 - **Niveaux** : courbe d'XP dans les données, débloque cultures/bâtiments.
 - Hors V1 (V2) : ouvriers/maisons, bonheur/décorations, améliorations de niveau multiples, verger, laiterie, boulangerie.

@@ -19,6 +19,7 @@ final class ViewTest extends EngineTestCase
         ], $view['grid']);
         self::assertSame($this->data->xpForLevel(1), $view['xp_needed']);
         self::assertSame([], $view['jobs']);
+        self::assertSame([], $view['production']);
         self::assertStringContainsString('"jobs":{}', json_encode($this->engine->view($this->state, self::NOW)));
     }
 

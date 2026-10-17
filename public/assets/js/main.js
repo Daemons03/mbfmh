@@ -118,8 +118,9 @@ async function onGridClick(event) {
     if (buildingEl) {
         const building = buildingById(buildingEl.dataset.id);
         if (!building) return;
-        if (definition(building.type).kind === 'field' && jobStatus(building)?.ready) {
-            await perform('harvest', { id: building.id }); // one tap harvest
+        const kind = definition(building.type).kind;
+        if (jobStatus(building)?.ready && (kind === 'field' || kind === 'production')) {
+            await perform(kind === 'field' ? 'harvest' : 'collect', { id: building.id }); // one-tap pick up
             return;
         }
         openSheet(buildingPanel(building.id, { startMove }));

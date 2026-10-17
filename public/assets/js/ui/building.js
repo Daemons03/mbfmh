@@ -36,7 +36,7 @@ function content(building, def) {
         case 'storage':
             return [barnMeter()];
         case 'production':
-            return [h('p', { class: 'muted' }, 'La production arrivera dans une prochaine étape.')];
+            return productionBlock(building);
         default:
             return [h('p', { class: 'muted' }, 'Ses fonctionnalités arriveront dans une prochaine version.')];
     }
@@ -78,7 +78,7 @@ function plantList(field) {
                 h('div', { class: 'row-main' },
                     h('div', { class: 'row-title' }, item.name),
                     h('div', { class: 'row-sub' },
-                        `${fmtCost(crop.plant_cost, data)} · ${fmtDuration(crop.duration)} · ${crop.yield} unités · +${crop.xp} XP`)),
+                        `${fmtCost(crop.plant_cost, data)} · ${fmtDuration(crop.duration / state.settings.speed)} · ${crop.yield} unités · +${crop.xp} XP`)),
                 h('div', { class: 'row-actions' },
                     h('button', {
                         type: 'button',
@@ -87,6 +87,58 @@ function plantList(field) {
                         onclick: () => perform('plant', { id: field.id, crop: id }),
                     }, locked ? `Niv. ${item.unlock_level}` : 'Planter')));
         })),
+    ];
+}
+
+function itemChips(quantities, { compareToBarn }) {
+    return h('div', { class: 'chips' }, Object.entries(quantities).map(([id, quantity]) => {
+        const item = store.data.items[id];
+        if (!compareToBarn) return h('span', { class: 'chip', title: item.name }, `${item.emoji} ${fmtInt(quantity)}`);
+        const have = store.state.barn.items[id] ?? 0;
+        return h('span', { class: `chip${have < quantity ? ' missing' : ''}`, title: item.name },
+            `${item.emoji} ${fmtInt(Math.min(have, quantity))}/${fmtInt(quantity)}`);
+    }));
+}
+
+function productionBlock(building) {
+    const recipe = store.view.production[building.id];
+
+    if (building.job) {
+        const status = jobStatus(building);
+        if (status.ready) {
+            return [
+                h('p', { class: 'status' }, 'Production terminée :'),
+                itemChips(building.job.outputs, { compareToBarn: false }),
+                h('div', { class: 'actions' },
+                    h('button', {
+                        type: 'button',
+                        class: 'btn btn-primary',
+                        onclick: () => perform('collect', { id: building.id }),
+                    }, `Récupérer (+${recipe.xp} XP)`)),
+            ];
+        }
+        return [
+            h('p', { class: 'status' }, 'En cours — ',
+                h('strong', { dataset: { readyAt: status.readyAt, format: 'long', prefix: 'prêt dans ' } },
+                    `prêt dans ${fmtDuration(status.remaining)}`)),
+            itemChips(building.job.outputs, { compareToBarn: false }),
+        ];
+    }
+
+    const missing = Object.entries(recipe.inputs).some(([id, quantity]) => (store.state.barn.items[id] ?? 0) < quantity);
+    return [
+        h('p', { class: 'section-title' }, 'Consomme (grange)'),
+        itemChips(recipe.inputs, { compareToBarn: true }),
+        h('p', { class: 'section-title' }, 'Produit'),
+        itemChips(recipe.outputs, { compareToBarn: false }),
+        h('p', { class: 'row-sub' }, `${fmtDuration(recipe.duration / store.state.settings.speed)} · +${recipe.xp} XP`),
+        h('div', { class: 'actions' },
+            h('button', {
+                type: 'button',
+                class: 'btn btn-primary',
+                disabled: missing,
+                onclick: () => perform('start_production', { id: building.id }),
+            }, missing ? 'Ingrédients manquants' : 'Lancer la production')),
     ];
 }
 
