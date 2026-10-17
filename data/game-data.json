@@ -1027,6 +1027,60 @@
       "barn_price": 6,
       "market_price": 9,
       "_estimated": true
+    },
+    "apple": {
+      "name": "Pomme",
+      "emoji": "🍎",
+      "category": "goods",
+      "unlock_level": 6,
+      "barn_price": 1,
+      "market_price": 1.5,
+      "_estimated": true
+    },
+    "cherry": {
+      "name": "Cerise",
+      "emoji": "🍒",
+      "category": "goods",
+      "unlock_level": 16,
+      "barn_price": 1,
+      "market_price": 1.5,
+      "_estimated": true
+    },
+    "almond": {
+      "name": "Amande",
+      "emoji": "🌰",
+      "category": "goods",
+      "unlock_level": 24,
+      "barn_price": 1,
+      "market_price": 1.5,
+      "_estimated": true
+    },
+    "peach": {
+      "name": "Pêche",
+      "emoji": "🍑",
+      "category": "goods",
+      "unlock_level": 38,
+      "barn_price": 1,
+      "market_price": 1.5,
+      "_estimated": true
+    },
+    "leaves": {
+      "name": "Feuilles",
+      "emoji": "🍃",
+      "category": "byproduct",
+      "unlock_level": 6,
+      "barn_price": 2,
+      "market_price": 3,
+      "_estimated": true
+    },
+    "nectar": {
+      "name": "Nectar",
+      "emoji": "🌺",
+      "category": "byproduct",
+      "unlock_level": 67,
+      "barn_price": 3,
+      "market_price": 4.5,
+      "_estimated": true
     }
   },
   "crops": {
@@ -3564,6 +3618,853 @@
             "sheep_wool": 380,
             "dung": 141
           }
+        }
+      ]
+    },
+    "apple_orchard": {
+      "name": "Pommeraie",
+      "emoji": "🍎",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 4,
+      "production": {
+        "main_output": "apple",
+        "inputs_per_main_unit": {},
+        "duration": 7200,
+        "xp": 10,
+        "_estimated": true,
+        "_note": "Verger : aucun ingrédient. Durée et XP estimées ; quantités relevées. Niveaux au coût inconnu omis."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 6,
+          "cost": {
+            "cash": 3500
+          },
+          "outputs": {
+            "apple": 325,
+            "leaves": 8
+          }
+        },
+        {
+          "level": 2,
+          "unlock_level": 19,
+          "cost": {
+            "cash": 25000
+          },
+          "outputs": {
+            "apple": 355,
+            "leaves": 9
+          }
+        },
+        {
+          "level": 3,
+          "unlock_level": 30,
+          "cost": {
+            "cash": 80000
+          },
+          "outputs": {
+            "apple": 390,
+            "leaves": 10
+          }
+        },
+        {
+          "level": 4,
+          "unlock_level": 40,
+          "cost": {
+            "cash": 200000
+          },
+          "outputs": {
+            "apple": 425,
+            "leaves": 11
+          }
+        },
+        {
+          "level": 5,
+          "unlock_level": 48,
+          "cost": {
+            "cash": 600000
+          },
+          "outputs": {
+            "apple": 475,
+            "leaves": 12
+          }
+        },
+        {
+          "level": 6,
+          "unlock_level": 57,
+          "cost": {
+            "cash": 1500000
+          },
+          "outputs": {
+            "apple": 530,
+            "leaves": 13
+          }
+        },
+        {
+          "level": 7,
+          "unlock_level": 67,
+          "cost": {
+            "cash": 2100000,
+            "mallets": 75
+          },
+          "outputs": {
+            "apple": 575,
+            "leaves": 14,
+            "nectar": 10
+          }
+        },
+        {
+          "level": 8,
+          "unlock_level": 77,
+          "cost": {
+            "cash": 2940000,
+            "mallets": 240
+          },
+          "outputs": {
+            "apple": 620,
+            "leaves": 15,
+            "nectar": 15
+          }
+        },
+        {
+          "level": 9,
+          "unlock_level": 87,
+          "cost": {
+            "cash": 4116000,
+            "mallets": 875
+          },
+          "outputs": {
+            "apple": 665,
+            "leaves": 16,
+            "nectar": 20
+          }
+        },
+        {
+          "level": 10,
+          "unlock_level": 97,
+          "cost": {
+            "cash": 5762000,
+            "mallets": 2750
+          },
+          "outputs": {
+            "apple": 710,
+            "leaves": 17,
+            "nectar": 25
+          }
+        },
+        {
+          "level": 11,
+          "unlock_level": 107,
+          "cost": {
+            "cash": 8067000,
+            "buckets": 550
+          },
+          "outputs": {
+            "apple": 750,
+            "leaves": 18,
+            "nectar": 75
+          },
+          "_estimated": true
+        },
+        {
+          "level": 12,
+          "unlock_level": 117,
+          "cost": {
+            "cash": 11249000,
+            "buckets": 4000
+          },
+          "outputs": {
+            "apple": 790,
+            "leaves": 19,
+            "nectar": 100
+          },
+          "_estimated": true
+        },
+        {
+          "level": 13,
+          "unlock_level": 127,
+          "cost": {
+            "cash": 15812000,
+            "buckets": 12000
+          },
+          "outputs": {
+            "apple": 830,
+            "leaves": 20,
+            "nectar": 125
+          },
+          "_estimated": true
+        },
+        {
+          "level": 14,
+          "unlock_level": 137,
+          "cost": {
+            "cash": 22137000,
+            "buckets": 18000
+          },
+          "outputs": {
+            "apple": 870,
+            "leaves": 21,
+            "nectar": 150
+          },
+          "_estimated": true
+        },
+        {
+          "level": 15,
+          "unlock_level": 147,
+          "cost": {
+            "cash": 30992000,
+            "buckets": 27000
+          },
+          "outputs": {
+            "apple": 910,
+            "leaves": 22,
+            "nectar": 175
+          },
+          "_estimated": true
+        },
+        {
+          "level": 16,
+          "unlock_level": 157,
+          "cost": {
+            "cash": 43389000,
+            "buckets": 41000
+          },
+          "outputs": {
+            "apple": 950,
+            "leaves": 23,
+            "nectar": 200
+          },
+          "_estimated": true
+        },
+        {
+          "level": 17,
+          "unlock_level": 167,
+          "cost": {
+            "cash": 60745000,
+            "buckets": 62000
+          },
+          "outputs": {
+            "apple": 990,
+            "leaves": 24,
+            "nectar": 225
+          },
+          "_estimated": true
+        },
+        {
+          "level": 18,
+          "unlock_level": 177,
+          "cost": {
+            "cash": 85043000,
+            "buckets": 93000
+          },
+          "outputs": {
+            "apple": 1030,
+            "leaves": 25,
+            "nectar": 250
+          },
+          "_estimated": true
+        }
+      ]
+    },
+    "cherry_orchard": {
+      "name": "Cerisaie",
+      "emoji": "🍒",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 4,
+      "production": {
+        "main_output": "cherry",
+        "inputs_per_main_unit": {},
+        "duration": 10800,
+        "xp": 14,
+        "_estimated": true,
+        "_note": "Verger : aucun ingrédient. Durée et XP estimées ; quantités relevées. Niveaux au coût inconnu omis."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 16,
+          "cost": {
+            "cash": 9000
+          },
+          "outputs": {
+            "cherry": 220,
+            "leaves": 12
+          }
+        },
+        {
+          "level": 2,
+          "unlock_level": 26,
+          "cost": {
+            "cash": 33000
+          },
+          "outputs": {
+            "cherry": 250,
+            "leaves": 14
+          }
+        },
+        {
+          "level": 3,
+          "unlock_level": 36,
+          "cost": {
+            "cash": 110000
+          },
+          "outputs": {
+            "cherry": 270,
+            "leaves": 16
+          }
+        },
+        {
+          "level": 4,
+          "unlock_level": 43,
+          "cost": {
+            "cash": 260000
+          },
+          "outputs": {
+            "cherry": 300,
+            "leaves": 18
+          }
+        },
+        {
+          "level": 5,
+          "unlock_level": 51,
+          "cost": {
+            "cash": 750000
+          },
+          "outputs": {
+            "cherry": 325,
+            "leaves": 20
+          }
+        },
+        {
+          "level": 6,
+          "unlock_level": 62,
+          "cost": {
+            "cash": 1750000
+          },
+          "outputs": {
+            "cherry": 355,
+            "leaves": 22
+          }
+        },
+        {
+          "level": 7,
+          "unlock_level": 72,
+          "cost": {
+            "cash": 2450000,
+            "mallets": 210
+          },
+          "outputs": {
+            "cherry": 380,
+            "leaves": 24,
+            "nectar": 15
+          }
+        },
+        {
+          "level": 8,
+          "unlock_level": 82,
+          "cost": {
+            "cash": 3430000,
+            "mallets": 750
+          },
+          "outputs": {
+            "cherry": 410,
+            "leaves": 26,
+            "nectar": 23
+          }
+        },
+        {
+          "level": 9,
+          "unlock_level": 92,
+          "cost": {
+            "cash": 4802000,
+            "mallets": 2125
+          },
+          "outputs": {
+            "cherry": 435,
+            "leaves": 28,
+            "nectar": 30
+          }
+        },
+        {
+          "level": 10,
+          "unlock_level": 102,
+          "cost": {
+            "cash": 6723000,
+            "mallets": 4500
+          },
+          "outputs": {
+            "cherry": 465,
+            "leaves": 30,
+            "nectar": 38
+          }
+        },
+        {
+          "level": 11,
+          "unlock_level": 107,
+          "cost": {
+            "cash": 9412000,
+            "buckets": 1100
+          },
+          "outputs": {
+            "cherry": 490,
+            "leaves": 32,
+            "nectar": 113
+          }
+        },
+        {
+          "level": 12,
+          "unlock_level": 117,
+          "cost": {
+            "cash": 13177000,
+            "buckets": 8000
+          },
+          "outputs": {
+            "cherry": 515,
+            "leaves": 34,
+            "nectar": 150
+          }
+        },
+        {
+          "level": 13,
+          "unlock_level": 127,
+          "cost": {
+            "cash": 17448000,
+            "buckets": 24000
+          },
+          "outputs": {
+            "cherry": 540,
+            "leaves": 36,
+            "nectar": 188
+          },
+          "_estimated": true
+        },
+        {
+          "level": 14,
+          "unlock_level": 137,
+          "cost": {
+            "cash": 25827000,
+            "buckets": 36000
+          },
+          "outputs": {
+            "cherry": 565,
+            "leaves": 38,
+            "nectar": 225
+          },
+          "_estimated": true
+        }
+      ]
+    },
+    "almond_orchard": {
+      "name": "Amanderaie",
+      "emoji": "🌰",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 4,
+      "production": {
+        "main_output": "almond",
+        "inputs_per_main_unit": {},
+        "duration": 14400,
+        "xp": 16,
+        "_estimated": true,
+        "_note": "Verger : aucun ingrédient. Durée et XP estimées ; quantités relevées. Niveaux au coût inconnu omis."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 24,
+          "cost": {
+            "cash": 30000
+          },
+          "outputs": {
+            "almond": 270,
+            "leaves": 10
+          }
+        },
+        {
+          "level": 2,
+          "unlock_level": 34,
+          "cost": {
+            "cash": 100000
+          },
+          "outputs": {
+            "almond": 295,
+            "leaves": 12
+          }
+        },
+        {
+          "level": 3,
+          "unlock_level": 43,
+          "cost": {
+            "cash": 250000
+          },
+          "outputs": {
+            "almond": 325,
+            "leaves": 14
+          }
+        },
+        {
+          "level": 4,
+          "unlock_level": 53,
+          "cost": {
+            "cash": 1000000
+          },
+          "outputs": {
+            "almond": 360,
+            "leaves": 16
+          }
+        },
+        {
+          "level": 5,
+          "unlock_level": 62,
+          "cost": {
+            "cash": 2000000
+          },
+          "outputs": {
+            "almond": 395,
+            "leaves": 18
+          }
+        },
+        {
+          "level": 6,
+          "unlock_level": 73,
+          "cost": {
+            "cash": 3000000
+          },
+          "outputs": {
+            "almond": 435,
+            "leaves": 20
+          }
+        },
+        {
+          "level": 7,
+          "unlock_level": 83,
+          "cost": {
+            "cash": 3750000,
+            "mallets": 250
+          },
+          "outputs": {
+            "almond": 470,
+            "leaves": 22,
+            "nectar": 13
+          }
+        },
+        {
+          "level": 8,
+          "unlock_level": 93,
+          "cost": {
+            "cash": 4688000,
+            "mallets": 900
+          },
+          "outputs": {
+            "almond": 510,
+            "leaves": 24,
+            "nectar": 19
+          }
+        },
+        {
+          "level": 9,
+          "unlock_level": 103,
+          "cost": {
+            "cash": 5860000,
+            "mallets": 2550
+          },
+          "outputs": {
+            "almond": 545,
+            "leaves": 26,
+            "nectar": 25
+          }
+        },
+        {
+          "level": 10,
+          "unlock_level": 113,
+          "cost": {
+            "cash": 7325000,
+            "mallets": 5400
+          },
+          "outputs": {
+            "almond": 585,
+            "leaves": 28,
+            "nectar": 31
+          }
+        },
+        {
+          "level": 11,
+          "unlock_level": 123,
+          "cost": {
+            "cash": 9156000,
+            "buckets": 990
+          },
+          "outputs": {
+            "almond": 620,
+            "leaves": 30,
+            "nectar": 94
+          },
+          "_estimated": true
+        },
+        {
+          "level": 12,
+          "unlock_level": 133,
+          "cost": {
+            "cash": 11445000,
+            "buckets": 7200
+          },
+          "outputs": {
+            "almond": 655,
+            "leaves": 32,
+            "nectar": 125
+          },
+          "_estimated": true
+        },
+        {
+          "level": 13,
+          "unlock_level": 143,
+          "cost": {
+            "cash": 14306000,
+            "buckets": 21600
+          },
+          "outputs": {
+            "almond": 690,
+            "leaves": 34,
+            "nectar": 156
+          },
+          "_estimated": true
+        },
+        {
+          "level": 14,
+          "unlock_level": 153,
+          "cost": {
+            "cash": 17883000,
+            "buckets": 32000
+          },
+          "outputs": {
+            "almond": 725,
+            "leaves": 36,
+            "nectar": 188
+          },
+          "_estimated": true
+        }
+      ]
+    },
+    "peach_orchard": {
+      "name": "Pêcheraie",
+      "emoji": "🍑",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": 4,
+      "production": {
+        "main_output": "peach",
+        "inputs_per_main_unit": {},
+        "duration": 18000,
+        "xp": 20,
+        "_estimated": true,
+        "_note": "Verger : aucun ingrédient. Durée et XP estimées ; quantités relevées. Niveaux au coût inconnu omis."
+      },
+      "_estimated_fields": [
+        "size",
+        "max_count"
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 38,
+          "cost": {
+            "cash": 150000
+          },
+          "outputs": {
+            "peach": 200,
+            "leaves": 2
+          }
+        },
+        {
+          "level": 2,
+          "unlock_level": 48,
+          "cost": {
+            "cash": 500000
+          },
+          "outputs": {
+            "peach": 220,
+            "leaves": 3
+          }
+        },
+        {
+          "level": 3,
+          "unlock_level": 58,
+          "cost": {
+            "cash": 1600000
+          },
+          "outputs": {
+            "peach": 240,
+            "leaves": 4
+          }
+        },
+        {
+          "level": 4,
+          "unlock_level": 68,
+          "cost": {
+            "cash": 2600000
+          },
+          "outputs": {
+            "peach": 265,
+            "leaves": 5
+          }
+        },
+        {
+          "level": 5,
+          "unlock_level": 78,
+          "cost": {
+            "cash": 3700000
+          },
+          "outputs": {
+            "peach": 290,
+            "leaves": 6
+          }
+        },
+        {
+          "level": 6,
+          "unlock_level": 88,
+          "cost": {
+            "cash": 5800000
+          },
+          "outputs": {
+            "peach": 320,
+            "leaves": 7
+          }
+        },
+        {
+          "level": 7,
+          "unlock_level": 98,
+          "cost": {
+            "cash": 6496000,
+            "mallets": 280
+          },
+          "outputs": {
+            "peach": 345,
+            "leaves": 8,
+            "nectar": 3
+          }
+        },
+        {
+          "level": 8,
+          "unlock_level": 108,
+          "cost": {
+            "cash": 7276000,
+            "mallets": 1010
+          },
+          "outputs": {
+            "peach": 375,
+            "leaves": 9,
+            "nectar": 4
+          }
+        },
+        {
+          "level": 9,
+          "unlock_level": 118,
+          "cost": {
+            "cash": 8149000,
+            "mallets": 2860
+          },
+          "outputs": {
+            "peach": 400,
+            "leaves": 10,
+            "nectar": 5
+          }
+        },
+        {
+          "level": 10,
+          "unlock_level": 128,
+          "cost": {
+            "cash": 9127000,
+            "mallets": 6500
+          },
+          "outputs": {
+            "peach": 430,
+            "leaves": 11,
+            "nectar": 6
+          },
+          "_estimated": true
+        },
+        {
+          "level": 11,
+          "unlock_level": 138,
+          "cost": {
+            "cash": 10222000,
+            "buckets": 740
+          },
+          "outputs": {
+            "peach": 455,
+            "leaves": 12,
+            "nectar": 19
+          },
+          "_estimated": true
+        },
+        {
+          "level": 12,
+          "unlock_level": 148,
+          "cost": {
+            "cash": 11449000,
+            "buckets": 5400
+          },
+          "outputs": {
+            "peach": 480,
+            "leaves": 13,
+            "nectar": 25
+          },
+          "_estimated": true
+        },
+        {
+          "level": 13,
+          "unlock_level": 158,
+          "cost": {
+            "cash": 12828000,
+            "buckets": 16200
+          },
+          "outputs": {
+            "peach": 505,
+            "leaves": 14,
+            "nectar": 31
+          },
+          "_estimated": true
+        },
+        {
+          "level": 14,
+          "unlock_level": 168,
+          "cost": {
+            "cash": 14362000,
+            "buckets": 24000
+          },
+          "outputs": {
+            "peach": 530,
+            "leaves": 15,
+            "nectar": 38
+          },
+          "_estimated": true
         }
       ]
     }

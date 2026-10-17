@@ -174,7 +174,8 @@ final class GameDataValidator
 
             return null;
         }
-        $this->itemQuantities($production['inputs_per_main_unit'] ?? null, "{$path}.inputs_per_main_unit");
+        // Empty inputs are allowed: orchards grow without ingredients.
+        $this->itemQuantities($production['inputs_per_main_unit'] ?? null, "{$path}.inputs_per_main_unit", allowEmpty: true);
         $this->positiveInt($production['duration'] ?? null, "{$path}.duration");
         $this->nonNegativeNumber($production['xp'] ?? null, "{$path}.xp");
 
@@ -328,8 +329,11 @@ final class GameDataValidator
         }
     }
 
-    private function itemQuantities(mixed $quantities, string $path): void
+    private function itemQuantities(mixed $quantities, string $path, bool $allowEmpty = false): void
     {
+        if (is_array($quantities) && $quantities === [] && $allowEmpty) {
+            return;
+        }
         if (!is_array($quantities) || $quantities === [] || array_is_list($quantities)) {
             $this->errors[] = "{$path}: must be a non-empty object {item: quantity}";
 
