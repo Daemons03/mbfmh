@@ -137,9 +137,12 @@ final class GameDataValidator
                 continue;
             }
 
-            $production = null;
+            $mode = null;
             if ($kind === 'production') {
-                $production = $this->production($building['production'] ?? null, "{$path}.production");
+                $mode = $building['production']['mode'] ?? null;
+                if (!in_array($mode, ['run', 'batch'], true)) {
+                    $this->errors[] = "{$path}.production.mode: must be run or batch";
+                }
             }
 
             foreach ($levels as $index => $level) {
@@ -154,42 +157,50 @@ final class GameDataValidator
                     $this->positiveInt($level['capacity'] ?? null, "{$levelPath}.capacity");
                 }
                 if ($kind === 'production') {
-                    $outputs = $level['outputs'] ?? null;
-                    $this->itemQuantities($outputs, "{$levelPath}.outputs");
-                    if ($production !== null && !isset($outputs[$production])) {
-                        $this->errors[] = "{$levelPath}.outputs: missing main output {$production}";
-                    }
+                    $this->recipes($level, $mode, $levelPath);
                 }
             }
         }
     }
 
     /**
-     * @return string|null the main output id when valid
+     * Level recipes, keyed by their main output: { inputs, cost, outputs, duration, xp }.
+     * Batch levels also give max_output (most units of a main output per job).
+     *
+     * @param array<string, mixed> $level
      */
-    private function production(mixed $production, string $path): ?string
+    private function recipes(array $level, ?string $mode, string $levelPath): void
     {
-        if (!is_array($production)) {
-            $this->errors[] = "{$path}: missing";
+        $recipes = $level['recipes'] ?? null;
+        if (!is_array($recipes) || $recipes === [] || array_is_list($recipes)) {
+            $this->errors[] = "{$levelPath}.recipes: must be a non-empty object {main output: recipe}";
 
-            return null;
+            return;
         }
-        // Empty inputs are allowed: orchards grow without ingredients.
-        $this->itemQuantities($production['inputs_per_main_unit'] ?? null, "{$path}.inputs_per_main_unit", allowEmpty: true);
-        if (array_key_exists('inputs_per_run', $production)) {
-            $this->itemQuantities($production['inputs_per_run'], "{$path}.inputs_per_run");
-        }
-        $this->positiveInt($production['duration'] ?? null, "{$path}.duration");
-        $this->nonNegativeNumber($production['xp'] ?? null, "{$path}.xp");
-
-        $main = $production['main_output'] ?? null;
-        if (!is_string($main) || !isset($this->data['items'][$main])) {
-            $this->errors[] = "{$path}.main_output: unknown item";
-
-            return null;
+        if ($mode === 'batch') {
+            $this->positiveInt($level['max_output'] ?? null, "{$levelPath}.max_output");
         }
 
-        return $main;
+        foreach ($recipes as $main => $recipe) {
+            $path = "{$levelPath}.recipes.{$main}";
+            if (!is_array($recipe)) {
+                $this->errors[] = "{$path}: must be an object";
+                continue;
+            }
+            // Empty inputs are allowed (nothing consumed).
+            $this->itemQuantities($recipe['inputs'] ?? null, "{$path}.inputs", allowEmpty: true);
+            $this->cost($recipe['cost'] ?? null, "{$path}.cost");
+            $this->itemQuantities($recipe['outputs'] ?? null, "{$path}.outputs");
+            $this->positiveInt($recipe['duration'] ?? null, "{$path}.duration");
+            $this->nonNegativeNumber($recipe['xp'] ?? null, "{$path}.xp");
+
+            $mainQuantity = $recipe['outputs'][$main] ?? null;
+            if (!is_int($mainQuantity)) {
+                $this->errors[] = "{$path}.outputs: must contain the main output {$main}";
+            } elseif ($mode === 'batch' && is_int($level['max_output'] ?? null) && $level['max_output'] < $mainQuantity) {
+                $this->errors[] = "{$path}: max_output is smaller than one batch";
+            }
+        }
     }
 
     private function checkLand(): void

@@ -101,7 +101,16 @@ final class Engine
         $production = [];
         foreach ($farm->buildings() as $building) {
             if ($this->data->building($building['type'])['kind'] === 'production') {
-                $production[$building['id']] = Production::recipe($this->data, $building['type'], $building['level']);
+                $recipes = [];
+                foreach (Production::recipes($this->data, $building['type'], $building['level']) as $id => $recipe) {
+                    $recipes[$id] = $recipe + [
+                        'max_quantity' => Production::maxQuantity($this->data, $building['type'], $building['level'], $id),
+                    ];
+                }
+                $production[$building['id']] = [
+                    'mode' => Production::isBatch($this->data, $building['type']) ? 'batch' : 'run',
+                    'recipes' => $recipes,
+                ];
             }
             if (isset($building['job'])) {
                 $jobs[$building['id']] = [

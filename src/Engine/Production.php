@@ -7,35 +7,90 @@ namespace FermeTranquille\Engine;
 use FermeTranquille\GameData;
 
 /**
- * Recipe of a production building at a given level: outputs come from the
- * level; inputs are main output quantity x inputs_per_main_unit (rounded up)
- * plus the fixed inputs_per_run (e.g. 10 fertilizer for an apple orchard).
+ * Recipes of production buildings. Each level lists its recipes, keyed by
+ * main output: { inputs, cost, outputs, duration, xp } for one batch.
+ *
+ * - "run" buildings (animals, orchards) always make exactly one batch.
+ * - "batch" buildings (windmill, silo, composter) make 1..n batches at once,
+ *   up to the level's max_output units: inputs, cost, outputs, duration and
+ *   XP are multiplied by the number of batches.
  */
 final readonly class Production
 {
     /**
-     * @return array{inputs: array<string, int>, outputs: array<string, int>, duration: int, xp: int}
+     * @return array<string, array{inputs: array<string, int>, cost: array<string, int>, outputs: array<string, int>, duration: int, xp: int}>
      */
-    public static function recipe(GameData $data, string $type, int $level): array
+    public static function recipes(GameData $data, string $type, int $level): array
     {
-        $production = $data->building($type)['production'];
-        $outputs = $data->buildingLevel($type, $level)['outputs'];
-        $main = $outputs[$production['main_output']];
+        $recipes = [];
+        foreach ($data->buildingLevel($type, $level)['recipes'] ?? [] as $main => $recipe) {
+            $recipes[$main] = [
+                'inputs' => $recipe['inputs'] ?? [],
+                'cost' => $recipe['cost'] ?? [],
+                'outputs' => $recipe['outputs'],
+                'duration' => $recipe['duration'],
+                'xp' => (int) $recipe['xp'],
+            ];
+        }
 
-        $inputs = [];
-        foreach ($production['inputs_per_main_unit'] as $item => $perUnit) {
-            // round() first: 90 x 1.1 is 99.000000000000014 in floats and must not become 100.
-            $inputs[$item] = (int) ceil(round($main * $perUnit, 6));
+        return $recipes;
+    }
+
+    /**
+     * @param string|null $recipeId may be omitted when the building has a single recipe
+     * @return array{id: string, inputs: array<string, int>, cost: array<string, int>, outputs: array<string, int>, duration: int, xp: int}
+     * @throws GameError
+     */
+    public static function recipe(GameData $data, string $type, int $level, ?string $recipeId = null): array
+    {
+        $recipes = self::recipes($data, $type, $level);
+        if ($recipeId === null) {
+            if (count($recipes) !== 1) {
+                throw new GameError('invalid_payload', 'Choisissez une recette.', ['field' => 'recipe']);
+            }
+            $recipeId = array_key_first($recipes);
         }
-        foreach ($production['inputs_per_run'] ?? [] as $item => $quantity) {
-            $inputs[$item] = ($inputs[$item] ?? 0) + (int) $quantity;
+        $recipe = $recipes[$recipeId] ?? throw new GameError('unknown_recipe', 'Recette inconnue pour ce bâtiment.', [
+            'recipe' => $recipeId,
+        ]);
+
+        return ['id' => $recipeId] + $recipe;
+    }
+
+    public static function isBatch(GameData $data, string $type): bool
+    {
+        return ($data->building($type)['production']['mode'] ?? 'run') === 'batch';
+    }
+
+    /**
+     * Most batches of $recipeId a job can hold at this level (1 for run buildings).
+     */
+    public static function maxQuantity(GameData $data, string $type, int $level, string $recipeId): int
+    {
+        if (!self::isBatch($data, $type)) {
+            return 1;
         }
+        $perBatch = self::recipes($data, $type, $level)[$recipeId]['outputs'][$recipeId];
+
+        return max(1, intdiv($data->buildingLevel($type, $level)['max_output'], $perBatch));
+    }
+
+    /**
+     * Totals for $quantity batches.
+     *
+     * @param array{inputs: array<string, int>, cost: array<string, int>, outputs: array<string, int>, duration: int, xp: int} $recipe
+     * @return array{inputs: array<string, int>, cost: array<string, int>, outputs: array<string, int>, duration: int, xp: int}
+     */
+    public static function scaled(array $recipe, int $quantity): array
+    {
+        $times = static fn (array $quantities): array => array_map(static fn (int $q): int => $q * $quantity, $quantities);
 
         return [
-            'inputs' => $inputs,
-            'outputs' => $outputs,
-            'duration' => $production['duration'],
-            'xp' => (int) $production['xp'],
+            'inputs' => $times($recipe['inputs']),
+            'cost' => $times($recipe['cost']),
+            'outputs' => $times($recipe['outputs']),
+            'duration' => $recipe['duration'] * $quantity,
+            'xp' => $recipe['xp'] * $quantity,
         ];
     }
 }

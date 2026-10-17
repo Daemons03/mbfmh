@@ -355,6 +355,11 @@ button { font: inherit; color: inherit; }
 .chip.missing { color: var(--danger); border-color: var(--danger); }
 .contract-foot { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
 .reward { font-size: 14px; font-weight: 600; }
+.recipe { gap: 6px; }
+.recipe p { margin: 0; }
+.recipe.disabled { opacity: 0.55; }
+.stepper { display: flex; align-items: center; gap: 6px; font-variant-numeric: tabular-nums; }
+.stepper .btn { padding: 6px 10px; }
 
 /* ------------------------------------------------------------ admin */
 

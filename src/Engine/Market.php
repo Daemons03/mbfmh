@@ -96,7 +96,11 @@ final readonly class Market
             }
         }
         foreach ($farm->buildingsOfKind('production') as $building) {
-            foreach ($this->data->buildingLevel($building['type'], $building['level'])['outputs'] as $item => $_) {
+            $outputs = array_merge(...array_values(array_map(
+                static fn (array $recipe): array => $recipe['outputs'],
+                Production::recipes($this->data, $building['type'], $building['level']),
+            )));
+            foreach ($outputs as $item => $_) {
                 if ($this->data->item($item)['unlock_level'] <= $level) {
                     $eligible[$item] = true;
                 }

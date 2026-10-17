@@ -8,6 +8,7 @@ use FermeTranquille\Engine\Clock;
 use FermeTranquille\Engine\Farm;
 use FermeTranquille\Engine\GameError;
 use FermeTranquille\Engine\Payload;
+use FermeTranquille\Engine\Production;
 
 /**
  * payload: { id } — every output goes to the barn, or nothing does.
@@ -28,9 +29,21 @@ final class Collect implements Action
         }
 
         $farm->addToBarn($job['outputs']);
-        $farm->addXp((int) $definition['production']['xp']);
+        $farm->addXp($job['xp'] ?? self::legacyXp($farm, $building));
 
         unset($building['job']);
         $farm->saveBuilding($building);
+    }
+
+    /**
+     * Jobs started before recipes stored their XP: use the current recipe's.
+     *
+     * @param array<string, mixed> $building
+     */
+    private static function legacyXp(Farm $farm, array $building): int
+    {
+        $recipes = Production::recipes($farm->data, $building['type'], $building['level']);
+
+        return $recipes[$building['job']['product']]['xp'] ?? 0;
     }
 }

@@ -46,7 +46,7 @@ final class GameDataTest extends TestCase
         self::assertSame(5, $data->item('corn')['barn_price']);
         self::assertSame(7.5, $data->item('corn')['market_price']);
         self::assertSame(200, $data->buildingLevel('barn', 1)['capacity']);
-        self::assertSame(['egg' => 21, 'dung' => 7], $data->buildingLevel('chicken_coop', 1)['outputs']);
+        self::assertSame(['egg' => 21, 'dung' => 7], $data->buildingLevel('chicken_coop', 1)['recipes']['egg']['outputs']);
         self::assertSame([['gold' => 50], ['cash' => 400]], $data->expansion(7)['costs']);
     }
 
@@ -97,7 +97,7 @@ final class GameDataTest extends TestCase
     {
         $data = $this->realData();
         $data['crops']['corn']['plant_cost'] = ['diamonds' => 3];
-        $data['buildings']['windmill']['production']['inputs_per_main_unit'] = ['unicorn' => 1];
+        $data['buildings']['windmill']['levels'][0]['recipes']['pig_feed']['inputs'] = ['unicorn' => 1];
         $data['buildings']['barn']['levels'][2]['level'] = 7;
         $data['land']['expansions'][0]['unlock_level'] = 500;
         unset($data['crops']['wheat']);
@@ -105,7 +105,7 @@ final class GameDataTest extends TestCase
         $errors = implode("\n", GameData::validate($data));
 
         self::assertStringContainsString('crops.corn.plant_cost: unknown resource diamonds', $errors);
-        self::assertStringContainsString('inputs_per_main_unit: unknown item unicorn', $errors);
+        self::assertStringContainsString('windmill.levels[0].recipes.pig_feed.inputs: unknown item unicorn', $errors);
         self::assertStringContainsString('buildings.barn.levels[2].level: expected 3', $errors);
         self::assertStringContainsString('land.expansions[0].unlock_level', $errors);
         self::assertStringContainsString('items.wheat: crop item without crops.wheat', $errors);

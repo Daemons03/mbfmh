@@ -9,54 +9,67 @@ use FermeTranquille\Engine\Market;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
- * V2.1 animals: every animal eats the windmill feed and gives a product + dung.
+ * Animals: 10 of their own feed + cash per run, fixed duration, product + dung.
+ * Values from the original game (player's screenshots).
  */
 final class AnimalTest extends EngineTestCase
 {
     protected function setUp(): void
     {
         parent::setUp();
-        $this->state['level'] = 250;
+        $this->state['level'] = 200; // below max level, so XP is kept
         $this->state['cash'] = 100_000_000;
         $this->state['materials']['buckets'] = 1_000; // sheep pen level 1 costs 100 buckets
-        $this->state['expansions'] = 9;
+        $this->state['buildings'][0]['level'] = 25; // 1 400 places per product
     }
 
     /**
-     * @return iterable<string, array{string, string, int, int, int}>
+     * @return iterable<string, array{string, string, int, int, string, int, int, int}>
      */
     public static function animals(): iterable
     {
-        // type, product, quantity, dung, feed
-        yield 'pigsty' => ['pigsty', 'pig', 130, 35, 26];
-        yield 'cowshed' => ['cowshed', 'milk', 230, 100, 23];
-        yield 'goat stable' => ['goat_stable', 'cheese', 160, 50, 24];
-        yield 'duck coop' => ['duck_coop', 'feather', 180, 65, 27];
-        yield 'rabbit hutch' => ['rabbit_hutch', 'gray_wool', 80, 21, 24];
-        yield 'sheep pen' => ['sheep_pen', 'sheep_wool', 180, 65, 27];
+        // type, product, quantity, dung, feed, cash, duration, xp
+        yield 'chickens' => ['chicken_coop', 'egg', 21, 7, 'chicken_feed', 4, 390, 5];
+        yield 'pigs' => ['pigsty', 'pig', 130, 35, 'pig_feed', 24, 4200, 50];
+        yield 'cows' => ['cowshed', 'milk', 230, 100, 'cattle_feed', 185, 25200, 300];
+        yield 'goats' => ['goat_stable', 'cheese', 160, 50, 'goat_feed', 43, 7200, 85];
+        yield 'ducks' => ['duck_coop', 'feather', 180, 65, 'duck_feed', 68, 10800, 130];
+        yield 'rabbits' => ['rabbit_hutch', 'gray_wool', 80, 21, 'rabbit_feed', 32, 2700, 30];
+        yield 'sheep' => ['sheep_pen', 'sheep_wool', 180, 65, 'sheep_feed', 32, 3600, 60];
     }
 
     #[DataProvider('animals')]
-    public function testFeedThenCollect(string $type, string $product, int $quantity, int $dung, int $feed): void
+    public function testFeedThenCollect(string $type, string $product, int $quantity, int $dung, string $feed, int $cash, int $duration, int $xp): void
     {
-        $this->bigBarn();
         $this->act('build', ['type' => $type, 'x' => 6, 'y' => 4]);
-        $this->state['barn']['items'] = ['chicken_feed' => $feed];
+        $this->state['barn']['items'] = [$feed => 10];
+        $cashBefore = $this->state['cash'];
 
         $this->act('start_production', ['id' => 'b4']);
         self::assertSame([], $this->state['barn']['items'], 'feed consumed');
+        self::assertSame($cashBefore - $cash, $this->state['cash']);
 
-        $duration = $this->data->building($type)['production']['duration'];
         $this->assertGameError('not_ready', 'collect', ['id' => 'b4'], $duration - 1);
         $this->act('collect', ['id' => 'b4'], $duration);
 
         self::assertSame([$product => $quantity, 'dung' => $dung], $this->state['barn']['items']);
+        self::assertSame($xp, $this->state['xp']);
+    }
+
+    public function testEachSpeciesNeedsItsOwnFeed(): void
+    {
+        $this->act('build', ['type' => 'pigsty', 'x' => 6, 'y' => 4]);
+        $this->state['barn']['items'] = ['chicken_feed' => 50];
+
+        $error = $this->assertGameError('not_enough_items', 'start_production', ['id' => 'b4']);
+        self::assertSame(['missing' => ['pig_feed' => 10]], $error->details);
     }
 
     public function testCowshedNeedsABiggerBarn(): void
     {
+        $this->state['buildings'][0]['level'] = 1;
         $this->act('build', ['type' => 'cowshed', 'x' => 6, 'y' => 4]);
-        $this->state['barn']['items'] = ['chicken_feed' => 23];
+        $this->state['barn']['items'] = ['cattle_feed' => 10];
 
         $error = $this->assertGameError('barn_too_small', 'start_production', ['id' => 'b4']);
         self::assertSame(['item' => 'milk', 'needed' => 230, 'capacity' => 200], $error->details);
@@ -68,15 +81,29 @@ final class AnimalTest extends EngineTestCase
 
     public function testRabbitsGiveWhiteWoolFromLevel5(): void
     {
-        $this->bigBarn();
         $this->act('build', ['type' => 'rabbit_hutch', 'x' => 6, 'y' => 4]);
         $this->state['buildings'][3]['level'] = 5;
-        $this->state['barn']['items'] = ['chicken_feed' => 100];
+        $this->state['barn']['items'] = ['rabbit_feed' => 10];
 
         $this->act('start_production', ['id' => 'b4']);
-        $this->act('collect', ['id' => 'b4'], 7200);
+        $this->act('collect', ['id' => 'b4'], 2700);
 
-        self::assertSame(['chicken_feed' => 64, 'gray_wool' => 120, 'white_wool' => 10, 'dung' => 31], $this->state['barn']['items']);
+        self::assertSame(['gray_wool' => 120, 'white_wool' => 10, 'dung' => 31], $this->state['barn']['items']);
+    }
+
+    public function testWindmillMakesEveryFeedFromTheMatchingCrop(): void
+    {
+        $this->act('build', ['type' => 'windmill', 'x' => 6, 'y' => 4]);
+        $pairs = ['chicken_feed' => 'corn', 'pig_feed' => 'cabbage', 'cattle_feed' => 'wheat', 'goat_feed' => 'dandelion',
+            'duck_feed' => 'lettuce', 'rabbit_feed' => 'carrot', 'sheep_feed' => 'barley'];
+
+        foreach ($pairs as $feed => $crop) {
+            $this->state['barn']['items'] = [$crop => 10];
+            $this->act('start_production', ['id' => 'b4', 'recipe' => $feed]);
+            $this->act('collect', ['id' => 'b4'], 600);
+            self::assertSame([$feed => 10], $this->state['barn']['items'], $feed);
+            self::assertSame($this->data->item($crop)['unlock_level'], $this->data->item($feed)['unlock_level']);
+        }
     }
 
     public function testAnimalProductsJoinTheMarket(): void
@@ -94,10 +121,5 @@ final class AnimalTest extends EngineTestCase
     {
         $this->state['level'] = 99;
         $this->assertGameError('level_too_low', 'build', ['type' => 'sheep_pen', 'x' => 6, 'y' => 4]);
-    }
-
-    private function bigBarn(): void
-    {
-        $this->state['buildings'][0]['level'] = 25; // 1 400 places per product
     }
 }

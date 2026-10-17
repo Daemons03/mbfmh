@@ -11,9 +11,11 @@ use FermeTranquille\Engine\Payload;
 use FermeTranquille\Engine\Production;
 
 /**
- * payload: { id } — takes the inputs from the barn and starts a job. The job
- * keeps its own outputs, so the result is fixed at start. Refused when an
- * output is larger than the barn capacity (it could never be collected).
+ * payload: { id, recipe?, quantity? } — recipe can be omitted when the
+ * building has only one; quantity (batches, default 1) only for batch
+ * buildings. Takes inputs from the barn and pays the cost; the job keeps its
+ * own outputs and XP, so the result is fixed at start. Refused when an output
+ * is larger than the barn capacity (it could never be collected).
  */
 final class StartProduction implements Action
 {
@@ -28,29 +30,46 @@ final class StartProduction implements Action
             throw new GameError('busy', 'Une production est déjà en cours.');
         }
 
-        $recipe = Production::recipe($farm->data, $building['type'], $building['level']);
-        // Outputs that can never fit would block the building forever.
+        $recipe = Production::recipe(
+            $farm->data,
+            $building['type'],
+            $building['level'],
+            $payload->has('recipe') ? $payload->string('recipe') : null,
+        );
+        $quantity = $payload->has('quantity') ? $payload->int('quantity', 1) : 1;
+        $max = Production::maxQuantity($farm->data, $building['type'], $building['level'], $recipe['id']);
+        if ($quantity > $max) {
+            throw new GameError('quantity_too_high', "Ce bâtiment ne peut pas en faire autant : {$max} lot(s) au maximum.", [
+                'max' => $max,
+            ]);
+        }
+        $total = Production::scaled($recipe, $quantity);
+
         $capacity = $farm->barnCapacity();
-        foreach ($recipe['outputs'] as $item => $quantity) {
-            if ($quantity > $capacity) {
+        foreach ($total['outputs'] as $item => $count) {
+            if ($count > $capacity) {
                 $name = $farm->data->item($item)['name'];
-                throw new GameError('barn_too_small', "La grange est trop petite pour {$quantity} × {$name} : agrandissez-la d'abord.", [
+                throw new GameError('barn_too_small', "La grange est trop petite pour {$count} × {$name} : agrandissez-la d'abord.", [
                     'item' => $item,
-                    'needed' => $quantity,
+                    'needed' => $count,
                     'capacity' => $capacity,
                 ]);
             }
         }
-        $farm->assertBarnHas($recipe['inputs']);
-        foreach ($recipe['inputs'] as $item => $quantity) {
-            $farm->removeFromBarn($item, $quantity);
+
+        $farm->assertBarnHas($total['inputs']);
+        $farm->pay($total['cost']);
+        foreach ($total['inputs'] as $item => $count) {
+            $farm->removeFromBarn($item, $count);
         }
 
         $building['job'] = [
-            'product' => $farm->data->building($building['type'])['production']['main_output'],
+            'product' => $recipe['id'],
+            'quantity' => $quantity,
             'started_at' => $clock->now,
-            'duration' => $recipe['duration'],
-            'outputs' => $recipe['outputs'],
+            'duration' => $total['duration'],
+            'outputs' => $total['outputs'],
+            'xp' => $total['xp'],
         ];
         $farm->saveBuilding($building);
     }
