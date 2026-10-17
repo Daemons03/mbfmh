@@ -17,7 +17,7 @@ def test_wrong_password_then_login(page, farm, base_url):
 def test_starting_farm(game):
     assert grid_side(game) == 12
     assert game.locator("#grid .cell.locked").count() == 48
-    assert game.locator("#grid .building").count() == 3
+    assert game.locator("#grid .building").count() == 4, "barn, farmhouse, two fields"
     assert "null" not in game.locator("#topbar").inner_text()
 
 
@@ -38,7 +38,7 @@ def test_plant_countdown_and_one_tap_harvest(game, farm):
 
     # Another device speeds the farm up: the next action gets a 409 and reloads.
     farm.patch({"settings.speed": 100})
-    tap(game, 3, 1)
+    tap(game, 3, 2)  # second field b3 at (2,2)
     game.wait_for_selector("#sheet:not([hidden])")
     row(game, "Fleurs sauvages").get_by_role("button", name="Planter").click()
     game.wait_for_selector(".toast.warn >> text=modifiée ailleurs")
@@ -75,14 +75,14 @@ def test_build_with_placement_mode_and_build_here(game, farm):
     tap(game, 6, 5)
     game.wait_for_selector("#mode-banner[hidden]", state="attached")
 
-    tap(game, 8, 2)
+    tap(game, 6, 2)
     game.wait_for_selector("#sheet:not([hidden])")
     assert game.locator("#sheet-title").inner_text() == "Construire ici"
     row(game, "Champ").get_by_role("button", name="Construire").click()
     settle(game)
 
     fields = [(b["x"], b["y"]) for b in farm.state()["buildings"] if b["type"] == "field"]
-    assert (6, 5) in fields and (8, 2) in fields
+    assert (6, 5) in fields and (6, 2) in fields
     assert farm.state()["cash"] == 2000 - 2 * 250
 
 

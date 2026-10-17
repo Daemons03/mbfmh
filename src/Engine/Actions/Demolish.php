@@ -19,7 +19,8 @@ final class Demolish implements Action
     {
         $building = $farm->building($payload->string('id'));
 
-        if ($farm->data->building($building['type'])['kind'] === 'storage' || $farm->data->isOutside($building['type'])) {
+        $definition = $farm->data->building($building['type']);
+        if ($definition['kind'] === 'storage' || ($definition['permanent'] ?? false) || $farm->data->isOutside($building['type'])) {
             throw new GameError('not_demolishable', 'Ce bâtiment ne peut pas être détruit.');
         }
         if (isset($building['job'])) {

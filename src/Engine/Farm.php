@@ -54,14 +54,65 @@ final class Farm
     /**
      * Farmhouse and fence exist on every farm (added to older farms too).
      * Their id is their type, so building ids b1, b2... are unchanged.
+     * Farm-zone starters (farmhouse) go to start_position, or the first free
+     * owned spot; older farms get their outside farmhouse moved onto the grid.
      */
     public function ensureStarterBuildings(): void
     {
         foreach ($this->data->starterBuildings() as $type) {
-            if ($this->countBuildings($type) === 0) {
-                $this->state['buildings'][] = ['id' => $type, 'type' => $type, 'level' => 1];
+            $outside = $this->data->isOutside($type);
+            $existing = null;
+            foreach ($this->state['buildings'] as $index => $building) {
+                if ($building['type'] === $type) {
+                    $existing = $index;
+                }
+            }
+            if ($existing !== null && ($outside || isset($this->state['buildings'][$existing]['x']))) {
+                continue;
+            }
+
+            $building = $existing !== null ? $this->state['buildings'][$existing] : ['id' => $type, 'type' => $type, 'level' => 1];
+            if (!$outside) {
+                $spot = $this->freeSpot($type, $building['id']);
+                if ($spot === null) {
+                    continue; // no room: tried again on the next resolve
+                }
+                $building = ['id' => $building['id'], 'type' => $type, 'x' => $spot[0], 'y' => $spot[1], 'level' => $building['level']];
+            }
+            if ($existing !== null) {
+                $this->state['buildings'][$existing] = $building;
+            } else {
+                $this->state['buildings'][] = $building;
             }
         }
+    }
+
+    /**
+     * @return array{int, int}|null start_position if free, else the first free owned spot
+     */
+    private function freeSpot(string $type, string $ignoreId): ?array
+    {
+        $candidates = [];
+        if (isset($this->data->building($type)['start_position'])) {
+            $candidates[] = $this->data->building($type)['start_position'];
+        }
+        $side = (new Land($this->data->blockSize()))->gridSide($this->expansions());
+        for ($y = 0; $y < $side; $y++) {
+            for ($x = 0; $x < $side; $x++) {
+                $candidates[] = [$x, $y];
+            }
+        }
+        foreach ($candidates as [$x, $y]) {
+            try {
+                $this->assertPlaceable($type, $x, $y, $ignoreId);
+
+                return [$x, $y];
+            } catch (GameError) {
+                continue;
+            }
+        }
+
+        return null;
     }
 
     // ------------------------------------------------------------ workers and happiness

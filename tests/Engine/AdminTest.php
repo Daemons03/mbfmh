@@ -115,9 +115,9 @@ final class AdminTest extends EngineTestCase
         self::assertSame($this->data->maxLevel(), $this->state['level']);
         self::assertSame(55, $this->state['expansions']);
         $this->act('plant', ['id' => 'b2', 'crop' => 'barley']);
-        // Block 55 is (7,5): the last cells of the 8th column of blocks.
-        $this->act('build', ['type' => 'field', 'x' => 31, 'y' => 23]);
-        $this->assertGameError('cell_locked', 'build', ['type' => 'field', 'x' => 31, 'y' => 24]);
+        // Block 55 is (7,5): cells x 28-31, y 20-23. Below it (y 24) is still locked.
+        $this->act('build', ['type' => 'field', 'x' => 29, 'y' => 20]);
+        $this->assertGameError('cell_locked', 'build', ['type' => 'field', 'x' => 29, 'y' => 23]);
     }
 
     public function testResetFarm(): void

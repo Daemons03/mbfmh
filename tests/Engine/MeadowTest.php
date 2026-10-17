@@ -20,7 +20,7 @@ final class MeadowTest extends EngineTestCase
         $this->state['cash'] = 100_000_000;
         $this->setBuilding('b1', ['level' => 25]); // 1 400 places per product
         $this->act('build', ['type' => 'meadow', 'x' => 6, 'y' => 4]);
-        $this->act('build', ['type' => 'manufactory', 'x' => 8, 'y' => 4]);
+        $this->act('build', ['type' => 'manufactory', 'x' => 9, 'y' => 4]);
     }
 
     public function testMeadowGrowsTheChosenSeed(): void
@@ -51,7 +51,7 @@ final class MeadowTest extends EngineTestCase
         $this->act('collect', ['id' => 'b5'], 2 * 5 * 3600);
         self::assertSame(['milk' => 160, 'olive_oil' => 260], $this->state['barn']['items']);
 
-        $this->act('build', ['type' => 'dairy', 'x' => 10, 'y' => 4], 10 * 3600);
+        $this->act('build', ['type' => 'dairy', 'x' => 6, 'y' => 6], 10 * 3600);
         $this->act('start_production', ['id' => 'b6', 'recipe' => 'cheese'], 10 * 3600);
         $this->act('collect', ['id' => 'b6'], 10 * 3600 + 25 * 60);
         self::assertSame(['olive_oil' => 150, 'cheese' => 30], $this->state['barn']['items']);

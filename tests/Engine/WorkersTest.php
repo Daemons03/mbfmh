@@ -35,11 +35,11 @@ final class WorkersTest extends EngineTestCase
 
     public function testBuildingNeedsFreeWorkers(): void
     {
-        $error = $this->assertGameError('not_enough_workers', 'build', ['type' => 'field', 'x' => 5, 'y' => 5]);
+        $error = $this->assertGameError('not_enough_workers', 'build', ['type' => 'field', 'x' => 8, 'y' => 0]);
         self::assertSame(['needed' => 10, 'free' => 2], $error->details);
 
         $this->act('build', ['type' => 'house', 'x' => 6, 'y' => 6]);
-        $this->act('build', ['type' => 'field', 'x' => 5, 'y' => 5]);
+        $this->act('build', ['type' => 'field', 'x' => 8, 'y' => 0]);
 
         $view = $this->decode($this->engine->view($this->state, self::NOW));
         self::assertSame(['total' => 32, 'used' => 30, 'free' => 2], $view['workers']);
@@ -60,7 +60,7 @@ final class WorkersTest extends EngineTestCase
     public function testHousesCannotBeDemolishedWhileTheirWorkersAreBusy(): void
     {
         $this->act('build', ['type' => 'house', 'x' => 6, 'y' => 6]);
-        $this->act('build', ['type' => 'field', 'x' => 5, 'y' => 5]);
+        $this->act('build', ['type' => 'field', 'x' => 8, 'y' => 0]);
 
         $this->assertGameError('workers_needed', 'demolish', ['id' => 'b4']);
         $this->act('demolish', ['id' => 'b5']);
@@ -125,7 +125,34 @@ final class WorkersTest extends EngineTestCase
         self::assertSame($this->state['next_id'], $resolved['next_id'], 'ids b1, b2... untouched');
     }
 
-    public function testFarmhouseAndFenceAreOutsideAndPermanent(): void
+    public function testFarmhouseStandsOnTheFarmFromTheStart(): void
+    {
+        self::assertSame(['id' => 'farmhouse', 'type' => 'farmhouse', 'x' => 0, 'y' => 2, 'level' => 1], $this->building('farmhouse'));
+        $this->assertGameError('cell_occupied', 'build', ['type' => 'house', 'x' => 0, 'y' => 2]);
+
+        $this->act('move', ['id' => 'farmhouse', 'x' => 6, 'y' => 6]);
+        self::assertSame([6, 6], [$this->building('farmhouse')['x'], $this->building('farmhouse')['y']]);
+    }
+
+    public function testOutsideFarmhouseOfOlderFarmsMovesOntoTheGrid(): void
+    {
+        $this->setBuilding('farmhouse', ['level' => 3]);
+        foreach ($this->state['buildings'] as $i => $building) {
+            if ($building['id'] === 'farmhouse') {
+                $this->state['buildings'][$i] = ['id' => 'farmhouse', 'type' => 'farmhouse', 'level' => 3];
+            }
+        }
+        $this->state['buildings'][] = ['id' => 'b9', 'type' => 'house', 'x' => 0, 'y' => 2, 'level' => 1];
+
+        $resolved = $this->decode($this->engine->resolve($this->state, self::NOW));
+        $farmhouse = array_values(array_filter($resolved['buildings'], static fn (array $b): bool => $b['id'] === 'farmhouse'))[0];
+
+        self::assertSame(3, $farmhouse['level'], 'level kept');
+        self::assertArrayHasKey('x', $farmhouse);
+        self::assertNotSame([0, 2], [$farmhouse['x'], $farmhouse['y']], 'start spot taken: first free spot');
+    }
+
+    public function testFarmhouseAndFenceArePermanent(): void
     {
         $this->assertGameError('not_demolishable', 'demolish', ['id' => 'farmhouse']);
         $this->assertGameError('not_movable', 'move', ['id' => 'fence', 'x' => 5, 'y' => 5]);

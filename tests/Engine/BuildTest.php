@@ -65,10 +65,10 @@ final class BuildTest extends EngineTestCase
 
     public function testMoveCanOverlapOwnFootprint(): void
     {
-        // Barn 2x2 at (0,0) shifted by one cell overlaps its old position.
-        $this->act('move', ['id' => 'b1', 'x' => 0, 'y' => 1]);
+        // Field 3x2 at (2,0) shifted by one cell overlaps its old position.
+        $this->act('move', ['id' => 'b2', 'x' => 3, 'y' => 0]);
 
-        self::assertSame(1, $this->building('b1')['y']);
+        self::assertSame(3, $this->building('b2')['x']);
     }
 
     public function testMoveRules(): void
