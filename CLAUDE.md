@@ -91,6 +91,7 @@ Toutes les réponses : `{ ok, state?, server_now, error? }`. POST protégés par
 
 | Méthode | Route | Rôle |
 |---|---|---|
+| GET | /api/session | statut connecté + jeton CSRF (à appeler avant le login) |
 | POST | /api/login | login + mot de passe, ouvre session (cookie 30 jours) |
 | POST | /api/logout | ferme la session |
 | GET | /api/data | contenu de game-data.json |

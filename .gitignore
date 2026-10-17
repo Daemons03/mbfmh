@@ -4,6 +4,9 @@
 # Local config (secrets)
 /config/config.php
 
+# Runtime data (sessions)
+/var/
+
 # Scraper (local tooling, raw data)
 /.venv/
 /scraped/

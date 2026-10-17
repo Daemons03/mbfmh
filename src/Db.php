@@ -35,7 +35,7 @@ final class Db
     public static function pdo(): PDO
     {
         if (self::$pdo === null) {
-            $config = self::$config ??= self::loadConfig();
+            $config = self::$config ??= Config::section('db');
             self::$pdo = new PDO(self::dsn($config), (string) $config['user'], (string) $config['password'], [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -65,23 +65,5 @@ final class Db
             $config['name'],
             $config['charset'] ?? 'utf8mb4',
         );
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    private static function loadConfig(): array
-    {
-        $file = dirname(__DIR__) . '/config/config.php';
-        if (!is_file($file)) {
-            throw new RuntimeException('config/config.php not found (copy config/config.example.php)');
-        }
-
-        $config = require $file;
-        if (!is_array($config) || !is_array($config['db'] ?? null)) {
-            throw new RuntimeException("config/config.php must return an array with a 'db' key");
-        }
-
-        return $config['db'];
     }
 }
