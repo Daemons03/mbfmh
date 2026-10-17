@@ -202,4 +202,27 @@ Données réelles (niveaux, coûts, quantités produites) reprises du fan site ;
 6. Maisons, ouvriers, bonheur et décorations.
 7. Bibliothèque : améliorations de produits (parchemins, encre, livres).
 8. Améliorations du marché.
-Animal de concours et café-boutique : à préciser avec le joueur avant de les coder.
+9. Café-boutique (voir ci-dessous).
+10. Animaux de concours (voir ci-dessous).
+
+### Café-boutique (V2.9)
+
+- Recettes (≈ 9 par page, plusieurs pages) : consomment des produits de la grange, rapportent du cash et des **points de satisfaction**. Ex. de référence : 40 œufs + 20 vanille + 25 bonbons → 7 000 💵 et 100 points.
+- Chaque recette a un niveau d'étoiles (0 à 7) amélioré à part : récompenses en hausse (cash +1 % par étoile : 7 000, 7 070, 7 140… ; points +10 % composés : 100, 110, 121, 134, 148).
+- Un **groupe de clients** du jour (Enfants, Athlètes…) tourne ; certaines recettes rapportent **×2** certains jours.
+- **Jauge de satisfaction** à paliers : chaque palier donne une récompense (cash, clés, maillets…). Réf. : 190 → 90 000 💵, 760 → 9 clés, 1 520 → 180 000 💵, 2 280 → 450 000 💵, 3 420 → 22 clés, 4 560 → 30 maillets.
+
+### Animaux de concours (V2.10)
+
+- **Coffres** achetés → cartes d'animaux + **plans** (le matériau `blueprints`, qui sert à améliorer le bâtiment).
+- Bâtiment : son niveau fixe le nombre d'animaux actifs en même temps (1 au niveau 1, puis 2, 3, 4 : voir `levels[].animals`), **un seul animal actif par espèce**.
+- Chaque animal a une **rareté** (gris, vert, bleu, violet) et un **niveau 1 à 5** ; la 1ʳᵉ carte le débloque, les suivantes l'améliorent (ex. 13/50 cartes pour le niveau suivant).
+- Activer un animal = choisir une des **3 durées** de son espèce ; la quantité dépend de la rareté et du niveau. Réf. poules (6 min 30 | 20 min | 3 h 30) :
+  - niveau 1 : gris 10|30|323 · vert 11|33|356 · bleu 13|38|404 · violet 18|54|582
+  - niveau 5 : gris 30|92|969 · vert 33|?|1 066 · bleu 38|115|1 212 · violet 54|166|1 745 (niveaux 2–4 interpolés)
+  - autres espèces (réf. durée longue) : cochon 2 h 30, vache 7 h, chèvre 6 h 30 ; quantités estimées.
+- Noms des animaux : inventés pour Ferme Tranquille (jamais ceux du jeu d'origine).
+
+## VX — Habillage graphique (après la V2)
+
+S'inspirer de l'ambiance (panneaux bois, cartes à cadre coloré par rareté, étoiles, gros boutons arrondis) avec des visuels **créés pour le projet** (CSS, SVG maison, emojis) : aucune image, icône ni nom du jeu d'origine. Le dossier `images/` (captures de référence) est ignoré par Git.

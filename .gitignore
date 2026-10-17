@@ -26,3 +26,6 @@ Thumbs.db
 # Browser test artifacts
 /tests/e2e/artifacts/
 .pytest_cache/
+
+# Reference screenshots of the original game: never versioned, never used by the game
+/images/
