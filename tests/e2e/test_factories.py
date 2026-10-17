@@ -29,7 +29,7 @@ def test_humus_on_a_field(game, farm):
     tap(game, 3, 0)
     game.wait_for_selector("#sheet:not([hidden])")
     game.get_by_label("+25 %", exact=False).check()
-    assert "· 18 🌽" in row(game, "Maïs").inner_text()
+    assert "· 12 🌽" in row(game, "Maïs").inner_text()
     row(game, "Maïs").get_by_role("button", name="Planter").click()
     settle(game)
     close_sheet(game)
@@ -37,4 +37,4 @@ def test_humus_on_a_field(game, farm):
     game.wait_for_selector(".building.field.ready", timeout=10_000)
     tap(game, 3, 0)
     settle(game)
-    assert farm.state()["barn"]["items"] == {"humus": 1, "corn": 18}
+    assert farm.state()["barn"]["items"] == {"humus": 1, "corn": 12}

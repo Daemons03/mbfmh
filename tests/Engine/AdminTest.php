@@ -81,7 +81,7 @@ final class AdminTest extends EngineTestCase
 
         self::assertSame(10, $this->state['settings']['speed']);
         $this->act('harvest', ['id' => 'b2'], 12); // 120 s / 10
-        self::assertSame(['corn' => 15], $this->state['barn']['items']);
+        self::assertSame(['corn' => 10], $this->state['barn']['items']);
     }
 
     public function testSetSpeedBounds(): void

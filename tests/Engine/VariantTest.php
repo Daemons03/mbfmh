@@ -89,9 +89,30 @@ final class VariantTest extends EngineTestCase
         $this->act('build', ['type' => 'premium_field', 'x' => 6, 'y' => 4]);
         $this->act('plant', ['id' => 'b4', 'crop' => 'wildflower']);
 
-        self::assertSame(['wildflower' => 12], $this->building('b4')['job']['outputs'], '11 x 1.1 = 12.1');
+        self::assertSame(['wildflower' => 12], $this->building('b4')['job']['outputs'], '7 x 1.6 = 11.2, rounded up');
         $this->act('plant', ['id' => 'b2', 'crop' => 'wildflower']);
-        self::assertSame(['wildflower' => 11], $this->building('b2')['job']['outputs']);
+        self::assertSame(['wildflower' => 7], $this->building('b2')['job']['outputs']);
+    }
+
+    /**
+     * Values given by the player for normal | fertile | premium fields, levels 1 and 18.
+     */
+    public function testFieldVariantsMatchTheGame(): void
+    {
+        $expected = [
+            'corn' => [[10, 15, 16], [27, 41, 44]],
+            'wheat' => [[40, 60, 64], [150, 225, 240]],
+            'carrot' => [[34, 51, 55], [154, 231, 247]],
+        ];
+        foreach ($expected as $crop => [$level1, $level18]) {
+            foreach ([1 => $level1, 18 => $level18] as $level => $values) {
+                $actual = array_map(
+                    fn (string $field): int => \FermeTranquille\Engine\Crop::harvest($this->data, $crop, $field, $level, false)[$crop],
+                    ['field', 'fertile_field', 'premium_field'],
+                );
+                self::assertSame($values, $actual, "{$crop} level {$level}");
+            }
+        }
     }
 
     public function testPremiumHouseHousesMore(): void

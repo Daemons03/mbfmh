@@ -40,7 +40,7 @@ final class FieldTest extends EngineTestCase
 
         self::assertSame(2000 - 43, $this->state['cash']);
         self::assertSame(
-            ['product' => 'corn', 'started_at' => self::NOW, 'duration' => 120, 'outputs' => ['corn' => 15]],
+            ['product' => 'corn', 'started_at' => self::NOW, 'duration' => 120, 'outputs' => ['corn' => 10]],
             $this->building('b2')['job'],
         );
     }
@@ -85,7 +85,7 @@ final class FieldTest extends EngineTestCase
         $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
         $this->act('harvest', ['id' => 'b2'], 300);
 
-        self::assertSame(['corn' => 15], $this->state['barn']['items']);
+        self::assertSame(['corn' => 10], $this->state['barn']['items']);
         self::assertSame(1, $this->state['xp']);
         self::assertArrayNotHasKey('job', $this->building('b2'));
         $this->assertGameError('nothing_to_harvest', 'harvest', ['id' => 'b2'], 600);
@@ -101,7 +101,7 @@ final class FieldTest extends EngineTestCase
         $this->act('harvest', ['id' => 'b2'], $threeDays);
         $this->act('harvest', ['id' => 'b3'], $threeDays);
 
-        self::assertSame(['corn' => 15, 'wildflower' => 11], $this->state['barn']['items']);
+        self::assertSame(['corn' => 10, 'wildflower' => 7], $this->state['barn']['items']);
     }
 
     public function testAcceleratedTime(): void
@@ -112,7 +112,7 @@ final class FieldTest extends EngineTestCase
         $this->assertGameError('not_ready', 'harvest', ['id' => 'b2'], 11);
         $this->act('harvest', ['id' => 'b2'], 12); // 120 s / 10
 
-        self::assertSame(['corn' => 15], $this->state['barn']['items']);
+        self::assertSame(['corn' => 10], $this->state['barn']['items']);
     }
 
     public function testSpeedChangeAppliesToRunningJob(): void
@@ -123,17 +123,17 @@ final class FieldTest extends EngineTestCase
         $this->state['settings']['speed'] = 5;
         $this->act('harvest', ['id' => 'b2'], 60);
 
-        self::assertSame(['corn' => 15], $this->state['barn']['items']);
+        self::assertSame(['corn' => 10], $this->state['barn']['items']);
     }
 
     public function testHarvestRefusedWhenThatProductIsFull(): void
     {
-        $this->state['barn']['items'] = ['corn' => 190];
+        $this->state['barn']['items'] = ['corn' => 195];
         $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
 
         $error = $this->assertGameError('barn_full', 'harvest', ['id' => 'b2'], 300);
 
-        self::assertSame(['item' => 'corn', 'free' => 10, 'needed' => 15], $error->details);
+        self::assertSame(['item' => 'corn', 'free' => 5, 'needed' => 10], $error->details);
         self::assertArrayHasKey('job', $this->building('b2'), 'crop stays in the field');
     }
 
@@ -144,19 +144,19 @@ final class FieldTest extends EngineTestCase
 
         $this->act('harvest', ['id' => 'b2'], 300);
 
-        self::assertSame(['wildflower' => 200, 'cabbage' => 200, 'corn' => 15], $this->state['barn']['items']);
+        self::assertSame(['wildflower' => 200, 'cabbage' => 200, 'corn' => 10], $this->state['barn']['items']);
     }
 
     public function testHarvestCanFillAProductExactly(): void
     {
-        $this->state['barn']['items'] = ['corn' => 185];
+        $this->state['barn']['items'] = ['corn' => 190];
         $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
         $this->act('plant', ['id' => 'b3', 'crop' => 'corn']);
 
         $this->act('harvest', ['id' => 'b2'], 300);
         self::assertSame(['corn' => 200], $this->state['barn']['items']);
 
-        $this->state['barn']['items']['corn'] = 186;
+        $this->state['barn']['items']['corn'] = 191;
         $this->assertGameError('barn_full', 'harvest', ['id' => 'b3'], 300);
     }
 
@@ -185,7 +185,7 @@ final class FieldTest extends EngineTestCase
         $this->act('plant', ['id' => 'b2', 'crop' => 'wheat']);
         $this->act('harvest', ['id' => 'b2'], 6 * 3600);
 
-        self::assertSame(['wheat' => 173, 'flower_nectar' => 162], $this->state['barn']['items']);
+        self::assertSame(['wheat' => 115, 'flower_nectar' => 108], $this->state['barn']['items']);
     }
 
     public function testNoFlowerNectarBelowFieldLevel8(): void
@@ -193,7 +193,7 @@ final class FieldTest extends EngineTestCase
         $this->setBuilding('b2', ['level' => 7]);
         $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
 
-        self::assertSame(['corn' => 24], $this->building('b2')['job']['outputs']);
+        self::assertSame(['corn' => 16], $this->building('b2')['job']['outputs']);
     }
 
     public function testLegacyFieldJobWithoutOutputs(): void
@@ -202,7 +202,7 @@ final class FieldTest extends EngineTestCase
 
         $this->act('harvest', ['id' => 'b2'], 300);
 
-        self::assertSame(['corn' => 15], $this->state['barn']['items']);
+        self::assertSame(['corn' => 10], $this->state['barn']['items']);
     }
 
     public function testHumusGivesTwentyFivePercentMore(): void
@@ -214,7 +214,7 @@ final class FieldTest extends EngineTestCase
 
         $this->act('harvest', ['id' => 'b2'], 300);
 
-        self::assertSame(['corn' => 18], $this->state['barn']['items'], '15 x 1.25 = 18.75, rounded down');
+        self::assertSame(['corn' => 12], $this->state['barn']['items'], '10 x 1.25 = 12.5, rounded down');
     }
 
     public function testHumusRules(): void

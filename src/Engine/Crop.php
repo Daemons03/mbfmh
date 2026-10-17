@@ -7,9 +7,10 @@ namespace FermeTranquille\Engine;
 use FermeTranquille\GameData;
 
 /**
- * What a field gives: the crop's yield and flower nectar depend on the field
- * level (yields[level - 1]); premium/fertile fields multiply the crop by their
- * yield_factor; humus adds 25 % to the crop. Rounded down.
+ * What a field gives: the crop's yield and flower nectar for a normal field
+ * depend on its level (yields[level - 1]); fertile (x1.5) and premium (x1.6)
+ * fields multiply both, rounded up like the game; humus then adds 25 % to the
+ * crop, rounded down.
  */
 final readonly class Crop
 {
@@ -24,12 +25,15 @@ final readonly class Crop
         $index = min($fieldLevel, count($crop['yields'])) - 1;
 
         $factor = (float) ($data->building($fieldType)['yield_factor'] ?? 1.0);
+        // round() first: float noise must not push an exact value up or down.
+        $up = static fn (int $base): int => (int) ceil(round($base * $factor, 6));
+
+        $quantity = $up($crop['yields'][$index]);
         if ($humus) {
-            $factor *= 1 + self::HUMUS_BONUS;
+            $quantity = (int) floor(round($quantity * (1 + self::HUMUS_BONUS), 6));
         }
-        $quantity = (int) floor(round($crop['yields'][$index] * $factor, 6));
         $outputs = [$cropId => $quantity];
-        $nectar = $crop['flower_nectar'][$index] ?? 0;
+        $nectar = $up($crop['flower_nectar'][$index] ?? 0);
         if ($nectar > 0) {
             $outputs['flower_nectar'] = $nectar;
         }

@@ -178,10 +178,10 @@ final class ApiTest extends TestCase
         $this->now += 300;
         $this->action('harvest', ['id' => 'b2'], 2);
 
-        $response = $this->action('sell_barn', ['item' => 'corn', 'quantity' => 15], 3);
+        $response = $this->action('sell_barn', ['item' => 'corn', 'quantity' => 10], 3);
 
         self::assertSame(200, $response->status, json_encode($response->body));
-        self::assertSame(2000 - 16 + 75, $response->body['state']['cash']);
+        self::assertSame(2000 - 16 + 50, $response->body['state']['cash']);
         self::assertSame(4, $response->body['version']);
     }
 

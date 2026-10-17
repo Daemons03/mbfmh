@@ -44,10 +44,10 @@ final class BarnTest extends EngineTestCase
         self::assertSame(2, $this->building('b1')['level']);
         self::assertSame(2000 - 200, $this->state['cash']);
 
-        // 250 per product now: 195 + 15 corn fits.
+        // 250 per product now: 195 + 10 corn fits.
         $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
         $this->act('harvest', ['id' => 'b2'], 300);
-        self::assertSame(['corn' => 210], $this->state['barn']['items']);
+        self::assertSame(['corn' => 205], $this->state['barn']['items']);
     }
 
     public function testUpgradeRules(): void

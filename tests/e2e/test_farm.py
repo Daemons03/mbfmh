@@ -47,7 +47,7 @@ def test_plant_countdown_and_one_tap_harvest(game, farm):
     game.wait_for_selector(".building.field.ready", timeout=10_000)
     tap(game, 3, 0)
     settle(game)
-    assert farm.state()["barn"]["items"] == {"corn": 15}
+    assert farm.state()["barn"]["items"] == {"corn": 10}
     assert game.locator(".xp-text").inner_text().startswith("1 /")
 
 
