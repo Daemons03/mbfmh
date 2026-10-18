@@ -70,7 +70,9 @@ final class MarketUpgradeTest extends EngineTestCase
 
         self::assertSame(0, $this->state['gold'], '100 then 200 gold');
         $this->assertGameError('not_enough_resources', 'upgrade_market', ['track' => 'cash_gold']);
-        self::assertSame(161_061_273_600, $this->data->toArray()['market_upgrades']['tracks']['market_xp_gold']['levels'][29]['cost']['gold']);
+        $marketXpGold = array_column(array_column($this->data->toArray()['market_upgrades']['tracks']['market_xp_gold']['levels'], 'cost'), 'gold');
+        self::assertSame([300, 430, 620], array_slice($marketXpGold, 0, 3));
+        self::assertSame(10_000_000, $marketXpGold[29], 'last level: 10 million gold');
     }
 
     public function testRules(): void

@@ -37150,210 +37150,210 @@
           {
             "level": 2,
             "cost": {
-              "gold": 600
+              "gold": 430
             },
             "bonus": 10
           },
           {
             "level": 3,
             "cost": {
-              "gold": 1200
+              "gold": 620
             },
             "bonus": 15
           },
           {
             "level": 4,
             "cost": {
-              "gold": 2400
+              "gold": 880
             },
             "bonus": 20
           },
           {
             "level": 5,
             "cost": {
-              "gold": 4800
+              "gold": 1300
             },
             "bonus": 25
           },
           {
             "level": 6,
             "cost": {
-              "gold": 9600
+              "gold": 1800
             },
             "bonus": 30
           },
           {
             "level": 7,
             "cost": {
-              "gold": 19200
+              "gold": 2600
             },
             "bonus": 35
           },
           {
             "level": 8,
             "cost": {
-              "gold": 38400
+              "gold": 3700
             },
             "bonus": 40
           },
           {
             "level": 9,
             "cost": {
-              "gold": 76800
+              "gold": 5300
             },
             "bonus": 45
           },
           {
             "level": 10,
             "cost": {
-              "gold": 153600
+              "gold": 7600
             },
             "bonus": 50
           },
           {
             "level": 11,
             "cost": {
-              "gold": 307200
+              "gold": 11000
             },
             "bonus": 55
           },
           {
             "level": 12,
             "cost": {
-              "gold": 614400
+              "gold": 16000
             },
             "bonus": 60
           },
           {
             "level": 13,
             "cost": {
-              "gold": 1228800
+              "gold": 22000
             },
             "bonus": 65
           },
           {
             "level": 14,
             "cost": {
-              "gold": 2457600
+              "gold": 32000
             },
             "bonus": 70
           },
           {
             "level": 15,
             "cost": {
-              "gold": 4915200
+              "gold": 46000
             },
             "bonus": 75
           },
           {
             "level": 16,
             "cost": {
-              "gold": 9830400
+              "gold": 66000
             },
             "bonus": 80
           },
           {
             "level": 17,
             "cost": {
-              "gold": 19660800
+              "gold": 94000
             },
             "bonus": 85
           },
           {
             "level": 18,
             "cost": {
-              "gold": 39321600
+              "gold": 130000
             },
             "bonus": 90
           },
           {
             "level": 19,
             "cost": {
-              "gold": 78643200
+              "gold": 190000
             },
             "bonus": 95
           },
           {
             "level": 20,
             "cost": {
-              "gold": 157286400
+              "gold": 280000
             },
             "bonus": 100
           },
           {
             "level": 21,
             "cost": {
-              "gold": 314572800
+              "gold": 390000
             },
             "bonus": 105
           },
           {
             "level": 22,
             "cost": {
-              "gold": 629145600
+              "gold": 570000
             },
             "bonus": 110
           },
           {
             "level": 23,
             "cost": {
-              "gold": 1258291200
+              "gold": 810000
             },
             "bonus": 115
           },
           {
             "level": 24,
             "cost": {
-              "gold": 2516582400
+              "gold": 1200000
             },
             "bonus": 120
           },
           {
             "level": 25,
             "cost": {
-              "gold": 5033164800
+              "gold": 1700000
             },
             "bonus": 125
           },
           {
             "level": 26,
             "cost": {
-              "gold": 10066329600
+              "gold": 2400000
             },
             "bonus": 130
           },
           {
             "level": 27,
             "cost": {
-              "gold": 20132659200
+              "gold": 3400000
             },
             "bonus": 135
           },
           {
             "level": 28,
             "cost": {
-              "gold": 40265318400
+              "gold": 4900000
             },
             "bonus": 140
           },
           {
             "level": 29,
             "cost": {
-              "gold": 80530636800
+              "gold": 7000000
             },
             "bonus": 145
           },
           {
             "level": 30,
             "cost": {
-              "gold": 161061273600
+              "gold": 10000000
             },
             "bonus": 150
           }
         ]
       }
     },
-    "_note": "Bonus ajouté à chaque contrat livré. Argent : en % du contrat (cash_percent_per_point % par point) ; XP et XP de marché : fixes. Pistes normales : fan site (matériaux, « market certificate » en clés) ; pistes « or » : joueur (coût en or doublé à chaque niveau). Pistes aventure non reprises.",
+    "_note": "Bonus ajouté à chaque contrat livré. Argent : en % du contrat (cash_percent_per_point % par point) ; XP et XP de marché : fixes. Pistes normales : fan site (matériaux, « market certificate » en clés) ; pistes « or » : joueur (coût en or doublé à chaque niveau). Pistes aventure non reprises. « Expérience de marché (or) » : ×1,43 par niveau, de 300 à 10 000 000 d'or (choix du joueur).",
     "cash_percent_per_point": 0.25
   }
 }
