@@ -16,16 +16,16 @@ Un panneau admin permet de modifier librement ressources, niveau et vitesse du t
 ## Stack
 
 - PHP 8.4+, `declare(strict_types=1);`, PSR-12, **sans framework**.
-- MySQL 8 via PDO (requêtes préparées uniquement).
+- MySQL 8 / MariaDB via PDO (requêtes préparées uniquement ; production : MariaDB 11.8).
 - Front : HTML + CSS + JavaScript vanilla (ES modules), sans build.
 - Composer uniquement pour PHPUnit (dev).
-- Serveur cible : Ubuntu + Apache, déploiement Git + bash (script existant côté utilisateur, ne pas en créer sauf demande).
+- Serveur : Debian 13 + Caddy + PHP-FPM (`bfmh.dagniere.com`), déploiement `git pull` (voir `DEPLOY.md`).
 - Mise en ligne : voir `DEPLOY.md` (guide pour l'agent qui a accès au serveur : prérequis, base, config, vhost, HTTPS, accès privé, sauvegardes).
 
 ## Structure
 
 ```
-/public                 ← DocumentRoot Apache
+/public                 ← racine web servie
   index.html            ← jeu
   admin.html            ← panneau admin
   api/index.php         ← routeur API unique
