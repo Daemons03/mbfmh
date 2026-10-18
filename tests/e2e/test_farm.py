@@ -1,7 +1,7 @@
 """Step 6: login, grid, plant, harvest, sell, build, move."""
 import re
 
-from conftest import cell_center, PASSWORD, cash_text, close_sheet, grid_side, login, open_tab, reload, row, settle, tap
+from conftest import cell_center, PASSWORD, cash_text, close_sheet, grid_side, login, open_tab, reload, row, settle, tap, text
 
 
 def test_wrong_password_then_login(page, farm, base_url):
@@ -59,28 +59,48 @@ def test_sell_from_barn(game, farm):
     farm.patch({"barn.items": {"corn": 10}})
     reload(game)
     open_tab(game, "barn")
-    corn = row(game, "Maïs")
-    assert "10 / 200" in corn.inner_text()
+    detail = game.locator(".barn-detail")
+    assert "Maïs" in detail.inner_text(), "first item in stock is chosen"
+    assert "10 / 200" in text(detail)
 
-    corn.get_by_role("button", name=re.compile(r"^Vendre 10 \(\+50")).click()  # all of it by default
+    detail.get_by_role("button", name="Vendre").click()  # all of it by default
     settle(game)
     assert "2 050" in cash_text(game)
     assert farm.state()["barn"]["items"] == {}
-    assert "La grange est vide" in game.locator("#sheet-body").inner_text()
+    assert "aucun en stock" in detail.inner_text()
+    assert game.locator(".tile[title='Maïs'] .tile-qty").inner_text() == "0", "unlocked crops stay listed"
 
 
 def test_sell_a_chosen_quantity_with_the_slider(game, farm):
-    farm.patch({"barn.items": {"corn": 10}})
+    farm.patch({"barn.items": {"corn": 10, "wildflower": 3}})
     reload(game)
     open_tab(game, "barn")
-    corn = row(game, "Maïs")
+    game.locator(".tile[title='Maïs']").click()
+    detail = game.locator(".barn-detail")
 
-    corn.locator("input[type=range]").fill("4")
-    corn.get_by_role("button", name=re.compile(r"^Vendre 4 \(\+20")).click()
+    detail.locator("input[type=range]").fill("4")
+    assert "🌽 4" in text(detail.locator(".sale")) and "20" in text(detail.locator(".sale"))
+    detail.get_by_role("button", name="Vendre").click()
     settle(game)
-    assert farm.state()["barn"]["items"] == {"corn": 6}
+    assert farm.state()["barn"]["items"] == {"corn": 6, "wildflower": 3}
     assert "2 020" in cash_text(game)
-    assert corn.locator("input[type=range]").get_attribute("max") == "6"
+    assert detail.locator("input[type=range]").get_attribute("max") == "6"
+
+
+def test_barn_tabs_sort_products_and_resources(game, farm):
+    farm.patch({"level": 20, "barn.items": {"egg": 5, "corn": 2, "dung": 7, "humus": 1, "rose_seed": 1, "wheat": 4}})
+    reload(game)
+    open_tab(game, "barn")
+
+    titles = game.locator(".tiles.products .tile").evaluate_all("els => els.map(e => e.title)")
+    assert titles[:5] == ["Fleurs sauvages", "Maïs", "Chou", "Blé", "Pissenlit"], "fields first, by unlock level"
+    assert "Œuf" in titles and "Fumier" not in titles
+    assert [t.inner_text() for t in game.locator("#sheet-body .section-title").all()][:2] == ["Champs", "Animaux"]
+
+    game.get_by_role("tab", name="Ressources").click()
+    resources = game.locator(".tiles.resources .tile").evaluate_all("els => els.map(e => e.title)")
+    assert {"Fumier", "Humus", "Graines de roses"} <= set(resources)
+    assert "Œuf" not in resources
 
 
 def ready_field(farm, rotated=False, outputs=None):

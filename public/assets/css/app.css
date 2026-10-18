@@ -604,10 +604,73 @@ svg.mirrored { transform: scaleX(-1); }
     .row-sub { color: #b9cfd9; }
 }
 .row-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-/* Barn: slider for the quantity to sell, then the sell button. */
-.row-actions.sell { align-items: center; flex-wrap: nowrap; min-width: min(100%, 300px); }
-.row-actions.sell input[type="range"] { flex: 1 1 auto; min-width: 0; height: 32px; accent-color: var(--accent); touch-action: pan-y; cursor: pointer; }
-.row-actions.sell .btn { flex: none; white-space: nowrap; }
+/* ------------------------------------------------------------ barn */
+
+/* Two wooden tabs: products / resources. */
+.subtabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; border-bottom: 3px solid var(--card-border); }
+.subtab {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 9px 8px 7px;
+    font: 700 16px var(--font); color: var(--muted);
+    background: color-mix(in srgb, var(--surface) 70%, var(--wood-light));
+    border: 3px solid var(--card-border); border-bottom: 0;
+    border-radius: 12px 12px 0 0;
+    cursor: pointer;
+}
+.subtab.active { background: var(--surface-2); color: var(--text); margin-bottom: -3px; padding-bottom: 10px; }
+.subtab-count {
+    min-width: 22px; padding: 0 6px; border-radius: 999px;
+    font-size: 12px; line-height: 20px; text-align: center;
+    background: var(--card-border); color: #fff;
+}
+
+/* Chosen item: stays on top while the tiles scroll. */
+.barn-detail {
+    position: sticky; top: -14px; z-index: 2;
+    display: grid; gap: 8px;
+    padding: 10px;
+    background: var(--surface-2);
+    border: 3px solid var(--go); border-radius: 14px;
+    box-shadow: 0 4px 10px rgb(60 30 0 / 0.18);
+}
+.detail-head { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: center; }
+.detail-emoji {
+    display: grid; place-items: center;
+    width: 64px; height: 64px; font-size: 40px;
+    background: color-mix(in srgb, var(--border) 60%, transparent); border-radius: 12px;
+}
+.sale {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px;
+    padding: 6px 10px; border-radius: 10px;
+    background: var(--surface); font-size: 18px; font-variant-numeric: tabular-nums;
+}
+.sale .row-sub { margin-left: auto; }
+.sale-arrow { color: var(--muted); font-weight: 700; }
+.sell { display: flex; align-items: center; gap: 10px; }
+.sell input[type="range"] { flex: 1 1 auto; min-width: 0; height: 32px; accent-color: var(--accent); touch-action: pan-y; cursor: pointer; }
+.sell .sell-btn { flex: none; min-width: 110px; }
+
+/* Item tiles: cream products, light blue resources, green frame when chosen. */
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 8px; }
+.tile {
+    position: relative;
+    display: grid; justify-items: center; align-content: center; gap: 2px;
+    aspect-ratio: 1; padding: 4px;
+    font: 700 15px var(--font); color: var(--text); font-variant-numeric: tabular-nums;
+    background: var(--surface-2);
+    border: 3px solid var(--card-border); border-radius: 12px;
+    box-shadow: 0 2px 0 rgb(0 0 0 / 0.12);
+    cursor: pointer;
+}
+.tiles.resources .tile {
+    background:
+        linear-gradient(115deg, rgb(255 255 255 / 0.35) 0 20%, transparent 20% 34%, rgb(255 255 255 / 0.2) 34% 40%, transparent 40%),
+        var(--card);
+}
+.tile-emoji { font-size: 34px; line-height: 1.1; }
+.tile.empty .tile-emoji { filter: grayscale(0.7); opacity: 0.55; }
+.tile.full .tile-qty { color: var(--danger); }
+.tile.selected { border-color: var(--go); box-shadow: 0 0 0 2px var(--go); }
 
 .actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .meter {

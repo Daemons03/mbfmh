@@ -35,6 +35,7 @@ final class Engine
         'buy_tokens' => Actions\BuyTokens::class,
         'start_show_animal' => Actions\StartShowAnimal::class,
         'collect_show_animal' => Actions\CollectShowAnimal::class,
+        'cancel_show_animal' => Actions\CancelShowAnimal::class,
         'upgrade_library' => Actions\UpgradeLibrary::class,
         'upgrade_market' => Actions\UpgradeMarket::class,
     ];

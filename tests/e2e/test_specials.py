@@ -63,6 +63,8 @@ def test_instant_feed_and_special_items_in_the_barn(game, farm):
     farm.patch({"barn.items": {"premium_feed": 3}})
     reload(game)
     open_tab(game, "barn")
-    feed = row(game, "Nourriture premium")
-    assert "objet spécial" in text(feed)
-    assert feed.get_by_role("button").count() == 0, "never sold"
+    game.get_by_role("tab", name="Ressources").click()
+    game.locator(".tile[title='Nourriture premium']").click()
+    detail = game.locator(".barn-detail")
+    assert "Objet spécial" in text(detail)
+    assert detail.get_by_role("button").count() == 0, "never sold"

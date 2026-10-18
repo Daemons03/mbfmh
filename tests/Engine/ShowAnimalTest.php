@@ -126,6 +126,20 @@ final class ShowAnimalTest extends EngineTestCase
         self::assertSame([], $this->state['show']['active']);
     }
 
+    public function testCancelFreesTheSlotAndLosesTheProducts(): void
+    {
+        $this->state['show'] = ['animals' => ['chicken_blue_1' => ['level' => 1, 'cards' => 0]], 'active' => []];
+        $this->assertGameError('no_job', 'cancel_show_animal', ['species' => 'chicken']);
+
+        $this->act('start_show_animal', ['animal' => 'chicken_blue_1', 'duration' => 1]);
+        $this->act('cancel_show_animal', ['species' => 'chicken'], 60);
+        self::assertSame([], $this->state['show']['active']);
+        self::assertSame([], $this->state['barn']['items']);
+
+        $this->act('start_show_animal', ['animal' => 'chicken_blue_1', 'duration' => 0], 60);
+        $this->assertGameError('already_ready', 'cancel_show_animal', ['species' => 'chicken'], 60 + 390);
+    }
+
     public function testActivationRules(): void
     {
         $this->state['show'] = ['animals' => [

@@ -14,7 +14,9 @@ def test_per_product_capacity_display(game, farm):
     body = game.locator("#sheet-body").inner_text()
     assert "200 par produit" in body
     assert "Plein : 🌼 Fleurs sauvages" in body
-    assert "150 / 200" in body
+    assert "200 / 200" in body, "first product shown: wildflowers"
+    game.locator(".tile[title='Maïs']").click()
+    assert "150 / 200" in game.locator(".barn-detail").inner_text()
 
 
 def test_deliver_contract(game, farm):

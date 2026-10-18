@@ -81,6 +81,12 @@ function activeBlock(config, show, view) {
                         `prêt dans ${fmtDuration(remaining)}`))
                     : `${outputs} — prêt !`)),
             h('div', { class: 'row-actions' },
+                remaining > 0 ? h('button', {
+                    type: 'button', class: 'btn',
+                    onclick: () => {
+                        if (confirm(`Arrêter ${animal.name} ? Sa production est perdue.`)) perform('cancel_show_animal', { species: speciesId });
+                    },
+                }, 'Annuler') : null,
                 h('button', {
                     type: 'button', class: 'btn btn-primary', disabled: remaining > 0,
                     onclick: () => perform('collect_show_animal', { species: speciesId }),
