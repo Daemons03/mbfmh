@@ -1,4 +1,5 @@
 import { api, ApiError } from './api.js';
+import { fmtInt } from './format.js';
 import { applyResponse, notify, store } from './store.js';
 import { toast } from './ui/toast.js';
 
@@ -12,8 +13,48 @@ export function setUnauthenticatedHandler(handler) {
  * Sends one game action to the server and applies the answer.
  * Returns true on success. Only one request changes the farm at a time.
  */
-export function perform(type, payload = {}) {
-    return send(() => api.action(type, payload, store.version));
+export async function perform(type, payload = {}) {
+    let refused = null;
+    const done = await send(() => api.action(type, payload, store.version), (error) => {
+        if (!surplusFor(type, payload, error)) return false;
+        refused = error;
+        return true;
+    });
+    // Barn full on a pick up: offer to sell what does not fit instead.
+    if (refused) {
+        const { lines, cash } = surplusFor(type, payload, refused);
+        const emoji = store.data.currencies.cash.emoji;
+        if (confirm(`Grange pleine, ne rentre pas :\n${lines.join('\n')}\n\nVendre ce surplus directement (+${fmtInt(cash)} ${emoji}) ?`)) {
+            return perform(type, { ...payload, sell_surplus: true });
+        }
+    }
+    return done;
+}
+
+/**
+ * What a refused harvest / collect would sell to fit the barn:
+ * { lines: ['12 🌽 Maïs'], cash }, or null when selling cannot help.
+ */
+function surplusFor(type, payload, error) {
+    if (!(error instanceof ApiError) || error.code !== 'barn_full' || payload.sell_surplus) return null;
+    if (type !== 'harvest' && type !== 'collect') return null;
+    const outputs = store.state.buildings.find((b) => b.id === payload.id)?.job?.outputs;
+    if (!outputs) return null;
+
+    const { items } = store.data;
+    const capacity = store.view.barn.capacity;
+    const lines = [];
+    let cash = 0;
+    for (const [id, quantity] of Object.entries(outputs)) {
+        if (items[id].barn_limit === false) continue;
+        const surplus = quantity - Math.max(0, capacity - (store.state.barn.items[id] ?? 0));
+        if (surplus <= 0) continue;
+        if (items[id].sellable === false) return null;
+        lines.push(`${fmtInt(surplus)} ${items[id].emoji} ${items[id].name}`);
+        cash += Math.floor(surplus * items[id].barn_price);
+    }
+
+    return lines.length ? { lines, cash } : null;
 }
 
 /** Same as perform() for admin operations. */
@@ -21,7 +62,8 @@ export function performAdmin(op, payload = {}) {
     return send(() => api.admin(op, payload, store.version));
 }
 
-async function send(request) {
+/** onRefused(error) returns true when it takes care of the error itself. */
+async function send(request, onRefused = () => false) {
     if (store.busy) return false;
     store.busy = true;
     try {
@@ -29,7 +71,7 @@ async function send(request) {
         notify();
         return true;
     } catch (error) {
-        handleError(error);
+        if (!onRefused(error)) handleError(error);
         return false;
     } finally {
         store.busy = false;

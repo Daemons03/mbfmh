@@ -478,10 +478,12 @@ const DESIGNS = {
         if (ctx.building.job) {
             const char = ctx.ready ? ctx.product : '🌱';
             const size = ctx.ready ? 0.42 : 0.28;
-            for (let row = 0; row < 3; row++) {
-                for (let col = 0; col < 5; col++) {
-                    const x = 0.35 + ((w - 0.7) * col) / 4;
-                    const y = 0.3 + ((h - 0.6) * row) / 2;
+            // 5 plants along the long side, 3 across (a turned field is h x w)
+            const [cols, rows] = w >= h ? [5, 3] : [3, 5];
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const x = 0.35 + ((w - 0.7) * col) / (cols - 1);
+                    const y = 0.3 + ((h - 0.6) * row) / (rows - 1);
                     c.emoji(x, y, char, size, 0, { class: ctx.ready ? 'sway' : null });
                 }
             }
@@ -731,7 +733,10 @@ const DESIGNS = {
             if (t >= 2) c.pen(0.06, t === 3 ? 'picket' : 'wood', 0.18)();
         }
         if (ctx.building.job) {
-            for (const [x, y] of [[0.7, 0.45], [1.5, 0.9], [2.3, 1.45], [1.0, 1.4]]) c.emoji(x, y, ctx.product ?? '🌸', 0.38, 0.05, { class: ctx.ready ? 'sway' : null });
+            for (const [x, y] of [[0.7, 0.45], [1.5, 0.9], [2.3, 1.45], [1.0, 1.4]]) {
+                const [px, py] = w >= h ? [x, y] : [y, x]; // turned meadow
+                c.emoji(px, py, ctx.product ?? '🌸', 0.38, 0.05, { class: ctx.ready ? 'sway' : null });
+            }
         }
     },
 
@@ -1024,10 +1029,12 @@ const TYPES = {
 /**
  * <svg> for a building on the map. Returns { svg, top } where top is the room
  * above the footprint (in local units) so the caller can position it.
+ * `rotated` draws on the turned footprint (h x w): overlays only, as a whole
+ * drawing is mirrored instead.
  */
-export function buildingArt(building, def, { working = false, ready = false, product = null, overlay = false, top: forcedTop = null } = {}) {
+export function buildingArt(building, def, { working = false, ready = false, product = null, overlay = false, rotated = false, top: forcedTop = null } = {}) {
     const base = def.variant_of ?? building.type;
-    const [w, h] = def.size;
+    const [w, h] = rotated ? [def.size[1], def.size[0]] : def.size;
     const [design, options, defaultTop] = TYPES[base] ?? (def.kind === 'decoration' ? ['decoration', {}, 1.3] : ['generic', {}, 1.8]);
     const top = forcedTop ?? defaultTop;
     const c = new Canvas(w, h, top);

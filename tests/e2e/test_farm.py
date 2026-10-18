@@ -1,4 +1,6 @@
 """Step 6: login, grid, plant, harvest, sell, build, move."""
+import re
+
 from conftest import cell_center, PASSWORD, cash_text, close_sheet, grid_side, login, open_tab, reload, row, settle, tap
 
 
@@ -58,11 +60,75 @@ def test_sell_from_barn(game, farm):
     corn = row(game, "Maïs")
     assert "10 / 200" in corn.inner_text()
 
-    corn.get_by_role("button", name="Tout").click()
+    corn.get_by_role("button", name=re.compile(r"^Vendre 10 \(\+50")).click()  # all of it by default
     settle(game)
     assert "2 050" in cash_text(game)
     assert farm.state()["barn"]["items"] == {}
     assert "La grange est vide" in game.locator("#sheet-body").inner_text()
+
+
+def test_sell_a_chosen_quantity_with_the_slider(game, farm):
+    farm.patch({"barn.items": {"corn": 10}})
+    reload(game)
+    open_tab(game, "barn")
+    corn = row(game, "Maïs")
+
+    corn.locator("input[type=range]").fill("4")
+    corn.get_by_role("button", name=re.compile(r"^Vendre 4 \(\+20")).click()
+    settle(game)
+    assert farm.state()["barn"]["items"] == {"corn": 6}
+    assert "2 020" in cash_text(game)
+    assert corn.locator("input[type=range]").get_attribute("max") == "6"
+
+
+def ready_field(farm, rotated=False, outputs=None):
+    """Starter field b2 at (2, 0) ready to harvest corn; b3 moved away so b2 can turn to 2 x 3."""
+    buildings = farm.state()["buildings"]
+    for b in buildings:
+        if b["id"] == "b3":
+            b["x"], b["y"] = 5, 0
+        if b["id"] == "b2":
+            b["job"] = {"product": "corn", "started_at": 1, "duration": 1, "outputs": outputs or {"corn": 10}, "xp": 1}
+            if rotated:
+                b["rotated"] = True
+    farm.patch({"buildings": buildings})
+
+
+def test_harvest_offers_to_sell_what_does_not_fit(game, farm):
+    ready_field(farm)
+    farm.patch({"barn.items": {"corn": 195}})
+    reload(game)
+    messages = []
+    game.on("dialog", lambda d: messages.append(d.message))  # accepted by the page fixture
+
+    tap(game, 3, 0)
+    settle(game)
+    settle(game)
+    assert "5 🌽 Maïs" in messages[0] and "+25" in messages[0]
+    state = farm.state()
+    assert state["barn"]["items"] == {"corn": 200}
+    assert state["cash"] == 2000 + 25
+    assert "job" not in next(b for b in state["buildings"] if b["id"] == "b2")
+
+
+def test_crops_follow_a_rotated_field(game, farm):
+    ready_field(farm, rotated=True)
+    reload(game)
+    # Every crop drawn on the picture sits on the 2 x 3 diamond of the turned field.
+    outside = game.evaluate("""() => {
+        const svg = [...document.querySelectorAll('.building[data-id=b2] svg:not(.hit)')].find((s) => s.querySelector('text'));
+        const [, , vw, vh] = svg.getAttribute('viewBox').split(' ').map(Number);
+        const [w, h] = [2, 3], top = vh - (w + h) / 2;
+        const poly = [[0, top + h / 2], [h, top], [w + h, top + w / 2], [w, top + (w + h) / 2]];
+        const inside = ([x, y]) => poly.every(([ax, ay], i) => {
+            const [bx, by] = poly[(i + 1) % 4];
+            return (bx - ax) * (y - ay) - (by - ay) * (x - ax) >= -0.01;
+        });
+        return [...svg.querySelectorAll('text')]
+            .map((t) => [Number(t.getAttribute('x')), Number(t.getAttribute('y'))])
+            .filter((p) => !inside(p)).length + (vw === w + h ? 0 : 100);
+    }""")
+    assert outside == 0
 
 
 def test_build_with_placement_mode_and_build_here(game, farm):

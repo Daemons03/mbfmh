@@ -161,6 +161,19 @@ final class ProductionTest extends EngineTestCase
         self::assertArrayHasKey('job', $this->building('b5'), 'eggs wait in the coop');
     }
 
+    public function testCollectSellingTheSurplus(): void
+    {
+        $this->state['barn']['items'] = ['chicken_feed' => 10, 'egg' => 195];
+        $this->act('start_production', ['id' => 'b5']);
+        $cash = $this->state['cash'];
+
+        $this->act('collect', ['id' => 'b5', 'sell_surplus' => true], 390);
+
+        self::assertSame(['egg' => 200, 'dung' => 7], $this->state['barn']['items'], '5 eggs fit, dung is not limited');
+        self::assertSame($cash + (int) floor(16 * $this->data->item('egg')['barn_price']), $this->state['cash']);
+        self::assertArrayNotHasKey('job', $this->building('b5'));
+    }
+
     public function testDungFeedFertilizerHumusAndLeavesAreNotLimited(): void
     {
         $this->state['barn']['items'] = ['chicken_feed' => 5000, 'dung' => 5000];

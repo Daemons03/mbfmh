@@ -398,6 +398,29 @@ final class Farm
         $this->state['barn']['items'] = $stock;
     }
 
+    /**
+     * Stores what fits and sells the rest at barn price. Products that cannot
+     * be sold still make the whole thing refused when they do not fit.
+     *
+     * @param array<string, int> $items
+     */
+    public function addToBarnSellingSurplus(array $items): void
+    {
+        $capacity = $this->barnCapacity();
+        $cash = 0;
+        foreach ($items as $item => $quantity) {
+            $surplus = $this->isBarnLimited($item) ? $quantity - max(0, $capacity - $this->barnQuantity($item)) : 0;
+            if ($surplus <= 0 || ($this->data->item($item)['sellable'] ?? true) === false) {
+                continue;
+            }
+            $items[$item] -= $surplus;
+            $cash += (int) floor($surplus * $this->data->item($item)['barn_price']);
+        }
+
+        $this->addToBarn(array_filter($items));
+        $this->gain(['cash' => $cash]);
+    }
+
     public function removeFromBarn(string $item, int $quantity): void
     {
         $have = $this->barnQuantity($item);

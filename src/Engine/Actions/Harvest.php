@@ -11,8 +11,9 @@ use FermeTranquille\Engine\GameError;
 use FermeTranquille\Engine\Payload;
 
 /**
- * payload: { id } — the whole harvest (crop + flower nectar) goes to the barn, or
- * nothing does; golden flowers pay their gold.
+ * payload: { id, sell_surplus? } — the whole harvest (crop + flower nectar) goes
+ * to the barn, or nothing does; with sell_surplus, what does not fit is sold at
+ * barn price instead. Golden flowers pay their gold.
  */
 final class Harvest implements Action
 {
@@ -33,9 +34,14 @@ final class Harvest implements Action
             $farm->gain($job['reward']);
         } else {
             // Jobs planted before per-level yields stored no outputs: compute them now.
-            $farm->addToBarn($job['outputs'] ?? Crop::harvest(
+            $outputs = $job['outputs'] ?? Crop::harvest(
                 $farm->data, $job['product'], $field['type'], $field['level'], empty($job['humus']) ? 0.0 : Crop::HUMUS_BONUS,
-            ));
+            );
+            if ($payload->has('sell_surplus') && $payload->bool('sell_surplus')) {
+                $farm->addToBarnSellingSurplus($outputs);
+            } else {
+                $farm->addToBarn($outputs);
+            }
         }
         $farm->addXp($job['xp'] ?? $farm->data->crop($job['product'])['xp']);
 

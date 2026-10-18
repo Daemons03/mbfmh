@@ -36,6 +36,32 @@ final class BarnTest extends EngineTestCase
         $this->assertGameError('invalid_payload', 'sell_barn', ['item' => 'corn', 'quantity' => '2']);
     }
 
+    public function testHarvestSellingTheSurplus(): void
+    {
+        $this->state['barn']['items'] = ['corn' => 196];
+        $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
+        $this->assertGameError('barn_full', 'harvest', ['id' => 'b2'], 300);
+        $cash = $this->state['cash'];
+
+        $this->act('harvest', ['id' => 'b2', 'sell_surplus' => true], 300);
+
+        self::assertSame(['corn' => 200], $this->state['barn']['items']);
+        self::assertSame($cash + 6 * 5, $this->state['cash'], '6 corn sold at 5');
+        self::assertArrayNotHasKey('job', $this->building('b2'));
+    }
+
+    public function testSurplusSaleOnlyWhenAsked(): void
+    {
+        $this->state['barn']['items'] = ['corn' => 10];
+        $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
+        $cash = $this->state['cash'];
+
+        $this->act('harvest', ['id' => 'b2', 'sell_surplus' => true], 300);
+
+        self::assertSame(['corn' => 20], $this->state['barn']['items'], 'everything fits: nothing sold');
+        self::assertSame($cash, $this->state['cash']);
+    }
+
     public function testUpgradeBarnRaisesCapacity(): void
     {
         $this->state['barn']['items'] = ['corn' => 195];

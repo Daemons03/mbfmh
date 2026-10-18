@@ -604,6 +604,10 @@ svg.mirrored { transform: scaleX(-1); }
     .row-sub { color: #b9cfd9; }
 }
 .row-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+/* Barn: slider for the quantity to sell, then the sell button. */
+.row-actions.sell { align-items: center; flex-wrap: nowrap; min-width: min(100%, 300px); }
+.row-actions.sell input[type="range"] { flex: 1 1 auto; min-width: 0; height: 32px; accent-color: var(--accent); touch-action: pan-y; cursor: pointer; }
+.row-actions.sell .btn { flex: none; white-space: nowrap; }
 
 .actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .meter {
