@@ -32,7 +32,7 @@ def test_plant_countdown_and_one_tap_harvest(game, farm):
     row(game, "Maïs").get_by_role("button", name="Planter").click()
     game.wait_for_selector("#sheet", state="hidden")  # the panel closes once planted
     tap(game, 3, 0)
-    countdown = game.locator("#sheet [data-ready-at]")
+    countdown = game.locator("#sheet [data-ready-at][data-format=long]")
     countdown.wait_for()
     first = countdown.inner_text()
     game.wait_for_timeout(2100)
@@ -131,6 +131,30 @@ def test_crops_follow_a_rotated_field(game, farm):
             .filter((p) => !inside(p)).length + (vw === w + h ? 0 : 100);
     }""")
     assert outside == 0
+
+
+def test_cancel_then_speed_up_a_crop(game, farm):
+    tap(game, 3, 0)
+    row(game, "Maïs").get_by_role("button", name="Planter").click()
+    game.wait_for_selector("#sheet", state="hidden")
+    cash = farm.state()["cash"]
+
+    tap(game, 3, 0)
+    game.get_by_role("button", name="Annuler").click()  # confirm accepted by the page fixture
+    row(game, "Maïs").wait_for()  # the field can be planted again
+    state = farm.state()
+    assert "job" not in next(b for b in state["buildings"] if b["id"] == "b2")
+    assert state["cash"] == cash, "nothing refunded"
+
+    row(game, "Maïs").get_by_role("button", name="Planter").click()
+    game.wait_for_selector("#sheet", state="hidden")
+    tap(game, 3, 0)
+    speed = game.get_by_role("button", name=re.compile("Accélérer"))
+    assert re.search(r"\(20 ", speed.inner_text()), "corn: 2 min left, 10 gold a minute"
+    speed.click()
+    game.get_by_role("button", name=re.compile("^Récolter")).wait_for()
+    assert farm.state()["gold"] == 50 - 20
+    assert farm.log() == ["plant", "cancel_job", "plant", "speed_up"]
 
 
 def test_build_with_placement_mode_and_build_here(game, farm):

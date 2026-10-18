@@ -174,6 +174,22 @@ final class ProductionTest extends EngineTestCase
         self::assertArrayNotHasKey('job', $this->building('b5'));
     }
 
+    public function testCancelAndSpeedUpAProduction(): void
+    {
+        $this->state['barn']['items'] = ['chicken_feed' => 20];
+        $this->act('start_production', ['id' => 'b5']); // 6 min 30
+        $this->act('cancel_job', ['id' => 'b5'], 10);
+        self::assertSame(['chicken_feed' => 10], $this->state['barn']['items'], 'feed lost');
+        self::assertArrayNotHasKey('job', $this->building('b5'));
+
+        $this->state['gold'] = 100;
+        $this->act('start_production', ['id' => 'b5'], 10);
+        $this->act('speed_up', ['id' => 'b5'], 10); // 6 min 30 left: 7 started minutes
+        self::assertSame(100 - 70, $this->state['gold']);
+        $this->act('collect', ['id' => 'b5'], 10);
+        self::assertSame(['egg' => 21, 'dung' => 7], $this->state['barn']['items']);
+    }
+
     public function testDungFeedFertilizerHumusAndLeavesAreNotLimited(): void
     {
         $this->state['barn']['items'] = ['chicken_feed' => 5000, 'dung' => 5000];

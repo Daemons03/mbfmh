@@ -118,6 +118,8 @@ Toutes les réponses : `{ ok, state?, server_now, error? }`. POST protégés par
 
 Types d'action V1 : `build`, `move`, `demolish`, `plant`, `harvest`, `start_production`, `collect`, `sell_barn`, `fulfill_contract`, `discard_contract`, `buy_expansion`, `upgrade`.
 
+Productions en cours (champ, bâtiment de production) : `cancel_job { id }` annule, tout ce qui a été engagé est perdu ; `speed_up { id }` rend prêt tout de suite contre de l'or : `speed_up.gold_per_minute` (10) par minute restante entamée, 10 au minimum.
+
 Opérations admin : `set_resources` (cash, or, matériaux, objets de grange — peut dépasser la capacité), `set_level` (+ xp optionnel), `set_speed` (0,1 à 1 000), `finish_all_jobs` (productions et contrats en attente), `unlock_all` (niveau max + tout le terrain), `reset_farm`, `set_tournament_curve`, `finish_tournament_week`. Interface : onglet Admin du jeu et `public/admin.html` (même composant `ui/admin.js`).
 
 ## Règles de jeu V1

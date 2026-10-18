@@ -63,6 +63,9 @@ final class GameDataValidator
         if (isset($this->data['boosts'])) {
             $this->checkBoosts();
         }
+        if (isset($this->data['speed_up'])) {
+            $this->positiveNumber($this->data['speed_up']['gold_per_minute'] ?? null, 'speed_up.gold_per_minute');
+        }
         if (isset($this->data['tournament'])) {
             $this->checkTournamentRewards();
         }

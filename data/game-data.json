@@ -37572,6 +37572,10 @@
     "_note": "Bonus ajouté à chaque contrat livré. Argent : en % du contrat (cash_percent_per_point % par point) ; XP et XP de marché : fixes. Pistes normales : fan site (matériaux, « market certificate » en clés) ; pistes « or » : joueur (coût en or doublé à chaque niveau). Pistes aventure non reprises. « Expérience de marché (or) » : ×1,43 par niveau, de 300 à 10 000 000 d'or (choix du joueur).",
     "cash_percent_per_point": 0.25
   },
+  "speed_up": {
+    "gold_per_minute": 10,
+    "_note": "Accélérer une production en cours (champ, bâtiment) : 10 or par minute restante entamée, 10 or au minimum. Annuler : tout ce qui a été engagé est perdu."
+  },
   "boosts": {
     "feed": {
       "inputs": [

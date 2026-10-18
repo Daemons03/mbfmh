@@ -85,3 +85,8 @@ export function footprintOf(type, rotated = false) {
 export function productEmoji(product) {
     return store.data.items[product]?.emoji ?? store.data.special_crops?.[product]?.emoji ?? null;
 }
+
+/** Gold to finish a job now: speed_up.gold_per_minute per started minute left, one minute at least. */
+export function speedUpCost(remaining) {
+    return (store.data.speed_up?.gold_per_minute ?? 10) * Math.max(1, Math.ceil(remaining / 60));
+}

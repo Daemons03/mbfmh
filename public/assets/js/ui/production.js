@@ -1,7 +1,7 @@
 import { perform } from '../actions.js';
 import { h } from '../dom.js';
 import { fmtCost, fmtDuration, fmtInt } from '../format.js';
-import { canAfford, jobStatus, productionCost, store } from '../store.js';
+import { canAfford, jobStatus, productionCost, speedUpCost, store } from '../store.js';
 import { refreshSheet } from './sheet.js';
 
 /** Chosen number of batches per "buildingId:recipe", kept while the panel re-renders. */
@@ -53,7 +53,36 @@ function jobBlock(building) {
             h('strong', { dataset: { readyAt: status.readyAt, format: 'long', prefix: 'prêt dans ' } },
                 `prêt dans ${fmtDuration(status.remaining)}`)),
         itemChips(job.outputs),
+        jobControls(building, status),
     ];
+}
+
+/**
+ * Buttons under a running job (field or production building): finish it now
+ * for gold (price follows the countdown), or cancel it and lose what it took.
+ */
+export function jobControls(building, status) {
+    const gold = store.data.currencies.gold.emoji;
+    const cost = speedUpCost(status.remaining);
+
+    return h('div', { class: 'actions' },
+        h('button', {
+            type: 'button',
+            class: 'btn btn-primary',
+            disabled: store.state.gold < cost,
+            title: store.state.gold < cost ? "Pas assez d'or" : null,
+            onclick: () => perform('speed_up', { id: building.id }),
+        }, '⚡ Accélérer (',
+        h('span', { dataset: { readyAt: status.readyAt, format: 'speed-up' } }, fmtInt(cost)), ` ${gold})`),
+        h('button', {
+            type: 'button',
+            class: 'btn',
+            onclick: () => {
+                if (confirm('Annuler cette production ? Tout ce qui a été engagé (cash, semences, humus, nourriture, engrais, ingrédients) est perdu.')) {
+                    perform('cancel_job', { id: building.id });
+                }
+            },
+        }, 'Annuler'));
 }
 
 function recipeCard(building, id, recipe, mode) {

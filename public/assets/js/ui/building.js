@@ -4,7 +4,7 @@ import { buildingPicture } from '../sprites.js';
 import { h } from '../dom.js';
 import { fmtCost, fmtDuration, fmtInt } from '../format.js';
 import { buildingById, canAfford, definition, footprintOf, jobStatus, productEmoji, productionCost, store, workersNeeded } from '../store.js';
-import { productionBlock } from './production.js';
+import { jobControls, productionBlock } from './production.js';
 import { closeSheet, refreshSheet } from './sheet.js';
 
 /**
@@ -93,9 +93,12 @@ function jobStatusBlock(building) {
                 : `Récolter (+${fmtInt(building.job.outputs?.[building.job.product] ?? 0)})`));
     }
 
-    return h('p', { class: 'status' }, `${label} — `,
-        h('strong', { dataset: { readyAt: status.readyAt, format: 'long', prefix: 'prêt dans ' } },
-            `prêt dans ${fmtDuration(status.remaining)}`));
+    return [
+        h('p', { class: 'status' }, `${label} — `,
+            h('strong', { dataset: { readyAt: status.readyAt, format: 'long', prefix: 'prêt dans ' } },
+                `prêt dans ${fmtDuration(status.remaining)}`)),
+        jobControls(building, status),
+    ];
 }
 
 /** Humus choice ('none', 'humus', 'premium', 'instant'), kept while the panel re-renders. */

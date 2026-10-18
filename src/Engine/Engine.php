@@ -27,6 +27,8 @@ final class Engine
         'start_production' => Actions\StartProduction::class,
         'collect' => Actions\Collect::class,
         'collect_all' => Actions\CollectAll::class,
+        'cancel_job' => Actions\CancelJob::class,
+        'speed_up' => Actions\SpeedUp::class,
         'buy_expansion' => Actions\BuyExpansion::class,
         'serve_cafe' => Actions\ServeCafe::class,
         'open_chest' => Actions\OpenChest::class,

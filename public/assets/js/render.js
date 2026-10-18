@@ -3,7 +3,7 @@ import { fmtDuration, fmtInt, fmtNumber, fmtShort } from './format.js';
 import { buildingArt, hasOverlay, outsideArt, pennant, s, tierOf } from './art.js';
 import { needsMirror, spriteBox, spriteFor, spriteUrl } from './sprites.js';
 import { buildingBox, cellTop, DEPTH, footprintPoints, layout, mapSize, outsideLot } from './iso.js';
-import { buildingById, definition, footprintOf, jobStatus, productEmoji, serverNow, store } from './store.js';
+import { buildingById, definition, footprintOf, jobStatus, productEmoji, serverNow, speedUpCost, store } from './store.js';
 import { canFulfill } from './ui/market.js';
 
 export function renderTopbar() {
@@ -449,7 +449,9 @@ export function tickCountdowns(now) {
             becameReady = true;
             continue;
         }
-        el.textContent = el.dataset.format === 'long' ? `${el.dataset.prefix ?? ''}${fmtDuration(remaining)}` : fmtShort(remaining);
+        el.textContent = el.dataset.format === 'long' ? `${el.dataset.prefix ?? ''}${fmtDuration(remaining)}`
+            : el.dataset.format === 'speed-up' ? fmtInt(speedUpCost(remaining))
+                : fmtShort(remaining);
     }
 
     return becameReady;
