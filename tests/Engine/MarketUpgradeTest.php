@@ -40,21 +40,37 @@ final class MarketUpgradeTest extends EngineTestCase
 
     public function testEveryDeliveredContractGetsTheBonus(): void
     {
-        $this->state['market_upgrades'] = ['cash' => 2, 'xp' => 1, 'boards' => 1, 'scrolls' => 3];
+        // Cash: 10 + 5 (gold) = 15 points x 0.25 % = 3.75 % of the contract; XP, market XP and materials are flat.
+        $this->state['market_upgrades'] = ['cash' => 2, 'cash_gold' => 1, 'xp' => 1, 'xp_gold' => 1, 'market_xp_gold' => 2, 'boards' => 1, 'scrolls' => 3];
         $contract = $this->state['contracts'][0];
+        $contract['reward']['cash'] = 2000; // a bigger contract, so the percentage shows
+        $this->state['contracts'][0] = $contract;
         $this->state['barn']['items'] = ['wildflower' => 100, 'corn' => 100];
         $materials = $this->state['materials'];
 
         $this->act('fulfill_contract', ['id' => $contract['id']]);
 
-        self::assertSame(2000 + $contract['reward']['cash'] + 10, $this->state['cash']);
-        self::assertSame($contract['reward']['xp'] + 2, $this->state['xp']);
+        self::assertSame(2000 + 2000 + 75, $this->state['cash']);
+        self::assertSame($contract['reward']['xp'] + 2 + 3, $this->state['xp']);
+        self::assertSame($contract['reward']['market_xp'] + 10, $this->state['market_xp']);
         self::assertSame($materials['boards'] + ($contract['reward']['materials']['boards'] ?? 0) + 2, $this->state['materials']['boards']);
         self::assertSame($materials['scrolls'] + ($contract['reward']['materials']['scrolls'] ?? 0) + 6, $this->state['materials']['scrolls']);
 
         $view = $this->engine->view($this->state, self::NOW);
-        self::assertSame(10, $view['market']['bonus']['cash']);
+        self::assertSame(3.75, $view['market']['bonus']['cash_percent']);
+        self::assertSame(10, $view['market']['bonus']['market_xp']);
         self::assertEquals((object) ['boards' => 2, 'scrolls' => 6], $view['market']['bonus']['materials']);
+    }
+
+    public function testGoldTracksDoubleTheirPrice(): void
+    {
+        $this->state['gold'] = 300;
+        $this->act('upgrade_market', ['track' => 'cash_gold']);
+        $this->act('upgrade_market', ['track' => 'cash_gold']);
+
+        self::assertSame(0, $this->state['gold'], '100 then 200 gold');
+        $this->assertGameError('not_enough_resources', 'upgrade_market', ['track' => 'cash_gold']);
+        self::assertSame(161_061_273_600, $this->data->toArray()['market_upgrades']['tracks']['market_xp_gold']['levels'][29]['cost']['gold']);
     }
 
     public function testRules(): void
@@ -82,18 +98,28 @@ final class MarketUpgradeTest extends EngineTestCase
     public function testDeliveriesRaiseTheMarketLevel(): void
     {
         $this->state['barn']['items'] = ['wildflower' => 200, 'corn' => 200];
-        self::assertSame(['level' => 1, 'xp' => 0, 'needed' => 40], $this->engine->view($this->state, self::NOW)['market']['level']);
+        self::assertSame(['level' => 1, 'xp' => 0, 'needed' => 1800], $this->engine->view($this->state, self::NOW)['market']['level']);
 
-        $this->act('fulfill_contract', ['id' => $this->state['contracts'][0]['id']]);
-        self::assertSame(10, $this->state['market_xp'], 'base market XP per contract');
+        $contract = $this->state['contracts'][0];
+        $this->act('fulfill_contract', ['id' => $contract['id']]);
+        self::assertSame($contract['reward']['market_xp'], $this->state['market_xp']);
 
-        $this->state['market_upgrades'] = ['market_xp' => 2]; // +3
-        $this->act('fulfill_contract', ['id' => $this->state['contracts'][1]['id']]);
-        self::assertSame(23, $this->state['market_xp']);
+        $this->state['market_xp'] = 7_205; // level 3 starts at 1 800 x 2² = 7 200
+        self::assertSame(['level' => 3, 'xp' => 5, 'needed' => 9_000], $this->engine->view($this->state, self::NOW)['market']['level']);
 
-        $this->state['market_xp'] = 155;
-        $view = $this->engine->view($this->state, self::NOW)['market'];
-        self::assertSame(['level' => 3, 'xp' => 5, 'needed' => 170], $view['level']);
-        self::assertSame(13, $view['xp_per_contract']);
+        $this->state['market_xp'] = 38_784_880; // the player's market, level 147
+        self::assertSame(147, $this->engine->view($this->state, self::NOW)['market']['level']['level']);
+    }
+
+    public function testOldContractsGetTheirMarketXpAtDelivery(): void
+    {
+        $contract = $this->state['contracts'][0];
+        unset($contract['reward']['market_xp']);
+        $this->state['contracts'][0] = $contract;
+        $this->state['barn']['items'] = ['wildflower' => 200, 'corn' => 200];
+
+        $this->act('fulfill_contract', ['id' => $contract['id']]);
+
+        self::assertSame(\FermeTranquille\Engine\Market::marketXpFor($this->data, $contract['reward']['cash']), $this->state['market_xp']);
     }
 }

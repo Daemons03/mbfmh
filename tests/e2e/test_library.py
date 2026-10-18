@@ -43,14 +43,18 @@ def test_market_upgrade_adds_a_contract_and_a_bonus(game, farm):
     assert game.locator(".contract").count() == 7
     row(game, "Argent — niv. 0 / 60").get_by_role("button", name="Améliorer").click()
     settle(game)
-    assert "+5 💵 par contrat" in text(row(game, "Argent — niv. 1 / 60"))
+    assert "+1,25 % 💵 par contrat" in text(row(game, "Argent — niv. 1 / 60")), "5 points x 0.25 %"
 
     contract = farm.state()["contracts"][0]
-    expected = f"{contract['reward']['cash'] + 5:,}".replace(",", " ")
-    assert f"+{expected} 💵" in text(game.locator(".contract").first)
+    bonus = int(contract["reward"]["cash"] * 1.25 / 100 + 0.5)
+    expected = f"{contract['reward']['cash'] + bonus:,}".replace(",", " ")
+    card = text(game.locator(".contract").first)
+    assert f"+{expected} 💵" in card
+    assert f"+{contract['reward']['market_xp']} XP marché" in card
     game.locator(".contract").first.get_by_role("button", name="Livrer").click()
     settle(game)
 
     state = farm.state()
     assert state["market_upgrades"] == {"contracts": 1, "cash": 1}
-    assert state["cash"] == 2000 + contract["reward"]["cash"] + 5
+    assert state["cash"] == 2000 + contract["reward"]["cash"] + bonus
+    assert state["market_xp"] == contract["reward"]["market_xp"]

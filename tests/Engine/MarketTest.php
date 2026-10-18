@@ -39,28 +39,46 @@ final class MarketTest extends EngineTestCase
             $cash = 0.0;
             foreach ($contract['items'] as $item => $quantity) {
                 self::assertContains($item, ['wildflower', 'corn']);
-                self::assertGreaterThanOrEqual($market['quantity_per_product'][0], $quantity);
-                self::assertLessThanOrEqual($market['quantity_per_product'][1], $quantity);
+                self::assertGreaterThanOrEqual(3, $quantity, 'level 1: 3 to 10 of each');
+                self::assertLessThanOrEqual(10, $quantity);
                 $cash += $quantity * $this->data->item($item)['market_price'];
             }
             self::assertSame((int) round($cash), $contract['reward']['cash']);
             self::assertSame(max(1, (int) round($cash * $market['xp_per_cash'])), $contract['reward']['xp']);
+            self::assertSame(max(1, (int) round(0.055 * $contract['reward']['cash'] ** 0.87)), $contract['reward']['market_xp']);
 
-            foreach ($contract['reward']['materials'] ?? [] as $material => $quantity) {
-                self::assertContains($material, $market['material_reward']['materials']);
-                self::assertGreaterThanOrEqual(1, $quantity);
-                self::assertLessThanOrEqual(3, $quantity);
+            self::assertCount(1, $contract['reward']['materials'], 'always one material');
+            foreach ($contract['reward']['materials'] as $material => $quantity) {
+                self::assertArrayHasKey($material, $market['material_reward']['materials']);
+                self::assertSame(1, $quantity, 'small contracts: 1');
             }
         }
     }
 
-    public function testSomeContractsGiveMaterials(): void
+    public function testBiggerFarmsGetBiggerContracts(): void
     {
-        $withMaterials = array_filter($this->manyContracts(200), static fn (array $c): bool => isset($c['reward']['materials']));
+        $market = new \FermeTranquille\Engine\Market($this->data);
+        self::assertSame([3, 10], $market->quantityRange(1));
+        self::assertSame([57, 190], $market->quantityRange(151), 'about 100 at level 150');
 
-        // 30 % chance: between 15 % and 45 % over 200 draws.
-        self::assertGreaterThan(30, count($withMaterials));
-        self::assertLessThan(90, count($withMaterials));
+        // Market XP of the real contracts the formula comes from.
+        self::assertSame(29, \FermeTranquille\Engine\Market::marketXpFor($this->data, 1326));
+        self::assertEqualsWithDelta(380, \FermeTranquille\Engine\Market::marketXpFor($this->data, 17935), 110);
+        self::assertEqualsWithDelta(498, \FermeTranquille\Engine\Market::marketXpFor($this->data, 34563), 110);
+    }
+
+    public function testMaterialsFollowTheContractValue(): void
+    {
+        $this->state['level'] = 151;
+        $this->state['contracts'] = [];
+        $this->state['barn']['items'] = [];
+        $this->state = $this->decode($this->engine->resolve($this->state, self::NOW));
+
+        foreach ($this->state['contracts'] as $contract) {
+            [$material, $quantity] = [array_key_first($contract['reward']['materials']), current($contract['reward']['materials'])];
+            $factor = $this->data->market()['material_reward']['materials'][$material];
+            self::assertSame(max(1, (int) round($contract['reward']['cash'] * 0.01 * $factor)), $quantity);
+        }
     }
 
     public function testGenerationIsDeterministic(): void

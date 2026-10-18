@@ -7,8 +7,9 @@ namespace FermeTranquille\Engine;
 use FermeTranquille\GameData;
 
 /**
- * Market upgrades: tracks bought level by level. Each one improves every
- * delivered contract (cash, XP or a material) or adds contract slots.
+ * Market upgrades: tracks bought level by level (materials, or gold for the
+ * "or" tracks). Each one improves every delivered contract (cash %, XP,
+ * market XP or a material) or adds contract slots.
  * levels[n - 1].bonus is the total at level n. State: market_upgrades = {track: level}.
  */
 final readonly class MarketUpgrades
@@ -54,33 +55,44 @@ final readonly class MarketUpgrades
         return ['cash' => $total['cash'], 'xp' => $total['xp'], 'market_xp' => $total['market_xp'], 'materials' => $total['materials']];
     }
 
-    /** Market XP of one delivered contract: the base plus the market XP upgrade. */
-    public function marketXpPerContract(Farm $farm): int
+    /**
+     * What a delivered contract pays on top of its reward: cash is a
+     * percentage of the contract (cash_percent_per_point per point), XP and
+     * market XP are flat, materials come from their tracks.
+     *
+     * @param array<string, mixed> $reward the contract's own reward
+     * @return array{cash: int, xp: int, market_xp: int, materials: array<string, int>}
+     */
+    public function extraFor(Farm $farm, array $reward): array
     {
-        return ($this->data->market()['market_xp']['per_contract'] ?? 0) + $this->contractBonus($farm)['market_xp'];
+        $bonus = $this->contractBonus($farm);
+        $bonus['cash'] = (int) round($reward['cash'] * $bonus['cash'] * $this->cashPercentPerPoint() / 100);
+
+        return $bonus;
+    }
+
+    public function cashPercentPerPoint(): float
+    {
+        return (float) ($this->data->toArray()['market_upgrades']['cash_percent_per_point'] ?? 0);
     }
 
     /**
-     * Market level from the total market XP; levels[n - 1] is the total
-     * needed to reach level n + 1.
+     * Market level: level n + 1 needs level_step × n² market XP in total
+     * (no top level).
      *
-     * @return array{level: int, xp: int, needed: int|null}
+     * @return array{level: int, xp: int, needed: int}
      */
     public function marketLevel(Farm $farm): array
     {
-        $thresholds = $this->data->market()['market_xp']['levels'] ?? [];
+        $step = $this->data->market()['market_xp']['level_step'] ?? 1800;
         $total = $farm->marketXp();
-        $level = 1;
-        $floor = 0;
-        foreach ($thresholds as $threshold) {
-            if ($total < $threshold) {
-                return ['level' => $level, 'xp' => $total - $floor, 'needed' => $threshold - $floor];
-            }
+        $level = (int) floor(sqrt($total / $step)) + 1;
+        while ($step * $level ** 2 <= $total) { // float rounding at exact thresholds
             $level++;
-            $floor = $threshold;
         }
+        $floor = $step * ($level - 1) ** 2;
 
-        return ['level' => $level, 'xp' => $total - $floor, 'needed' => null];
+        return ['level' => $level, 'xp' => $total - $floor, 'needed' => $step * $level ** 2 - $floor];
     }
 
     /**
@@ -111,13 +123,14 @@ final readonly class MarketUpgrades
     public function view(Farm $farm): array
     {
         $bonus = $this->contractBonus($farm);
+        $bonus['cash_percent'] = round($bonus['cash'] * $this->cashPercentPerPoint(), 2);
+        unset($bonus['cash']);
         $bonus['materials'] = (object) $bonus['materials'];
 
         return [
             'slots' => $this->slots($farm),
             'bonus' => $bonus,
             'level' => $this->marketLevel($farm),
-            'xp_per_contract' => $this->marketXpPerContract($farm),
         ];
     }
 }

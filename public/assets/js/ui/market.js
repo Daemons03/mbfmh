@@ -1,6 +1,6 @@
 import { perform } from '../actions.js';
 import { h } from '../dom.js';
-import { fmtCost, fmtDuration, fmtInt, resourceEmoji } from '../format.js';
+import { fmtCost, fmtDuration, fmtInt, fmtNumber, resourceEmoji } from '../format.js';
 import { canAfford, serverNow, store } from '../store.js';
 
 export function marketPanel() {
@@ -8,7 +8,7 @@ export function marketPanel() {
         title: '🏪 Marché',
         render: () => [
             marketLevelBlock(),
-            h('p', { class: 'muted' }, 'Livrez des produits de la grange contre de l\'argent, de l\'XP et parfois des matériaux.'),
+            h('p', { class: 'muted' }, 'Livrez des produits de la grange contre de l\'argent, de l\'XP, de l\'XP de marché et des matériaux.'),
             h('div', { class: 'list' }, store.state.contracts.map(contractCard)),
             h('p', { class: 'section-title' }, 'Améliorations du marché'),
             h('p', { class: 'muted' }, 'Chaque contrat livré rapporte en plus le bonus de ses améliorations.'),
@@ -49,9 +49,11 @@ function contractCard(contract) {
     const bonus = store.view.market.bonus;
     const materials = { ...reward.materials };
     for (const [id, quantity] of Object.entries(bonus.materials)) materials[id] = (materials[id] ?? 0) + quantity;
+    const cashBonus = Math.round((reward.cash * bonus.cash_percent) / 100);
     const rewards = [
-        `+${fmtInt(reward.cash + bonus.cash)} ${data.currencies.cash.emoji}`,
+        `+${fmtInt(reward.cash + cashBonus)} ${data.currencies.cash.emoji}`,
         `+${fmtInt(reward.xp + bonus.xp)} XP`,
+        `+${fmtInt((reward.market_xp ?? 0) + bonus.market_xp)} XP marché`,
         ...Object.entries(materials).map(([id, quantity]) => `+${fmtInt(quantity)} ${resourceEmoji(id, data)}`),
     ];
 
@@ -82,7 +84,7 @@ function effectText(effect, bonus) {
     const { data } = store;
     switch (effect.type) {
         case 'slots': return `+${fmtInt(bonus)} contrat(s) au marché`;
-        case 'cash': return `+${fmtInt(bonus)} ${data.currencies.cash.emoji} par contrat`;
+        case 'cash': return `+${fmtNumber(bonus * data.market_upgrades.cash_percent_per_point)} % ${data.currencies.cash.emoji} par contrat`;
         case 'xp': return `+${fmtInt(bonus)} XP par contrat`;
         case 'market_xp': return `+${fmtInt(bonus)} XP de marché par contrat`;
         default: return `+${fmtInt(bonus)} ${resourceEmoji(effect.material, data)} par contrat`;
@@ -112,12 +114,11 @@ function upgradeTrackRow(id, track) {
 /** Market level: grows with the market XP of delivered contracts; the market looks bigger. */
 function marketLevelBlock() {
     const { level, xp, needed } = store.view.market.level;
-    const percent = needed ? Math.min(100, (xp / needed) * 100) : 100;
+    const percent = Math.min(100, (xp / needed) * 100);
 
     return h('div', { class: 'card' },
         h('div', { class: 'row-title' }, `🏪 Niveau de marché ${level}`),
         h('div', { class: 'meter' }, h('div', { style: { width: `${percent}%` } })),
-        h('p', { class: 'row-sub' }, needed
-            ? `${fmtInt(xp)} / ${fmtInt(needed)} XP de marché · +${fmtInt(store.view.market.xp_per_contract)} par contrat livré`
-            : 'Niveau de marché maximum'));
+        h('p', { class: 'row-sub' }, `${fmtInt(xp)} / ${fmtInt(needed)} XP de marché`
+            + (store.view.market.bonus.market_xp ? ` · bonus +${fmtInt(store.view.market.bonus.market_xp)} par contrat livré` : '')));
 }

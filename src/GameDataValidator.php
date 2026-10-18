@@ -324,32 +324,24 @@ final class GameDataValidator
         $this->positiveInt($market['replace_delay'] ?? null, 'market.replace_delay');
         $this->nonNegativeNumber($market['xp_per_cash'] ?? null, 'market.xp_per_cash');
 
+        $this->nonNegativeNumber($market['quantity_growth'] ?? 0, 'market.quantity_growth');
         $reward = $market['material_reward'] ?? null;
-        if (!is_array($reward)) {
-            $this->errors[] = 'market.material_reward: missing';
+        if (!is_array($reward) || !is_array($reward['materials'] ?? null) || $reward['materials'] === []) {
+            $this->errors[] = 'market.material_reward: needs materials {material: factor}';
 
             return;
         }
-        $chance = $reward['chance'] ?? null;
-        if (!is_int($chance) && !is_float($chance) || $chance < 0 || $chance > 1) {
-            $this->errors[] = 'market.material_reward.chance: must be between 0 and 1';
-        }
-        foreach ((array) ($reward['materials'] ?? []) as $material) {
-            if (!is_string($material) || !isset($this->data['materials'][$material])) {
-                $this->errors[] = 'market.material_reward.materials: unknown material ' . json_encode($material);
+        $this->positiveNumber($reward['per_cash'] ?? null, 'market.material_reward.per_cash');
+        foreach ($reward['materials'] as $material => $factor) {
+            if (!isset($this->data['materials'][$material])) {
+                $this->errors[] = "market.material_reward.materials: unknown material {$material}";
             }
+            $this->positiveNumber($factor, "market.material_reward.materials.{$material}");
         }
-        $this->range($reward['quantity'] ?? null, 'market.material_reward.quantity');
 
         if (isset($market['market_xp'])) {
-            $this->nonNegativeInt($market['market_xp']['per_contract'] ?? null, 'market.market_xp.per_contract');
-            $previous = 0;
-            foreach ($market['market_xp']['levels'] ?? [] as $i => $threshold) {
-                if (!is_int($threshold) || $threshold <= $previous) {
-                    $this->errors[] = "market.market_xp.levels[{$i}]: must be increasing positive integers";
-                    break;
-                }
-                $previous = $threshold;
+            foreach (['factor', 'exponent', 'level_step'] as $key) {
+                $this->positiveNumber($market['market_xp'][$key] ?? null, "market.market_xp.{$key}");
             }
         }
     }

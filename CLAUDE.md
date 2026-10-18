@@ -215,7 +215,7 @@ Données réelles (niveaux, coûts, quantités produites) reprises du fan site ;
 
 Sources : captures du joueur (3 contrats niveau de marché 147, écran du tournoi) et ses explications (2026-10-18). Valeurs déduites marquées `_estimated`.
 
-1. **Marché réel**
+1. ✅ **Marché réel**
    - XP de marché de base par contrat ≈ `0,055 × argent^0,87` (3 contrats : 1 326 💵 → 29 ; 17 935 → 380 ; 34 563 → 498).
    - Niveau de marché **sans plafond** : XP cumulée pour atteindre le niveau n + 1 ≈ `1 800 × n²` (niveau 147 ≈ 38,8 M).
    - Améliorations en deux parties : normale (matériaux, fan site) **+ « or »** (payée en or, coût doublé à chaque niveau) : Argent or 10 niveaux +5 (100, 200, 400… or) ; Expérience or 10 niveaux +3 (500, 1 000…) ; Expérience de marché or 30 niveaux +5 (300, 600…). XP et XP de marché : bonus **fixe** par contrat. Argent : bonus en **%** du contrat (≈ 0,25 % par point, ex. 95 → ~24 %).

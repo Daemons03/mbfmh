@@ -32,12 +32,13 @@ final class FulfillContract implements Action
             $farm->removeFromBarn($item, $quantity);
         }
         $reward = $contract['reward'];
-        $bonus = (new MarketUpgrades($farm->data))->contractBonus($farm);
+        $reward['market_xp'] ??= Market::marketXpFor($farm->data, $reward['cash']); // contracts drawn before market XP
+        $bonus = (new MarketUpgrades($farm->data))->extraFor($farm, $reward);
         $farm->gain(['cash' => $reward['cash'] + $bonus['cash']]);
         $farm->gain($reward['materials'] ?? []);
         $farm->gain($bonus['materials']);
         $farm->addXp($reward['xp'] + $bonus['xp']);
-        $farm->addMarketXp((new MarketUpgrades($farm->data))->marketXpPerContract($farm));
+        $farm->addMarketXp($reward['market_xp'] + $bonus['market_xp']);
 
         $market = new Market($farm->data);
         $next = $market->generate($farm, $clock, waiting: false);

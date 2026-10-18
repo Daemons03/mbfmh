@@ -13,7 +13,7 @@ use Random\Randomizer;
  * from sha256(market_seed:n), so the same state always yields the same
  * contracts (reloading cannot reroll them, tests are reproducible).
  *
- * A contract is { id, items: {item: qty}, reward: {cash, xp, materials?} } and,
+ * A contract is { id, items: {item: qty}, reward: {cash, xp, market_xp, materials} } and,
  * while waiting to replace a discarded one, wait: {started_at, duration}.
  */
 final readonly class Market
@@ -61,7 +61,7 @@ final readonly class Market
         $bonus = [];
         foreach ($picked as $item) {
             $definition = $this->data->item($item);
-            $range = $definition['contract_quantity'] ?? $market['quantity_per_product'];
+            $range = $definition['contract_quantity'] ?? $this->quantityRange($farm->level());
             $quantity = $random->getInt(...$range);
             $items[$item] = $quantity;
             $cash += $quantity * $definition['market_price'];
@@ -78,16 +78,14 @@ final readonly class Market
 
         $reward = ['cash' => (int) round($cash)];
         $reward['xp'] = max(1, (int) round($reward['cash'] * $market['xp_per_cash']));
+        $reward['market_xp'] = self::marketXpFor($this->data, $reward['cash']);
+        // Every contract also brings one material, more for bigger contracts.
         $materialReward = $market['material_reward'];
-        // The usual random bonus (boards, nails, saws) can come on top of it.
-        if ($random->nextFloat() < $materialReward['chance']) {
-            $materials = $materialReward['materials'];
-            $material = $materials[$random->getInt(0, count($materials) - 1)];
-            $bonus[$material] = ($bonus[$material] ?? 0) + $random->getInt(...$materialReward['quantity']);
-        }
-        if ($bonus !== []) {
-            $reward['materials'] = $bonus;
-        }
+        $materials = array_keys($materialReward['materials']);
+        $material = $materials[$random->getInt(0, count($materials) - 1)];
+        $bonus[$material] = ($bonus[$material] ?? 0)
+            + max(1, (int) round($reward['cash'] * $materialReward['per_cash'] * $materialReward['materials'][$material]));
+        $reward['materials'] = $bonus;
 
         $contract = ['id' => 'c' . $number, 'items' => $items, 'reward' => $reward];
         if ($waiting) {
@@ -95,6 +93,32 @@ final readonly class Market
         }
 
         return $contract;
+    }
+
+    /**
+     * [min, max] quantity of each product: grows with the player's level
+     * (about 10 at level 1, 100+ at level 150).
+     *
+     * @return array{int, int}
+     */
+    public function quantityRange(int $level): array
+    {
+        $market = $this->data->market();
+        $factor = 1 + ($market['quantity_growth'] ?? 0) * ($level - 1);
+        [$min, $max] = $market['quantity_per_product'];
+
+        return [max(1, (int) round($min * $factor)), max(1, (int) round($max * $factor))];
+    }
+
+    /** Base market XP of a contract worth $cash. */
+    public static function marketXpFor(GameData $data, int $cash): int
+    {
+        $formula = $data->market()['market_xp'] ?? null;
+        if ($formula === null) {
+            return 0;
+        }
+
+        return max(1, (int) round($formula['factor'] * $cash ** $formula['exponent']));
     }
 
     /**

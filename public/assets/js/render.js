@@ -54,6 +54,9 @@ export function happinessEffect(factor) {
 }
 
 /** Outside buildings shown along the farm, from its top corner down. */
+/** Market levels have no top: the market looks complete from level 150. */
+const MARKET_LOOK_LEVELS = 150;
+
 export const OUTSIDE_ORDER = ['market', 'show_animal', 'library', 'external_barn', 'cafe', 'sewing_workshop'];
 
 export function currentLayout() {
@@ -203,7 +206,7 @@ function outsideNode(type, n, L, data) {
     if (type === 'market') {
         def = { name: 'Marché', emoji: '🏪', levels: [] };
         level = store.view.market?.level?.level ?? 1;
-        levels = (data.market.market_xp?.levels?.length ?? 0) + 1;
+        levels = MARKET_LOOK_LEVELS;
     } else {
         const building = store.state.buildings.find((b) => b.type === type);
         built = Boolean(building);

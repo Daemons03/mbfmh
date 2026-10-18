@@ -864,67 +864,33 @@
       3
     ],
     "quantity_per_product": [
-      5,
-      30
+      3,
+      10
     ],
     "replace_delay": 600,
     "xp_per_cash": 0.1,
     "material_reward": {
-      "chance": 0.3,
-      "materials": [
-        "boards",
-        "nails",
-        "saws",
-        "bricks",
-        "tiles",
-        "glass",
-        "scrolls",
-        "ink",
-        "books"
-      ],
-      "quantity": [
-        1,
-        3
-      ]
+      "per_cash": 0.01,
+      "materials": {
+        "boards": 0.2,
+        "nails": 1,
+        "saws": 1,
+        "bricks": 1,
+        "tiles": 1.5,
+        "glass": 0.5,
+        "scrolls": 1,
+        "ink": 1,
+        "books": 0.5
+      }
     },
     "_estimated": true,
-    "_note": "Contrats : uniquement les produits marquables (champs, animaux, vergers, prairie, ruche) ; récompense cash = somme(quantité × market_price). Bonus aléatoire : planches, clous, scies, briques, tuiles, verre, parchemins, encre, livres (pour démarrer bibliothèque et améliorations).",
+    "_note": "Contrats : produits vendables au marché que le joueur peut fournir. Quantité par produit : quantity_per_product × (1 + quantity_growth × (niveau − 1)) (≈ 10 au niveau 1, 100+ au niveau 150). Argent = Σ quantité × prix marché ; XP = argent × xp_per_cash ; XP de marché = factor × argent^exponent (déduit de 3 contrats réels) ; niveau de marché n + 1 à level_step × n² XP cumulée (niveau 147 ≈ 38,8 M). Chaque contrat donne un matériau : argent × per_cash × facteur du matériau (captures du joueur).",
     "market_xp": {
-      "per_contract": 10,
-      "levels": [
-        40,
-        150,
-        320,
-        560,
-        850,
-        1200,
-        1610,
-        2080,
-        2600,
-        3180,
-        3810,
-        4490,
-        5230,
-        6020,
-        6860,
-        7760,
-        8710,
-        9710,
-        10760,
-        11860,
-        13010,
-        14210,
-        15460,
-        16770,
-        18120,
-        19520,
-        20970,
-        22470,
-        24020
-      ],
-      "_estimated": true,
-      "_note": "XP de marché de base par contrat et seuils des niveaux de marché estimés (absents du fan site) ; le niveau du marché fait évoluer son apparence."
-    }
+      "factor": 0.055,
+      "exponent": 0.87,
+      "level_step": 1800
+    },
+    "quantity_growth": 0.12
   },
   "items": {
     "wildflower": {
@@ -33356,6 +33322,86 @@
           }
         ]
       },
+      "cash_gold": {
+        "name": "Argent (or)",
+        "emoji": "💵",
+        "effect": {
+          "type": "cash"
+        },
+        "gold": true,
+        "levels": [
+          {
+            "level": 1,
+            "cost": {
+              "gold": 100
+            },
+            "bonus": 5
+          },
+          {
+            "level": 2,
+            "cost": {
+              "gold": 200
+            },
+            "bonus": 10
+          },
+          {
+            "level": 3,
+            "cost": {
+              "gold": 400
+            },
+            "bonus": 15
+          },
+          {
+            "level": 4,
+            "cost": {
+              "gold": 800
+            },
+            "bonus": 20
+          },
+          {
+            "level": 5,
+            "cost": {
+              "gold": 1600
+            },
+            "bonus": 25
+          },
+          {
+            "level": 6,
+            "cost": {
+              "gold": 3200
+            },
+            "bonus": 30
+          },
+          {
+            "level": 7,
+            "cost": {
+              "gold": 6400
+            },
+            "bonus": 35
+          },
+          {
+            "level": 8,
+            "cost": {
+              "gold": 12800
+            },
+            "bonus": 40
+          },
+          {
+            "level": 9,
+            "cost": {
+              "gold": 25600
+            },
+            "bonus": 45
+          },
+          {
+            "level": 10,
+            "cost": {
+              "gold": 51200
+            },
+            "bonus": 50
+          }
+        ]
+      },
       "xp": {
         "name": "Expérience",
         "emoji": "⭐",
@@ -33638,6 +33684,86 @@
             },
             "bonus": 89,
             "_estimated": true
+          }
+        ]
+      },
+      "xp_gold": {
+        "name": "Expérience (or)",
+        "emoji": "⭐",
+        "effect": {
+          "type": "xp"
+        },
+        "gold": true,
+        "levels": [
+          {
+            "level": 1,
+            "cost": {
+              "gold": 500
+            },
+            "bonus": 3
+          },
+          {
+            "level": 2,
+            "cost": {
+              "gold": 1000
+            },
+            "bonus": 6
+          },
+          {
+            "level": 3,
+            "cost": {
+              "gold": 2000
+            },
+            "bonus": 9
+          },
+          {
+            "level": 4,
+            "cost": {
+              "gold": 4000
+            },
+            "bonus": 12
+          },
+          {
+            "level": 5,
+            "cost": {
+              "gold": 8000
+            },
+            "bonus": 15
+          },
+          {
+            "level": 6,
+            "cost": {
+              "gold": 16000
+            },
+            "bonus": 18
+          },
+          {
+            "level": 7,
+            "cost": {
+              "gold": 32000
+            },
+            "bonus": 21
+          },
+          {
+            "level": 8,
+            "cost": {
+              "gold": 64000
+            },
+            "bonus": 24
+          },
+          {
+            "level": 9,
+            "cost": {
+              "gold": 128000
+            },
+            "bonus": 27
+          },
+          {
+            "level": 10,
+            "cost": {
+              "gold": 256000
+            },
+            "bonus": 30
           }
         ]
       },
@@ -37005,8 +37131,229 @@
             "bonus": 319
           }
         ]
+      },
+      "market_xp_gold": {
+        "name": "Expérience de marché (or)",
+        "emoji": "🏪",
+        "effect": {
+          "type": "market_xp"
+        },
+        "gold": true,
+        "levels": [
+          {
+            "level": 1,
+            "cost": {
+              "gold": 300
+            },
+            "bonus": 5
+          },
+          {
+            "level": 2,
+            "cost": {
+              "gold": 600
+            },
+            "bonus": 10
+          },
+          {
+            "level": 3,
+            "cost": {
+              "gold": 1200
+            },
+            "bonus": 15
+          },
+          {
+            "level": 4,
+            "cost": {
+              "gold": 2400
+            },
+            "bonus": 20
+          },
+          {
+            "level": 5,
+            "cost": {
+              "gold": 4800
+            },
+            "bonus": 25
+          },
+          {
+            "level": 6,
+            "cost": {
+              "gold": 9600
+            },
+            "bonus": 30
+          },
+          {
+            "level": 7,
+            "cost": {
+              "gold": 19200
+            },
+            "bonus": 35
+          },
+          {
+            "level": 8,
+            "cost": {
+              "gold": 38400
+            },
+            "bonus": 40
+          },
+          {
+            "level": 9,
+            "cost": {
+              "gold": 76800
+            },
+            "bonus": 45
+          },
+          {
+            "level": 10,
+            "cost": {
+              "gold": 153600
+            },
+            "bonus": 50
+          },
+          {
+            "level": 11,
+            "cost": {
+              "gold": 307200
+            },
+            "bonus": 55
+          },
+          {
+            "level": 12,
+            "cost": {
+              "gold": 614400
+            },
+            "bonus": 60
+          },
+          {
+            "level": 13,
+            "cost": {
+              "gold": 1228800
+            },
+            "bonus": 65
+          },
+          {
+            "level": 14,
+            "cost": {
+              "gold": 2457600
+            },
+            "bonus": 70
+          },
+          {
+            "level": 15,
+            "cost": {
+              "gold": 4915200
+            },
+            "bonus": 75
+          },
+          {
+            "level": 16,
+            "cost": {
+              "gold": 9830400
+            },
+            "bonus": 80
+          },
+          {
+            "level": 17,
+            "cost": {
+              "gold": 19660800
+            },
+            "bonus": 85
+          },
+          {
+            "level": 18,
+            "cost": {
+              "gold": 39321600
+            },
+            "bonus": 90
+          },
+          {
+            "level": 19,
+            "cost": {
+              "gold": 78643200
+            },
+            "bonus": 95
+          },
+          {
+            "level": 20,
+            "cost": {
+              "gold": 157286400
+            },
+            "bonus": 100
+          },
+          {
+            "level": 21,
+            "cost": {
+              "gold": 314572800
+            },
+            "bonus": 105
+          },
+          {
+            "level": 22,
+            "cost": {
+              "gold": 629145600
+            },
+            "bonus": 110
+          },
+          {
+            "level": 23,
+            "cost": {
+              "gold": 1258291200
+            },
+            "bonus": 115
+          },
+          {
+            "level": 24,
+            "cost": {
+              "gold": 2516582400
+            },
+            "bonus": 120
+          },
+          {
+            "level": 25,
+            "cost": {
+              "gold": 5033164800
+            },
+            "bonus": 125
+          },
+          {
+            "level": 26,
+            "cost": {
+              "gold": 10066329600
+            },
+            "bonus": 130
+          },
+          {
+            "level": 27,
+            "cost": {
+              "gold": 20132659200
+            },
+            "bonus": 135
+          },
+          {
+            "level": 28,
+            "cost": {
+              "gold": 40265318400
+            },
+            "bonus": 140
+          },
+          {
+            "level": 29,
+            "cost": {
+              "gold": 80530636800
+            },
+            "bonus": 145
+          },
+          {
+            "level": 30,
+            "cost": {
+              "gold": 161061273600
+            },
+            "bonus": 150
+          }
+        ]
       }
     },
-    "_note": "Bonus ajouté à CHAQUE contrat livré (contrats : +1 emplacement par niveau). Coûts et bonus : fan site ; « market certificate » payé en clés. Pistes aventure non reprises."
+    "_note": "Bonus ajouté à chaque contrat livré. Argent : en % du contrat (cash_percent_per_point % par point) ; XP et XP de marché : fixes. Pistes normales : fan site (matériaux, « market certificate » en clés) ; pistes « or » : joueur (coût en or doublé à chaque niveau). Pistes aventure non reprises.",
+    "cash_percent_per_point": 0.25
   }
 }
