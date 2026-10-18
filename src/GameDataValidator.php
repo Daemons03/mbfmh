@@ -63,6 +63,9 @@ final class GameDataValidator
         if (isset($this->data['boosts'])) {
             $this->checkBoosts();
         }
+        if (isset($this->data['tournament'])) {
+            $this->checkTournamentRewards();
+        }
 
         return $this->errors;
     }
@@ -434,6 +437,27 @@ final class GameDataValidator
             $item($crop['seed'] ?? null, "special_crops.{$id}.seed");
             if (!($crop['instant'] ?? false)) {
                 $this->positiveInt($crop['duration'] ?? null, "special_crops.{$id}.duration");
+            }
+        }
+    }
+
+    private function checkTournamentRewards(): void
+    {
+        $tournament = $this->data['tournament'];
+        $rewards = $tournament['objective_rewards'] ?? [];
+        if (count($rewards) !== count($tournament['objectives']['fractions'] ?? [])) {
+            $this->errors[] = 'tournament.objective_rewards: one list of options per objective';
+        }
+        foreach ($rewards as $n => $options) {
+            foreach ((array) $options as $i => $option) {
+                $path = "tournament.objective_rewards[{$n}][{$i}]";
+                $id = $option['item'] ?? null;
+                $known = $id === 'premium_seed' || isset($this->data['items'][$id]) || isset($this->data['materials'][$id]);
+                if (!is_string($id) || !$known) {
+                    $this->errors[] = "{$path}.item: unknown item or material " . json_encode($id);
+                }
+                $this->positiveNumber($option['base'] ?? null, "{$path}.base");
+                $this->nonNegativeNumber($option['per_tier'] ?? null, "{$path}.per_tier");
             }
         }
     }

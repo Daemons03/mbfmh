@@ -91,7 +91,7 @@ final class TournamentTest extends EngineTestCase
         self::assertSame(['week' => $state['last']['week'], 'tier' => 0, 'new_tier' => 1, 'rank' => 1, 'points' => 2_400,
             'rewards' => ['cash' => 1500, 'keys' => 10, 'rose_seed' => 5]], $state['last']);
         self::assertSame($cash + 1500, $this->state['cash']);
-        self::assertSame(10, $this->state['materials']['keys']);
+        self::assertSame(10 + 5, $this->state['materials']['keys'], '1st place + objective 6');
         self::assertSame(5, $this->state['barn']['items']['rose_seed']);
         self::assertSame(2_400, $state['start_xp'], 'points start again from zero');
     }
@@ -174,5 +174,47 @@ final class TournamentTest extends EngineTestCase
                 self::assertSame('invalid_payload', $e->errorCode);
             }
         }
+    }
+
+    public function testObjectivesPayAsSoonAsReached(): void
+    {
+        // Bronze 1★, first tournament: 100 / 240 / 500 / 900 / 1 400 / 2 000 points.
+        $this->state['barn']['items'] = ['tulip_seed' => 1];
+        $this->setBuilding('b2', ['level' => 1]);
+        $this->act('plant', ['id' => 'b2', 'crop' => 'tulip']); // +450 market XP: objectives 1 and 2
+
+        self::assertSame(2, $this->state['tournament']['claimed']);
+        self::assertSame(['instant_feed' => 1, 'tulip_seed' => 1], $this->state['barn']['items'], 'the seed used, a new one won');
+
+        $this->state['market_xp'] = 2_000; // e.g. the admin: paid at the next read
+        $this->state = $this->decode($this->engine->resolve($this->state, self::NOW + 60));
+        self::assertSame(6, $this->state['tournament']['claimed']);
+        self::assertSame(5, $this->state['materials']['keys']);
+        self::assertSame(['instant_feed' => 1, 'tulip_seed' => 1, 'premium_feed' => 10, 'premium_humus' => 5, 'premium_fertilizer' => 10],
+            $this->state['barn']['items']);
+    }
+
+    public function testObjectiveRewardsChangeEachWeekAndGrowWithTheTier(): void
+    {
+        $state = $this->state['tournament'];
+        self::assertSame(['instant_feed' => 1], $this->tournament->objectiveReward($this->farm(), $state, 0));
+        self::assertSame(['instant_fertilizer' => 1], $this->tournament->objectiveReward($this->farm(), ['round' => 1] + $state, 0));
+        self::assertSame(['premium_seed_corn' => 2], $this->tournament->objectiveReward($this->farm(), ['round' => 2] + $state, 1), 'best crop unlocked at level 1');
+
+        // Diamond 3★: the amounts of the game screen.
+        $diamond = ['tier' => 17] + $state;
+        $amounts = array_map(fn (int $n): int => current($this->tournament->objectiveReward($this->farm(), $diamond, $n)), range(0, 5));
+        self::assertSame([5, 10, 150, 70, 150, 60], $amounts);
+    }
+
+    public function testANewWeekStartsWithNoObjectiveClaimed(): void
+    {
+        $this->state['market_xp'] = 500;
+        $this->state = $this->decode($this->engine->resolve($this->state, self::NOW + 60));
+        self::assertSame(3, $this->state['tournament']['claimed']);
+
+        $this->finishWeek();
+
+        self::assertSame(0, $this->state['tournament']['claimed']);
     }
 }

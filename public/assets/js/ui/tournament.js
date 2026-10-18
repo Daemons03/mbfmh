@@ -103,7 +103,11 @@ function pointsCard(view) {
             }, String(i + 1)))),
         h('p', { class: 'row-sub' }, next === -1
             ? 'Tous les objectifs sont atteints.'
-            : `Objectif ${next + 1} : ${fmtInt(view.points)} / ${fmtInt(view.objectives[next])}`));
+            : `Objectif ${next + 1} : ${fmtInt(view.points)} / ${fmtInt(view.objectives[next])}`),
+        h('div', { class: 'objective-rewards' }, view.objective_rewards.map((reward, i) => h('div', {
+            class: `objective-reward${i < view.claimed ? ' done' : ''}`,
+            title: `Objectif ${i + 1} : ${fmtInt(view.objectives[i])} points`,
+        }, h('span', { class: 'objective-n' }, String(i + 1)), h('span', {}, rewardText(reward)), i < view.claimed ? h('span', { class: 'check' }, '✓') : null))));
 }
 
 function rankRow(row, rank) {

@@ -17,8 +17,9 @@ use Random\Randomizer;
  * `relegated` go down, and everyone is paid by rank.
  *
  * Tiers: league × stars, 0 = bronze 1★ … 17 = diamond 3★.
- * State: tournament = { week, round, started_at, tier, start_xp, seed, last? }
- * (round counts closed weeks; started_at is when this tournament began).
+ * State: tournament = { week, round, started_at, tier, start_xp, seed, claimed, last? }
+ * (round counts closed weeks; started_at is when this tournament began;
+ * claimed = objectives already rewarded this week).
  *
  * Invented farms: each one belongs to a rank group and finishes the week at
  * objective(group) × (1 + p %), p drawn between (percent - spread) and
@@ -121,18 +122,83 @@ final readonly class Tournament
     }
 
     /**
+     * What objective n (0-based) gives this week: its option of the week
+     * (options take turns, one per tournament), amount growing with the tier.
+     *
+     * @param array<string, mixed> $state
+     * @return array<string, int>
+     */
+    public function objectiveReward(Farm $farm, array $state, int $n): array
+    {
+        $options = $this->config()['objective_rewards'][$n];
+        $option = $options[($state['round'] ?? 0) % count($options)];
+        $item = $option['item'] === 'premium_seed' ? $this->bestPremiumSeed($farm) : $option['item'];
+
+        return [$item => (int) round($option['base'] + $option['per_tier'] * $state['tier'])];
+    }
+
+    /** Premium seed of the best crop the player has unlocked. */
+    private function bestPremiumSeed(Farm $farm): string
+    {
+        $seeds = (new Boosts($this->data))->config()['premium_seeds'];
+        $best = null;
+        foreach ($seeds as $crop => $seed) {
+            $level = $this->data->item($crop)['unlock_level'];
+            if ($level <= $farm->level() && ($best === null || $level >= $best[0])) {
+                $best = [$level, $seed];
+            }
+        }
+
+        return $best[1] ?? reset($seeds);
+    }
+
+    /**
+     * Pays every objective reached and not yet rewarded this week (after each
+     * action, and before a week is closed).
+     */
+    public function grantObjectives(Farm $farm): void
+    {
+        $state = $this->state($farm);
+        if ($state === []) {
+            return;
+        }
+        $points = $farm->marketXp() - $state['start_xp'];
+        $claimed = $state['claimed'] ?? 0;
+        $objectives = $this->objectives($state['tier']);
+        while ($claimed < count($objectives) && $points >= $objectives[$claimed]) {
+            $this->pay($farm, $this->objectiveReward($farm, $state, $claimed));
+            $claimed++;
+        }
+        if ($claimed !== ($state['claimed'] ?? 0)) {
+            $state['claimed'] = $claimed;
+            $farm->setTournament($state);
+        }
+    }
+
+    /**
+     * Materials and currencies to the farm, items (seeds, special items) to the barn.
+     *
+     * @param array<string, int> $rewards
+     */
+    private function pay(Farm $farm, array $rewards): void
+    {
+        foreach ($rewards as $id => $quantity) {
+            $this->data->hasItem($id) ? $farm->addToBarn([$id => $quantity]) : $farm->gain([$id => $quantity]);
+        }
+    }
+
+    /**
      * @param array<string, mixed> $state
      */
     private function closeWeek(Farm $farm, array $state, string $nextWeek, int $nextStart): void
     {
+        $this->grantObjectives($farm);
+        $state = $this->state($farm);
         $points = $farm->marketXp() - $state['start_xp'];
         $rank = $this->rankOf($points, $this->botScores($farm, $state, 1.0));
         $tier = $state['tier'];
         $rewards = $this->rankRewards($tier, $rank);
-        $farm->gain(array_diff_key($rewards, ['rose_seed' => true]));
-        if (isset($rewards['rose_seed'])) {
-            $farm->addToBarn(['rose_seed' => $rewards['rose_seed']]);
-        }
+        $this->pay($farm, $rewards);
 
         $config = $this->config();
         $newTier = $tier;
@@ -144,7 +210,7 @@ final readonly class Tournament
 
         $farm->setTournament([
             'week' => $nextWeek, 'round' => ($state['round'] ?? 0) + 1, 'started_at' => $nextStart,
-            'tier' => $newTier, 'start_xp' => $farm->marketXp(), 'seed' => $state['seed'],
+            'tier' => $newTier, 'start_xp' => $farm->marketXp(), 'seed' => $state['seed'], 'claimed' => 0,
             'last' => ['week' => $state['week'], 'tier' => $tier, 'new_tier' => $newTier, 'rank' => $rank, 'points' => $points, 'rewards' => $rewards],
         ]);
     }
@@ -264,6 +330,8 @@ final readonly class Tournament
             'ends_at' => $end,
             'points' => $points,
             'objectives' => $this->objectives($state['tier']),
+            'objective_rewards' => array_map(fn (int $n): array => $this->objectiveReward($farm, $state, $n), array_keys($this->objectives($state['tier']))),
+            'claimed' => $state['claimed'] ?? 0,
             'rank' => $rank,
             'rewards' => $this->rankRewards($state['tier'], $rank),
             'ranking' => array_map(static fn (array $row): array => ['name' => $row['name'], 'points' => $row['points'], 'me' => $row['me'] ?? false], $ranking),

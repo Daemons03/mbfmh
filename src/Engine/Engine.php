@@ -64,6 +64,9 @@ final class Engine
         $clock = new Clock($now, $farm->speed());
         $this->settle($farm, $clock);
         (new $actionClass())->apply($farm, new Payload($payload), $clock);
+        if (isset($this->data->toArray()['tournament'])) {
+            (new Tournament($this->data))->grantObjectives($farm); // objectives reached by this action pay at once
+        }
 
         return $farm->toArray();
     }
@@ -99,7 +102,9 @@ final class Engine
             (new ShowAnimals($this->data))->grantDailyTokens($farm, $clock->now);
         }
         if (isset($this->data->toArray()['tournament'])) {
-            (new Tournament($this->data))->settle($farm, $clock->now);
+            $tournament = new Tournament($this->data);
+            $tournament->settle($farm, $clock->now);
+            $tournament->grantObjectives($farm); // e.g. points given by the admin
         }
     }
 

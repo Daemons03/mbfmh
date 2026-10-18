@@ -24,7 +24,7 @@ def test_end_of_week_promotes_and_pays(game, farm):
     settle(game)
     state = farm.state()
     assert state["tournament"]["tier"] == 1
-    assert state["materials"]["keys"] == 10
+    assert state["materials"]["keys"] == 15, "1st place 10 + objective 6: 5"
     assert state["barn"]["items"]["rose_seed"] == 5
     close_sheet(game)
 
@@ -45,3 +45,19 @@ def test_admin_curve(game, farm):
     curve = {row["group"]: row for row in farm.state()["settings"]["tournament_curve"]}
     assert curve["first"] == {"group": "first", "objective": 4, "percent": 10}
     assert curve["middle"] == {"group": "middle", "objective": 3, "percent": 40}
+
+
+def test_objective_rewards(game, farm):
+    farm.patch({"barn.items": {"tulip_seed": 1}})
+    reload(game)
+    from conftest import tap, row
+    tap(game, 3, 0)
+    game.wait_for_selector("#sheet:not([hidden])")
+    row(game, "Tulipes").get_by_role("button", name="Planter").click()  # +450 points
+    settle(game)
+    close_sheet(game)
+
+    open_tab(game, "tournament")
+    assert game.locator(".objective-reward").count() == 6
+    assert game.locator(".objective-reward.done").count() == 2
+    assert farm.state()["barn"]["items"] == {"instant_feed": 1, "tulip_seed": 1}

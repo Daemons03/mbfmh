@@ -37830,6 +37830,70 @@
       "La Ferme Gourmande"
     ],
     "_estimated": true,
-    "_note": "Règles du joueur : ligues bronze → diamant de 1 à 3 étoiles, ligue de 20 (joueur + 19 fermes fictives), 3 montent, 5 descendent ; points = XP de marché de la semaine ; 6ᵉ objectif = 2 000 en bronze 1★ et 1,5 M en diamant 1★ (progression géométrique) ; récompenses de place (clés, maillets dès or, seaux dès saphir) ; argent = production de 8 h vendue à la grange par un joueur de niveau 1 + 10 × palier (1 récolte par heure au plus, 2 champs + 1 par 5 niveaux, un bâtiment de chaque) × 100 / 80 / 60 / 40 %. Objectifs 1 à 5 (fractions du 6ᵉ), roses du podium et noms des fermes : estimés / inventés."
+    "_note": "Règles du joueur : ligues bronze → diamant de 1 à 3 étoiles, ligue de 20 (joueur + 19 fermes fictives), 3 montent, 5 descendent ; points = XP de marché de la semaine ; 6ᵉ objectif = 2 000 en bronze 1★ et 1,5 M en diamant 1★ (progression géométrique) ; récompenses de place (clés, maillets dès or, seaux dès saphir) ; argent = production de 8 h vendue à la grange par un joueur de niveau 1 + 10 × palier (1 récolte par heure au plus, 2 champs + 1 par 5 niveaux, un bâtiment de chaque) × 100 / 80 / 60 / 40 %. Objectifs 1 à 5 (fractions du 6ᵉ), roses du podium et noms des fermes : estimés / inventés. Récompenses des objectifs : une liste d'options par objectif, l'option change chaque semaine (tournoi n mod nombre d'options) ; quantité = base + per_tier × palier (diamant 3★ ≈ capture du joueur : 5, 10, 150, 70, 150, 60). « premium_seed » = semence premium de la meilleure culture débloquée.",
+    "objective_rewards": [
+      [
+        {
+          "item": "instant_feed",
+          "base": 1,
+          "per_tier": 0.235
+        },
+        {
+          "item": "instant_fertilizer",
+          "base": 1,
+          "per_tier": 0.235
+        },
+        {
+          "item": "instant_humus",
+          "base": 1,
+          "per_tier": 0.235
+        }
+      ],
+      [
+        {
+          "item": "tulip_seed",
+          "base": 1,
+          "per_tier": 0.529
+        },
+        {
+          "item": "golden_flower_seed",
+          "base": 1,
+          "per_tier": 0.529
+        },
+        {
+          "item": "premium_seed",
+          "base": 2,
+          "per_tier": 1.059
+        }
+      ],
+      [
+        {
+          "item": "premium_feed",
+          "base": 10,
+          "per_tier": 8.235
+        }
+      ],
+      [
+        {
+          "item": "premium_humus",
+          "base": 5,
+          "per_tier": 3.824
+        }
+      ],
+      [
+        {
+          "item": "premium_fertilizer",
+          "base": 10,
+          "per_tier": 8.235
+        }
+      ],
+      [
+        {
+          "item": "keys",
+          "base": 5,
+          "per_tier": 3.235
+        }
+      ]
+    ]
   }
 }
