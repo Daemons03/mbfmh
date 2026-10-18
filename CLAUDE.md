@@ -211,6 +211,33 @@ Données réelles (niveaux, coûts, quantités produites) reprises du fan site ;
    ✅ Variantes (`variant_of`, `variant`) : **premium** (or ; produit ×1,6, fumier ×1,6, feuilles +2 ; prairie ×1,5, moulin 16/lot, ruche 80) pour champs, vergers, 5 animaux, moulin, prairie, ruche, habitation (14 → 133 ouvriers) ; **fertile** (or) pour champs et vergers ; **plein air** (clés `keys`) pour vergers et 5 animaux (produit ×1,2). Tout ce que le jeu d'origine paie en empreintes ou tickets d'événement se paie ici en **clés** (même quantité ; ex. cerisaie plein air niv. 7 → 8 : 6 100 clés). Coûts, ouvriers et sorties du fan site, recettes de base. Le prix boutique « niveau N » = somme des niveaux 1..N. Champs : `crops.*.yields` = champ normal ; fertile ×1,5 et premium ×1,6, arrondi au supérieur (`yield_factor`, valeurs du jeu : maïs 10/15/16 → 27/41/44 du niv. 1 au 18).
 10. ✅ Animaux de concours (voir ci-dessous) : bâtiment présent dès le départ (niveau 1, hors grille). Données `show_animals` (7 espèces, 84 animaux aux noms inventés, coffres, quantités). État `show = { seed, opened, token_day, last_draw, animals, active }`. Actions `open_chest {count: 1|11}`, `buy_tokens {packs}`, `start_show_animal {animal, duration}`, `collect_show_animal {species}`. Cartes pour monter de niveau : 5, 20, 50, 100 (estimé). S'ouvre depuis son emplacement sur la carte.
 
+## Plan V3 — Marché réel, objets spéciaux, tournoi solo (un commit par étape)
+
+Sources : captures du joueur (3 contrats niveau de marché 147, écran du tournoi) et ses explications (2026-10-18). Valeurs déduites marquées `_estimated`.
+
+1. **Marché réel**
+   - XP de marché de base par contrat ≈ `0,055 × argent^0,87` (3 contrats : 1 326 💵 → 29 ; 17 935 → 380 ; 34 563 → 498).
+   - Niveau de marché **sans plafond** : XP cumulée pour atteindre le niveau n + 1 ≈ `1 800 × n²` (niveau 147 ≈ 38,8 M).
+   - Améliorations en deux parties : normale (matériaux, fan site) **+ « or »** (payée en or, coût doublé à chaque niveau) : Argent or 10 niveaux +5 (100, 200, 400… or) ; Expérience or 10 niveaux +3 (500, 1 000…) ; Expérience de marché or 30 niveaux +5 (300, 600…). XP et XP de marché : bonus **fixe** par contrat. Argent : bonus en **%** du contrat (≈ 0,25 % par point, ex. 95 → ~24 %).
+   - Contrats qui grandissent avec le niveau du joueur (de ~10 pièces par produit au niveau 1 à 100+ au niveau 150) ; **chaque contrat** donne un matériau ≈ argent ÷ 100.
+2. **Objets spéciaux** (gratuits : aucun cash à payer en les utilisant ; non vendables, sans limite de grange ; gagnés au tournoi)
+   - Cultures de base : pas de semence (illimitées). **Semences premium** par culture : +10 % de récolte.
+   - **Roses** : récolte instantanée, +10 XP. **Tulipes** : récolte instantanée, XP de marché selon le niveau du champ (niv. 1 → 450, niv. 10 → 1 620, niv. 18 → 2 340, interpolé). **Fleurs d'or** : 2 h, 200 or.
+   - **Nourriture instantanée** (tous les animaux), **engrais instantané** (vergers), **humus instantané** (champs) : un objet remplace la nourriture / l'engrais / l'humus d'une production, qui est **prête tout de suite**.
+   - **Nourriture, engrais et humus premium** : +50 % de production, durée normale.
+3. **Tournoi solo** (onglet 🏅)
+   - Une semaine (lundi 0 h → dimanche 24 h, heure serveur). **Points = XP de marché gagnée dans la semaine** (contrats, tulipes).
+   - 18 paliers : bronze, argent, or, émeraude, saphir, diamant × 1★ à 3★. Départ en bronze 1★.
+   - Ligue de 21 : le joueur + **20 fermes fictives** (noms inventés, scores de la semaine tirés de façon déterministe selon le palier ; réglés pour qu'il faille dépasser nettement le 6ᵉ objectif de points pour finir dans les 3 premiers).
+   - Fin de semaine : les **3 premiers montent**, les **5 derniers descendent** ; récompenses de place versées automatiquement, résumé affiché.
+   - Récompenses de place (palier p = 0 pour bronze 1★ … 17 pour diamant 3★) :
+     - 1ᵉʳ : clés 10 + 10·p ; maillets dès or 1★ (10, +10 par palier) ; seaux dès saphir 1★ (10, +10 par palier → 60 en diamant 3★).
+     - 2ᵉ et 3ᵉ : pareil avec 5 et +5 par palier.
+     - Argent pour tous : base = ce qu'un joueur de niveau `1 + 10·p` gagne en vendant à la grange toute sa production de 8 h ; 1ᵉʳ 100 %, 2ᵉ–3ᵉ 80 %, 4ᵉ–15ᵉ 60 %, 16ᵉ–21ᵉ 40 %.
+     - Roses pour le podium (estimé).
+4. **Objectifs de points du tournoi** : 6 paliers par ligue, le 6ᵉ vaut 2 000 points en bronze 1★ et 1,5 M en diamant 1★ (progression géométrique d'un palier à l'autre) ; récompenses : nourriture instantanée, semences, nourriture / humus / engrais premium, clés (tickets violets du jeu), tulipes ; quantités croissantes avec le palier.
+5. Ensuite **V4** : boulangerie et fermes exotiques. Pièces de tournoi et décorations de tournoi : abandonnées.
+
 ### Café-boutique (V2.9)
 
 - Recettes (≈ 9 par page, plusieurs pages) : consomment des produits de la grange, rapportent du cash et des **points de satisfaction**. Ex. de référence : 40 œufs + 20 vanille + 25 bonbons → 7 000 💵 et 100 points.
