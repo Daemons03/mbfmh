@@ -1,7 +1,7 @@
 {
     "almond_orchard": {
         "1": {
-            "file": "almond_orchard-1.png",
+            "file": "almond_orchard-1.webp",
             "width": 189,
             "height": 91,
             "left": [
@@ -20,7 +20,7 @@
     },
     "apple_orchard": {
         "1": {
-            "file": "apple_orchard-1.png",
+            "file": "apple_orchard-1.webp",
             "width": 189,
             "height": 94,
             "left": [
@@ -39,7 +39,7 @@
     },
     "beehive": {
         "1": {
-            "file": "beehive-1.png",
+            "file": "beehive-1.webp",
             "width": 191,
             "height": 126,
             "left": [
@@ -58,7 +58,7 @@
     },
     "cafe": {
         "1": {
-            "file": "cafe-1.png",
+            "file": "cafe-1.webp",
             "width": 669,
             "height": 349,
             "left": [
@@ -77,7 +77,7 @@
     },
     "cherry_orchard": {
         "1": {
-            "file": "cherry_orchard-1.png",
+            "file": "cherry_orchard-1.webp",
             "width": 189,
             "height": 93,
             "left": [
@@ -96,7 +96,7 @@
     },
     "chicken_coop": {
         "1": {
-            "file": "chicken_coop-1.png",
+            "file": "chicken_coop-1.webp",
             "width": 177,
             "height": 94,
             "left": [
@@ -115,7 +115,7 @@
     },
     "composter": {
         "1": {
-            "file": "composter-1.png",
+            "file": "composter-1.webp",
             "width": 170,
             "height": 117,
             "left": [
@@ -134,7 +134,7 @@
     },
     "cowshed": {
         "1": {
-            "file": "cowshed-1.png",
+            "file": "cowshed-1.webp",
             "width": 189,
             "height": 119,
             "left": [
@@ -153,7 +153,7 @@
     },
     "dairy": {
         "1": {
-            "file": "dairy-1.png",
+            "file": "dairy-1.webp",
             "width": 187,
             "height": 141,
             "left": [
@@ -172,7 +172,7 @@
     },
     "duck_coop": {
         "1": {
-            "file": "duck_coop-1.png",
+            "file": "duck_coop-1.webp",
             "width": 191,
             "height": 100,
             "left": [
@@ -191,7 +191,7 @@
     },
     "duck_pond": {
         "1": {
-            "file": "duck_pond-1.png",
+            "file": "duck_pond-1.webp",
             "width": 199,
             "height": 131,
             "left": [
@@ -210,7 +210,7 @@
     },
     "external_barn": {
         "1": {
-            "file": "external_barn-1.png",
+            "file": "external_barn-1.webp",
             "width": 469,
             "height": 253,
             "left": [
@@ -229,7 +229,7 @@
     },
     "fertile_field": {
         "1": {
-            "file": "fertile_field-1.png",
+            "file": "fertile_field-1.webp",
             "width": 201,
             "height": 97,
             "left": [
@@ -248,7 +248,7 @@
     },
     "field": {
         "1": {
-            "file": "field-1.png",
+            "file": "field-1.webp",
             "width": 189,
             "height": 90,
             "left": [
@@ -267,7 +267,7 @@
     },
     "free_range_almond_orchard": {
         "1": {
-            "file": "free_range_almond_orchard-1.png",
+            "file": "free_range_almond_orchard-1.webp",
             "width": 189,
             "height": 135,
             "left": [
@@ -286,7 +286,7 @@
     },
     "free_range_apple_orchard": {
         "1": {
-            "file": "free_range_apple_orchard-1.png",
+            "file": "free_range_apple_orchard-1.webp",
             "width": 189,
             "height": 137,
             "left": [
@@ -305,7 +305,7 @@
     },
     "free_range_cherry_orchard": {
         "1": {
-            "file": "free_range_cherry_orchard-1.png",
+            "file": "free_range_cherry_orchard-1.webp",
             "width": 189,
             "height": 142,
             "left": [
@@ -324,7 +324,7 @@
     },
     "free_range_chicken_coop": {
         "1": {
-            "file": "free_range_chicken_coop-1.png",
+            "file": "free_range_chicken_coop-1.webp",
             "width": 200,
             "height": 103,
             "left": [
@@ -341,7 +341,7 @@
             ]
         },
         "2": {
-            "file": "free_range_chicken_coop-2.png",
+            "file": "free_range_chicken_coop-2.webp",
             "width": 178,
             "height": 114,
             "left": [
@@ -360,7 +360,7 @@
     },
     "free_range_cowshed": {
         "1": {
-            "file": "free_range_cowshed-1.png",
+            "file": "free_range_cowshed-1.webp",
             "width": 194,
             "height": 119,
             "left": [
@@ -377,7 +377,7 @@
             ]
         },
         "2": {
-            "file": "free_range_cowshed-2.png",
+            "file": "free_range_cowshed-2.webp",
             "width": 189,
             "height": 123,
             "left": [
@@ -396,7 +396,7 @@
     },
     "free_range_duck_coop": {
         "1": {
-            "file": "free_range_duck_coop-1.png",
+            "file": "free_range_duck_coop-1.webp",
             "width": 187,
             "height": 101,
             "left": [
@@ -415,7 +415,7 @@
     },
     "free_range_goat_stable": {
         "1": {
-            "file": "free_range_goat_stable-1.png",
+            "file": "free_range_goat_stable-1.webp",
             "width": 196,
             "height": 95,
             "left": [
@@ -432,7 +432,7 @@
             ]
         },
         "2": {
-            "file": "free_range_goat_stable-2.png",
+            "file": "free_range_goat_stable-2.webp",
             "width": 163,
             "height": 109,
             "left": [
@@ -451,7 +451,7 @@
     },
     "free_range_peach_orchard": {
         "1": {
-            "file": "free_range_peach_orchard-1.png",
+            "file": "free_range_peach_orchard-1.webp",
             "width": 176,
             "height": 120,
             "left": [
@@ -470,7 +470,7 @@
     },
     "free_range_pigsty": {
         "1": {
-            "file": "free_range_pigsty-1.png",
+            "file": "free_range_pigsty-1.webp",
             "width": 188,
             "height": 93,
             "left": [
@@ -487,7 +487,7 @@
             ]
         },
         "2": {
-            "file": "free_range_pigsty-2.png",
+            "file": "free_range_pigsty-2.webp",
             "width": 201,
             "height": 136,
             "left": [
@@ -506,7 +506,7 @@
     },
     "gazebo": {
         "1": {
-            "file": "gazebo-1.png",
+            "file": "gazebo-1.webp",
             "width": 187,
             "height": 189,
             "left": [
@@ -525,7 +525,7 @@
     },
     "goat_stable": {
         "1": {
-            "file": "goat_stable-1.png",
+            "file": "goat_stable-1.webp",
             "width": 181,
             "height": 118,
             "left": [
@@ -544,7 +544,7 @@
     },
     "house": {
         "1": {
-            "file": "house-1.png",
+            "file": "house-1.webp",
             "width": 178,
             "height": 119,
             "left": [
@@ -563,7 +563,7 @@
     },
     "jam_kitchen": {
         "1": {
-            "file": "jam_kitchen-1.png",
+            "file": "jam_kitchen-1.webp",
             "width": 187,
             "height": 143,
             "left": [
@@ -582,7 +582,7 @@
     },
     "land_locked": {
         "1": {
-            "file": "land_locked-1.png",
+            "file": "land_locked-1.webp",
             "width": 256,
             "height": 128,
             "left": [
@@ -601,7 +601,7 @@
     },
     "lantern_garden": {
         "1": {
-            "file": "lantern_garden-1.png",
+            "file": "lantern_garden-1.webp",
             "width": 201,
             "height": 136,
             "left": [
@@ -620,7 +620,7 @@
     },
     "library": {
         "1": {
-            "file": "library-1.png",
+            "file": "library-1.webp",
             "width": 437,
             "height": 251,
             "left": [
@@ -639,7 +639,7 @@
     },
     "manufactory": {
         "1": {
-            "file": "manufactory-1.png",
+            "file": "manufactory-1.webp",
             "width": 177,
             "height": 120,
             "left": [
@@ -658,7 +658,7 @@
     },
     "market": {
         "1": {
-            "file": "market-1.png",
+            "file": "market-1.webp",
             "width": 581,
             "height": 293,
             "left": [
@@ -677,7 +677,7 @@
     },
     "meadow": {
         "1": {
-            "file": "meadow-1.png",
+            "file": "meadow-1.webp",
             "width": 193,
             "height": 105,
             "left": [
@@ -696,7 +696,7 @@
     },
     "peach_orchard": {
         "1": {
-            "file": "peach_orchard-1.png",
+            "file": "peach_orchard-1.webp",
             "width": 189,
             "height": 95,
             "left": [
@@ -715,7 +715,7 @@
     },
     "pigsty": {
         "1": {
-            "file": "pigsty-1.png",
+            "file": "pigsty-1.webp",
             "width": 190,
             "height": 129,
             "left": [
@@ -734,7 +734,7 @@
     },
     "premium_almond_orchard": {
         "1": {
-            "file": "premium_almond_orchard-1.png",
+            "file": "premium_almond_orchard-1.webp",
             "width": 158,
             "height": 93,
             "left": [
@@ -751,7 +751,7 @@
             ]
         },
         "2": {
-            "file": "premium_almond_orchard-2.png",
+            "file": "premium_almond_orchard-2.webp",
             "width": 158,
             "height": 92,
             "left": [
@@ -768,7 +768,7 @@
             ]
         },
         "3": {
-            "file": "premium_almond_orchard-3.png",
+            "file": "premium_almond_orchard-3.webp",
             "width": 157,
             "height": 95,
             "left": [
@@ -787,7 +787,7 @@
     },
     "premium_apple_orchard": {
         "1": {
-            "file": "premium_apple_orchard-1.png",
+            "file": "premium_apple_orchard-1.webp",
             "width": 147,
             "height": 93,
             "left": [
@@ -804,7 +804,7 @@
             ]
         },
         "2": {
-            "file": "premium_apple_orchard-2.png",
+            "file": "premium_apple_orchard-2.webp",
             "width": 146,
             "height": 93,
             "left": [
@@ -821,7 +821,7 @@
             ]
         },
         "3": {
-            "file": "premium_apple_orchard-3.png",
+            "file": "premium_apple_orchard-3.webp",
             "width": 147,
             "height": 98,
             "left": [
@@ -840,7 +840,7 @@
     },
     "premium_beehive": {
         "1": {
-            "file": "premium_beehive-1.png",
+            "file": "premium_beehive-1.webp",
             "width": 156,
             "height": 109,
             "left": [
@@ -859,7 +859,7 @@
     },
     "premium_cherry_orchard": {
         "1": {
-            "file": "premium_cherry_orchard-1.png",
+            "file": "premium_cherry_orchard-1.webp",
             "width": 157,
             "height": 95,
             "left": [
@@ -876,7 +876,7 @@
             ]
         },
         "2": {
-            "file": "premium_cherry_orchard-2.png",
+            "file": "premium_cherry_orchard-2.webp",
             "width": 149,
             "height": 94,
             "left": [
@@ -893,7 +893,7 @@
             ]
         },
         "3": {
-            "file": "premium_cherry_orchard-3.png",
+            "file": "premium_cherry_orchard-3.webp",
             "width": 157,
             "height": 102,
             "left": [
@@ -912,7 +912,7 @@
     },
     "premium_chicken_coop": {
         "1": {
-            "file": "premium_chicken_coop-1.png",
+            "file": "premium_chicken_coop-1.webp",
             "width": 138,
             "height": 82,
             "left": [
@@ -929,7 +929,7 @@
             ]
         },
         "2": {
-            "file": "premium_chicken_coop-2.png",
+            "file": "premium_chicken_coop-2.webp",
             "width": 144,
             "height": 82,
             "left": [
@@ -946,7 +946,7 @@
             ]
         },
         "3": {
-            "file": "premium_chicken_coop-3.png",
+            "file": "premium_chicken_coop-3.webp",
             "width": 138,
             "height": 83,
             "left": [
@@ -965,7 +965,7 @@
     },
     "premium_cowshed": {
         "1": {
-            "file": "premium_cowshed-1.png",
+            "file": "premium_cowshed-1.webp",
             "width": 154,
             "height": 96,
             "left": [
@@ -982,7 +982,7 @@
             ]
         },
         "2": {
-            "file": "premium_cowshed-2.png",
+            "file": "premium_cowshed-2.webp",
             "width": 154,
             "height": 96,
             "left": [
@@ -999,7 +999,7 @@
             ]
         },
         "3": {
-            "file": "premium_cowshed-3.png",
+            "file": "premium_cowshed-3.webp",
             "width": 148,
             "height": 102,
             "left": [
@@ -1018,7 +1018,7 @@
     },
     "premium_duck_coop": {
         "1": {
-            "file": "premium_duck_coop-1.png",
+            "file": "premium_duck_coop-1.webp",
             "width": 149,
             "height": 76,
             "left": [
@@ -1035,7 +1035,7 @@
             ]
         },
         "2": {
-            "file": "premium_duck_coop-2.png",
+            "file": "premium_duck_coop-2.webp",
             "width": 155,
             "height": 78,
             "left": [
@@ -1052,7 +1052,7 @@
             ]
         },
         "3": {
-            "file": "premium_duck_coop-3.png",
+            "file": "premium_duck_coop-3.webp",
             "width": 148,
             "height": 87,
             "left": [
@@ -1071,7 +1071,7 @@
     },
     "premium_field": {
         "1": {
-            "file": "premium_field-1.png",
+            "file": "premium_field-1.webp",
             "width": 158,
             "height": 73,
             "left": [
@@ -1088,7 +1088,7 @@
             ]
         },
         "2": {
-            "file": "premium_field-2.png",
+            "file": "premium_field-2.webp",
             "width": 157,
             "height": 74,
             "left": [
@@ -1105,7 +1105,7 @@
             ]
         },
         "3": {
-            "file": "premium_field-3.png",
+            "file": "premium_field-3.webp",
             "width": 154,
             "height": 76,
             "left": [
@@ -1124,7 +1124,7 @@
     },
     "premium_goat_stable": {
         "1": {
-            "file": "premium_goat_stable-1.png",
+            "file": "premium_goat_stable-1.webp",
             "width": 151,
             "height": 89,
             "left": [
@@ -1141,7 +1141,7 @@
             ]
         },
         "2": {
-            "file": "premium_goat_stable-2.png",
+            "file": "premium_goat_stable-2.webp",
             "width": 158,
             "height": 90,
             "left": [
@@ -1158,7 +1158,7 @@
             ]
         },
         "3": {
-            "file": "premium_goat_stable-3.png",
+            "file": "premium_goat_stable-3.webp",
             "width": 153,
             "height": 98,
             "left": [
@@ -1177,7 +1177,7 @@
     },
     "premium_house": {
         "1": {
-            "file": "premium_house-1.png",
+            "file": "premium_house-1.webp",
             "width": 157,
             "height": 123,
             "left": [
@@ -1194,7 +1194,7 @@
             ]
         },
         "2": {
-            "file": "premium_house-2.png",
+            "file": "premium_house-2.webp",
             "width": 141,
             "height": 140,
             "left": [
@@ -1213,7 +1213,7 @@
     },
     "premium_meadow": {
         "1": {
-            "file": "premium_meadow-1.png",
+            "file": "premium_meadow-1.webp",
             "width": 160,
             "height": 89,
             "left": [
@@ -1230,7 +1230,7 @@
             ]
         },
         "2": {
-            "file": "premium_meadow-2.png",
+            "file": "premium_meadow-2.webp",
             "width": 158,
             "height": 88,
             "left": [
@@ -1247,7 +1247,7 @@
             ]
         },
         "3": {
-            "file": "premium_meadow-3.png",
+            "file": "premium_meadow-3.webp",
             "width": 158,
             "height": 86,
             "left": [
@@ -1266,7 +1266,7 @@
     },
     "premium_peach_orchard": {
         "1": {
-            "file": "premium_peach_orchard-1.png",
+            "file": "premium_peach_orchard-1.webp",
             "width": 153,
             "height": 85,
             "left": [
@@ -1283,7 +1283,7 @@
             ]
         },
         "2": {
-            "file": "premium_peach_orchard-2.png",
+            "file": "premium_peach_orchard-2.webp",
             "width": 150,
             "height": 85,
             "left": [
@@ -1300,7 +1300,7 @@
             ]
         },
         "3": {
-            "file": "premium_peach_orchard-3.png",
+            "file": "premium_peach_orchard-3.webp",
             "width": 150,
             "height": 94,
             "left": [
@@ -1319,7 +1319,7 @@
     },
     "premium_pigsty": {
         "1": {
-            "file": "premium_pigsty-1.png",
+            "file": "premium_pigsty-1.webp",
             "width": 157,
             "height": 106,
             "left": [
@@ -1336,7 +1336,7 @@
             ]
         },
         "2": {
-            "file": "premium_pigsty-2.png",
+            "file": "premium_pigsty-2.webp",
             "width": 147,
             "height": 108,
             "left": [
@@ -1353,7 +1353,7 @@
             ]
         },
         "3": {
-            "file": "premium_pigsty-3.png",
+            "file": "premium_pigsty-3.webp",
             "width": 148,
             "height": 104,
             "left": [
@@ -1372,7 +1372,7 @@
     },
     "premium_windmill": {
         "1": {
-            "file": "premium_windmill-1.png",
+            "file": "premium_windmill-1.webp",
             "width": 155,
             "height": 100,
             "left": [
@@ -1391,7 +1391,7 @@
     },
     "rabbit_hutch": {
         "1": {
-            "file": "rabbit_hutch-1.png",
+            "file": "rabbit_hutch-1.webp",
             "width": 178,
             "height": 97,
             "left": [
@@ -1410,7 +1410,7 @@
     },
     "sewing_workshop": {
         "1": {
-            "file": "sewing_workshop-1.png",
+            "file": "sewing_workshop-1.webp",
             "width": 621,
             "height": 335,
             "left": [
@@ -1429,7 +1429,7 @@
     },
     "sheep_pen": {
         "1": {
-            "file": "sheep_pen-1.png",
+            "file": "sheep_pen-1.webp",
             "width": 189,
             "height": 129,
             "left": [
@@ -1448,7 +1448,7 @@
     },
     "show_animal": {
         "1": {
-            "file": "show_animal-1.png",
+            "file": "show_animal-1.webp",
             "width": 397,
             "height": 201,
             "left": [
@@ -1467,7 +1467,7 @@
     },
     "silo": {
         "1": {
-            "file": "silo-1.png",
+            "file": "silo-1.webp",
             "width": 171,
             "height": 156,
             "left": [
@@ -1486,7 +1486,7 @@
     },
     "swimming_pond": {
         "1": {
-            "file": "swimming_pond-1.png",
+            "file": "swimming_pond-1.webp",
             "width": 201,
             "height": 131,
             "left": [
@@ -1505,7 +1505,7 @@
     },
     "wind_pump": {
         "1": {
-            "file": "wind_pump-1.png",
+            "file": "wind_pump-1.webp",
             "width": 192,
             "height": 161,
             "left": [
@@ -1524,7 +1524,7 @@
     },
     "windmill": {
         "1": {
-            "file": "windmill-1.png",
+            "file": "windmill-1.webp",
             "width": 193,
             "height": 134,
             "left": [

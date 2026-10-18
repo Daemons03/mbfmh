@@ -5,13 +5,16 @@ declare(strict_types=1);
 /**
  * Imports building pictures named the player's way (poule_premium_2.png,
  * marche_1.png, terrain_a_acheter.png...) into public/assets/img/buildings
- * as <type>-<tier>.png, then measures every picture there and writes
- * manifest.json (size and ground diamond corners, see sprite-metrics.php).
+ * as <type>-<tier>.webp (smaller than PNG, transparency kept), then measures
+ * every picture there and writes manifest.json (size and ground diamond
+ * corners, see sprite-metrics.php).
  *
  *   php scripts/import-sprites.php asset-a-integrer/all
  *
  * Unknown names are listed and skipped. Re-run it after adding pictures.
  */
+
+const WEBP_QUALITY = 88;
 
 // French prefix => building type ("land_locked" = land not bought yet).
 const NAMES = [
@@ -64,14 +67,18 @@ foreach (glob("{$source}/*.png") as $file) {
         echo "skipped (unknown name): {$name}.png\n";
         continue;
     }
-    copy($file, "{$target}/{$type}-{$tier}.png");
-    echo "{$name}.png -> {$type}-{$tier}.png\n";
+    $image = imagecreatefrompng($file);
+    imagepalettetotruecolor($image);
+    imagealphablending($image, false);
+    imagesavealpha($image, true);
+    imagewebp($image, "{$target}/{$type}-{$tier}.webp", WEBP_QUALITY);
+    echo "{$name}.png -> {$type}-{$tier}.webp\n";
 }
 
 // Manifest of everything in the target folder.
 $manifest = [];
-foreach (glob("{$target}/*-[0-9].png") as $file) {
-    preg_match('/^(.+)-(\d)$/', basename($file, '.png'), $m);
+foreach (glob("{$target}/*-[0-9].webp") as $file) {
+    preg_match('/^(.+)-(\d)$/', basename($file, '.webp'), $m);
     $metrics = json_decode(shell_exec('php ' . escapeshellarg(__DIR__ . '/sprite-metrics.php') . ' ' . escapeshellarg($file)), true);
     $manifest[$m[1]][$m[2]] = ['file' => basename($file)] + $metrics[basename($file)];
 }

@@ -3,16 +3,16 @@
 declare(strict_types=1);
 
 /**
- * Measures building sprites (PNG with transparency) for the isometric map:
+ * Measures building sprites (PNG or WebP with transparency) for the isometric map:
  * leftmost, rightmost and bottom opaque points, i.e. the left, right and
  * bottom corners of the ground diamond. Prints JSON {file: metrics}.
  *
- *   php scripts/sprite-metrics.php public/assets/img/buildings/*.png
+ *   php scripts/sprite-metrics.php public/assets/img/buildings/*.webp
  */
 
 $result = [];
 foreach (array_slice($argv, 1) as $path) {
-    $image = imagecreatefrompng($path);
+    $image = str_ends_with($path, '.webp') ? imagecreatefromwebp($path) : imagecreatefrompng($path);
     $w = imagesx($image);
     $h = imagesy($image);
     $opaque = static fn (int $x, int $y): bool => ((imagecolorat($image, $x, $y) >> 24) & 0x7F) < 40;
