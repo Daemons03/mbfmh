@@ -11,8 +11,9 @@ use FermeTranquille\Engine\Payload;
 use FermeTranquille\Engine\ShowAnimals;
 
 /**
- * payload: { animal, duration: 0 | 1 | 2 } — free; one animal per species,
- * as many species at once as the building level allows.
+ * payload: { animal } — free; the animal works for its own duration (one of
+ * its species' three). One animal per species, as many species at once as the
+ * building level allows.
  */
 final class StartShowAnimal implements Action
 {
@@ -21,7 +22,6 @@ final class StartShowAnimal implements Action
         $rules = new ShowAnimals($farm->data);
         $config = $rules->config();
         $animalId = $payload->string('animal');
-        $durationIndex = $payload->int('duration', 0);
 
         $animal = $config['animals'][$animalId]
             ?? throw new GameError('unknown_animal', 'Animal inconnu.', ['animal' => $animalId]);
@@ -29,8 +29,7 @@ final class StartShowAnimal implements Action
         $owned = $show['animals'][$animalId]
             ?? throw new GameError('animal_not_owned', 'Il faut d\'abord obtenir sa carte dans un coffre.');
         $species = $config['species'][$animal['species']];
-        $duration = $species['durations'][$durationIndex]
-            ?? throw new GameError('invalid_payload', 'Durée invalide.', ['field' => 'duration']);
+        $duration = $species['durations'][$animal['duration']];
 
         if (isset($show['active'][$animal['species']])) {
             throw new GameError('species_busy', "Un animal de cette espèce ({$species['name']}) travaille déjà.");
@@ -40,7 +39,7 @@ final class StartShowAnimal implements Action
             throw new GameError('no_free_slot', 'Tous les emplacements sont occupés : améliorez le bâtiment.', ['slots' => $slots]);
         }
 
-        $outputs = $rules->outputs($animalId, $owned['level'], $durationIndex);
+        $outputs = $rules->outputs($animalId, $owned['level']);
         foreach ($outputs as $item => $quantity) {
             if ($quantity > $farm->barnCapacity() && $farm->isBarnLimited($item)) {
                 throw new GameError('barn_too_small', "La grange est trop petite pour {$quantity} × {$farm->data->item($item)['name']}.", [

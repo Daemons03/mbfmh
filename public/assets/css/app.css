@@ -625,7 +625,7 @@ svg.mirrored { transform: scaleX(-1); }
 }
 
 /* Chosen item: stays on top while the tiles scroll. */
-.barn-detail {
+.item-detail {
     position: sticky; top: -14px; z-index: 2;
     display: grid; gap: 8px;
     padding: 10px;
@@ -671,6 +671,21 @@ svg.mirrored { transform: scaleX(-1); }
 .tile.empty .tile-emoji { filter: grayscale(0.7); opacity: 0.55; }
 .tile.full .tile-qty { color: var(--danger); }
 .tile.selected { border-color: var(--go); box-shadow: 0 0 0 2px var(--go); }
+
+/* Show animals: one tab per species, tiles framed by rarity with their fixed duration. */
+.subtabs.species { grid-template-columns: repeat(7, 1fr); gap: 3px; }
+.subtabs.species .subtab { flex-direction: column; gap: 2px; padding: 6px 2px 5px; }
+.subtabs.species .subtab.active { padding-bottom: 8px; }
+.subtab-emoji { font-size: 24px; line-height: 1; }
+.subtabs.species .subtab-count { min-width: 0; padding: 0 4px; font-size: 11px; line-height: 16px; }
+.subtab.working .subtab-count { background: var(--go); }
+.tiles.animals { grid-template-columns: repeat(3, 1fr); }
+.tile.animal { aspect-ratio: auto; padding: 8px 4px 6px; border-width: 4px; }
+.tile-name { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
+.tile-time { font-size: 12px; font-weight: 600; color: var(--muted); }
+.tile-badge { position: absolute; top: 2px; right: 4px; font-size: 14px; }
+.detail-emoji.rarity { border-style: solid; }
+.active-animal { border-color: var(--go); }
 
 .actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .meter {

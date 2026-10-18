@@ -63,6 +63,9 @@ final class GameDataValidator
         if (isset($this->data['boosts'])) {
             $this->checkBoosts();
         }
+        if (isset($this->data['show_animals'])) {
+            $this->checkShowAnimals();
+        }
         if (isset($this->data['speed_up'])) {
             $this->positiveNumber($this->data['speed_up']['gold_per_minute'] ?? null, 'speed_up.gold_per_minute');
         }
@@ -410,6 +413,22 @@ final class GameDataValidator
             }
             $previous = is_int($points) ? $points : $previous;
             $this->cost($milestone['reward'] ?? null, "cafe.milestones[{$i}].reward");
+        }
+    }
+
+    /**
+     * Each show animal works for one of its species' durations.
+     */
+    private function checkShowAnimals(): void
+    {
+        $config = $this->data['show_animals'];
+        foreach ((array) ($config['animals'] ?? []) as $id => $animal) {
+            $durations = $config['species'][$animal['species'] ?? '']['durations'] ?? null;
+            if ($durations === null) {
+                $this->errors[] = "show_animals.animals.{$id}.species: unknown species";
+            } elseif (!is_int($animal['duration'] ?? null) || !isset($durations[$animal['duration']])) {
+                $this->errors[] = "show_animals.animals.{$id}.duration: must be an index of the species' durations";
+            }
         }
     }
 

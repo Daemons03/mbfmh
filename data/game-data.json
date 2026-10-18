@@ -26743,425 +26743,509 @@
       "chicken_grey_1": {
         "name": "Grisette",
         "species": "chicken",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 0
       },
       "chicken_grey_2": {
         "name": "Picorette",
         "species": "chicken",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 1
       },
       "chicken_grey_3": {
         "name": "Cendrine",
         "species": "chicken",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 2
       },
       "chicken_green_1": {
         "name": "Pomme-d'api",
         "species": "chicken",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 0
       },
       "chicken_green_2": {
         "name": "Sauterelle",
         "species": "chicken",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 1
       },
       "chicken_green_3": {
         "name": "Bergamote",
         "species": "chicken",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 2
       },
       "chicken_blue_1": {
         "name": "Myrtille",
         "species": "chicken",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 0
       },
       "chicken_blue_2": {
         "name": "Azurine",
         "species": "chicken",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 1
       },
       "chicken_blue_3": {
         "name": "Plume-Bleue",
         "species": "chicken",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 2
       },
       "chicken_purple_1": {
         "name": "Améthyste",
         "species": "chicken",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 0
       },
       "chicken_purple_2": {
         "name": "Reine-Lilas",
         "species": "chicken",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 1
       },
       "chicken_purple_3": {
         "name": "Duchesse",
         "species": "chicken",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 2
       },
       "pig_grey_1": {
         "name": "Gros-Lard",
         "species": "pig",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 0
       },
       "pig_grey_2": {
         "name": "Truffinet",
         "species": "pig",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 1
       },
       "pig_grey_3": {
         "name": "Boudin",
         "species": "pig",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 2
       },
       "pig_green_1": {
         "name": "Pistache",
         "species": "pig",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 0
       },
       "pig_green_2": {
         "name": "Cornichon",
         "species": "pig",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 1
       },
       "pig_green_3": {
         "name": "Basilic",
         "species": "pig",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 2
       },
       "pig_blue_1": {
         "name": "Lagon",
         "species": "pig",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 0
       },
       "pig_blue_2": {
         "name": "Saphir",
         "species": "pig",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 1
       },
       "pig_blue_3": {
         "name": "Marin",
         "species": "pig",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 2
       },
       "pig_purple_1": {
         "name": "Prune",
         "species": "pig",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 0
       },
       "pig_purple_2": {
         "name": "Baron",
         "species": "pig",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 1
       },
       "pig_purple_3": {
         "name": "Majesté",
         "species": "pig",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 2
       },
       "cow_grey_1": {
         "name": "Marguerite",
         "species": "cow",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 0
       },
       "cow_grey_2": {
         "name": "Pâquerette",
         "species": "cow",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 1
       },
       "cow_grey_3": {
         "name": "Grisonne",
         "species": "cow",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 2
       },
       "cow_green_1": {
         "name": "Menthe",
         "species": "cow",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 0
       },
       "cow_green_2": {
         "name": "Prairie",
         "species": "cow",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 1
       },
       "cow_green_3": {
         "name": "Trèfle",
         "species": "cow",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 2
       },
       "cow_blue_1": {
         "name": "Myosotis",
         "species": "cow",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 0
       },
       "cow_blue_2": {
         "name": "Bleuette",
         "species": "cow",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 1
       },
       "cow_blue_3": {
         "name": "Océane",
         "species": "cow",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 2
       },
       "cow_purple_1": {
         "name": "Violette",
         "species": "cow",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 0
       },
       "cow_purple_2": {
         "name": "Lavande",
         "species": "cow",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 1
       },
       "cow_purple_3": {
         "name": "Impératrice",
         "species": "cow",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 2
       },
       "goat_grey_1": {
         "name": "Biquette",
         "species": "goat",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 0
       },
       "goat_grey_2": {
         "name": "Caillou",
         "species": "goat",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 1
       },
       "goat_grey_3": {
         "name": "Grisou",
         "species": "goat",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 2
       },
       "goat_green_1": {
         "name": "Sapinette",
         "species": "goat",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 0
       },
       "goat_green_2": {
         "name": "Mousse",
         "species": "goat",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 1
       },
       "goat_green_3": {
         "name": "Fougère",
         "species": "goat",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 2
       },
       "goat_blue_1": {
         "name": "Glacier",
         "species": "goat",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 0
       },
       "goat_blue_2": {
         "name": "Nuage",
         "species": "goat",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 1
       },
       "goat_blue_3": {
         "name": "Céleste",
         "species": "goat",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 2
       },
       "goat_purple_1": {
         "name": "Mûre",
         "species": "goat",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 0
       },
       "goat_purple_2": {
         "name": "Orchidée",
         "species": "goat",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 1
       },
       "goat_purple_3": {
         "name": "Altesse",
         "species": "goat",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 2
       },
       "duck_grey_1": {
         "name": "Coin-Coin",
         "species": "duck",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 0
       },
       "duck_grey_2": {
         "name": "Barbotte",
         "species": "duck",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 1
       },
       "duck_grey_3": {
         "name": "Galet",
         "species": "duck",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 2
       },
       "duck_green_1": {
         "name": "Nénuphar",
         "species": "duck",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 0
       },
       "duck_green_2": {
         "name": "Roseau",
         "species": "duck",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 1
       },
       "duck_green_3": {
         "name": "Jade",
         "species": "duck",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 2
       },
       "duck_blue_1": {
         "name": "Ruisseau",
         "species": "duck",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 0
       },
       "duck_blue_2": {
         "name": "Turquoise",
         "species": "duck",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 1
       },
       "duck_blue_3": {
         "name": "Cobalt",
         "species": "duck",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 2
       },
       "duck_purple_1": {
         "name": "Pervenche",
         "species": "duck",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 0
       },
       "duck_purple_2": {
         "name": "Iris",
         "species": "duck",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 1
       },
       "duck_purple_3": {
         "name": "Comtesse",
         "species": "duck",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 2
       },
       "rabbit_grey_1": {
         "name": "Pompon",
         "species": "rabbit",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 0
       },
       "rabbit_grey_2": {
         "name": "Noisette",
         "species": "rabbit",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 1
       },
       "rabbit_grey_3": {
         "name": "Gris-Gris",
         "species": "rabbit",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 2
       },
       "rabbit_green_1": {
         "name": "Persil",
         "species": "rabbit",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 0
       },
       "rabbit_green_2": {
         "name": "Cresson",
         "species": "rabbit",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 1
       },
       "rabbit_green_3": {
         "name": "Olive",
         "species": "rabbit",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 2
       },
       "rabbit_blue_1": {
         "name": "Bleuet",
         "species": "rabbit",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 0
       },
       "rabbit_blue_2": {
         "name": "Lune",
         "species": "rabbit",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 1
       },
       "rabbit_blue_3": {
         "name": "Givre",
         "species": "rabbit",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 2
       },
       "rabbit_purple_1": {
         "name": "Cassis",
         "species": "rabbit",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 0
       },
       "rabbit_purple_2": {
         "name": "Mauve",
         "species": "rabbit",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 1
       },
       "rabbit_purple_3": {
         "name": "Princesse",
         "species": "rabbit",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 2
       },
       "sheep_grey_1": {
         "name": "Frisette",
         "species": "sheep",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 0
       },
       "sheep_grey_2": {
         "name": "Laineuse",
         "species": "sheep",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 1
       },
       "sheep_grey_3": {
         "name": "Bouclette",
         "species": "sheep",
-        "rarity": "grey"
+        "rarity": "grey",
+        "duration": 2
       },
       "sheep_green_1": {
         "name": "Pistou",
         "species": "sheep",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 0
       },
       "sheep_green_2": {
         "name": "Absinthe",
         "species": "sheep",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 1
       },
       "sheep_green_3": {
         "name": "Tilleul",
         "species": "sheep",
-        "rarity": "green"
+        "rarity": "green",
+        "duration": 2
       },
       "sheep_blue_1": {
         "name": "Brume",
         "species": "sheep",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 0
       },
       "sheep_blue_2": {
         "name": "Indigo",
         "species": "sheep",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 1
       },
       "sheep_blue_3": {
         "name": "Hortensia",
         "species": "sheep",
-        "rarity": "blue"
+        "rarity": "blue",
+        "duration": 2
       },
       "sheep_purple_1": {
         "name": "Glycine",
         "species": "sheep",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 0
       },
       "sheep_purple_2": {
         "name": "Parme",
         "species": "sheep",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 1
       },
       "sheep_purple_3": {
         "name": "Souveraine",
         "species": "sheep",
-        "rarity": "purple"
+        "rarity": "purple",
+        "duration": 2
       }
     },
-    "_note": "Jetons, coffres, probabilités, 3 durées, quantités des poules : jeu (joueur). Autres espèces : durées et quantités estimées (même productivité relative que les poules). Cartes pour monter de niveau estimées (5, 20, 50, 100). Noms inventés."
+    "_note": "Chaque animal a une seule durée : animals.*.duration = indice dans species.durations (dans chaque couleur, le 1er court, le 2e moyen, le 3e long ; poules : 6 min 30 | 20 min | 3 h 30). Jetons, coffres, probabilités, 3 durées par espèce, quantités des poules : jeu (joueur). Autres espèces : durées et quantités estimées (même productivité relative que les poules). Cartes pour monter de niveau estimées (5, 20, 50, 100). Noms inventés."
   },
   "library": {
     "building": "library",

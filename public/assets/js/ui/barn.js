@@ -169,11 +169,11 @@ function detail(id) {
             limited ? itemMeter(quantity) : null));
 
     if (item.sellable === false) {
-        return h('div', { class: 'barn-detail' }, head,
+        return h('div', { class: 'item-detail' }, head,
             h('p', { class: 'row-sub' }, `Objet spécial, gratuit à l'usage${item.description ? ` · ${item.description}` : ''}`));
     }
     if (quantity === 0) {
-        return h('div', { class: 'barn-detail' }, head,
+        return h('div', { class: 'item-detail' }, head,
             h('p', { class: 'row-sub' }, `${fmtNumber(item.barn_price)} ${cash} l'unité à la grange · aucun en stock`));
     }
 
@@ -188,7 +188,7 @@ function detail(id) {
         onclick: () => perform('sell_barn', { item: id, quantity: Math.min(sellQuantities.get(id) ?? quantity, quantity) }),
     }, 'Vendre');
 
-    return h('div', { class: 'barn-detail' }, head,
+    return h('div', { class: 'item-detail' }, head,
         h('div', { class: 'sale' },
             h('span', {}, item.emoji, ' ', amount),
             h('span', { class: 'sale-arrow' }, '➜'),

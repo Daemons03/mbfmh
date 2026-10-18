@@ -65,6 +65,6 @@ def test_instant_feed_and_special_items_in_the_barn(game, farm):
     open_tab(game, "barn")
     game.get_by_role("tab", name="Ressources").click()
     game.locator(".tile[title='Nourriture premium']").click()
-    detail = game.locator(".barn-detail")
+    detail = game.locator(".item-detail")
     assert "Objet spécial" in text(detail)
     assert detail.get_by_role("button").count() == 0, "never sold"

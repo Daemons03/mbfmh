@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FermeTranquille\Tests\Engine;
 
 use FermeTranquille\Engine\ShowAnimals;
+use FermeTranquille\GameData;
 
 /**
  * Show animals: daily tokens, chests, cards, levels, free activations.
@@ -107,18 +108,22 @@ final class ShowAnimalTest extends EngineTestCase
 
     public function testChickenQuantitiesMatchTheGame(): void
     {
-        self::assertSame(['egg' => 10], $this->rules->outputs('chicken_grey_1', 1, 0));
-        self::assertSame(['egg' => 582], $this->rules->outputs('chicken_purple_2', 1, 2));
-        self::assertSame(['egg' => 102], $this->rules->outputs('chicken_green_3', 5, 1));
-        self::assertSame(['egg' => 1745], $this->rules->outputs('chicken_purple_1', 5, 2));
+        // In each colour the 1st animal works 6 min 30, the 2nd 20 min, the 3rd 3 h 30.
+        self::assertSame(['egg' => 10], $this->rules->outputs('chicken_grey_1', 1));
+        self::assertSame(['egg' => 30], $this->rules->outputs('chicken_grey_2', 1));
+        self::assertSame(['egg' => 323], $this->rules->outputs('chicken_grey_3', 1));
+        self::assertSame(['egg' => 582], $this->rules->outputs('chicken_purple_3', 1));
+        self::assertSame(['egg' => 102], $this->rules->outputs('chicken_green_2', 5));
+        self::assertSame(['egg' => 1745], $this->rules->outputs('chicken_purple_3', 5));
     }
 
     public function testActivateThenCollect(): void
     {
-        $this->state['show'] = ['animals' => ['chicken_blue_1' => ['level' => 1, 'cards' => 0]], 'active' => []];
+        $this->state['show'] = ['animals' => ['chicken_blue_2' => ['level' => 1, 'cards' => 0]], 'active' => []];
 
-        $this->act('start_show_animal', ['animal' => 'chicken_blue_1', 'duration' => 1]);
+        $this->act('start_show_animal', ['animal' => 'chicken_blue_2']); // 20 min
         self::assertSame(['egg' => 38], $this->state['show']['active']['chicken']['outputs']);
+        self::assertSame(1200, $this->state['show']['active']['chicken']['duration']);
         $this->assertGameError('not_ready', 'collect_show_animal', ['species' => 'chicken'], 1199);
         $this->act('collect_show_animal', ['species' => 'chicken'], 1200);
 
@@ -131,13 +136,25 @@ final class ShowAnimalTest extends EngineTestCase
         $this->state['show'] = ['animals' => ['chicken_blue_1' => ['level' => 1, 'cards' => 0]], 'active' => []];
         $this->assertGameError('no_job', 'cancel_show_animal', ['species' => 'chicken']);
 
-        $this->act('start_show_animal', ['animal' => 'chicken_blue_1', 'duration' => 1]);
+        $this->act('start_show_animal', ['animal' => 'chicken_blue_1']);
         $this->act('cancel_show_animal', ['species' => 'chicken'], 60);
         self::assertSame([], $this->state['show']['active']);
         self::assertSame([], $this->state['barn']['items']);
 
-        $this->act('start_show_animal', ['animal' => 'chicken_blue_1', 'duration' => 0], 60);
+        $this->act('start_show_animal', ['animal' => 'chicken_blue_1'], 60);
         $this->assertGameError('already_ready', 'cancel_show_animal', ['species' => 'chicken'], 60 + 390);
+    }
+
+    public function testEachAnimalHasAValidDuration(): void
+    {
+        $raw = $this->data->toArray();
+        $raw['show_animals']['animals']['chicken_grey_1']['duration'] = 3;
+        unset($raw['show_animals']['animals']['pig_grey_2']['duration']);
+
+        $errors = implode("\n", GameData::validate($raw));
+
+        self::assertStringContainsString('show_animals.animals.chicken_grey_1.duration: must be an index', $errors);
+        self::assertStringContainsString('show_animals.animals.pig_grey_2.duration: must be an index', $errors);
     }
 
     public function testActivationRules(): void
@@ -148,17 +165,16 @@ final class ShowAnimalTest extends EngineTestCase
             'pig_grey_1' => ['level' => 1, 'cards' => 0],
         ], 'active' => []];
 
-        $this->assertGameError('animal_not_owned', 'start_show_animal', ['animal' => 'cow_grey_1', 'duration' => 0]);
-        $this->assertGameError('unknown_animal', 'start_show_animal', ['animal' => 'dragon', 'duration' => 0]);
-        $this->assertGameError('invalid_payload', 'start_show_animal', ['animal' => 'chicken_grey_1', 'duration' => 3]);
+        $this->assertGameError('animal_not_owned', 'start_show_animal', ['animal' => 'cow_grey_1']);
+        $this->assertGameError('unknown_animal', 'start_show_animal', ['animal' => 'dragon']);
 
-        $this->act('start_show_animal', ['animal' => 'chicken_grey_1', 'duration' => 0]);
-        $this->assertGameError('species_busy', 'start_show_animal', ['animal' => 'chicken_grey_2', 'duration' => 0]);
-        $this->assertGameError('no_free_slot', 'start_show_animal', ['animal' => 'pig_grey_1', 'duration' => 0]);
+        $this->act('start_show_animal', ['animal' => 'chicken_grey_1']);
+        $this->assertGameError('species_busy', 'start_show_animal', ['animal' => 'chicken_grey_2']);
+        $this->assertGameError('no_free_slot', 'start_show_animal', ['animal' => 'pig_grey_1']);
 
         // Level 2 building: 2 animals at once.
         $this->setBuilding('show_animal', ['level' => 2]);
-        $this->act('start_show_animal', ['animal' => 'pig_grey_1', 'duration' => 0]);
+        $this->act('start_show_animal', ['animal' => 'pig_grey_1']);
         self::assertCount(2, $this->state['show']['active']);
     }
 
@@ -167,7 +183,7 @@ final class ShowAnimalTest extends EngineTestCase
         $this->state['show'] = ['animals' => ['chicken_grey_1' => ['level' => 1, 'cards' => 0]], 'active' => []];
         $normalized = $this->engine->normalize($this->state);
 
-        $next = $this->engine->apply($normalized, 'start_show_animal', ['animal' => 'chicken_grey_1', 'duration' => 0], self::NOW);
+        $next = $this->engine->apply($normalized, 'start_show_animal', ['animal' => 'chicken_grey_1'], self::NOW);
         $view = $this->engine->view($this->engine->normalize($next), self::NOW + 390);
 
         self::assertTrue($view['show']['active']->chicken['ready']);

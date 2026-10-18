@@ -16,8 +16,8 @@ use Random\Randomizer;
  *
  * Chests draw cards (or blueprints) with a deterministic RNG; the first card
  * unlocks an animal, the next ones level it up (1-5). An owned animal makes
- * its species' product for free, one of 3 durations; the building level caps
- * how many animals work at once, one per species.
+ * its species' product for free, for its own duration (one of its species'
+ * three); the building level caps how many animals work at once, one per species.
  */
 final readonly class ShowAnimals
 {
@@ -124,14 +124,14 @@ final readonly class ShowAnimals
     }
 
     /**
-     * @return array<string, int> what one activation yields
+     * @return array<string, int> what one activation yields (the animal's own duration)
      */
-    public function outputs(string $animalId, int $level, int $durationIndex): array
+    public function outputs(string $animalId, int $level): array
     {
         $animal = $this->config()['animals'][$animalId];
         $species = $this->config()['species'][$animal['species']];
 
-        return [$species['product'] => $species['quantities'][$animal['rarity']][$level - 1][$durationIndex]];
+        return [$species['product'] => $species['quantities'][$animal['rarity']][$level - 1][$animal['duration']]];
     }
 
     /**

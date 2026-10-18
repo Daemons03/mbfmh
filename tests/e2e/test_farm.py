@@ -59,7 +59,7 @@ def test_sell_from_barn(game, farm):
     farm.patch({"barn.items": {"corn": 10}})
     reload(game)
     open_tab(game, "barn")
-    detail = game.locator(".barn-detail")
+    detail = game.locator(".item-detail")
     assert "Maïs" in detail.inner_text(), "first item in stock is chosen"
     assert "10 / 200" in text(detail)
 
@@ -76,7 +76,7 @@ def test_sell_a_chosen_quantity_with_the_slider(game, farm):
     reload(game)
     open_tab(game, "barn")
     game.locator(".tile[title='Maïs']").click()
-    detail = game.locator(".barn-detail")
+    detail = game.locator(".item-detail")
 
     detail.locator("input[type=range]").fill("4")
     assert "🌽 4" in text(detail.locator(".sale")) and "20" in text(detail.locator(".sale"))

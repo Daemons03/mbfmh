@@ -1,5 +1,12 @@
-"""Show animals: chests, cards, free activation."""
+"""Show animals: chests, cards, free activation, one fixed duration per animal."""
+import json
+import time
+from pathlib import Path
+
 from conftest import close_sheet, open_tab, reload, settle
+
+ANIMALS = json.loads((Path(__file__).parents[2] / "data/game-data.json").read_text())["show_animals"]["animals"]
+DATA_NAMES = {id_: a["name"] for id_, a in ANIMALS.items()}
 
 
 def test_chests_and_activation(game, farm):
@@ -21,16 +28,17 @@ def test_chests_and_activation(game, farm):
 
     owned = state["show"]["animals"][draw["animal"]]
     assert owned["level"] >= 1
-    card = game.locator("#sheet .recipe").first
-    card.get_by_role("button").first.click()  # shortest duration
-    settle(game)
+    detail = game.locator(".item-detail")  # the drawn animal is shown
+    assert detail.locator(".row-title").inner_text().startswith(DATA_NAMES[draw["animal"]])
+    detail.get_by_role("button", name="Lancer").click()
+    game.wait_for_selector("#sheet", state="hidden")  # the panel closes once started
     assert len(farm.state()["show"]["active"]) == 1
+    open_tab(game, "show")
     assert "Animaux au travail : 1 / 1" in body.inner_text()
     close_sheet(game)
 
 
 def test_cancel_a_working_show_animal(game, farm):
-    import time
     job = {"animal": "chicken_grey_1", "started_at": int(time.time()), "duration": 3600, "outputs": {"egg": 10}}
     farm.patch({"show.animals": {"chicken_grey_1": {"level": 1, "cards": 1}}, "show.active": {"chicken": job}})
     reload(game)
@@ -42,3 +50,20 @@ def test_cancel_a_working_show_animal(game, farm):
     assert state["show"]["active"] == {}
     assert state["barn"]["items"] == {}
     assert farm.log() == ["cancel_show_animal"]
+
+
+def test_each_animal_has_its_own_duration(game, farm):
+    owned = {f"chicken_grey_{i}": {"level": 1, "cards": 0} for i in (1, 2, 3)}
+    farm.patch({"show.animals": owned, "show.active": {}})
+    reload(game)
+    open_tab(game, "show")
+
+    tiles = game.locator(".tiles.animals").first.locator(".tile")
+    assert [t.inner_text().split("\n")[1] for t in tiles.all()] == ["Grisette", "Picorette", "Cendrine"]
+    assert [t.locator(".tile-time").inner_text() for t in tiles.all()] == ["⏱ 6 min 30 s", "⏱ 20 min", "⏱ 3 h 30 min"]
+
+    game.locator(".tile[title=Picorette]").click()
+    game.locator(".item-detail").get_by_role("button", name="Lancer").click()
+    game.wait_for_selector("#sheet", state="hidden")
+    job = farm.state()["show"]["active"]["chicken"]
+    assert (job["animal"], job["duration"], job["outputs"]) == ("chicken_grey_2", 1200, {"egg": 30})
