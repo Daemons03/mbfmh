@@ -49,7 +49,7 @@ final class BuildTest extends EngineTestCase
         foreach (['field', 'premium_field', 'chicken_coop', 'free_range_pigsty', 'sheep_pen', 'apple_orchard', 'fertile_peach_orchard', 'meadow', 'premium_meadow'] as $type) {
             self::assertNull($this->data->building($type)['max_count'], $type);
         }
-        foreach (['windmill' => 2, 'silo' => 2, 'composter' => 2, 'dairy' => 1, 'jam_kitchen' => 1, 'barn' => 1, 'beehive' => 2] as $type => $max) {
+        foreach (['windmill' => 2, 'silo' => 2, 'composter' => 2, 'dairy' => 1, 'jam_kitchen' => 1, 'barn' => 1, 'beehive' => 2, 'premium_windmill' => 3] as $type => $max) {
             self::assertSame($max, $this->data->building($type)['max_count'], $type);
         }
     }

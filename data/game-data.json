@@ -22785,7 +22785,7 @@
         2,
         2
       ],
-      "max_count": 1,
+      "max_count": 3,
       "production": {
         "mode": "batch",
         "_note": "Recettes, cash, durées et XP : valeurs du jeu (captures du joueur) ; capacité relevée."
