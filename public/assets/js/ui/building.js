@@ -1,5 +1,6 @@
 import { perform } from '../actions.js';
 import { buildingArt } from '../art.js';
+import { buildingPicture } from '../sprites.js';
 import { h } from '../dom.js';
 import { fmtCost, fmtDuration, fmtInt } from '../format.js';
 import { buildingById, canAfford, definition, footprintOf, jobStatus, productionCost, store, workersNeeded } from '../store.js';
@@ -36,12 +37,15 @@ export function buildingPanel(id, { startMove }) {
 function hero(building, def) {
     const status = jobStatus(building);
     const product = building.job ? store.data.items[building.job.product]?.emoji ?? null : null;
-    const { svg } = buildingArt(building, def, { working: Boolean(building.job) && !status?.ready, ready: Boolean(status?.ready), product });
-    if (building.rotated) svg.classList.add('mirrored');
+    let picture = buildingPicture(building.type, def, { level: building.level, rotated: building.rotated, cls: 'hero-sprite' });
+    if (picture.tagName.toLowerCase() === 'svg') {
+        picture = buildingArt(building, def, { working: Boolean(building.job) && !status?.ready, ready: Boolean(status?.ready), product }).svg;
+        if (building.rotated) picture.classList.add('mirrored');
+    }
     const [w, hh] = def.size ? footprintOf(building.type, Boolean(building.rotated)) : [0, 0];
 
     return h('div', { class: 'hero' },
-        h('div', { class: 'hero-picture' }, svg),
+        h('div', { class: 'hero-picture' }, picture),
         h('div', { class: 'hero-info' },
             h('div', { class: 'hero-level' }, `Niveau ${building.level} / ${def.levels.length}`),
             def.size ? h('div', { class: 'row-sub' }, `◇ ${w}×${hh}`) : null));

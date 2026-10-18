@@ -25199,6 +25199,116 @@
       ],
       "variant_of": "house",
       "variant": "premium"
+    },
+    "duck_pond": {
+      "kind": "decoration",
+      "max_count": 50,
+      "name": "Mare aux canards",
+      "emoji": "🦆",
+      "size": [
+        1,
+        1
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 9,
+          "cost": {
+            "cash": 9000
+          },
+          "happiness": 20
+        }
+      ],
+      "_estimated": true,
+      "_note": "Bonheur et taille : images du joueur ; coût et niveau requis estimés."
+    },
+    "gazebo": {
+      "kind": "decoration",
+      "max_count": 50,
+      "name": "Kiosque",
+      "emoji": "🛖",
+      "size": [
+        1,
+        1
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 11,
+          "cost": {
+            "gold": 900
+          },
+          "happiness": 20
+        }
+      ],
+      "_estimated": true,
+      "_note": "Bonheur et taille : images du joueur ; coût et niveau requis estimés."
+    },
+    "wind_pump": {
+      "kind": "decoration",
+      "max_count": 50,
+      "name": "Éolienne de pompage",
+      "emoji": "🌬️",
+      "size": [
+        2,
+        1
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 22,
+          "cost": {
+            "cash": 90000
+          },
+          "happiness": 47
+        }
+      ],
+      "_estimated": true,
+      "_note": "Bonheur et taille : images du joueur ; coût et niveau requis estimés."
+    },
+    "swimming_pond": {
+      "kind": "decoration",
+      "max_count": 50,
+      "name": "Étang de baignade",
+      "emoji": "🏊",
+      "size": [
+        2,
+        2
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 30,
+          "cost": {
+            "gold": 2500
+          },
+          "happiness": 100
+        }
+      ],
+      "_estimated": true,
+      "_note": "Bonheur et taille : images du joueur ; coût et niveau requis estimés."
+    },
+    "lantern_garden": {
+      "kind": "decoration",
+      "max_count": 50,
+      "name": "Jardin aux lanternes",
+      "emoji": "🏮",
+      "size": [
+        2,
+        2
+      ],
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 35,
+          "cost": {
+            "cash": 450000
+          },
+          "happiness": 100
+        }
+      ],
+      "_estimated": true,
+      "_note": "Bonheur et taille : images du joueur ; coût et niveau requis estimés."
     }
   },
   "happiness": {

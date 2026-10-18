@@ -6,7 +6,7 @@ Un panneau admin permet de modifier librement ressources, niveau et vitesse du t
 
 ## Règles impératives
 
-- **Aucun asset du jeu d'origine** : pas d'images, logos, noms de marque ni personnages. Visuels = emojis + CSS. Le nom du jeu est « Ferme Tranquille ».
+- Projet **strictement personnel, jamais publié** (dépôt privé). Décision du propriétaire (2026-10) : les images de bâtiments fournies dans `asset-a-integrer/` peuvent être intégrées (`public/assets/img/buildings`, voir VX). Pas de logos, noms de marque ni personnages du jeu d'origine dans l'interface. Le nom du jeu est « Ferme Tranquille ».
 - Aucune image ni fichier chargé depuis bfmhfansite.com. Seules des **valeurs chiffrées** (coûts, niveaux, prix) servent de base d'équilibrage, saisies dans `data/game-data.json`.
 - Toute valeur inconnue/estimée porte `"_estimated": true` dans le JSON.
 - Code en anglais (identifiants, commentaires techniques), **interface en français**.
@@ -232,6 +232,8 @@ Données réelles (niveaux, coûts, quantités produites) reprises du fan site ;
 - Noms des animaux : inventés pour Ferme Tranquille (jamais ceux du jeu d'origine).
 
 ## VX — Habillage graphique (après la V2) ✅
+
+- **Images de bâtiments** : `php scripts/import-sprites.php asset-a-integrer/all` reconnaît les noms du joueur (`poule_premium_2.png` → `premium_chicken_coop-2.png`, `marche_1.png` → marché, `terrain_a_acheter.png` → terrain non acheté…), copie dans `public/assets/img/buildings/<type>-<palier>.png` et écrit `manifest.json` (taille + coins gauche / droit / bas du losange au sol, mesurés par `scripts/sprite-metrics.php`). Le jeu pose chaque image sur son emprise (même isométrique 2:1), devine son orientation et la met en miroir si besoin (rotation) ; palier manquant → palier inférieur ; pas d'image → dessin SVG. Champs et prairies gardent leurs cultures dessinées par-dessus. Zone cliquable = losange relevé jusqu'en haut de l'image.
 
 - Thème : planches de bois, panneaux crème, cartes bleu clair à cadre brun, gros boutons bombés, titres blancs cernés, étoile de niveau, médaillons ronds dans la barre du bas ; police Fredoka (OFL) servie en local (`public/assets/fonts`) ; variante sombre.
 - Carte **isométrique** (`assets/js/iso.js`) : cases en losange (unité `--u` = demi-largeur de case), bord de terre, blocs verrouillés / prochain bloc, clic → case par calcul inverse, aperçu de l'emprise en plaçant (au doigt : 1ᵉʳ tap = aperçu, « Valider » ou 2ᵉ tap = construire), zoom par boutons, pincement ou Ctrl + molette.

@@ -474,6 +474,28 @@ const DESIGNS = {
         const fertile = ctx.variant === 'fertile';
         const level = ctx.building.level ?? 1;
         const soil = fertile ? '#5e3a1a' : level < 4 ? C.soilDry : C.soil;
+        if (!ctx.overlay) DESIGNS.fieldGround(c, ctx, soil, level);
+        if (ctx.building.job) {
+            const char = ctx.ready ? ctx.product : '🌱';
+            const size = ctx.ready ? 0.42 : 0.28;
+            for (let row = 0; row < 3; row++) {
+                for (let col = 0; col < 5; col++) {
+                    const x = 0.35 + ((w - 0.7) * col) / 4;
+                    const y = 0.3 + ((h - 0.6) * row) / 2;
+                    c.emoji(x, y, char, size, 0, { class: ctx.ready ? 'sway' : null });
+                }
+            }
+            if (!ctx.ready && t >= 2) {
+                // crop sign, as farmers do
+                c.box(w * 0.5 - 0.03, h - 0.3, 0.06, 0.06, 0, 0.45, C.plankDark);
+                c.poly([[w * 0.5 - 0.25, h - 0.27, 0.42], [w * 0.5 + 0.25, h - 0.27, 0.42], [w * 0.5 + 0.25, h - 0.27, 0.78], [w * 0.5 - 0.25, h - 0.27, 0.78]], C.plank, { 'stroke-width': 0.02 });
+                c.emoji(w * 0.5, h - 0.26, ctx.product ?? '🌱', 0.3, 0.47);
+            }
+        }
+    },
+
+    fieldGround(c, ctx, soil, level) {
+        const { w, h } = c;
         c.ground(ctx.variant ? VARIANT_TRIM[ctx.variant] : '#7fb447', 0.01);
         c.ground(soil, 0.1, { stroke: shade(soil, -0.3) });
         if (level < 4) {
@@ -501,23 +523,6 @@ const DESIGNS = {
             }
         }
         if (ctx.variant === 'premium') c.line([0.06, h - 0.06], [w - 0.06, h - 0.06], C.water, 0.09);
-        if (ctx.building.job) {
-            const char = ctx.ready ? ctx.product : '🌱';
-            const size = ctx.ready ? 0.42 : 0.28;
-            for (let row = 0; row < 3; row++) {
-                for (let col = 0; col < 5; col++) {
-                    const x = 0.35 + ((w - 0.7) * col) / 4;
-                    const y = 0.3 + ((h - 0.6) * row) / 2;
-                    c.emoji(x, y, char, size, 0, { class: ctx.ready ? 'sway' : null });
-                }
-            }
-            if (!ctx.ready && t >= 2) {
-                // crop sign, as farmers do
-                c.box(w * 0.5 - 0.03, h - 0.3, 0.06, 0.06, 0, 0.45, C.plankDark);
-                c.poly([[w * 0.5 - 0.25, h - 0.27, 0.42], [w * 0.5 + 0.25, h - 0.27, 0.42], [w * 0.5 + 0.25, h - 0.27, 0.78], [w * 0.5 - 0.25, h - 0.27, 0.78]], C.plank, { 'stroke-width': 0.02 });
-                c.emoji(w * 0.5, h - 0.26, ctx.product ?? '🌱', 0.3, 0.47);
-            }
-        }
     },
 
     barn(c, ctx) {
@@ -715,14 +720,16 @@ const DESIGNS = {
     meadow(c, ctx) {
         const { w, h } = c;
         const t = ctx.tier;
-        c.ground(ctx.variant === 'premium' ? C.gold : C.grassDark, 0.02);
-        c.ground('#9ccf62', 0.1);
-        const colors = ['#9b7fd6', '#c79bf0'];
-        for (let i = 0; i < 5; i++) {
-            const y = 0.3 + ((h - 0.6) * i) / 4;
-            c.line([0.3, y, 0.05], [w - 0.3, y, 0.05], colors[i % 2], 0.14 + t * 0.02);
+        if (!ctx.overlay) {
+            c.ground(ctx.variant === 'premium' ? C.gold : C.grassDark, 0.02);
+            c.ground('#9ccf62', 0.1);
+            const colors = ['#9b7fd6', '#c79bf0'];
+            for (let i = 0; i < 5; i++) {
+                const y = 0.3 + ((h - 0.6) * i) / 4;
+                c.line([0.3, y, 0.05], [w - 0.3, y, 0.05], colors[i % 2], 0.14 + t * 0.02);
+            }
+            if (t >= 2) c.pen(0.06, t === 3 ? 'picket' : 'wood', 0.18)();
         }
-        if (t >= 2) c.pen(0.06, t === 3 ? 'picket' : 'wood', 0.18)();
         if (ctx.building.job) {
             for (const [x, y] of [[0.7, 0.45], [1.5, 0.9], [2.3, 1.45], [1.0, 1.4]]) c.emoji(x, y, ctx.product ?? '🌸', 0.38, 0.05, { class: ctx.ready ? 'sway' : null });
         }
@@ -1018,18 +1025,27 @@ const TYPES = {
  * <svg> for a building on the map. Returns { svg, top } where top is the room
  * above the footprint (in local units) so the caller can position it.
  */
-export function buildingArt(building, def, { working = false, ready = false, product = null } = {}) {
+export function buildingArt(building, def, { working = false, ready = false, product = null, overlay = false, top: forcedTop = null } = {}) {
     const base = def.variant_of ?? building.type;
     const [w, h] = def.size;
-    const [design, options, top] = TYPES[base] ?? (def.kind === 'decoration' ? ['decoration', {}, 1.3] : ['generic', {}, 1.8]);
+    const [design, options, defaultTop] = TYPES[base] ?? (def.kind === 'decoration' ? ['decoration', {}, 1.3] : ['generic', {}, 1.8]);
+    const top = forcedTop ?? defaultTop;
     const c = new Canvas(w, h, top);
     const ctx = {
         def, building, type: base, variant: def.variant ?? null,
-        tier: tierOf(building.level ?? 1, def.levels?.length ?? 1), working, ready, product,
+        tier: tierOf(building.level ?? 1, def.levels?.length ?? 1), working, ready, product, overlay,
     };
-    DESIGNS[design](c, ctx, options);
+    if (!overlay || OVERLAYS.has(design)) DESIGNS[design](c, ctx, options);
 
     return { svg: c.svg(), top };
+}
+
+/** Designs that still draw something on top of a picture (crops on fields, flowers on meadows). */
+const OVERLAYS = new Set(['field', 'meadow']);
+
+/** Does this type draw an overlay above its picture? */
+export function hasOverlay(type, def) {
+    return OVERLAYS.has((TYPES[def.variant_of ?? type] ?? [])[0]);
 }
 
 /**

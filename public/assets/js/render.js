@@ -1,6 +1,7 @@
 import { h, $ } from './dom.js';
 import { fmtDuration, fmtInt, fmtNumber, fmtShort } from './format.js';
-import { buildingArt, outsideArt, pennant, s, tierOf } from './art.js';
+import { buildingArt, hasOverlay, outsideArt, pennant, s, tierOf } from './art.js';
+import { needsMirror, spriteBox, spriteFor, spriteUrl } from './sprites.js';
 import { buildingBox, cellTop, DEPTH, footprintPoints, layout, mapSize, outsideLot } from './iso.js';
 import { buildingById, definition, footprintOf, jobStatus, store } from './store.js';
 import { canFulfill } from './ui/market.js';
@@ -75,7 +76,8 @@ export function renderGrid() {
     grid.dataset.width = size.width;
     grid.classList.toggle('placing', mode !== null);
 
-    // Ground: one diamond per farm cell, lock marks.
+    // Ground: one diamond per farm cell, lock marks; land not for sale yet shows its picture.
+    const landPicture = spriteFor('land_locked', 1);
     const cells = [];
     const marks = [];
     for (let y = 0; y < side; y++) {
@@ -95,7 +97,11 @@ export function renderGrid() {
             }
             if ((x + y) % 2 === 1) classes.push('alt');
             if ((bx + by) % 2 === 1) classes.push('alt-block');
-            cells.push(s('polygon', { class: classes.join(' '), points: footprintPoints(L, x, y, 1, 1), 'data-x': x, 'data-y': y }));
+            const wild = landPicture && !owned.has(key) && key !== nextKey;
+            cells.push(s('polygon', {
+                class: classes.join(' '), points: footprintPoints(L, x, y, 1, 1), 'data-x': x, 'data-y': y,
+                style: wild ? 'fill: url(#land-locked)' : null,
+            }));
         }
     }
     // The island: farm plus the outside strip, with earth edges at the front.
@@ -105,6 +111,7 @@ export function renderGrid() {
     const [lx, ly] = cellTop(L, 0, side);
     const [rx, ry] = cellTop(L, L.x1, yTop);
     const ground = s('svg', { class: 'ground', viewBox: `0 0 ${size.width} ${size.height}`, 'aria-hidden': 'true' },
+        landPicture ? landPattern(L, landPicture) : null,
         s('polygon', { class: 'island', points: [corner(0, yTop), corner(L.x1, yTop), corner(L.x1, side), corner(0, side)].join(' ') }),
         s('polygon', { class: 'edge-left', points: `${lx},${ly} ${fx},${fy} ${fx},${fy + DEPTH} ${lx},${ly + DEPTH}` }),
         s('polygon', { class: 'edge-right', points: `${fx},${fy} ${rx},${ry} ${rx},${ry + DEPTH} ${fx},${fy + DEPTH}` }),
@@ -131,6 +138,20 @@ export function renderGrid() {
         s('polygon', { id: 'ghost', points: pending?.points ?? '0,0', class: pending && !pending.free ? 'invalid' : null })));
 
     grid.replaceChildren(...nodes);
+}
+
+/**
+ * Pattern repeating a one-cell diamond picture over the grid: a 2 x 1 tile
+ * holding one diamond in its middle and quarter diamonds in its corners.
+ */
+function landPattern(L, sprite) {
+    const pic = spriteBox(sprite, 1, 1, false);
+    const [cx, cy] = cellTop(L, 0, 0); // top corner of cell (0,0)
+    const copies = [[1, 0], [0, -0.5], [2, -0.5], [0, 0.5], [2, 0.5]].map(([dx, dy]) => s('image', {
+        href: spriteUrl(sprite), x: dx - 1 + pic.left, y: dy + pic.top, width: pic.width, height: pic.height, preserveAspectRatio: 'none',
+    }));
+
+    return s('defs', {}, s('pattern', { id: 'land-locked', patternUnits: 'userSpaceOnUse', x: cx - 1, y: cy, width: 2, height: 1 }, copies));
 }
 
 /**
@@ -188,7 +209,10 @@ function outsideNode(type, n, L, data) {
         built = Boolean(building);
         level = building?.level ?? 1;
     }
-    const { svg, top } = outsideArt(type, def, { level, levels, built });
+    const sprite = built ? spriteFor(type, tierOf(level, levels)) : null;
+    const { content, top } = sprite
+        ? pictureContent(sprite, [lot.w, lot.h], lot.w, lot.h, false, () => null)
+        : svgContent(outsideArt(type, def, { level, levels, built }), false);
     const box = buildingBox(L, lot.x, lot.y, lot.w, lot.h, top);
 
     return h('div', {
@@ -202,7 +226,7 @@ function outsideNode(type, n, L, data) {
             height: `calc(var(--u) * ${box.height})`,
             'z-index': 2 + n,
         },
-    }, svg);
+    }, content);
 }
 
 /** Footprint preview of the building being placed or moved, at cell. */
@@ -243,9 +267,12 @@ function buildingNode(building, data, L) {
     const status = jobStatus(building);
     const ready = Boolean(status?.ready);
     const product = building.job ? data.items[building.job.product]?.emoji ?? null : null;
-    const { svg, top } = buildingArt(building, def, { working: Boolean(building.job) && !ready, ready, product });
+    const art = { working: Boolean(building.job) && !ready, ready, product };
+    const sprite = spriteFor(building.type, tierOf(building.level, def.levels.length));
+    const { content, top } = sprite
+        ? pictureContent(sprite, def.size, w, h_, Boolean(building.rotated), (t) => hasOverlay(building.type, def) ? buildingArt(building, def, { ...art, overlay: true, top: t }).svg : null)
+        : svgContent(buildingArt(building, def, art), Boolean(building.rotated));
     const box = buildingBox(L, building.x, building.y, w, h_, top);
-    if (building.rotated) svg.classList.add('mirrored'); // a quarter turn is the mirror image in isometric view
     const flat = FLAT_KINDS.has(def.kind) || FLAT_TYPES.has(building.type);
 
     if (ready) classes.push('ready');
@@ -273,9 +300,42 @@ function buildingNode(building, data, L) {
             height: `calc(var(--u) * ${box.height})`,
             'z-index': flat ? 1 : 10 + 2 * (building.x + w + building.y + h_),
         },
-    }, svg);
+    }, content);
 
     return { node, tag };
+}
+
+/** Drawn building; a quarter turn is the mirror image in isometric view. */
+function svgContent({ svg, top }, mirrored) {
+    if (mirrored) svg.classList.add('mirrored');
+    return { content: [svg], top };
+}
+
+/**
+ * Picture laid on the w x h diamond, a click area following its silhouette
+ * (the diamond raised to the top of the picture) and an optional drawn
+ * overlay (crops), all in a frame with `top` units above the diamond.
+ */
+function pictureContent(sprite, size, w, h_, rotated, overlayFor) {
+    const mirrored = needsMirror(sprite, size, rotated);
+    const pic = spriteBox(sprite, w, h_, mirrored);
+    const top = Math.max(0.4, -pic.top + 0.05);
+    const rise = Math.max(0, -pic.top);
+    const pts = [[0, h_ / 2], [h_, 0], [w + h_, w / 2], [w, (w + h_) / 2]].map(([x, y]) => [x, y + top]);
+    const raised = [pts[0], [0, pts[0][1] - rise], [h_, top - rise], [w + h_, pts[2][1] - rise], pts[2], pts[3]];
+    const hit = s('svg', { class: 'hit', viewBox: `0 0 ${w + h_} ${top + (w + h_) / 2}`, 'aria-hidden': 'true' },
+        s('polygon', { points: raised.map((p) => p.map((n) => +n.toFixed(3)).join(',')).join(' ') }));
+    const img = h('img', {
+        src: spriteUrl(sprite), alt: '', draggable: 'false',
+        class: `sprite${mirrored ? ' mirrored' : ''}`,
+        style: {
+            left: `calc(var(--u) * ${pic.left})`,
+            top: `calc(var(--u) * ${top + pic.top})`,
+            width: `calc(var(--u) * ${pic.width})`,
+        },
+    });
+
+    return { content: [img, overlayFor(top), hit], top };
 }
 
 /** Does this building make things with a job (fields, non-instant production)? */

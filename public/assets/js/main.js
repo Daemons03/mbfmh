@@ -14,6 +14,7 @@ import { landPanel } from './ui/land.js';
 import { libraryPanel } from './ui/library.js';
 import { marketPanel } from './ui/market.js';
 import { closeSheet, initSheet, openSheet, refreshSheet } from './ui/sheet.js';
+import { loadSprites } from './sprites.js';
 import { toast } from './ui/toast.js';
 
 const SYNC_INTERVAL_MS = 30_000;
@@ -40,7 +41,7 @@ function showLogin(message = null) {
 }
 
 async function startGame() {
-    const [dataResponse, stateResponse] = await Promise.all([api.data(), api.state()]);
+    const [dataResponse, stateResponse] = await Promise.all([api.data(), api.state(), loadSprites()]);
     store.data = dataResponse.data;
     applyResponse(stateResponse);
     showScreen('app');
