@@ -20,6 +20,7 @@ Un panneau admin permet de modifier librement ressources, niveau et vitesse du t
 - Front : HTML + CSS + JavaScript vanilla (ES modules), sans build.
 - Composer uniquement pour PHPUnit (dev).
 - Serveur cible : Ubuntu + Apache, déploiement Git + bash (script existant côté utilisateur, ne pas en créer sauf demande).
+- Mise en ligne : voir `DEPLOY.md` (guide pour l'agent qui a accès au serveur : prérequis, base, config, vhost, HTTPS, accès privé, sauvegardes).
 
 ## Structure
 
