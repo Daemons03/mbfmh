@@ -100,7 +100,7 @@ function speciesBlock(speciesId, species, config, show, view) {
         owned.length ? h('div', { class: 'list' }, owned.map(([id, animal]) => {
             const { level, cards } = show.animals[id];
             const next = level < 5 ? config.card_levels[level - 1] : null;
-            return h('div', { class: 'contract recipe' },
+            return h('div', { class: `contract recipe rarity rarity-${animal.rarity}` },
                 h('div', { class: 'row-title' }, `${config.rarities[animal.rarity].emoji} ${animal.name} — niv. ${level}`),
                 h('p', { class: 'row-sub' }, next ? `${fmtInt(cards)} / ${fmtInt(next)} cartes pour le niveau suivant` : 'Niveau maximum'),
                 h('div', { class: 'actions' }, species.durations.map((duration, i) => h('button', {

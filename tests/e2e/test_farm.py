@@ -1,5 +1,5 @@
 """Step 6: login, grid, plant, harvest, sell, build, move."""
-from conftest import PASSWORD, cash_text, close_sheet, grid_side, login, open_tab, reload, row, settle, tap
+from conftest import cell_center, PASSWORD, cash_text, close_sheet, grid_side, login, open_tab, reload, row, settle, tap
 
 
 def test_wrong_password_then_login(page, farm, base_url):
@@ -84,6 +84,22 @@ def test_build_with_placement_mode_and_build_here(game, farm):
     fields = [(b["x"], b["y"]) for b in farm.state()["buildings"] if b["type"] == "field"]
     assert (6, 5) in fields and (6, 2) in fields
     assert farm.state()["cash"] == 2000 - 2 * 250
+
+
+def test_touch_placement_needs_confirmation(game, farm):
+    farm.add_house(10, 0)
+    reload(game)
+    open_tab(game, "build")
+    row(game, "Champ").get_by_role("button", name="Placer").click()
+
+    game.touchscreen.tap(*cell_center(game, 6, 5))
+    assert "Champ ici ?" in game.locator("#mode-banner").inner_text()
+    assert game.locator("#ghost").get_attribute("points") != "0,0", "footprint shown"
+    assert not [b for b in farm.state()["buildings"] if (b.get("x"), b.get("y")) == (6, 5)], "nothing built yet"
+
+    game.locator("#mode-banner").get_by_role("button", name="Valider").click()
+    game.wait_for_selector("#mode-banner[hidden]", state="attached")
+    assert any((b.get("x"), b.get("y")) == (6, 5) for b in farm.state()["buildings"] if b["type"] == "field")
 
 
 def test_move_barn(game, farm):

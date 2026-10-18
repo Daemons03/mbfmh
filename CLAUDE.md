@@ -230,6 +230,10 @@ Données réelles (niveaux, coûts, quantités produites) reprises du fan site ;
   - autres espèces (réf. durée longue) : cochon 2 h 30, vache 7 h, chèvre 6 h 30 ; quantités estimées.
 - Noms des animaux : inventés pour Ferme Tranquille (jamais ceux du jeu d'origine).
 
-## VX — Habillage graphique (après la V2)
+## VX — Habillage graphique (après la V2) ✅
+
+- Thème : planches de bois, panneaux crème, cartes bleu clair à cadre brun, gros boutons bombés, titres blancs cernés, étoile de niveau, médaillons ronds dans la barre du bas ; police Fredoka (OFL) servie en local (`public/assets/fonts`) ; variante sombre.
+- Carte **isométrique** (`assets/js/iso.js`) : cases en losange (unité `--u` = demi-largeur de case), bord de terre, blocs verrouillés / prochain bloc, clic → case par calcul inverse, aperçu de l'emprise en plaçant (au doigt : 1ᵉʳ tap = aperçu, « Valider » ou 2ᵉ tap = construire), zoom par boutons, pincement ou Ctrl + molette.
+- Bâtiments dessinés en SVG par le code (`assets/js/art.js`, primitives boîte / toit / cylindre / arbre / clôture), un dessin par type et des détails par variante ; minuteurs et bulles « prêt » au-dessus de la carte ; vignette en tête du panneau d'un bâtiment et dans la liste Construire.
 
 S'inspirer de l'ambiance (panneaux bois, cartes à cadre coloré par rareté, étoiles, gros boutons arrondis) avec des visuels **créés pour le projet** (CSS, SVG maison, emojis) : aucune image, icône ni nom du jeu d'origine. Le dossier `images/` (captures de référence) est ignoré par Git.

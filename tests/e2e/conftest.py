@@ -178,12 +178,17 @@ def reload(page: Page):
     page.wait_for_selector("#grid .building")
 
 
-def tap(page: Page, x: int, y: int):
-    """Clicks the centre of grid cell (x, y) (a diamond on the isometric map), scrolling it into view."""
+def cell_center(page: Page, x: int, y: int) -> tuple[float, float]:
+    """Screen centre of grid cell (x, y) (a diamond on the isometric map), scrolled into view."""
     cell = page.locator(f'#grid .cell[data-x="{x}"][data-y="{y}"]')
     cell.evaluate("e => e.scrollIntoView({ block: 'center', inline: 'center' })")
     box = cell.bounding_box()
-    page.mouse.click(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
+    return box["x"] + box["width"] / 2, box["y"] + box["height"] / 2
+
+
+def tap(page: Page, x: int, y: int):
+    """Clicks grid cell (x, y) with the mouse."""
+    page.mouse.click(*cell_center(page, x, y))
 
 
 def grid_side(page: Page) -> int:

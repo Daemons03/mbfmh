@@ -2,7 +2,7 @@ import { h, $ } from './dom.js';
 import { fmtDuration, fmtInt, fmtNumber, fmtShort } from './format.js';
 import { buildingArt, s } from './art.js';
 import { buildingBox, cellTop, DEPTH, footprintPoints, mapSize } from './iso.js';
-import { definition, jobStatus, store } from './store.js';
+import { buildingById, definition, jobStatus, store } from './store.js';
 
 export function renderTopbar() {
     const { state, view, data } = store;
@@ -39,7 +39,9 @@ export function renderTopbar() {
             }, `🛖 ${fmtInt(view.barn.capacity)}`),
         ),
     ];
-    if (materials.length) children.push(h('div', { class: 'materials' }, materials));
+    // Wallet and materials share one row that scrolls sideways on phones.
+    const wallet = children.pop();
+    children.push(h('div', { class: 'hud-res' }, wallet, materials.length ? h('div', { class: 'materials' }, materials) : null));
     $('#topbar').replaceChildren(...children);
 }
 
@@ -103,10 +105,40 @@ export function renderGrid() {
         if (tag) tags.push(tag);
     }
     nodes.push(...tags); // timers and ready bubbles stay above every building
+    // Footprint preview: follows the mouse, or marks the spot picked by a first tap on touch screens.
+    const pending = mode?.pending ? ghostFor(mode, mode.pending) : null;
     nodes.push(s('svg', { class: 'ghost-layer', viewBox: `0 0 ${size.width} ${size.height}`, 'aria-hidden': 'true' },
-        s('polygon', { id: 'ghost', points: '0,0' })));
+        s('polygon', { id: 'ghost', points: pending?.points ?? '0,0', class: pending && !pending.free ? 'invalid' : null })));
 
     grid.replaceChildren(...nodes);
+}
+
+/** Footprint preview of the building being placed or moved, at cell. */
+export function ghostFor(mode, cell) {
+    const type = mode.kind === 'build' ? mode.type : buildingById(mode.id)?.type;
+    if (!type) return null;
+    const [w, h_] = definition(type).size;
+
+    return {
+        points: footprintPoints(store.view.grid.side, cell.x, cell.y, w, h_),
+        free: spotIsFree(cell, w, h_, mode.kind === 'move' ? mode.id : null),
+    };
+}
+
+/** Client-side hint only (owned land, no overlap); the server decides. */
+function spotIsFree(cell, w, h_, ignoreId) {
+    const { side, block_size: blockSize, owned_blocks: ownedBlocks } = store.view.grid;
+    const owned = new Set(ownedBlocks.map(([bx, by]) => `${bx},${by}`));
+    for (let y = cell.y; y < cell.y + h_; y++) {
+        for (let x = cell.x; x < cell.x + w; x++) {
+            if (x >= side || y >= side || !owned.has(`${Math.floor(x / blockSize)},${Math.floor(y / blockSize)}`)) return false;
+        }
+    }
+    return store.state.buildings.every((b) => {
+        if (b.x === undefined || b.id === ignoreId) return true;
+        const [bw, bh] = definition(b.type).size;
+        return cell.x >= b.x + bw || b.x >= cell.x + w || cell.y >= b.y + bh || b.y >= cell.y + h_;
+    });
 }
 
 const FLAT_KINDS = new Set(['field']);

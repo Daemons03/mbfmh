@@ -1,8 +1,8 @@
 import { perform, refresh, setUnauthenticatedHandler } from './actions.js';
 import { api, ApiError } from './api.js';
 import { h, $ } from './dom.js';
-import { cellAt, cellTop, footprintPoints } from './iso.js';
-import { renderGrid, renderTopbar, tickCountdowns } from './render.js';
+import { cellAt, cellTop } from './iso.js';
+import { ghostFor, renderGrid, renderTopbar, tickCountdowns } from './render.js';
 import { applyResponse, buildingById, definition, jobStatus, notify, serverNow, store, subscribe } from './store.js';
 import { barnPanel } from './ui/barn.js';
 import { buildPanel } from './ui/build.js';
@@ -82,11 +82,13 @@ function renderModeBanner() {
         return;
     }
     const def = mode.kind === 'build' ? definition(mode.type) : definition(buildingById(mode.id)?.type);
-    const text = mode.kind === 'build'
+    let text = mode.kind === 'build'
         ? `Touchez une case pour placer : ${def.emoji} ${def.name}`
         : `Touchez la nouvelle position : ${def.emoji} ${def.name}`;
+    if (mode.pending) text = `${def.emoji} ${def.name} ici ?`;
     banner.replaceChildren(
         h('span', {}, text),
+        mode.pending ? h('button', { type: 'button', class: 'btn btn-go', onclick: () => place(mode.pending) }, '✔ Valider') : null,
         h('button', { type: 'button', class: 'btn', onclick: () => setMode(null) }, 'Annuler'),
     );
     banner.hidden = false;
@@ -107,36 +109,22 @@ function cellFromEvent(event) {
     return cellAt(store.view.grid.side, (event.clientX - rect.left) / u, (event.clientY - rect.top) / u);
 }
 
-/** Footprint preview while placing or moving: green when the spot is free. */
+/** Footprint preview under the mouse while placing or moving: green when the spot is free. */
 function onGridHover(event) {
     const ghost = $('#ghost');
-    if (!ghost) return;
-    const { mode } = store;
-    const cell = mode ? cellFromEvent(event) : null;
-    if (!cell) {
-        ghost.setAttribute('points', '0,0');
-        return;
-    }
-    const type = mode.kind === 'build' ? mode.type : buildingById(mode.id)?.type;
-    const [w, h_] = definition(type).size;
-    ghost.setAttribute('points', footprintPoints(store.view.grid.side, cell.x, cell.y, w, h_));
-    ghost.classList.toggle('invalid', !spotIsFree(cell, w, h_, mode.kind === 'move' ? mode.id : null));
+    if (!ghost || event.pointerType === 'touch' || !store.mode) return;
+    const cell = cellFromEvent(event);
+    const preview = cell ? ghostFor(store.mode, cell) : null;
+    ghost.setAttribute('points', preview?.points ?? '0,0');
+    ghost.classList.toggle('invalid', Boolean(preview) && !preview.free);
 }
 
-/** Client-side hint only (owned land, no overlap); the server decides. */
-function spotIsFree(cell, w, h_, ignoreId) {
-    const { side, block_size: blockSize, owned_blocks: ownedBlocks } = store.view.grid;
-    const owned = new Set(ownedBlocks.map(([bx, by]) => `${bx},${by}`));
-    for (let y = cell.y; y < cell.y + h_; y++) {
-        for (let x = cell.x; x < cell.x + w; x++) {
-            if (x >= side || y >= side || !owned.has(`${Math.floor(x / blockSize)},${Math.floor(y / blockSize)}`)) return false;
-        }
-    }
-    return store.state.buildings.every((b) => {
-        if (b.x === undefined || b.id === ignoreId) return true;
-        const [bw, bh] = definition(b.type).size;
-        return cell.x >= b.x + bw || b.x >= cell.x + w || cell.y >= b.y + bh || b.y >= cell.y + h_;
-    });
+async function place(cell) {
+    const { mode } = store;
+    const ok = mode.kind === 'build'
+        ? await perform('build', { type: mode.type, ...cell })
+        : await perform('move', { id: mode.id, ...cell });
+    if (ok) setMode(null);
 }
 
 function cellClasses(cell) {
@@ -165,11 +153,13 @@ async function onGridClick(event) {
     if (!cell && (store.mode || !buildingEl)) return;
 
     if (store.mode) {
-        const { mode } = store;
-        const ok = mode.kind === 'build'
-            ? await perform('build', { type: mode.type, ...cell })
-            : await perform('move', { id: mode.id, ...cell });
-        if (ok) setMode(null);
+        const { pending } = store.mode;
+        // On touch screens the first tap only shows the footprint; tap it again (or Valider) to place.
+        if (event.pointerType === 'touch' && !(pending && pending.x === cell.x && pending.y === cell.y)) {
+            setMode({ ...store.mode, pending: cell });
+            return;
+        }
+        await place(cell);
         return;
     }
 
@@ -261,6 +251,38 @@ function applyZoom() {
     }
 }
 
+/** Two-finger pinch on the map: one zoom step each time the spread changes by 25 %. */
+function wirePinchZoom() {
+    const map = $('#map');
+    let base = null;
+    const spread = (touches) => Math.hypot(touches[0].clientX - touches[1].clientX, touches[0].clientY - touches[1].clientY);
+    map.addEventListener('touchstart', (event) => {
+        if (event.touches.length === 2) base = spread(event.touches);
+    }, { passive: true });
+    map.addEventListener('touchmove', (event) => {
+        if (event.touches.length !== 2 || base === null) return;
+        const ratio = spread(event.touches) / base;
+        if (ratio > 1.25 || ratio < 0.8) {
+            zoom(ratio > 1 ? 1 : -1);
+            base = spread(event.touches);
+        }
+    }, { passive: true });
+    map.addEventListener('touchend', (event) => {
+        if (event.touches.length < 2) base = null;
+    });
+    // Ctrl + wheel (and trackpad pinch) on computers.
+    let wheel = 0;
+    map.addEventListener('wheel', (event) => {
+        if (!event.ctrlKey) return;
+        event.preventDefault();
+        wheel += event.deltaY;
+        if (Math.abs(wheel) > 60) {
+            zoom(wheel < 0 ? 1 : -1);
+            wheel = 0;
+        }
+    }, { passive: false });
+}
+
 function zoom(delta) {
     zoomIndex = Math.min(ZOOM_LEVELS.length - 1, Math.max(0, zoomIndex + delta));
     applyZoom();
@@ -304,6 +326,7 @@ function wire() {
     $('#grid').addEventListener('pointermove', onGridHover);
     $('#zoom-in').addEventListener('click', () => zoom(1));
     $('#zoom-out').addEventListener('click', () => zoom(-1));
+    wirePinchZoom();
     for (const button of document.querySelectorAll('#tabs button')) {
         button.addEventListener('click', () => openTab(button.dataset.tab));
     }
