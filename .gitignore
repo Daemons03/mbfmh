@@ -29,3 +29,6 @@ Thumbs.db
 
 # Reference screenshots of the original game: never versioned, never used by the game
 /images/
+
+# Pictures to import (copies go to public/assets/img/buildings)
+/asset-a-integrer/
