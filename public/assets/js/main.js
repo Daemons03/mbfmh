@@ -57,11 +57,15 @@ function setMode(mode) {
 }
 
 function startPlacement(type) {
-    setMode({ kind: 'build', type });
+    setMode({ kind: 'build', type, rotated: false });
 }
 
 function startMove(id) {
-    setMode({ kind: 'move', id });
+    setMode({ kind: 'move', id, rotated: Boolean(buildingById(id)?.rotated) });
+}
+
+function toggleRotation() {
+    setMode({ ...store.mode, rotated: !store.mode.rotated });
 }
 
 function renderModeBanner() {
@@ -78,6 +82,7 @@ function renderModeBanner() {
     if (mode.pending) text = `${def.emoji} ${def.name} ici ?`;
     banner.replaceChildren(
         h('span', {}, text),
+        h('button', { type: 'button', class: 'btn', title: 'Pivoter d\'un quart de tour', onclick: toggleRotation }, '↻ Pivoter'),
         mode.pending ? h('button', { type: 'button', class: 'btn btn-go', onclick: () => place(mode.pending) }, '✔ Valider') : null,
         h('button', { type: 'button', class: 'btn', onclick: () => setMode(null) }, 'Annuler'),
     );
@@ -111,9 +116,10 @@ function onGridHover(event) {
 
 async function place(cell) {
     const { mode } = store;
+    const rotated = Boolean(mode.rotated);
     const ok = mode.kind === 'build'
-        ? await perform('build', { type: mode.type, ...cell })
-        : await perform('move', { id: mode.id, ...cell });
+        ? await perform('build', { type: mode.type, ...cell, ...(rotated ? { rotated } : {}) })
+        : await perform('move', { id: mode.id, ...cell, rotated });
     if (ok) setMode(null);
 }
 
@@ -334,6 +340,7 @@ function wire() {
     });
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && store.mode) setMode(null);
+        if ((event.key === 'r' || event.key === 'R') && store.mode && !event.target.matches?.('input, textarea')) toggleRotation();
     });
 
     $('#login-form').addEventListener('submit', async (event) => {

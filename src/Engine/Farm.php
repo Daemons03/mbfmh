@@ -617,11 +617,14 @@ final class Farm
     /**
      * @return array<string, mixed> the new building (outside buildings have no x/y)
      */
-    public function addBuilding(string $type, ?int $x = null, ?int $y = null): array
+    public function addBuilding(string $type, ?int $x = null, ?int $y = null, bool $rotated = false): array
     {
         $building = ['id' => 'b' . $this->state['next_id']++, 'type' => $type];
         if ($x !== null && $y !== null) {
             $building += ['x' => $x, 'y' => $y];
+        }
+        if ($rotated) {
+            $building['rotated'] = true;
         }
         $building['level'] = 1;
         $this->state['buildings'][] = $building;
@@ -657,9 +660,22 @@ final class Farm
     /**
      * Throws unless the footprint of $type at (x, y) lies on owned, free cells.
      */
-    public function assertPlaceable(string $type, int $x, int $y, ?string $ignoreId = null): void
+    /**
+     * Cells covered on the grid: [width, height] of the type, swapped when the
+     * building is rotated (a quarter turn, drawn mirrored).
+     *
+     * @return array{int, int}
+     */
+    public function footprint(string $type, bool $rotated = false): array
     {
         [$width, $height] = $this->data->building($type)['size'];
+
+        return $rotated ? [$height, $width] : [$width, $height];
+    }
+
+    public function assertPlaceable(string $type, int $x, int $y, ?string $ignoreId = null, bool $rotated = false): void
+    {
+        [$width, $height] = $this->footprint($type, $rotated);
         $land = new Land($this->data->blockSize());
 
         $occupied = [];
@@ -667,7 +683,7 @@ final class Farm
             if ($other['id'] === $ignoreId || $this->data->isOutside($other['type'])) {
                 continue;
             }
-            [$w, $h] = $this->data->building($other['type'])['size'];
+            [$w, $h] = $this->footprint($other['type'], !empty($other['rotated']));
             for ($dx = 0; $dx < $w; $dx++) {
                 for ($dy = 0; $dy < $h; $dy++) {
                     $occupied[($other['x'] + $dx) . ',' . ($other['y'] + $dy)] = true;

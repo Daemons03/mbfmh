@@ -11,7 +11,7 @@ use FermeTranquille\Engine\Payload;
 use InvalidArgumentException;
 
 /**
- * payload: { type, x, y } — x/y are ignored for outside buildings.
+ * payload: { type, x, y, rotated? } — x/y/rotated are ignored for outside buildings.
  */
 final class Build implements Action
 {
@@ -28,6 +28,7 @@ final class Build implements Action
         $outside = $farm->data->isOutside($type);
         $x = $outside ? null : $payload->int('x', 0);
         $y = $outside ? null : $payload->int('y', 0);
+        $rotated = !$outside && $payload->has('rotated') && $payload->bool('rotated');
 
         $farm->assertLevel($first['unlock_level'] ?? 1);
         if ($farm->countBuildings($type) >= $definition['max_count']) {
@@ -36,10 +37,10 @@ final class Build implements Action
             ]);
         }
         if (!$outside) {
-            $farm->assertPlaceable($type, $x, $y);
+            $farm->assertPlaceable($type, $x, $y, rotated: $rotated);
         }
         $farm->assertWorkers(-($first['workers'] ?? 0));
         $farm->pay($first['cost']);
-        $farm->addBuilding($type, $x, $y);
+        $farm->addBuilding($type, $x, $y, $rotated);
     }
 }

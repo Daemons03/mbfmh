@@ -2,7 +2,7 @@ import { perform } from '../actions.js';
 import { buildingArt } from '../art.js';
 import { h } from '../dom.js';
 import { fmtCost, fmtDuration, fmtInt } from '../format.js';
-import { buildingById, canAfford, definition, jobStatus, productionCost, store, workersNeeded } from '../store.js';
+import { buildingById, canAfford, definition, footprintOf, jobStatus, productionCost, store, workersNeeded } from '../store.js';
 import { productionBlock } from './production.js';
 import { closeSheet, refreshSheet } from './sheet.js';
 
@@ -37,7 +37,8 @@ function hero(building, def) {
     const status = jobStatus(building);
     const product = building.job ? store.data.items[building.job.product]?.emoji ?? null : null;
     const { svg } = buildingArt(building, def, { working: Boolean(building.job) && !status?.ready, ready: Boolean(status?.ready), product });
-    const [w, hh] = def.size ?? [0, 0];
+    if (building.rotated) svg.classList.add('mirrored');
+    const [w, hh] = def.size ? footprintOf(building.type, Boolean(building.rotated)) : [0, 0];
 
     return h('div', { class: 'hero' },
         h('div', { class: 'hero-picture' }, svg),
@@ -224,6 +225,12 @@ function otherActions(building, def, startMove) {
                 startMove(building.id);
             },
         }, '✋ Déplacer'),
+        h('button', {
+            type: 'button',
+            class: 'btn',
+            title: 'Pivoter d\'un quart de tour sur place',
+            onclick: () => perform('rotate', { id: building.id }),
+        }, '↻ Pivoter'),
     ];
     if (def.kind !== 'storage') {
         buttons.push(h('button', {

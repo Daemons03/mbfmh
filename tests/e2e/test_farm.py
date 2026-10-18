@@ -102,6 +102,28 @@ def test_touch_placement_needs_confirmation(game, farm):
     assert any((b.get("x"), b.get("y")) == (6, 5) for b in farm.state()["buildings"] if b["type"] == "field")
 
 
+def test_rotate_when_placing_and_in_place(game, farm):
+    farm.add_house(10, 0)
+    reload(game)
+    open_tab(game, "build")
+    row(game, "Champ").get_by_role("button", name="Placer").click()
+    game.locator("#mode-banner").get_by_role("button", name="Pivoter").click()
+    tap(game, 6, 0)
+    game.wait_for_selector("#mode-banner[hidden]", state="attached")
+
+    field = next(b for b in farm.state()["buildings"] if (b.get("x"), b.get("y")) == (6, 0))
+    assert field.get("rotated") is True, "2 x 3 instead of 3 x 2"
+    assert game.locator(f".building[data-id={field['id']}] svg.mirrored").count() == 1
+
+    tap(game, 6, 2)  # third row only exists once rotated
+    game.wait_for_selector("#sheet:not([hidden])")
+    assert "2×3" in game.locator("#sheet .hero").inner_text()
+    game.get_by_role("button", name="Pivoter").click()
+    settle(game)
+    assert "rotated" not in next(b for b in farm.state()["buildings"] if b["id"] == field["id"])
+    assert farm.log() == ["build", "rotate"]
+
+
 def test_move_barn(game, farm):
     tap(game, 0, 0)
     game.wait_for_selector("#sheet:not([hidden])")

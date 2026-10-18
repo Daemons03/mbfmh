@@ -111,6 +111,7 @@ Toutes les réponses : `{ ok, state?, server_now, error? }`. POST protégés par
 
 - `view` = valeurs dérivées jamais stockées : `barn {capacity, full}`, `grid {side, block_size, owned_blocks, next_block}`, `xp_needed`, `jobs {id: {ready_at, ready}}`, `contracts {id: {available_at, available}}`, `production {id: {inputs, outputs, duration, xp}}`.
 - Codes d'erreur : 400 requête mal formée, 401 non connecté, 403 CSRF, 409 `stale_state` (renvoie `state` + `version` à jour), 422 règle de jeu (`error` = code stable, `message` en français, `details`).
+- Rotation : `build`/`move` acceptent `rotated` (bool) et `rotate { id }` pivote sur place ; un bâtiment pivoté porte `rotated: true`, son emprise `size` est inversée (3×2 → 2×3) et son image est affichée en miroir (un quart de tour en vue isométrique). Bouton « ↻ Pivoter » (ou touche R) pendant le placement, et dans le panneau du bâtiment.
 - Bâtiments `zone: "outside"` (grange extérieure, bibliothèque, animal de concours, café-boutique, atelier de couture) : hors grille, sans x/y, ni déplaçables ni démolissables.
 
 Types d'action V1 : `build`, `move`, `demolish`, `plant`, `harvest`, `start_production`, `collect`, `sell_barn`, `fulfill_contract`, `discard_contract`, `buy_expansion`, `upgrade`.

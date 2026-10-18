@@ -74,3 +74,9 @@ export function workersNeeded(def, fromLevel, toLevel) {
 export function canAfford(cost) {
     return Object.entries(cost ?? {}).every(([id, quantity]) => resource(id) >= quantity);
 }
+
+/** Cells covered by a building type: [width, height], swapped when rotated (quarter turn). */
+export function footprintOf(type, rotated = false) {
+    const [w, h] = definition(type).size;
+    return rotated ? [h, w] : [w, h];
+}

@@ -16,6 +16,7 @@ final class Engine
     private const array ACTIONS = [
         'build' => Actions\Build::class,
         'move' => Actions\Move::class,
+        'rotate' => Actions\Rotate::class,
         'demolish' => Actions\Demolish::class,
         'plant' => Actions\Plant::class,
         'harvest' => Actions\Harvest::class,

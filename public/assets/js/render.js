@@ -2,7 +2,7 @@ import { h, $ } from './dom.js';
 import { fmtDuration, fmtInt, fmtNumber, fmtShort } from './format.js';
 import { buildingArt, outsideArt, pennant, s, tierOf } from './art.js';
 import { buildingBox, cellTop, DEPTH, footprintPoints, layout, mapSize, outsideLot } from './iso.js';
-import { buildingById, definition, jobStatus, store } from './store.js';
+import { buildingById, definition, footprintOf, jobStatus, store } from './store.js';
 import { canFulfill } from './ui/market.js';
 
 export function renderTopbar() {
@@ -209,7 +209,7 @@ function outsideNode(type, n, L, data) {
 export function ghostFor(mode, cell) {
     const type = mode.kind === 'build' ? mode.type : buildingById(mode.id)?.type;
     if (!type) return null;
-    const [w, h_] = definition(type).size;
+    const [w, h_] = footprintOf(type, Boolean(mode.rotated));
 
     return {
         points: footprintPoints(currentLayout(), cell.x, cell.y, w, h_),
@@ -228,7 +228,7 @@ function spotIsFree(cell, w, h_, ignoreId) {
     }
     return store.state.buildings.every((b) => {
         if (b.x === undefined || b.id === ignoreId) return true;
-        const [bw, bh] = definition(b.type).size;
+        const [bw, bh] = footprintOf(b.type, Boolean(b.rotated));
         return cell.x >= b.x + bw || b.x >= cell.x + w || cell.y >= b.y + bh || b.y >= cell.y + h_;
     });
 }
@@ -238,13 +238,14 @@ const FLAT_TYPES = new Set(['meadow', 'premium_meadow', 'flowerbed']);
 
 function buildingNode(building, data, L) {
     const def = definition(building.type);
-    const [w, h_] = def.size;
+    const [w, h_] = footprintOf(building.type, Boolean(building.rotated));
     const classes = ['building', def.kind];
     const status = jobStatus(building);
     const ready = Boolean(status?.ready);
     const product = building.job ? data.items[building.job.product]?.emoji ?? null : null;
     const { svg, top } = buildingArt(building, def, { working: Boolean(building.job) && !ready, ready, product });
     const box = buildingBox(L, building.x, building.y, w, h_, top);
+    if (building.rotated) svg.classList.add('mirrored'); // a quarter turn is the mirror image in isometric view
     const flat = FLAT_KINDS.has(def.kind) || FLAT_TYPES.has(building.type);
 
     if (ready) classes.push('ready');
@@ -305,8 +306,7 @@ function collectAllTag(L) {
     const ready = store.state.buildings.filter((b) => b.job && jobStatus(b)?.ready && hasJobs(definition(b.type))).length;
     const barn = store.state.buildings.find((b) => b.type === 'barn' && b.x !== undefined);
     if (ready < 2 || !barn) return null;
-    const def = definition(barn.type);
-    const [w, h_] = def.size;
+    const [w, h_] = footprintOf(barn.type, Boolean(barn.rotated));
     const [centerX] = cellTop(L, barn.x + w / 2, barn.y + h_ / 2);
     const box = buildingBox(L, barn.x, barn.y, w, h_, 2.3);
 

@@ -10,7 +10,8 @@ use FermeTranquille\Engine\GameError;
 use FermeTranquille\Engine\Payload;
 
 /**
- * payload: { id, x, y } — running jobs keep going.
+ * payload: { id, x, y, rotated? } — rotated defaults to the current orientation;
+ * running jobs keep going.
  */
 final class Move implements Action
 {
@@ -23,7 +24,10 @@ final class Move implements Action
         $x = $payload->int('x', 0);
         $y = $payload->int('y', 0);
 
-        $farm->assertPlaceable($building['type'], $x, $y, $building['id']);
-        $farm->saveBuilding(['x' => $x, 'y' => $y] + $building);
+        $rotated = $payload->has('rotated') ? $payload->bool('rotated') : !empty($building['rotated']);
+
+        $farm->assertPlaceable($building['type'], $x, $y, $building['id'], $rotated);
+        unset($building['rotated']);
+        $farm->saveBuilding(['x' => $x, 'y' => $y] + ($rotated ? ['rotated' => true] : []) + $building);
     }
 }

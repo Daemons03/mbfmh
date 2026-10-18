@@ -484,6 +484,8 @@ button { font: inherit; color: inherit; }
     .building svg *, .grid .tags .pennant, .grid .tags .pennant * { animation: none !important; }
 }
 
+svg.mirrored { transform: scaleX(-1); }
+
 /* Building card at the top of its panel */
 .hero {
     display: grid; grid-template-columns: 140px 1fr; gap: 12px; align-items: center;
