@@ -313,6 +313,7 @@ button { font: inherit; color: inherit; }
 .map-wrap { position: relative; min-height: 0; isolation: isolate; } /* map z-indexes stay under the sheet */
 .map {
     position: absolute; inset: 0;
+    z-index: 0; /* own stacking context: building z-indexes stay under the zoom buttons and banner */
     overflow: auto;
     touch-action: pan-x pan-y;
     overscroll-behavior: contain;
@@ -322,6 +323,7 @@ button { font: inherit; color: inherit; }
 
 .zoom {
     position: absolute; right: 12px; bottom: 12px;
+    z-index: 5;
     display: grid; gap: 10px;
 }
 

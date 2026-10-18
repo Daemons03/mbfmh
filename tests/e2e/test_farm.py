@@ -293,3 +293,38 @@ def test_small_screen_and_dark_mode(make_page, farm, base_url):
         page = make_page(width, height, scheme)
         login(page, base_url)
         assert page.evaluate("() => document.documentElement.scrollWidth <= window.innerWidth"), (width, scheme)
+
+
+def test_zoom_buttons_and_banner_stay_above_buildings(game, farm):
+    farm.add_house(10, 0)  # workers for a field
+    reload(game)
+    while game.locator("#zoom-in").is_enabled():  # buildings fill the screen
+        game.locator("#zoom-in").click()
+    open_tab(game, "build")
+    row(game, "Champ").get_by_role("button", name="Placer").click()
+    game.locator(".building").first.scroll_into_view_if_needed()
+
+    # Bring a building right under each control, then check what is drawn on top there
+    # (pointer events back on: while placing, buildings ignore them and elementFromPoint too).
+    on_top = game.evaluate("""() => {
+        const probe = document.createElement('style');
+        probe.textContent = '* { pointer-events: auto !important; }';
+        document.head.append(probe);
+        const map = document.querySelector('#map');
+        const buildings = [...document.querySelectorAll('#grid .building')];
+        const lowest = buildings.reduce((a, b) => (b.getBoundingClientRect().bottom > a.getBoundingClientRect().bottom ? b : a));
+        const result = [['#zoom-in', lowest], ['#zoom-out', lowest], ['#mode-banner button', buildings[0]]].map(([sel, building]) => {
+            const el = document.querySelector(sel);
+            const r = el.getBoundingClientRect();
+            const [x, y] = [r.x + r.width / 2, r.y + r.height / 2];
+            const b = building.getBoundingClientRect();
+            map.scrollLeft += (b.x + b.width / 2) - x;
+            map.scrollTop += (b.y + b.height * 0.7) - y;
+            const u = building.getBoundingClientRect();
+            const covered = u.left < x && u.right > x && u.top < y && u.bottom > y;
+            return covered && el.contains(document.elementFromPoint(x, y));
+        });
+        probe.remove();
+        return result;
+    }""")
+    assert on_top == [True, True, True]
