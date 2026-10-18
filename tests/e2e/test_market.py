@@ -20,7 +20,7 @@ def test_per_product_capacity_display(game, farm):
 def test_deliver_contract(game, farm):
     farm.patch({"barn.items": {"wildflower": 200, "corn": 200}})
     reload(game)
-    assert game.locator("#tabs [data-tab=market] .tab-badge").inner_text() == "6"
+    assert game.locator(".market-ready .tab-badge").inner_text() == "6", "banner above the market"
 
     open_tab(game, "market")
     assert game.locator(".contract").count() == 6
@@ -38,7 +38,7 @@ def test_missing_products_disable_delivery(game):
     open_tab(game, "market")
     assert game.locator(".contract .chip.missing").count() > 0
     assert game.locator(".contract .btn-primary:not([disabled])").count() == 0
-    assert game.locator("#tabs [data-tab=market] .tab-badge").count() == 0
+    assert game.locator(".market-ready").count() == 0
 
 
 def test_discard_then_wait(game, farm):

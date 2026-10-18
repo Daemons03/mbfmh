@@ -3,6 +3,7 @@ import { fmtDuration, fmtInt, fmtNumber, fmtShort } from './format.js';
 import { buildingArt, outsideArt, pennant, s, tierOf } from './art.js';
 import { buildingBox, cellTop, DEPTH, footprintPoints, layout, mapSize, outsideLot } from './iso.js';
 import { buildingById, definition, jobStatus, store } from './store.js';
+import { canFulfill } from './ui/market.js';
 
 export function renderTopbar() {
     const { state, view, data } = store;
@@ -121,6 +122,8 @@ export function renderGrid() {
     }
     const all = collectAllTag(L);
     if (all) tags.push(all);
+    const market = marketTag(L);
+    if (market) tags.push(market);
     nodes.push(...tags); // banners and timers stay above every building
     // Footprint preview: follows the mouse, or marks the spot picked by a first tap on touch screens.
     const pending = mode?.pending ? ghostFor(mode, mode.pending) : null;
@@ -313,6 +316,21 @@ function collectAllTag(L) {
         title: `Tout récolter (${ready})`,
         style: { left: `calc(var(--u) * ${centerX})`, top: `calc(var(--u) * ${box.top + 0.2})` },
     }, pennant('collect-all', '🛖'));
+}
+
+/** Yellow banner above the market with the number of contracts deliverable now. */
+function marketTag(L) {
+    const ready = store.state.contracts.filter(canFulfill).length;
+    if (ready === 0) return null;
+    const lot = outsideLot(OUTSIDE_ORDER.indexOf('market'));
+    const [centerX, centerY] = cellTop(L, lot.x + lot.w / 2, lot.y + lot.h / 2);
+
+    return h('div', {
+        class: 'tags market-ready',
+        dataset: { outside: 'market', built: '1' },
+        title: `${ready} contrat(s) livrable(s)`,
+        style: { left: `calc(var(--u) * ${centerX})`, top: `calc(var(--u) * ${centerY - 2.6})` },
+    }, pennant('ready', '🏪'), h('span', { class: 'tab-badge' }, String(ready)));
 }
 
 function countdownBadge(status) {

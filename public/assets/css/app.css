@@ -465,6 +465,8 @@ button { font: inherit; color: inherit; }
 }
 .grid .tags .pennant.ready, .grid .tags .pennant.collect-all { animation: bubble 1.4s ease-in-out infinite; }
 .grid .tags .pennant.collect-all { width: max(42px, calc(var(--u) * 1.15)); height: max(50px, calc(var(--u) * 1.38)); }
+.grid .tags.market-ready { position: absolute; }
+.grid .tags.market-ready .tab-badge { top: -6px; left: auto; right: -12px; }
 .grid .tags .pennant .zz { animation: zz 2.4s ease-in-out infinite; }
 @keyframes zz { 50% { opacity: 0.5; transform: translate(0.3px, -0.6px); } }
 

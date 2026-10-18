@@ -5,12 +5,12 @@ from conftest import close_sheet, open_tab, reload, row, settle
 def test_build_and_serve(game, farm):
     farm.patch({"level": 40, "barn.items": {"egg": 500, "butter": 100}})
     reload(game)
-    assert game.locator("#tabs [data-tab=cafe]").is_hidden(), "no café yet"
+    assert game.locator(".outside.empty[data-outside=cafe]").count() == 1, "no café yet"
 
     open_tab(game, "build")
     row(game, "Café-boutique").get_by_role("button", name="Construire").click()
     settle(game)
-    game.wait_for_selector("#tabs [data-tab=cafe]:not([hidden])")
+    game.wait_for_selector(".outside[data-outside=cafe][data-built='1']")
     close_sheet(game)
 
     open_tab(game, "cafe")

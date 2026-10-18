@@ -195,8 +195,15 @@ def grid_side(page: Page) -> int:
     return round(page.locator("#grid .cell").count() ** 0.5)
 
 
+OUTSIDE = {"market": "market", "show": "show_animal", "library": "library", "cafe": "cafe"}
+
+
 def open_tab(page: Page, tab: str):
-    page.click(f"#tabs [data-tab={tab}]")
+    """Bottom tab, or for outside buildings (market, show, library, café) their lot on the map."""
+    if tab in OUTSIDE:
+        page.locator(f'.outside[data-outside={OUTSIDE[tab]}]').click()
+    else:
+        page.click(f"#tabs [data-tab={tab}]")
     page.wait_for_selector("#sheet:not([hidden])")
 
 

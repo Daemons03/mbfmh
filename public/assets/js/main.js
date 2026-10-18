@@ -12,7 +12,7 @@ import { cafePanel } from './ui/cafe.js';
 import { showPanel } from './ui/show.js';
 import { landPanel } from './ui/land.js';
 import { libraryPanel } from './ui/library.js';
-import { canFulfill, marketPanel } from './ui/market.js';
+import { marketPanel } from './ui/market.js';
 import { closeSheet, initSheet, openSheet, refreshSheet } from './ui/sheet.js';
 import { toast } from './ui/toast.js';
 
@@ -62,16 +62,6 @@ function startPlacement(type) {
 
 function startMove(id) {
     setMode({ kind: 'move', id });
-}
-
-/** Badge on the market tab: contracts deliverable right now. */
-function renderTabBadges() {
-    $('#tabs [data-tab=cafe]').hidden = !store.view.cafe;
-    $('#tabs [data-tab=library]').hidden = !store.view.library.building_level;
-    const ready = store.state.contracts.filter(canFulfill).length;
-    const button = $('#tabs [data-tab=market]');
-    button.querySelector('.tab-badge')?.remove();
-    if (ready > 0) button.append(h('span', { class: 'tab-badge', 'aria-label': `${ready} contrat(s) livrable(s)` }, ready));
 }
 
 function renderModeBanner() {
@@ -152,7 +142,7 @@ async function onGridClick(event) {
         await perform('collect_all', {});
         return;
     }
-    const outside = store.mode ? null : event.target.closest('.outside');
+    const outside = store.mode ? null : event.target.closest('.outside, [data-outside]');
     if (outside) {
         const tabs = { market: 'market', show_animal: 'show', library: 'library', external_barn: 'barn', cafe: 'cafe' };
         openTab(outside.dataset.built ? tabs[outside.dataset.outside] : 'build');
@@ -327,7 +317,6 @@ function wire() {
         renderTopbar();
         renderGrid();
         renderModeBanner();
-        renderTabBadges();
         refreshSheet();
     });
     setUnauthenticatedHandler(() => showLogin('Session expirée, reconnectez-vous.'));

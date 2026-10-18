@@ -160,7 +160,7 @@ Courbe XP estimée : `xp_needed(n) = round(50 * n^1.6)`.
 ## Front
 
 - Une page, CSS grid de cases emoji dans un conteneur scrollable (doigt et souris), zoom simple (boutons +/−).
-- Barre du bas : Construire · Grange · Marché · Terrain · Admin.
+- Barre du bas : Construire · Grange · Terrain · Admin. Marché, animaux de concours, bibliothèque et café s'ouvrent depuis leur emplacement sur la carte (bande hors de la ferme) ; un fanion au-dessus du marché compte les contrats livrables.
 - Barre du haut : niveau + barre XP, cash, or, matériaux.
 - Appui sur une case : panneau contextuel (planter, récolter, produire, améliorer, déplacer, détruire).
 - Comptes à rebours mis à jour chaque seconde côté client, synchronisation `GET /api/state` toutes les 30 s et au retour sur l'onglet.

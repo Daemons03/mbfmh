@@ -5,12 +5,12 @@ from conftest import close_sheet, open_tab, reload, row, settle, text
 def test_library_upgrade_adds_to_the_harvest(game, farm):
     farm.patch({"level": 15, "materials.scrolls": 100, "materials.ink": 100, "materials.books": 100})
     reload(game)
-    assert game.locator("#tabs [data-tab=library]").is_hidden(), "no library yet"
+    assert game.locator(".outside.empty[data-outside=library]").count() == 1, "no library yet"
 
     open_tab(game, "build")
     row(game, "Bibliothèque").get_by_role("button", name="Construire").click()
     settle(game)
-    game.wait_for_selector("#tabs [data-tab=library]:not([hidden])")
+    game.wait_for_selector(".outside[data-outside=library][data-built='1']")
     close_sheet(game)
 
     open_tab(game, "library")
