@@ -12459,7 +12459,7 @@
         3,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Semences : cash, durée, XP et récolte par niveau : valeurs du jeu (captures)."
@@ -24031,7 +24031,7 @@
         3,
         2
       ],
-      "max_count": 1,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Semences : cash, durée, XP et récolte par niveau : valeurs du jeu (captures)."
