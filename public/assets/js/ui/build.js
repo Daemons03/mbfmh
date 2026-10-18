@@ -69,7 +69,7 @@ function farmRow(type, def, cell, startPlacement) {
     const first = def.levels[0];
     const count = store.state.buildings.filter((b) => b.type === type).length;
     const locked = store.state.level < (first.unlock_level ?? 1);
-    const full = count >= def.max_count;
+    const full = def.max_count !== null && count >= def.max_count; // null: unlimited
     const [w, hh] = def.size;
     const need = workersNeeded(def, 0, 1);
     const noWorkers = need > store.view.workers.free;
@@ -88,7 +88,7 @@ function farmRow(type, def, cell, startPlacement) {
         h('span', { class: 'row-emoji' }, buildingPicture(type, def) ?? def.emoji),
         h('div', { class: 'row-main' },
             h('div', { class: 'row-title' }, def.name),
-            h('div', { class: 'row-sub' }, [fmtCost(first.cost, store.data), ...stats, `${w}×${hh}`, `${fmtInt(count)}/${fmtInt(def.max_count)}`].join(' · '))),
+            h('div', { class: 'row-sub' }, [fmtCost(first.cost, store.data), ...stats, `${w}×${hh}`, def.max_count === null ? `${fmtInt(count)} construit${count > 1 ? 's' : ''}` : `${fmtInt(count)}/${fmtInt(def.max_count)}`].join(' · '))),
         h('div', { class: 'row-actions' },
             h('button', {
                 type: 'button',

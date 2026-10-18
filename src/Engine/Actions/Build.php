@@ -31,7 +31,7 @@ final class Build implements Action
         $rotated = !$outside && $payload->has('rotated') && $payload->bool('rotated');
 
         $farm->assertLevel($first['unlock_level'] ?? 1);
-        if ($farm->countBuildings($type) >= $definition['max_count']) {
+        if ($definition['max_count'] !== null && $farm->countBuildings($type) >= $definition['max_count']) {
             throw new GameError('max_count_reached', "Nombre maximum atteint pour : {$definition['name']}.", [
                 'max' => $definition['max_count'],
             ]);

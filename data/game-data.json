@@ -2647,7 +2647,7 @@
         3,
         2
       ],
-      "max_count": 30,
+      "max_count": null,
       "_estimated_fields": [
         "max_count"
       ],
@@ -4291,7 +4291,7 @@
         2,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
@@ -6572,7 +6572,7 @@
         3,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
@@ -6891,7 +6891,7 @@
         3,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
@@ -7208,7 +7208,7 @@
         2,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
@@ -7525,7 +7525,7 @@
         3,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
@@ -7849,7 +7849,7 @@
         2,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
@@ -8190,7 +8190,7 @@
         3,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
@@ -8523,7 +8523,7 @@
         3,
         2
       ],
-      "max_count": 4,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux dont le coût d'amélioration est inconnu omis."
@@ -9006,7 +9006,7 @@
         3,
         2
       ],
-      "max_count": 4,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux 15-18 : coût extrapolé."
@@ -9503,7 +9503,7 @@
         3,
         2
       ],
-      "max_count": 4,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux 15-18 : coût extrapolé."
@@ -10002,7 +10002,7 @@
         3,
         2
       ],
-      "max_count": 4,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux 15-18 : coût extrapolé."
@@ -14098,7 +14098,7 @@
         3,
         2
       ],
-      "max_count": 4,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux dont le coût d'amélioration est inconnu omis."
@@ -14570,7 +14570,7 @@
         3,
         2
       ],
-      "max_count": 4,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux dont le coût d'amélioration est inconnu omis."
@@ -15038,7 +15038,7 @@
         3,
         2
       ],
-      "max_count": 4,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux dont le coût d'amélioration est inconnu omis."
@@ -15524,7 +15524,7 @@
         3,
         2
       ],
-      "max_count": 4,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux 15-18 : coût extrapolé."
@@ -16008,7 +16008,7 @@
         3,
         2
       ],
-      "max_count": 4,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux 15-18 : coût extrapolé."
@@ -16489,7 +16489,7 @@
         3,
         2
       ],
-      "max_count": 4,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux 15-18 : coût extrapolé."
@@ -16989,7 +16989,7 @@
         3,
         2
       ],
-      "max_count": 4,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux 15-18 : coût extrapolé."
@@ -17476,7 +17476,7 @@
         3,
         2
       ],
-      "max_count": 4,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux 15-18 : coût extrapolé."
@@ -17816,7 +17816,7 @@
         3,
         2
       ],
-      "max_count": 4,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux 15-18 : coût extrapolé."
@@ -18169,7 +18169,7 @@
         3,
         2
       ],
-      "max_count": 4,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux 15-18 : coût extrapolé."
@@ -18653,7 +18653,7 @@
         3,
         2
       ],
-      "max_count": 4,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux 15-18 : coût extrapolé."
@@ -19018,7 +19018,7 @@
         3,
         2
       ],
-      "max_count": 4,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Engrais, cash, durée, XP et quantités : valeurs du jeu. Niveaux 15-18 : coût extrapolé."
@@ -19374,7 +19374,7 @@
         2,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
@@ -19683,7 +19683,7 @@
         2,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
@@ -20003,7 +20003,7 @@
         3,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
@@ -20314,7 +20314,7 @@
         3,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
@@ -20635,7 +20635,7 @@
         3,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
@@ -20947,7 +20947,7 @@
         3,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
@@ -21217,7 +21217,7 @@
         2,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
@@ -21530,7 +21530,7 @@
         2,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
@@ -21850,7 +21850,7 @@
         3,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
@@ -22165,7 +22165,7 @@
         3,
         2
       ],
-      "max_count": 2,
+      "max_count": null,
       "production": {
         "mode": "run",
         "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
@@ -22435,7 +22435,7 @@
         3,
         2
       ],
-      "max_count": 30,
+      "max_count": null,
       "_estimated_fields": [
         "max_count"
       ],
@@ -22611,7 +22611,7 @@
         3,
         2
       ],
-      "max_count": 30,
+      "max_count": null,
       "_estimated_fields": [
         "max_count"
       ],

@@ -44,6 +44,16 @@ final class BuildTest extends EngineTestCase
         self::assertSame(2000 - 50, $this->state['cash']);
     }
 
+    public function testFieldsAnimalsAndOrchardsAreUnlimited(): void
+    {
+        foreach (['field', 'premium_field', 'chicken_coop', 'free_range_pigsty', 'sheep_pen', 'apple_orchard', 'fertile_peach_orchard'] as $type) {
+            self::assertNull($this->data->building($type)['max_count'], $type);
+        }
+        foreach (['windmill' => 2, 'silo' => 2, 'composter' => 2, 'dairy' => 1, 'jam_kitchen' => 1, 'barn' => 1] as $type => $max) {
+            self::assertSame($max, $this->data->building($type)['max_count'], $type);
+        }
+    }
+
     public function testBuildRules(): void
     {
         $this->assertGameError('unknown_building_type', 'build', ['type' => 'castle', 'x' => 5, 'y' => 5]);

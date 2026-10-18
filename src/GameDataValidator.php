@@ -204,7 +204,11 @@ final class GameDataValidator
                 || !is_int($size[0]) || !is_int($size[1]) || $size[0] < 1 || $size[1] < 1)) {
                 $this->errors[] = "{$path}.size: must be [width, height] positive integers";
             }
-            $this->positiveInt($building['max_count'] ?? null, "{$path}.max_count");
+            if (($building['max_count'] ?? null) !== null) { // null: unlimited (fields, animals, orchards)
+                $this->positiveInt($building['max_count'], "{$path}.max_count");
+            } elseif (!array_key_exists('max_count', $building)) {
+                $this->errors[] = "{$path}.max_count: must be a positive integer or null (unlimited)";
+            }
             if (array_key_exists('yield_factor', $building)) {
                 $this->positiveNumber($building['yield_factor'], "{$path}.yield_factor");
             }
