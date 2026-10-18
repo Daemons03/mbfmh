@@ -888,7 +888,43 @@
       ]
     },
     "_estimated": true,
-    "_note": "Contrats : uniquement les produits marquables (champs, animaux, vergers, prairie, ruche) ; récompense cash = somme(quantité × market_price). Bonus aléatoire : planches, clous, scies, briques, tuiles, verre, parchemins, encre, livres (pour démarrer bibliothèque et améliorations)."
+    "_note": "Contrats : uniquement les produits marquables (champs, animaux, vergers, prairie, ruche) ; récompense cash = somme(quantité × market_price). Bonus aléatoire : planches, clous, scies, briques, tuiles, verre, parchemins, encre, livres (pour démarrer bibliothèque et améliorations).",
+    "market_xp": {
+      "per_contract": 10,
+      "levels": [
+        40,
+        150,
+        320,
+        560,
+        850,
+        1200,
+        1610,
+        2080,
+        2600,
+        3180,
+        3810,
+        4490,
+        5230,
+        6020,
+        6860,
+        7760,
+        8710,
+        9710,
+        10760,
+        11860,
+        13010,
+        14210,
+        15460,
+        16770,
+        18120,
+        19520,
+        20970,
+        22470,
+        24020
+      ],
+      "_estimated": true,
+      "_note": "XP de marché de base par contrat et seuils des niveaux de marché estimés (absents du fan site) ; le niveau du marché fait évoluer son apparence."
+    }
   },
   "items": {
     "wildflower": {
@@ -35841,8 +35877,1028 @@
             "bonus": 25
           }
         ]
+      },
+      "market_xp": {
+        "name": "Expérience de marché",
+        "emoji": "🏪",
+        "effect": {
+          "type": "market_xp"
+        },
+        "levels": [
+          {
+            "level": 1,
+            "cost": {
+              "scrolls": 10,
+              "ink": 10
+            },
+            "bonus": 1
+          },
+          {
+            "level": 2,
+            "cost": {
+              "scrolls": 10,
+              "ink": 10,
+              "books": 2
+            },
+            "bonus": 3
+          },
+          {
+            "level": 3,
+            "cost": {
+              "scrolls": 20,
+              "ink": 20,
+              "books": 4
+            },
+            "bonus": 5
+          },
+          {
+            "level": 4,
+            "cost": {
+              "scrolls": 30,
+              "ink": 30,
+              "books": 7
+            },
+            "bonus": 7
+          },
+          {
+            "level": 5,
+            "cost": {
+              "bricks": 60,
+              "tiles": 60,
+              "glass": 15
+            },
+            "bonus": 9
+          },
+          {
+            "level": 6,
+            "cost": {
+              "scrolls": 100,
+              "ink": 100,
+              "books": 25
+            },
+            "bonus": 11
+          },
+          {
+            "level": 7,
+            "cost": {
+              "scrolls": 150,
+              "ink": 150,
+              "books": 35
+            },
+            "bonus": 13
+          },
+          {
+            "level": 8,
+            "cost": {
+              "scrolls": 210,
+              "ink": 210,
+              "books": 50
+            },
+            "bonus": 15,
+            "_estimated": true
+          },
+          {
+            "level": 9,
+            "cost": {
+              "scrolls": 300,
+              "ink": 300,
+              "books": 75
+            },
+            "bonus": 17
+          },
+          {
+            "level": 10,
+            "cost": {
+              "bricks": 300,
+              "tiles": 300,
+              "glass": 75
+            },
+            "bonus": 19
+          },
+          {
+            "level": 11,
+            "cost": {
+              "bricks": 300,
+              "tiles": 300,
+              "glass": 80
+            },
+            "bonus": 22,
+            "_estimated": true
+          },
+          {
+            "level": 12,
+            "cost": {
+              "bricks": 300,
+              "tiles": 300,
+              "glass": 80
+            },
+            "bonus": 25,
+            "_estimated": true
+          },
+          {
+            "level": 13,
+            "cost": {
+              "scrolls": 300,
+              "ink": 300,
+              "books": 75
+            },
+            "bonus": 28
+          },
+          {
+            "level": 14,
+            "cost": {
+              "scrolls": 310,
+              "ink": 310,
+              "books": 80
+            },
+            "bonus": 31,
+            "_estimated": true
+          },
+          {
+            "level": 15,
+            "cost": {
+              "scrolls": 320,
+              "ink": 320,
+              "books": 80
+            },
+            "bonus": 34,
+            "_estimated": true
+          },
+          {
+            "level": 16,
+            "cost": {
+              "scrolls": 320,
+              "ink": 320,
+              "books": 80
+            },
+            "bonus": 37,
+            "_estimated": true
+          },
+          {
+            "level": 17,
+            "cost": {
+              "scrolls": 330,
+              "ink": 330,
+              "books": 80
+            },
+            "bonus": 40,
+            "_estimated": true
+          },
+          {
+            "level": 18,
+            "cost": {
+              "scrolls": 340,
+              "ink": 340,
+              "books": 80
+            },
+            "bonus": 43,
+            "_estimated": true
+          },
+          {
+            "level": 19,
+            "cost": {
+              "scrolls": 350,
+              "ink": 350,
+              "books": 87
+            },
+            "bonus": 46
+          },
+          {
+            "level": 20,
+            "cost": {
+              "scrolls": 370,
+              "ink": 370,
+              "books": 90
+            },
+            "bonus": 49,
+            "_estimated": true
+          },
+          {
+            "level": 21,
+            "cost": {
+              "scrolls": 400,
+              "ink": 400,
+              "books": 99
+            },
+            "bonus": 52
+          },
+          {
+            "level": 22,
+            "cost": {
+              "scrolls": 400,
+              "ink": 400,
+              "books": 99
+            },
+            "bonus": 55
+          },
+          {
+            "level": 23,
+            "cost": {
+              "scrolls": 400,
+              "ink": 400,
+              "books": 99
+            },
+            "bonus": 58
+          },
+          {
+            "level": 24,
+            "cost": {
+              "scrolls": 400,
+              "ink": 400,
+              "books": 99
+            },
+            "bonus": 61
+          },
+          {
+            "level": 25,
+            "cost": {
+              "scrolls": 420,
+              "ink": 420,
+              "books": 100
+            },
+            "bonus": 64,
+            "_estimated": true
+          },
+          {
+            "level": 26,
+            "cost": {
+              "scrolls": 450,
+              "ink": 450,
+              "books": 111
+            },
+            "bonus": 67
+          },
+          {
+            "level": 27,
+            "cost": {
+              "scrolls": 450,
+              "ink": 450,
+              "books": 111
+            },
+            "bonus": 70
+          },
+          {
+            "level": 28,
+            "cost": {
+              "scrolls": 450,
+              "ink": 450,
+              "books": 111
+            },
+            "bonus": 73
+          },
+          {
+            "level": 29,
+            "cost": {
+              "scrolls": 450,
+              "ink": 450,
+              "books": 111
+            },
+            "bonus": 76
+          },
+          {
+            "level": 30,
+            "cost": {
+              "bricks": 450,
+              "tiles": 450,
+              "glass": 111
+            },
+            "bonus": 79
+          },
+          {
+            "level": 31,
+            "cost": {
+              "scrolls": 500,
+              "ink": 500,
+              "books": 123
+            },
+            "bonus": 82
+          },
+          {
+            "level": 32,
+            "cost": {
+              "scrolls": 500,
+              "ink": 500,
+              "books": 123
+            },
+            "bonus": 85
+          },
+          {
+            "level": 33,
+            "cost": {
+              "scrolls": 500,
+              "ink": 500,
+              "books": 123
+            },
+            "bonus": 88
+          },
+          {
+            "level": 34,
+            "cost": {
+              "scrolls": 500,
+              "ink": 500,
+              "books": 123
+            },
+            "bonus": 91
+          },
+          {
+            "level": 35,
+            "cost": {
+              "bricks": 500,
+              "tiles": 500,
+              "glass": 123
+            },
+            "bonus": 94
+          },
+          {
+            "level": 36,
+            "cost": {
+              "scrolls": 550,
+              "ink": 550,
+              "books": 135
+            },
+            "bonus": 97
+          },
+          {
+            "level": 37,
+            "cost": {
+              "scrolls": 550,
+              "ink": 550,
+              "books": 135
+            },
+            "bonus": 100
+          },
+          {
+            "level": 38,
+            "cost": {
+              "scrolls": 550,
+              "ink": 550,
+              "books": 135
+            },
+            "bonus": 103
+          },
+          {
+            "level": 39,
+            "cost": {
+              "scrolls": 580,
+              "ink": 580,
+              "books": 140
+            },
+            "bonus": 106,
+            "_estimated": true
+          },
+          {
+            "level": 40,
+            "cost": {
+              "scrolls": 610,
+              "ink": 610,
+              "books": 140
+            },
+            "bonus": 109,
+            "_estimated": true
+          },
+          {
+            "level": 41,
+            "cost": {
+              "scrolls": 650,
+              "ink": 650,
+              "books": 140
+            },
+            "bonus": 112
+          },
+          {
+            "level": 42,
+            "cost": {
+              "scrolls": 810,
+              "ink": 810,
+              "books": 170
+            },
+            "bonus": 115,
+            "_estimated": true
+          },
+          {
+            "level": 43,
+            "cost": {
+              "scrolls": 1000,
+              "ink": 1000,
+              "books": 200
+            },
+            "bonus": 118
+          },
+          {
+            "level": 44,
+            "cost": {
+              "scrolls": 1250,
+              "ink": 1250,
+              "books": 250
+            },
+            "bonus": 121
+          },
+          {
+            "level": 45,
+            "cost": {
+              "bricks": 1350,
+              "tiles": 1350,
+              "glass": 270
+            },
+            "bonus": 124
+          },
+          {
+            "level": 46,
+            "cost": {
+              "scrolls": 1500,
+              "ink": 1500,
+              "books": 300
+            },
+            "bonus": 127
+          },
+          {
+            "level": 47,
+            "cost": {
+              "scrolls": 2000,
+              "ink": 2000,
+              "books": 400
+            },
+            "bonus": 130
+          },
+          {
+            "level": 48,
+            "cost": {
+              "scrolls": 3000,
+              "ink": 3000,
+              "books": 600
+            },
+            "bonus": 133
+          },
+          {
+            "level": 49,
+            "cost": {
+              "scrolls": 4000,
+              "ink": 4000,
+              "books": 800
+            },
+            "bonus": 136
+          },
+          {
+            "level": 50,
+            "cost": {
+              "bricks": 7000,
+              "tiles": 7000,
+              "glass": 1300
+            },
+            "bonus": 139
+          },
+          {
+            "level": 51,
+            "cost": {
+              "scrolls": 6000,
+              "ink": 6000,
+              "books": 1200
+            },
+            "bonus": 142
+          },
+          {
+            "level": 52,
+            "cost": {
+              "scrolls": 8000,
+              "ink": 8000,
+              "books": 1600
+            },
+            "bonus": 145
+          },
+          {
+            "level": 53,
+            "cost": {
+              "scrolls": 10000,
+              "ink": 10000,
+              "books": 2000
+            },
+            "bonus": 148
+          },
+          {
+            "level": 54,
+            "cost": {
+              "scrolls": 12000,
+              "ink": 12000,
+              "books": 2400
+            },
+            "bonus": 151
+          },
+          {
+            "level": 55,
+            "cost": {
+              "bricks": 14000,
+              "tiles": 14000,
+              "glass": 2600
+            },
+            "bonus": 154
+          },
+          {
+            "level": 56,
+            "cost": {
+              "scrolls": 15000,
+              "ink": 15000,
+              "books": 3000
+            },
+            "bonus": 157
+          },
+          {
+            "level": 57,
+            "cost": {
+              "scrolls": 18000,
+              "ink": 18000,
+              "books": 3600
+            },
+            "bonus": 160
+          },
+          {
+            "level": 58,
+            "cost": {
+              "scrolls": 21000,
+              "ink": 21000,
+              "books": 4200
+            },
+            "bonus": 163
+          },
+          {
+            "level": 59,
+            "cost": {
+              "scrolls": 25000,
+              "ink": 25000,
+              "books": 5000
+            },
+            "bonus": 166
+          },
+          {
+            "level": 60,
+            "cost": {
+              "bricks": 28000,
+              "tiles": 28000,
+              "glass": 5600
+            },
+            "bonus": 169
+          },
+          {
+            "level": 61,
+            "cost": {
+              "scrolls": 29000,
+              "ink": 29000,
+              "books": 5800
+            },
+            "bonus": 172
+          },
+          {
+            "level": 62,
+            "cost": {
+              "scrolls": 32000,
+              "ink": 32000,
+              "books": 6400
+            },
+            "bonus": 175
+          },
+          {
+            "level": 63,
+            "cost": {
+              "scrolls": 35000,
+              "ink": 35000,
+              "books": 7000
+            },
+            "bonus": 178
+          },
+          {
+            "level": 64,
+            "cost": {
+              "scrolls": 38000,
+              "ink": 38000,
+              "books": 7600
+            },
+            "bonus": 181
+          },
+          {
+            "level": 65,
+            "cost": {
+              "bricks": 40000,
+              "tiles": 40000,
+              "glass": 8000
+            },
+            "bonus": 184
+          },
+          {
+            "level": 66,
+            "cost": {
+              "scrolls": 41000,
+              "ink": 41000,
+              "books": 8200
+            },
+            "bonus": 187
+          },
+          {
+            "level": 67,
+            "cost": {
+              "scrolls": 45000,
+              "ink": 45000,
+              "books": 9000
+            },
+            "bonus": 190
+          },
+          {
+            "level": 68,
+            "cost": {
+              "scrolls": 49000,
+              "ink": 49000,
+              "books": 9800
+            },
+            "bonus": 193
+          },
+          {
+            "level": 69,
+            "cost": {
+              "scrolls": 53000,
+              "ink": 53000,
+              "books": 10600
+            },
+            "bonus": 196
+          },
+          {
+            "level": 70,
+            "cost": {
+              "bricks": 55000,
+              "tiles": 55000,
+              "glass": 11000
+            },
+            "bonus": 199
+          },
+          {
+            "level": 71,
+            "cost": {
+              "scrolls": 57000,
+              "ink": 57000,
+              "books": 11400
+            },
+            "bonus": 202
+          },
+          {
+            "level": 72,
+            "cost": {
+              "scrolls": 61000,
+              "ink": 61000,
+              "books": 12200
+            },
+            "bonus": 205
+          },
+          {
+            "level": 73,
+            "cost": {
+              "scrolls": 65000,
+              "ink": 65000,
+              "books": 13000
+            },
+            "bonus": 208
+          },
+          {
+            "level": 74,
+            "cost": {
+              "scrolls": 69000,
+              "ink": 69000,
+              "books": 13800
+            },
+            "bonus": 211
+          },
+          {
+            "level": 75,
+            "cost": {
+              "bricks": 72000,
+              "tiles": 72000,
+              "glass": 14400
+            },
+            "bonus": 214
+          },
+          {
+            "level": 76,
+            "cost": {
+              "scrolls": 75000,
+              "ink": 75000,
+              "books": 15000
+            },
+            "bonus": 217
+          },
+          {
+            "level": 77,
+            "cost": {
+              "scrolls": 80000,
+              "ink": 80000,
+              "books": 16000
+            },
+            "bonus": 220
+          },
+          {
+            "level": 78,
+            "cost": {
+              "scrolls": 85000,
+              "ink": 85000,
+              "books": 17000
+            },
+            "bonus": 223
+          },
+          {
+            "level": 79,
+            "cost": {
+              "scrolls": 90000,
+              "ink": 90000,
+              "books": 18000
+            },
+            "bonus": 226
+          },
+          {
+            "level": 80,
+            "cost": {
+              "bricks": 94000,
+              "tiles": 94000,
+              "glass": 18800
+            },
+            "bonus": 229
+          },
+          {
+            "level": 81,
+            "cost": {
+              "scrolls": 96000,
+              "ink": 96000,
+              "books": 19000
+            },
+            "bonus": 232
+          },
+          {
+            "level": 82,
+            "cost": {
+              "scrolls": 102000,
+              "ink": 102000,
+              "books": 20000
+            },
+            "bonus": 235
+          },
+          {
+            "level": 83,
+            "cost": {
+              "scrolls": 108000,
+              "ink": 108000,
+              "books": 21000
+            },
+            "bonus": 238
+          },
+          {
+            "level": 84,
+            "cost": {
+              "scrolls": 114000,
+              "ink": 114000,
+              "books": 22000
+            },
+            "bonus": 241
+          },
+          {
+            "level": 85,
+            "cost": {
+              "bricks": 120000,
+              "tiles": 120000,
+              "glass": 24300
+            },
+            "bonus": 244
+          },
+          {
+            "level": 86,
+            "cost": {
+              "scrolls": 125000,
+              "ink": 125000,
+              "books": 24000
+            },
+            "bonus": 247
+          },
+          {
+            "level": 87,
+            "cost": {
+              "scrolls": 132000,
+              "ink": 132000,
+              "books": 26000
+            },
+            "bonus": 250
+          },
+          {
+            "level": 88,
+            "cost": {
+              "scrolls": 139000,
+              "ink": 139000,
+              "books": 28000
+            },
+            "bonus": 253
+          },
+          {
+            "level": 89,
+            "cost": {
+              "scrolls": 146000,
+              "ink": 146000,
+              "books": 30000
+            },
+            "bonus": 256
+          },
+          {
+            "level": 90,
+            "cost": {
+              "scrolls": 150430,
+              "ink": 150430,
+              "books": 30980
+            },
+            "bonus": 259,
+            "_estimated": true
+          },
+          {
+            "level": 91,
+            "cost": {
+              "scrolls": 155000,
+              "ink": 155000,
+              "books": 32000
+            },
+            "bonus": 262
+          },
+          {
+            "level": 92,
+            "cost": {
+              "scrolls": 163000,
+              "ink": 163000,
+              "books": 34000
+            },
+            "bonus": 265
+          },
+          {
+            "level": 93,
+            "cost": {
+              "scrolls": 171000,
+              "ink": 171000,
+              "books": 36000
+            },
+            "bonus": 268
+          },
+          {
+            "level": 94,
+            "cost": {
+              "scrolls": 179000,
+              "ink": 179000,
+              "books": 38000
+            },
+            "bonus": 271
+          },
+          {
+            "level": 95,
+            "cost": {
+              "scrolls": 186100,
+              "ink": 186100,
+              "books": 40200
+            },
+            "bonus": 274,
+            "_estimated": true
+          },
+          {
+            "level": 96,
+            "cost": {
+              "scrolls": 193480,
+              "ink": 193480,
+              "books": 42520
+            },
+            "bonus": 277,
+            "_estimated": true
+          },
+          {
+            "level": 97,
+            "cost": {
+              "scrolls": 201150,
+              "ink": 201150,
+              "books": 44970
+            },
+            "bonus": 280,
+            "_estimated": true
+          },
+          {
+            "level": 98,
+            "cost": {
+              "scrolls": 209120,
+              "ink": 209120,
+              "books": 47570
+            },
+            "bonus": 283,
+            "_estimated": true
+          },
+          {
+            "level": 99,
+            "cost": {
+              "scrolls": 217420,
+              "ink": 217420,
+              "books": 50320
+            },
+            "bonus": 286,
+            "_estimated": true
+          },
+          {
+            "level": 100,
+            "cost": {
+              "scrolls": 226040,
+              "ink": 226040,
+              "books": 53230
+            },
+            "bonus": 289,
+            "_estimated": true
+          },
+          {
+            "level": 101,
+            "cost": {
+              "scrolls": 235000,
+              "ink": 235000,
+              "books": 56300
+            },
+            "bonus": 292
+          },
+          {
+            "level": 102,
+            "cost": {
+              "scrolls": 244000,
+              "ink": 244000,
+              "books": 59600
+            },
+            "bonus": 295
+          },
+          {
+            "level": 103,
+            "cost": {
+              "scrolls": 252840,
+              "ink": 252840,
+              "books": 62810
+            },
+            "bonus": 298,
+            "_estimated": true
+          },
+          {
+            "level": 104,
+            "cost": {
+              "scrolls": 262000,
+              "ink": 262000,
+              "books": 66200
+            },
+            "bonus": 301
+          },
+          {
+            "level": 105,
+            "cost": {
+              "bricks": 270000,
+              "tiles": 270000,
+              "glass": 67000
+            },
+            "bonus": 304
+          },
+          {
+            "level": 106,
+            "cost": {
+              "scrolls": 280000,
+              "ink": 280000,
+              "books": 72800
+            },
+            "bonus": 307
+          },
+          {
+            "level": 107,
+            "cost": {
+              "scrolls": 289000,
+              "ink": 289000,
+              "books": 76100
+            },
+            "bonus": 310
+          },
+          {
+            "level": 108,
+            "cost": {
+              "scrolls": 297860,
+              "ink": 297860,
+              "books": 79330
+            },
+            "bonus": 313,
+            "_estimated": true
+          },
+          {
+            "level": 109,
+            "cost": {
+              "scrolls": 307000,
+              "ink": 307000,
+              "books": 82700
+            },
+            "bonus": 316
+          },
+          {
+            "level": 110,
+            "cost": {
+              "bricks": 330000,
+              "tiles": 330000,
+              "glass": 83000
+            },
+            "bonus": 319
+          }
+        ]
       }
     },
-    "_note": "Bonus ajouté à CHAQUE contrat livré (contrats : +1 emplacement par niveau). Coûts et bonus : fan site ; « market certificate » payé en clés. Pistes aventure et XP de marché non reprises."
+    "_note": "Bonus ajouté à CHAQUE contrat livré (contrats : +1 emplacement par niveau). Coûts et bonus : fan site ; « market certificate » payé en clés. Pistes aventure non reprises."
   }
 }

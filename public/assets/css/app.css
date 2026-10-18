@@ -412,6 +412,8 @@ button { font: inherit; color: inherit; }
 .ground .cell.next { fill: var(--next); cursor: pointer; }
 .ground .cell.next.alt { fill: color-mix(in srgb, var(--next) 94%, #000); }
 .ground .lock { pointer-events: none; opacity: 0.85; }
+.ground .island { fill: #86bb52; }
+.ground .path { fill: #c9a874; stroke: #a8885a; stroke-width: 0.05; stroke-dasharray: 0.2 0.12; }
 .ground .edge-left { fill: #8a5a2b; }
 .ground .edge-right { fill: #6b4220; }
 .placing .ground .cell:not(.locked):hover { fill: color-mix(in srgb, var(--grass) 70%, #fff); }
@@ -419,10 +421,14 @@ button { font: inherit; color: inherit; }
 #ghost { fill: rgb(92 181 49 / 0.45); stroke: #2e7d16; stroke-width: 0.06; stroke-dasharray: 0.15 0.1; }
 #ghost.invalid { fill: rgb(216 64 43 / 0.45); stroke: #9b2a19; }
 
-.building {
+.building, .outside {
     position: absolute;
     pointer-events: none;
 }
+.outside svg { inset: 0; width: 100%; height: 100%; filter: drop-shadow(0 calc(var(--u) * 0.06) calc(var(--u) * 0.04) rgb(0 0 0 / 0.25)); }
+.outside svg * { pointer-events: visiblePainted; cursor: pointer; }
+.outside.empty svg { opacity: 0.85; filter: none; }
+.placing .outside svg * { pointer-events: none; }
 .building svg { inset: 0; width: 100%; height: 100%; filter: drop-shadow(0 calc(var(--u) * 0.06) calc(var(--u) * 0.04) rgb(0 0 0 / 0.25)); }
 .building svg * { pointer-events: visiblePainted; cursor: pointer; }
 .building.field svg, .building.decoration svg { filter: none; }
@@ -450,22 +456,18 @@ button { font: inherit; color: inherit; }
     box-shadow: 0 2px 4px rgb(0 0 0 / 0.3);
     cursor: pointer;
 }
-.tags .badge.ready-bubble {
-    position: relative;
-    display: grid; place-items: center;
-    width: max(30px, calc(var(--u) * 0.95)); height: max(30px, calc(var(--u) * 0.95));
-    padding: 0;
-    background: #fff; color: inherit;
-    border: 3px solid var(--go);
-    font-size: max(16px, calc(var(--u) * 0.55));
-    animation: bubble 1.4s ease-in-out infinite;
+.grid .tags .pennant {
+    position: static;
+    display: block;
+    width: max(34px, calc(var(--u) * 0.95));
+    height: max(41px, calc(var(--u) * 1.14));
+    filter: drop-shadow(0 2px 2px rgb(0 0 0 / 0.3));
 }
-.tags .badge.ready-bubble::after {
-    content: "";
-    position: absolute; left: 50%; bottom: -8px;
-    border: 6px solid transparent; border-top-color: var(--go);
-    transform: translateX(-50%);
-}
+.grid .tags .pennant.ready, .grid .tags .pennant.collect-all { animation: bubble 1.4s ease-in-out infinite; }
+.grid .tags .pennant.collect-all { width: max(42px, calc(var(--u) * 1.15)); height: max(50px, calc(var(--u) * 1.38)); }
+.grid .tags .pennant .zz { animation: zz 2.4s ease-in-out infinite; }
+@keyframes zz { 50% { opacity: 0.5; transform: translate(0.3px, -0.6px); } }
+
 .building svg .blades.spin { animation: spin 3s linear infinite; }
 .building svg .sway { animation: sway 1.8s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
 .building svg .peck { animation: peck 2.2s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
@@ -477,7 +479,7 @@ button { font: inherit; color: inherit; }
 @keyframes buzz { 25% { transform: translate(3%, -2%); } 75% { transform: translate(-3%, 1%); } }
 @keyframes bubble { 50% { transform: translateY(-15%); } }
 @media (prefers-reduced-motion: reduce) {
-    .building svg *, .tags .badge.ready-bubble { animation: none !important; }
+    .building svg *, .grid .tags .pennant, .grid .tags .pennant * { animation: none !important; }
 }
 
 /* Building card at the top of its panel */
@@ -602,6 +604,12 @@ button { font: inherit; color: inherit; }
     border: 3px solid var(--card-border); border-radius: 14px;
     background: var(--surface-2);
     box-shadow: 0 2px 0 rgb(0 0 0 / 0.12);
+}
+.card {
+    display: grid; gap: 8px;
+    padding: 12px;
+    border: 3px solid var(--card-border); border-radius: 14px;
+    background: var(--card);
 }
 .contract.waiting { min-height: 64px; align-content: center; text-align: center; background: var(--card); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }

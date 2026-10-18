@@ -37,6 +37,7 @@ final class FulfillContract implements Action
         $farm->gain($reward['materials'] ?? []);
         $farm->gain($bonus['materials']);
         $farm->addXp($reward['xp'] + $bonus['xp']);
+        $farm->addMarketXp((new MarketUpgrades($farm->data))->marketXpPerContract($farm));
 
         $market = new Market($farm->data);
         $next = $market->generate($farm, $clock, waiting: false);

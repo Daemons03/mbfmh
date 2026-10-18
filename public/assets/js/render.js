@@ -1,7 +1,7 @@
 import { h, $ } from './dom.js';
 import { fmtDuration, fmtInt, fmtNumber, fmtShort } from './format.js';
-import { buildingArt, s } from './art.js';
-import { buildingBox, cellTop, DEPTH, footprintPoints, mapSize } from './iso.js';
+import { buildingArt, outsideArt, pennant, s, tierOf } from './art.js';
+import { buildingBox, cellTop, DEPTH, footprintPoints, layout, mapSize, outsideLot } from './iso.js';
 import { buildingById, definition, jobStatus, store } from './store.js';
 
 export function renderTopbar() {
@@ -51,21 +51,30 @@ export function happinessEffect(factor) {
     return `${percent > 0 ? '+' : ''}${percent} %`;
 }
 
+/** Outside buildings shown along the farm, from its top corner down. */
+export const OUTSIDE_ORDER = ['market', 'show_animal', 'library', 'external_barn', 'cafe'];
+
+export function currentLayout() {
+    return layout(store.view.grid.side, OUTSIDE_ORDER.length);
+}
+
 export function renderGrid() {
     const { state, view, data, mode } = store;
     const { side, block_size: blockSize, owned_blocks: ownedBlocks, next_block: nextBlock } = view.grid;
     const owned = new Set(ownedBlocks.map(([bx, by]) => `${bx},${by}`));
     const nextKey = nextBlock ? `${nextBlock[0]},${nextBlock[1]}` : null;
     const markOffset = Math.floor(blockSize / 2);
-    const size = mapSize(side);
+    const L = currentLayout();
+    const size = mapSize(L);
 
     const grid = $('#grid');
     grid.style.width = `calc(var(--u) * ${size.width})`;
     grid.style.height = `calc(var(--u) * ${size.height})`;
     grid.dataset.side = side;
+    grid.dataset.width = size.width;
     grid.classList.toggle('placing', mode !== null);
 
-    // Ground: one diamond per cell, earth edges under the land, lock marks.
+    // Ground: one diamond per farm cell, lock marks.
     const cells = [];
     const marks = [];
     for (let y = 0; y < side; y++) {
@@ -79,38 +88,118 @@ export function renderGrid() {
                 classes.push('next');
                 if (x % blockSize === markOffset && y % blockSize === markOffset) {
                     classes.push('block-mark');
-                    const [cx, cy] = cellTop(side, x, y);
+                    const [cx, cy] = cellTop(L, x, y);
                     marks.push(s('text', { x: cx, y: cy + 0.15, 'font-size': 1.1, 'text-anchor': 'middle', class: 'lock' }, '🔒'));
                 }
             }
             if ((x + y) % 2 === 1) classes.push('alt');
             if ((bx + by) % 2 === 1) classes.push('alt-block');
-            cells.push(s('polygon', { class: classes.join(' '), points: footprintPoints(side, x, y, 1, 1), 'data-x': x, 'data-y': y }));
+            cells.push(s('polygon', { class: classes.join(' '), points: footprintPoints(L, x, y, 1, 1), 'data-x': x, 'data-y': y }));
         }
     }
-    const [lx, ly] = cellTop(side, 0, side);
-    const [bx, by] = cellTop(side, side, side);
-    const [rx, ry] = cellTop(side, side, 0);
+    // The island: farm plus the outside strip, with earth edges at the front.
+    const yTop = -L.out;
+    const corner = (x, y) => cellTop(L, x, y).join(',');
+    const [fx, fy] = cellTop(L, L.x1, side);
+    const [lx, ly] = cellTop(L, 0, side);
+    const [rx, ry] = cellTop(L, L.x1, yTop);
     const ground = s('svg', { class: 'ground', viewBox: `0 0 ${size.width} ${size.height}`, 'aria-hidden': 'true' },
-        s('polygon', { class: 'edge-left', points: `${lx},${ly} ${bx},${by} ${bx},${by + DEPTH} ${lx},${ly + DEPTH}` }),
-        s('polygon', { class: 'edge-right', points: `${bx},${by} ${rx},${ry} ${rx},${ry + DEPTH} ${bx},${by + DEPTH}` }),
-        cells, marks);
+        s('polygon', { class: 'island', points: [corner(0, yTop), corner(L.x1, yTop), corner(L.x1, side), corner(0, side)].join(' ') }),
+        s('polygon', { class: 'edge-left', points: `${lx},${ly} ${fx},${fy} ${fx},${fy + DEPTH} ${lx},${ly + DEPTH}` }),
+        s('polygon', { class: 'edge-right', points: `${fx},${fy} ${rx},${ry} ${rx},${ry + DEPTH} ${fx},${fy + DEPTH}` }),
+        s('polygon', { class: 'path', points: footprintPoints(L, -0.2, -1.75, L.x1 + 0.2, 1.3) }),
+        cells, marks, farmFence(L, side));
 
     const nodes = [ground];
     const tags = [];
+    OUTSIDE_ORDER.forEach((type, n) => nodes.push(outsideNode(type, n, L, data)));
     for (const building of state.buildings) {
         if (building.x === undefined) continue; // outside the farm
-        const { node, tag } = buildingNode(building, data, side);
+        const { node, tag } = buildingNode(building, data, L);
         nodes.push(node);
         if (tag) tags.push(tag);
     }
-    nodes.push(...tags); // timers and ready bubbles stay above every building
+    const all = collectAllTag(L);
+    if (all) tags.push(all);
+    nodes.push(...tags); // banners and timers stay above every building
     // Footprint preview: follows the mouse, or marks the spot picked by a first tap on touch screens.
     const pending = mode?.pending ? ghostFor(mode, mode.pending) : null;
     nodes.push(s('svg', { class: 'ghost-layer', viewBox: `0 0 ${size.width} ${size.height}`, 'aria-hidden': 'true' },
         s('polygon', { id: 'ghost', points: pending?.points ?? '0,0', class: pending && !pending.free ? 'invalid' : null })));
 
     grid.replaceChildren(...nodes);
+}
+
+/**
+ * Fence along the farm's two back edges; it follows the fence level
+ * (wooden rails, then white pickets, then white pickets with stone pillars).
+ */
+function farmFence(L, side) {
+    const fence = store.state.buildings.find((b) => b.type === 'fence');
+    const def = fence ? definition('fence') : null;
+    const tier = fence ? tierOf(fence.level, def.levels.length) : 1;
+    const white = tier >= 2;
+    const parts = [];
+    const post = (x, y, height, pillar) => {
+        const [px, py] = cellTop(L, x, y);
+        if (pillar) {
+            parts.push(s('rect', { x: px - 0.09, y: py - height - 0.12, width: 0.18, height: height + 0.12, fill: '#d8d2c6', stroke: '#8a8478', 'stroke-width': 0.02 }));
+            parts.push(s('rect', { x: px - 0.12, y: py - height - 0.17, width: 0.24, height: 0.07, fill: '#bdb6a8' }));
+        } else {
+            parts.push(s('line', { x1: px, y1: py, x2: px, y2: py - height, stroke: white ? '#fffdf6' : '#8a5525', 'stroke-width': 0.06, 'stroke-linecap': 'round' }));
+        }
+    };
+    const rail = (a, b, z) => {
+        const [ax, ay] = cellTop(L, ...a);
+        const [bx, by] = cellTop(L, ...b);
+        parts.push(s('line', { x1: ax, y1: ay - z, x2: bx, y2: by - z, stroke: white ? '#e6dfd0' : '#a86b33', 'stroke-width': 0.05 }));
+    };
+    const height = 0.32;
+    for (const [from, to] of [[[0, 0], [side, 0]], [[0, 0], [0, side]]]) {
+        rail(from, to, height * 0.4);
+        rail(from, to, height * 0.85);
+        const steps = side * (white ? 3 : 1);
+        for (let i = 0; i <= steps; i++) {
+            const t = i / steps;
+            const x = from[0] + (to[0] - from[0]) * t;
+            const y = from[1] + (to[1] - from[1]) * t;
+            post(x, y, height, tier >= 3 && i % 12 === 0);
+        }
+    }
+    return s('g', { class: 'fence' }, parts);
+}
+
+/** One lot of the outside strip: the building, or an empty lot to build on. */
+function outsideNode(type, n, L, data) {
+    const lot = outsideLot(n);
+    let def = data.buildings[type];
+    let level = 1;
+    let levels = def?.levels?.length ?? 1;
+    let built = true;
+    if (type === 'market') {
+        def = { name: 'Marché', emoji: '🏪', levels: [] };
+        level = store.view.market?.level?.level ?? 1;
+        levels = (data.market.market_xp?.levels?.length ?? 0) + 1;
+    } else {
+        const building = store.state.buildings.find((b) => b.type === type);
+        built = Boolean(building);
+        level = building?.level ?? 1;
+    }
+    const { svg, top } = outsideArt(type, def, { level, levels, built });
+    const box = buildingBox(L, lot.x, lot.y, lot.w, lot.h, top);
+
+    return h('div', {
+        class: `outside${built ? '' : ' empty'}`,
+        dataset: { outside: type, built: built ? '1' : '' },
+        title: built ? `${def.name} (niv. ${level})` : `${def.name} : à construire`,
+        style: {
+            left: `calc(var(--u) * ${box.left})`,
+            top: `calc(var(--u) * ${box.top})`,
+            width: `calc(var(--u) * ${box.width})`,
+            height: `calc(var(--u) * ${box.height})`,
+            'z-index': 2 + n,
+        },
+    }, svg);
 }
 
 /** Footprint preview of the building being placed or moved, at cell. */
@@ -120,7 +209,7 @@ export function ghostFor(mode, cell) {
     const [w, h_] = definition(type).size;
 
     return {
-        points: footprintPoints(store.view.grid.side, cell.x, cell.y, w, h_),
+        points: footprintPoints(currentLayout(), cell.x, cell.y, w, h_),
         free: spotIsFree(cell, w, h_, mode.kind === 'move' ? mode.id : null),
     };
 }
@@ -144,7 +233,7 @@ function spotIsFree(cell, w, h_, ignoreId) {
 const FLAT_KINDS = new Set(['field']);
 const FLAT_TYPES = new Set(['meadow', 'premium_meadow', 'flowerbed']);
 
-function buildingNode(building, data, side) {
+function buildingNode(building, data, L) {
     const def = definition(building.type);
     const [w, h_] = def.size;
     const classes = ['building', def.kind];
@@ -152,20 +241,22 @@ function buildingNode(building, data, side) {
     const ready = Boolean(status?.ready);
     const product = building.job ? data.items[building.job.product]?.emoji ?? null : null;
     const { svg, top } = buildingArt(building, def, { working: Boolean(building.job) && !ready, ready, product });
-    const box = buildingBox(side, building.x, building.y, w, h_, top);
+    const box = buildingBox(L, building.x, building.y, w, h_, top);
     const flat = FLAT_KINDS.has(def.kind) || FLAT_TYPES.has(building.type);
 
     if (ready) classes.push('ready');
     if (building.job && !ready) classes.push('working');
     if (store.mode?.kind === 'move' && store.mode.id === building.id) classes.push('moving');
 
-    // Timer / ready bubble above the footprint centre, in a layer over all buildings.
-    const [centerX] = cellTop(side, building.x + w / 2, building.y + h_ / 2);
-    const tag = status ? h('div', {
+    // Banner or timer above the footprint centre, in a layer over all buildings.
+    const [centerX] = cellTop(L, building.x + w / 2, building.y + h_ / 2);
+    const marker = jobMarker(building, def, status, product, data);
+    const tag = marker ? h('div', {
         class: 'tags',
         dataset: { id: building.id },
-        style: { left: `calc(var(--u) * ${centerX})`, top: `calc(var(--u) * ${box.top + Math.max(0, top - 0.9)})` },
-    }, countdownBadge(status, product)) : null;
+        title: marker.title,
+        style: { left: `calc(var(--u) * ${centerX})`, top: `calc(var(--u) * ${box.top + Math.max(0, top - 1.1)})` },
+    }, marker.node) : null;
 
     const node = h('div', {
         class: classes.join(' '),
@@ -183,10 +274,48 @@ function buildingNode(building, data, side) {
     return { node, tag };
 }
 
-function countdownBadge(status, product) {
-    if (!status) return null;
-    if (status.ready) return h('span', { class: 'badge ready-bubble', title: 'Prêt' }, product ?? '✓');
+/** Does this building make things with a job (fields, non-instant production)? */
+function hasJobs(def) {
+    return def.kind === 'field' || (def.kind === 'production' && def.production?.mode !== 'instant');
+}
 
+/** Yellow banner when ready, timer while working, pale blue "zZ" banner when idle. */
+function jobMarker(building, def, status, product, data) {
+    if (!hasJobs(def)) return null;
+    if (status?.ready) return { node: pennant('ready', product ?? '✓'), title: 'Prêt' };
+    if (status) return { node: countdownBadge(status), title: null };
+
+    return { node: pennant('idle', idleProduct(building, def, data)), title: 'Inactif' };
+}
+
+/** What an idle building would make: its first recipe, a crop sign for fields. */
+function idleProduct(building, def, data) {
+    if (def.kind === 'field') return '🌾';
+    const recipes = store.view.production?.[building.id]?.recipes ?? {};
+    const first = Object.keys(recipes)[0];
+
+    return first ? data.items[first]?.emoji ?? def.emoji : def.emoji;
+}
+
+/** "Tout récolter" banner above the barn when at least two jobs are ready. */
+function collectAllTag(L) {
+    const ready = store.state.buildings.filter((b) => b.job && jobStatus(b)?.ready && hasJobs(definition(b.type))).length;
+    const barn = store.state.buildings.find((b) => b.type === 'barn' && b.x !== undefined);
+    if (ready < 2 || !barn) return null;
+    const def = definition(barn.type);
+    const [w, h_] = def.size;
+    const [centerX] = cellTop(L, barn.x + w / 2, barn.y + h_ / 2);
+    const box = buildingBox(L, barn.x, barn.y, w, h_, 2.3);
+
+    return h('div', {
+        class: 'tags collect-all',
+        dataset: { collectAll: '1' },
+        title: `Tout récolter (${ready})`,
+        style: { left: `calc(var(--u) * ${centerX})`, top: `calc(var(--u) * ${box.top + 0.2})` },
+    }, pennant('collect-all', '🛖'));
+}
+
+function countdownBadge(status) {
     return h('span', { class: 'badge', dataset: { readyAt: status.readyAt } }, fmtShort(status.remaining));
 }
 

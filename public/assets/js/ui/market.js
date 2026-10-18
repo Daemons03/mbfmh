@@ -7,6 +7,7 @@ export function marketPanel() {
     return {
         title: '🏪 Marché',
         render: () => [
+            marketLevelBlock(),
             h('p', { class: 'muted' }, 'Livrez des produits de la grange contre de l\'argent, de l\'XP et parfois des matériaux.'),
             h('div', { class: 'list' }, store.state.contracts.map(contractCard)),
             h('p', { class: 'section-title' }, 'Améliorations du marché'),
@@ -83,6 +84,7 @@ function effectText(effect, bonus) {
         case 'slots': return `+${fmtInt(bonus)} contrat(s) au marché`;
         case 'cash': return `+${fmtInt(bonus)} ${data.currencies.cash.emoji} par contrat`;
         case 'xp': return `+${fmtInt(bonus)} XP par contrat`;
+        case 'market_xp': return `+${fmtInt(bonus)} XP de marché par contrat`;
         default: return `+${fmtInt(bonus)} ${resourceEmoji(effect.material, data)} par contrat`;
     }
 }
@@ -105,4 +107,17 @@ function upgradeTrackRow(id, track) {
                 disabled: !next || !canAfford(next.cost),
                 onclick: () => perform('upgrade_market', { track: id }),
             }, next ? 'Améliorer' : 'Max')));
+}
+
+/** Market level: grows with the market XP of delivered contracts; the market looks bigger. */
+function marketLevelBlock() {
+    const { level, xp, needed } = store.view.market.level;
+    const percent = needed ? Math.min(100, (xp / needed) * 100) : 100;
+
+    return h('div', { class: 'card' },
+        h('div', { class: 'row-title' }, `🏪 Niveau de marché ${level}`),
+        h('div', { class: 'meter' }, h('div', { style: { width: `${percent}%` } })),
+        h('p', { class: 'row-sub' }, needed
+            ? `${fmtInt(xp)} / ${fmtInt(needed)} XP de marché · +${fmtInt(store.view.market.xp_per_contract)} par contrat livré`
+            : 'Niveau de marché maximum'));
 }

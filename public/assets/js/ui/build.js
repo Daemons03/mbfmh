@@ -85,7 +85,7 @@ function outsideRow(type, def) {
     const locked = store.state.level < (first.unlock_level ?? 1);
 
     return h('div', { class: `row${locked ? ' disabled' : ''}` },
-        h('span', { class: 'row-emoji' }, def.emoji),
+        h('span', { class: 'row-emoji' }, buildingIcon(type, def) ?? def.emoji),
         h('div', { class: 'row-main' },
             h('div', { class: 'row-title' }, def.name),
             h('div', { class: 'row-sub' }, fmtCost(first.cost, store.data))),

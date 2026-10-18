@@ -29,7 +29,7 @@ final class FieldTest extends EngineTestCase
 
     public function testEveryRegisteredActionRejectsAnEmptyPayload(): void
     {
-        foreach (Engine::actionTypes() as $type) {
+        foreach (array_diff(Engine::actionTypes(), ['collect_all']) as $type) { // collect_all takes no payload
             $this->assertGameError('invalid_payload', $type);
         }
     }

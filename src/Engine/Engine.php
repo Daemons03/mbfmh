@@ -25,6 +25,7 @@ final class Engine
         'discard_contract' => Actions\DiscardContract::class,
         'start_production' => Actions\StartProduction::class,
         'collect' => Actions\Collect::class,
+        'collect_all' => Actions\CollectAll::class,
         'buy_expansion' => Actions\BuyExpansion::class,
         'serve_cafe' => Actions\ServeCafe::class,
         'open_chest' => Actions\OpenChest::class,

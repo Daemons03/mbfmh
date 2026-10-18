@@ -461,6 +461,17 @@ final class Farm
         $this->state['market_upgrades'] = [$track => $level] + $this->marketUpgrades();
     }
 
+    /** Total market XP earned by delivering contracts. */
+    public function marketXp(): int
+    {
+        return $this->state['market_xp'] ?? 0;
+    }
+
+    public function addMarketXp(int $xp): void
+    {
+        $this->state['market_xp'] = $this->marketXp() + $xp;
+    }
+
     // ------------------------------------------------------------ café
 
     /**

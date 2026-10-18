@@ -78,4 +78,22 @@ final class MarketUpgradeTest extends EngineTestCase
 
         self::assertSame(['contracts' => 1, 'cash' => 1], $next['market_upgrades']);
     }
+
+    public function testDeliveriesRaiseTheMarketLevel(): void
+    {
+        $this->state['barn']['items'] = ['wildflower' => 200, 'corn' => 200];
+        self::assertSame(['level' => 1, 'xp' => 0, 'needed' => 40], $this->engine->view($this->state, self::NOW)['market']['level']);
+
+        $this->act('fulfill_contract', ['id' => $this->state['contracts'][0]['id']]);
+        self::assertSame(10, $this->state['market_xp'], 'base market XP per contract');
+
+        $this->state['market_upgrades'] = ['market_xp' => 2]; // +3
+        $this->act('fulfill_contract', ['id' => $this->state['contracts'][1]['id']]);
+        self::assertSame(23, $this->state['market_xp']);
+
+        $this->state['market_xp'] = 155;
+        $view = $this->engine->view($this->state, self::NOW)['market'];
+        self::assertSame(['level' => 3, 'xp' => 5, 'needed' => 170], $view['level']);
+        self::assertSame(13, $view['xp_per_contract']);
+    }
 }

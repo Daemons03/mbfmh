@@ -2,7 +2,7 @@ import { perform, refresh, setUnauthenticatedHandler } from './actions.js';
 import { api, ApiError } from './api.js';
 import { h, $ } from './dom.js';
 import { cellAt, cellTop } from './iso.js';
-import { ghostFor, renderGrid, renderTopbar, tickCountdowns } from './render.js';
+import { currentLayout, ghostFor, renderGrid, renderTopbar, tickCountdowns } from './render.js';
 import { applyResponse, buildingById, definition, jobStatus, notify, serverNow, store, subscribe } from './store.js';
 import { barnPanel } from './ui/barn.js';
 import { buildPanel } from './ui/build.js';
@@ -99,14 +99,14 @@ function renderModeBanner() {
 /** Size of one unit (half a tile width) in screen pixels. */
 function unitPx() {
     const grid = $('#grid');
-    return grid.getBoundingClientRect().width / (2 * Number(grid.dataset.side));
+    return grid.getBoundingClientRect().width / Number(grid.dataset.width);
 }
 
 function cellFromEvent(event) {
     const rect = $('#grid').getBoundingClientRect();
     const u = unitPx();
 
-    return cellAt(store.view.grid.side, (event.clientX - rect.left) / u, (event.clientY - rect.top) / u);
+    return cellAt(currentLayout(), (event.clientX - rect.left) / u, (event.clientY - rect.top) / u);
 }
 
 /** Footprint preview under the mouse while placing or moving: green when the spot is free. */
@@ -133,12 +133,12 @@ function cellClasses(cell) {
 
 /** Scrolls the map so the owned land is in view (first display). */
 function centerOnFarm() {
-    const { side, block_size: blockSize, owned_blocks: ownedBlocks } = store.view.grid;
+    const { block_size: blockSize, owned_blocks: ownedBlocks } = store.view.grid;
     const xs = ownedBlocks.map(([bx]) => bx);
     const ys = ownedBlocks.map(([, by]) => by);
     const cx = ((Math.min(...xs) + Math.max(...xs) + 1) / 2) * blockSize;
     const cy = ((Math.min(...ys) + Math.max(...ys) + 1) / 2) * blockSize;
-    const [ux, uy] = cellTop(side, cx, cy);
+    const [ux, uy] = cellTop(currentLayout(), cx, cy);
     const map = $('#map');
     const u = unitPx();
     const gridRect = $('#grid').getBoundingClientRect();
@@ -148,6 +148,16 @@ function centerOnFarm() {
 }
 
 async function onGridClick(event) {
+    if (!store.mode && event.target.closest('[data-collect-all]')) {
+        await perform('collect_all', {});
+        return;
+    }
+    const outside = store.mode ? null : event.target.closest('.outside');
+    if (outside) {
+        const tabs = { market: 'market', show_animal: 'show', library: 'library', external_barn: 'barn', cafe: 'cafe' };
+        openTab(outside.dataset.built ? tabs[outside.dataset.outside] : 'build');
+        return;
+    }
     const cell = cellFromEvent(event);
     const buildingEl = event.target.closest('.building, .tags');
     if (!cell && (store.mode || !buildingEl)) return;

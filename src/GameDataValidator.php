@@ -340,6 +340,18 @@ final class GameDataValidator
             }
         }
         $this->range($reward['quantity'] ?? null, 'market.material_reward.quantity');
+
+        if (isset($market['market_xp'])) {
+            $this->nonNegativeInt($market['market_xp']['per_contract'] ?? null, 'market.market_xp.per_contract');
+            $previous = 0;
+            foreach ($market['market_xp']['levels'] ?? [] as $i => $threshold) {
+                if (!is_int($threshold) || $threshold <= $previous) {
+                    $this->errors[] = "market.market_xp.levels[{$i}]: must be increasing positive integers";
+                    break;
+                }
+                $previous = $threshold;
+            }
+        }
     }
 
     private function checkCafe(): void
@@ -417,8 +429,8 @@ final class GameDataValidator
             $path = "market_upgrades.tracks.{$id}";
             $this->nameAndEmoji($track, $path);
             $effect = $track['effect'] ?? [];
-            if (!in_array($effect['type'] ?? null, ['slots', 'cash', 'xp', 'material'], true)) {
-                $this->errors[] = "{$path}.effect.type: must be slots, cash, xp or material";
+            if (!in_array($effect['type'] ?? null, ['slots', 'cash', 'xp', 'market_xp', 'material'], true)) {
+                $this->errors[] = "{$path}.effect.type: must be slots, cash, xp, market_xp or material";
             } elseif ($effect['type'] === 'material' && !isset($this->data['materials'][$effect['material'] ?? ''])) {
                 $this->errors[] = "{$path}.effect.material: unknown material";
             }
