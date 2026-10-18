@@ -120,6 +120,8 @@ Types d'action V1 : `build`, `move`, `demolish`, `plant`, `harvest`, `start_prod
 
 Productions en cours (champ, bâtiment de production) : `cancel_job { id }` annule, tout ce qui a été engagé est perdu ; `speed_up { id }` rend prêt tout de suite contre de l'or : `speed_up.gold_per_minute` (10) par minute restante entamée, 10 au minimum. Animaux de concours : `cancel_show_animal { species }` (production perdue, emplacement libéré).
 
+« Tout » : `plant_all` (mêmes options que `plant`) plante le champ choisi puis tous les autres champs libres ; `start_production_all` (mêmes options que `start_production`) lance le bâtiment choisi puis tous les bâtiments libres du même type, variantes comprises (lots plafonnés par bâtiment). Chaque bâtiment refusé (ressources épuisées) est annulé et passé ; le front signale ceux qui restent libres. Construire : onglets Normaux, Premium (premium et fertile), Plein air, Décoration, Extérieur. Marché : « Jeter » sans confirmation.
+
 Opérations admin : `set_resources` (cash, or, matériaux, objets de grange — peut dépasser la capacité), `set_level` (+ xp optionnel), `set_speed` (0,1 à 1 000), `finish_all_jobs` (productions et contrats en attente), `unlock_all` (niveau max + tout le terrain), `reset_farm`, `set_tournament_curve`, `finish_tournament_week`. Interface : onglet Admin du jeu et `public/admin.html` (même composant `ui/admin.js`).
 
 ## Règles de jeu V1

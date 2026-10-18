@@ -48,6 +48,7 @@ def test_outside_lots_open_their_panel(game, farm):
     game.locator(".outside[data-outside=library]").click()
     game.wait_for_selector("#sheet:not([hidden])")
     assert game.locator("#sheet-title").inner_text() == "Construire"
+    assert game.get_by_role("tab", name="Extérieur").get_attribute("aria-selected") == "true"
     game.keyboard.press("Escape")
 
     farm.patch({"buildings": farm.state()["buildings"] + [{"id": "lib", "type": "library", "level": 1}]})

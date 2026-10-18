@@ -1,4 +1,4 @@
-import { perform } from '../actions.js';
+import { idleGroup, perform, performAll } from '../actions.js';
 import { h } from '../dom.js';
 import { fmtCost, fmtDuration, fmtInt } from '../format.js';
 import { canAfford, jobStatus, productionCost, speedUpCost, store } from '../store.js';
@@ -107,6 +107,7 @@ function recipeCard(building, id, recipe, mode) {
     else if (missing) label = 'Ingrédients manquants';
     else if (!canAfford(cost)) label = 'Pas assez d\'argent';
 
+    const body = mode === 'batch' ? { id: building.id, recipe: id, quantity } : { id: building.id, recipe: id };
     const setQuantity = (value) => {
         quantities.set(key, Math.max(1, Math.min(max, value)));
         refreshSheet();
@@ -138,10 +139,22 @@ function recipeCard(building, id, recipe, mode) {
                     type: 'button',
                     class: 'btn btn-primary',
                     disabled: label !== ready,
-                    onclick: () => perform('start_production', mode === 'batch'
-                        ? { id: building.id, recipe: id, quantity }
-                        : { id: building.id, recipe: id }),
-                }, label))));
+                    onclick: () => perform('start_production', body),
+                }, label),
+                mode === 'instant' ? null : allButton(building, body, label !== ready, 'Tout'))));
+}
+
+/** "Tout (N)": the same start on every idle building of this kind (variants included). */
+function allButton(building, body, disabled, text) {
+    const group = idleGroup(building);
+    if (group.length < 2) return null;
+    return h('button', {
+        type: 'button',
+        class: 'btn btn-all',
+        disabled,
+        title: `Lancer aussi les ${group.length - 1} autres bâtiments libres`,
+        onclick: () => performAll('start_production_all', body, group),
+    }, `${text} (${group.length})`);
 }
 
 /** Which special items a recipe can take instead of its feed / fertilizer. */
@@ -166,12 +179,16 @@ function boostButtons(building, id, recipe, disabled) {
         const item = data.boosts[kind][variant];
         const have = state.barn.items[item] ?? 0;
         if (!have) return null;
-        return h('button', {
-            type: 'button',
-            class: 'btn btn-go',
-            disabled,
-            title: `1 ${data.items[item].emoji} ${data.items[item].name} à la place : ${effect}, gratuit (${fmtInt(have)} en grange)`,
-            onclick: () => perform('start_production', { id: building.id, recipe: id, boost: variant }),
-        }, text);
+        const body = { id: building.id, recipe: id, boost: variant };
+        return [
+            h('button', {
+                type: 'button',
+                class: 'btn btn-go',
+                disabled,
+                title: `1 ${data.items[item].emoji} ${data.items[item].name} à la place : ${effect}, gratuit (${fmtInt(have)} en grange)`,
+                onclick: () => perform('start_production', body),
+            }, text),
+            allButton(building, body, disabled, variant === 'instant' ? '⚡ Tout' : '✨ Tout'),
+        ];
     });
 }

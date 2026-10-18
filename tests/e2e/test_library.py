@@ -8,6 +8,7 @@ def test_library_upgrade_adds_to_the_harvest(game, farm):
     assert game.locator(".outside.empty[data-outside=library]").count() == 1, "no library yet"
 
     open_tab(game, "build")
+    game.get_by_role("tab", name="Extérieur").click()
     row(game, "Bibliothèque").get_by_role("button", name="Construire").click()
     settle(game)
     game.wait_for_selector(".outside[data-outside=library][data-built='1']")

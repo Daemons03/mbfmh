@@ -16,6 +16,14 @@ final readonly class Payload
     {
     }
 
+    /**
+     * Same payload with one value replaced (e.g. another building id).
+     */
+    public function with(string $key, mixed $value): self
+    {
+        return new self([$key => $value] + $this->values);
+    }
+
     public function string(string $key): string
     {
         $value = $this->values[$key] ?? null;

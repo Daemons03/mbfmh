@@ -65,12 +65,8 @@ function contractCard(contract) {
                 h('button', {
                     type: 'button',
                     class: 'btn',
-                    onclick: () => {
-                        const delay = fmtDuration(data.market.replace_delay / state.settings.speed);
-                        if (confirm(`Jeter ce contrat ? Un nouveau arrivera dans ${delay}.`)) {
-                            perform('discard_contract', { id: contract.id });
-                        }
-                    },
+                    title: `Un nouveau contrat arrivera dans ${fmtDuration(data.market.replace_delay / state.settings.speed)}`,
+                    onclick: () => perform('discard_contract', { id: contract.id }),
                 }, 'Jeter'),
                 h('button', {
                     type: 'button',

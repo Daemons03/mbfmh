@@ -177,6 +177,32 @@ def test_cancel_then_speed_up_a_crop(game, farm):
     assert farm.log() == ["plant", "cancel_job", "plant", "speed_up"]
 
 
+def test_plant_every_free_field_while_humus_lasts(game, farm):
+    farm.patch({"barn.items": {"humus": 1}})
+    reload(game)
+    tap(game, 3, 0)
+    game.locator("label", has_text="humus : +25 %").click()
+    row(game, "Maïs").get_by_role("button", name="Tout (2)").click()
+    game.wait_for_selector(".toast.warn >> text=1 champ reste libre")
+
+    fields = {b["id"]: b for b in farm.state()["buildings"] if b["type"] == "field"}
+    assert fields["b2"]["job"]["humus"] is True
+    assert "job" not in fields["b3"], "no humus left for the second field"
+    assert farm.log() == ["plant_all"]
+
+
+def test_build_tabs_by_category(game, farm):
+    open_tab(game, "build")
+    names = lambda: [t.inner_text() for t in game.locator("#sheet .row-title").all()]
+    assert "Champ" in names() and "Champ premium" not in names()
+    game.get_by_role("tab", name="Premium").click()
+    assert "Champ premium" in names() and "Champ fertile" in names() and "Champ" not in names()
+    game.get_by_role("tab", name="Plein air").click()
+    assert all("plein air" in n.lower() for n in names())
+    game.get_by_role("tab", name="Extérieur").click()
+    assert "Bibliothèque" in names()
+
+
 def test_build_with_placement_mode_and_build_here(game, farm):
     farm.add_house(10, 0)
     farm.add_house(10, 2)  # 2 + 20 free workers for two fields

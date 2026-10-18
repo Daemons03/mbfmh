@@ -23,6 +23,14 @@ final class Farm
     }
 
     /**
+     * Back to a copy taken earlier (clone $farm): rolls back one refused step of a batch.
+     */
+    public function restore(self $snapshot): void
+    {
+        $this->state = $snapshot->state;
+    }
+
+    /**
      * Fresh farm from initial_state.
      */
     public static function create(GameData $data): self

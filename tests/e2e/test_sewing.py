@@ -9,6 +9,7 @@ def test_craft_light_socks(game, farm):
     farm.add_house()
     reload(game)
     open_tab(game, "build")
+    game.get_by_role("tab", name="Extérieur").click()
     row(game, "Atelier de couture").get_by_role("button", name="Construire").click()
     settle(game)
     close_sheet(game)

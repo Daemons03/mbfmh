@@ -1,6 +1,6 @@
 import { api, ApiError } from './api.js';
 import { fmtInt } from './format.js';
-import { applyResponse, definition, notify, store } from './store.js';
+import { applyResponse, buildingById, definition, notify, store } from './store.js';
 import { closeSheet, isSheetOpen } from './ui/sheet.js';
 import { toast } from './ui/toast.js';
 
@@ -34,11 +34,11 @@ export async function perform(type, payload = {}) {
 }
 
 /** Actions that start or pick up a job: the panel closes once they succeed. */
-const CLOSING = new Set(['plant', 'harvest', 'start_production', 'collect', 'start_show_animal']);
+const CLOSING = new Set(['plant', 'plant_all', 'harvest', 'start_production', 'start_production_all', 'collect', 'start_show_animal']);
 
 function closesPanel(type, payload) {
     if (!CLOSING.has(type)) return false;
-    if (type !== 'start_production') return true;
+    if (type !== 'start_production' && type !== 'start_production_all') return true;
     // Instant crafting (sewing workshop) keeps its panel open for the next item.
     const building = store.state.buildings.find((b) => b.id === payload.id);
     return definition(building.type).production?.mode !== 'instant';
@@ -125,4 +125,30 @@ function handleError(error) {
         default:
             toast(error.message, 'error');
     }
+}
+
+/**
+ * "Tout planter" / "tout produire" (plant_all, start_production_all) over the
+ * idle buildings `ids`: warns when resources ran out before the last one.
+ */
+export async function performAll(type, payload, ids) {
+    const done = await perform(type, payload);
+    const left = ids.filter((id) => !buildingById(id)?.job).length;
+    if (done && left) {
+        const what = type === 'plant_all' ? ['planté', 'champ'] : ['lancé', 'bâtiment'];
+        const plural = (n, word) => `${n} ${word}${n > 1 ? 's' : ''}`;
+        toast(`${plural(ids.length - left, what[1])} ${what[0]}${ids.length - left > 1 ? 's' : ''} ; ${plural(left, what[1])} `
+            + `reste${left > 1 ? 'nt' : ''} libre${left > 1 ? 's' : ''} : pas assez de ressources (cash, ingrédients, humus ou semences).`, 'warn', 6000);
+    }
+    return done;
+}
+
+/** Idle buildings started together with `building` by plant_all / start_production_all, itself first. */
+export function idleGroup(building) {
+    const def = definition(building.type);
+    const base = def.variant_of ?? building.type;
+    const same = def.kind === 'field'
+        ? (b) => definition(b.type).kind === 'field'
+        : (b) => (definition(b.type).variant_of ?? b.type) === base;
+    return [building.id, ...store.state.buildings.filter((b) => b.id !== building.id && !b.job && same(b)).map((b) => b.id)];
 }

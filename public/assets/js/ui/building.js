@@ -1,4 +1,4 @@
-import { perform } from '../actions.js';
+import { idleGroup, perform, performAll } from '../actions.js';
 import { buildingArt } from '../art.js';
 import { buildingPicture } from '../sprites.js';
 import { h } from '../dom.js';
@@ -134,6 +134,15 @@ function plantList(field) {
         return body;
     };
 
+    const group = idleGroup(field);
+    const all = (body, disabled, text) => group.length > 1 ? h('button', {
+        type: 'button',
+        class: 'btn btn-all',
+        disabled,
+        title: `Planter aussi les ${group.length - 1} autres champs libres`,
+        onclick: () => performAll('plant_all', body, group),
+    }, `${text} (${group.length})`) : null;
+
     return [
         h('p', { class: 'section-title' }, 'Planter'),
         humusOptions(humusItems),
@@ -144,7 +153,7 @@ function plantList(field) {
             const seed = data.boosts?.premium_seeds[id];
             const seeds = seed ? items[seed] ?? 0 : 0;
             const duration = humusChoice === 'instant' ? 'tout de suite' : fmtDuration(crop.duration / state.settings.speed);
-            return h('div', { class: `row${seeds ? ' stack' : ''}${locked ? ' disabled' : ''}` },
+            return h('div', { class: `row${seeds || group.length > 1 ? ' stack' : ''}${locked ? ' disabled' : ''}` },
                 h('span', { class: 'row-emoji' }, item.emoji),
                 h('div', { class: 'row-main' },
                     h('div', { class: 'row-title' }, item.name),
@@ -159,12 +168,14 @@ function plantList(field) {
                         title: `Semence premium : +10 %, gratuit (${fmtInt(seeds)} en grange)`,
                         onclick: () => perform('plant', payload(id, { seed: 'premium' })),
                     }, `✨ Premium · ${fmtInt(yieldOf(id, crop, true))}`) : null,
+                    seeds && !locked ? all(payload(id, { seed: 'premium' }), false, '✨ Tout') : null,
                     h('button', {
                         type: 'button',
                         class: 'btn btn-primary',
                         disabled: locked || !affordable,
                         onclick: () => perform('plant', payload(id)),
-                    }, locked ? `Niv. ${item.unlock_level}` : 'Planter')));
+                    }, locked ? `Niv. ${item.unlock_level}` : 'Planter'),
+                    locked ? null : all(payload(id), !affordable, 'Tout')));
         })),
         specialSeeds(field),
     ];

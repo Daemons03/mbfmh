@@ -8,6 +8,7 @@ def test_build_and_serve(game, farm):
     assert game.locator(".outside.empty[data-outside=cafe]").count() == 1, "no café yet"
 
     open_tab(game, "build")
+    game.get_by_role("tab", name="Extérieur").click()
     row(game, "Café-boutique").get_by_role("button", name="Construire").click()
     settle(game)
     game.wait_for_selector(".outside[data-outside=cafe][data-built='1']")

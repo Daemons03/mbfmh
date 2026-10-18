@@ -149,6 +149,12 @@ button { font: inherit; color: inherit; }
     color: var(--accent-text);
     text-shadow: 0 1px 0 var(--accent-dark), 0 -1px 0 var(--accent-dark), 1px 0 0 var(--accent-dark), -1px 0 0 var(--accent-dark);
 }
+/* "Tout (N)": the same start on every idle building of the group. */
+.btn-all {
+    --b: #f2c14e;
+    --b-dark: #b5801c;
+    color: #4a2e14;
+}
 .btn-go {
     --b: var(--go);
     --b-dark: var(--go-dark);
@@ -674,6 +680,10 @@ svg.mirrored { transform: scaleX(-1); }
 
 /* Show animals: one tab per species, tiles framed by rarity with their fixed duration. */
 .subtabs.species { grid-template-columns: repeat(7, 1fr); gap: 3px; }
+.subtabs.build { gap: 3px; }
+.subtabs.build .subtab { flex-direction: column; gap: 2px; padding: 6px 2px 5px; font-size: 12px; }
+.subtabs.build .subtab.active { padding-bottom: 8px; }
+.subtab-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .subtabs.species .subtab { flex-direction: column; gap: 2px; padding: 6px 2px 5px; }
 .subtabs.species .subtab.active { padding-bottom: 8px; }
 .subtab-emoji { font-size: 24px; line-height: 1; }

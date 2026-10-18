@@ -4,11 +4,36 @@ import { h } from '../dom.js';
 import { fmtCost, fmtInt } from '../format.js';
 import { canAfford, store, workersNeeded } from '../store.js';
 import { upgradeRow } from './building.js';
-import { closeSheet } from './sheet.js';
+import { closeSheet, refreshSheet } from './sheet.js';
+
+/** Open tab, kept while the panel re-renders. */
+let buildTab = 'normal';
+
+const TABS = [
+    ['normal', '🏠', 'Normaux'],
+    ['premium', '✨', 'Premium'],
+    ['free_range', '🌳', 'Plein air'],
+    ['decoration', '🌷', 'Décoration'],
+    ['outside', '🏞️', 'Extérieur'],
+];
+
+/** Opens the build panel on this tab next time (an empty outside lot shows 'outside'). */
+export function setBuildTab(id) {
+    buildTab = id;
+}
+
+/** Tab of a building type: variants by kind (fertile goes with premium), decorations, outside the farm. */
+function tabOf(def) {
+    if (def.zone === 'outside') return 'outside';
+    if (def.variant === 'premium' || def.variant === 'fertile') return 'premium';
+    if (def.variant === 'free_range') return 'free_range';
+    if (def.kind === 'decoration') return 'decoration';
+    return 'normal';
+}
 
 /**
- * Build list. With a cell, builds right there; without, enters placement
- * mode (startPlacement) and also lists the buildings outside the farm.
+ * Build list, one tab per category. With a cell, builds right there (no
+ * outside tab); without, enters placement mode (startPlacement).
  */
 export function buildPanel({ cell = null, startPlacement }) {
     return {
@@ -16,18 +41,25 @@ export function buildPanel({ cell = null, startPlacement }) {
         render: () => {
             const types = Object.entries(store.data.buildings)
                 .sort(([, a], [, b]) => (a.levels[0].unlock_level ?? 1) - (b.levels[0].unlock_level ?? 1));
-            const farm = types.filter(([, def]) => (def.zone ?? 'farm') === 'farm');
-            const outside = types.filter(([, def]) => def.zone === 'outside');
-
-            const standard = farm.filter(([, def]) => !def.variant);
-            const variants = farm.filter(([, def]) => def.variant);
+            const tabs = TABS.filter(([id]) => !(cell && id === 'outside'));
+            if (!tabs.some(([id]) => id === buildTab)) buildTab = 'normal';
+            const shown = types.filter(([, def]) => tabOf(def) === buildTab);
 
             return [
-                h('div', { class: 'list' }, standard.map(([type, def]) => farmRow(type, def, cell, startPlacement))),
-                variants.length ? h('p', { class: 'section-title' }, 'Variantes (premium, fertile, plein air)') : null,
-                h('div', { class: 'list' }, variants.map(([type, def]) => farmRow(type, def, cell, startPlacement))),
-                cell ? null : h('p', { class: 'section-title' }, 'Hors de la ferme'),
-                cell ? null : h('div', { class: 'list' }, outside.map(([type, def]) => outsideRow(type, def))),
+                h('div', { class: 'subtabs build', role: 'tablist', style: { 'grid-template-columns': `repeat(${tabs.length}, 1fr)` } },
+                    tabs.map(([id, emoji, name]) => h('button', {
+                        type: 'button',
+                        role: 'tab',
+                        class: `subtab${buildTab === id ? ' active' : ''}`,
+                        'aria-selected': buildTab === id ? 'true' : 'false',
+                        onclick: () => {
+                            buildTab = id;
+                            refreshSheet();
+                        },
+                    }, h('span', { class: 'subtab-emoji' }, emoji), h('span', { class: 'subtab-name' }, name)))),
+                h('div', { class: 'list' }, shown.map(([type, def]) => (buildTab === 'outside'
+                    ? outsideRow(type, def)
+                    : farmRow(type, def, cell, startPlacement)))),
             ];
         },
     };

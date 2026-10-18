@@ -5,7 +5,7 @@ import { cellAt, cellTop } from './iso.js';
 import { currentLayout, ghostFor, renderGrid, renderTopbar, tickCountdowns } from './render.js';
 import { applyResponse, buildingById, definition, jobStatus, notify, serverNow, store, subscribe } from './store.js';
 import { barnPanel } from './ui/barn.js';
-import { buildPanel } from './ui/build.js';
+import { buildPanel, setBuildTab } from './ui/build.js';
 import { adminPanel } from './ui/admin.js';
 import { buildingPanel } from './ui/building.js';
 import { cafePanel } from './ui/cafe.js';
@@ -155,8 +155,10 @@ async function onGridClick(event) {
         const tabs = { market: 'market', show_animal: 'show', library: 'library', external_barn: 'barn', cafe: 'cafe' };
         const type = outside.dataset.outside;
         const building = store.state.buildings.find((b) => b.type === type);
-        if (!outside.dataset.built) openTab('build');
-        else if (tabs[type]) openTab(tabs[type]);
+        if (!outside.dataset.built) {
+            setBuildTab('outside');
+            openTab('build');
+        } else if (tabs[type]) openTab(tabs[type]);
         else openSheet(buildingPanel(building.id, { startMove })); // sewing workshop: its own panel
         return;
     }

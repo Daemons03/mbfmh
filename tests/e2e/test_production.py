@@ -5,6 +5,10 @@ from conftest import close_sheet, reload, row, settle, tap
 def build_here(page, x, y, name):
     tap(page, x, y)
     page.wait_for_selector("#sheet:not([hidden])")
+    for tab in ("Normaux", "Premium", "Plein air", "Décoration"):  # the row is in one category tab
+        page.get_by_role("tab", name=tab).click()
+        if row(page, name).count():
+            break
     row(page, name).get_by_role("button", name="Construire").click()
     page.wait_for_selector("#sheet[hidden]", state="attached")
 
@@ -69,3 +73,21 @@ def test_missing_inputs(game, farm):
     card = recipe_card(game, "Œuf")
     assert card.locator(".chip.missing").inner_text() == "🐥 9/10"
     assert card.get_by_role("button", name="Ingrédients manquants").is_disabled()
+
+
+def test_start_every_idle_coop_at_once(game, farm):
+    farm.patch({"cash": 20_000, "barn.items": {"chicken_feed": 15}})
+    farm.add_house()
+    reload(game)
+    for x in (6, 8):
+        build_here(game, x, 4, "Poulailler")
+    coops = [b["id"] for b in farm.state()["buildings"] if b["type"] == "chicken_coop"]
+
+    tap(game, 8, 4)
+    recipe_card(game, "Œuf").get_by_role("button", name="Tout (2)").click()
+    game.wait_for_selector(".toast.warn >> text=1 bâtiment reste libre")
+    state = farm.state()
+    started = [b["id"] for b in state["buildings"] if b["id"] in coops and "job" in b]
+    assert len(started) == 1, "15 feed: one coop of 10"
+    assert state["barn"]["items"] == {"chicken_feed": 5}
+    assert farm.log()[-1] == "start_production_all"
