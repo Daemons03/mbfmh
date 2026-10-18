@@ -228,12 +228,12 @@ Sources : captures du joueur (3 contrats niveau de marché 147, écran du tourno
 3. **Tournoi solo** (onglet 🏅)
    - Une semaine (lundi 0 h → dimanche 24 h, heure serveur). **Points = XP de marché gagnée dans la semaine** (contrats, tulipes).
    - 18 paliers : bronze, argent, or, émeraude, saphir, diamant × 1★ à 3★. Départ en bronze 1★.
-   - Ligue de 21 : le joueur + **20 fermes fictives** (noms inventés, scores de la semaine tirés de façon déterministe selon le palier ; réglés pour qu'il faille dépasser nettement le 6ᵉ objectif de points pour finir dans les 3 premiers).
+   - Ligue de **20** : le joueur + **19 fermes fictives** (noms inventés). Leurs scores de la semaine suivent une **courbe réglable dans l'admin**, 4 lignes : groupe (fixe) → objectif de points (1 à 6) → pourcentage au-dessus (5, 10, 15… %). Par défaut : **1ᵉʳ** → objectif 6 + 15 % ; **podium** (2ᵉ–3ᵉ) → objectif 5 + 15 % ; **milieu de tableau** (4ᵉ–15ᵉ) → objectif 3 + 40 % ; **relégués** (16ᵉ–20ᵉ) → objectif 2 + 50 %. Chaque ferme d'un groupe tire son pourcentage entre (réglage − 5) et le réglage, pour que les scores diffèrent ; tirage déterministe par semaine. Les fermes progressent au fil de la semaine (score proportionnel au temps écoulé).
    - Fin de semaine : les **3 premiers montent**, les **5 derniers descendent** ; récompenses de place versées automatiquement, résumé affiché.
    - Récompenses de place (palier p = 0 pour bronze 1★ … 17 pour diamant 3★) :
      - 1ᵉʳ : clés 10 + 10·p ; maillets dès or 1★ (10, +10 par palier) ; seaux dès saphir 1★ (10, +10 par palier → 60 en diamant 3★).
      - 2ᵉ et 3ᵉ : pareil avec 5 et +5 par palier.
-     - Argent pour tous : base = ce qu'un joueur de niveau `1 + 10·p` gagne en vendant à la grange toute sa production de 8 h ; 1ᵉʳ 100 %, 2ᵉ–3ᵉ 80 %, 4ᵉ–15ᵉ 60 %, 16ᵉ–21ᵉ 40 %.
+     - Argent pour tous : base = ce qu'un joueur de niveau `1 + 10·p` gagne en vendant à la grange toute sa production de 8 h ; 1ᵉʳ 100 %, 2ᵉ–3ᵉ 80 %, 4ᵉ–15ᵉ 60 %, 16ᵉ–20ᵉ 40 %.
      - Roses pour le podium (estimé).
 4. **Objectifs de points du tournoi** : 6 paliers par ligue, le 6ᵉ vaut 2 000 points en bronze 1★ et 1,5 M en diamant 1★ (progression géométrique d'un palier à l'autre) ; récompenses : nourriture instantanée, semences, nourriture / humus / engrais premium, clés (tickets violets du jeu), tulipes ; quantités croissantes avec le palier.
 5. Ensuite **V4** : boulangerie et fermes exotiques. Pièces de tournoi et décorations de tournoi : abandonnées.
