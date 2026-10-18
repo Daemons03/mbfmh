@@ -11,6 +11,7 @@ import { buildingPanel } from './ui/building.js';
 import { cafePanel } from './ui/cafe.js';
 import { showPanel } from './ui/show.js';
 import { landPanel } from './ui/land.js';
+import { tournamentPanel } from './ui/tournament.js';
 import { libraryPanel } from './ui/library.js';
 import { marketPanel } from './ui/market.js';
 import { closeSheet, initSheet, openSheet, refreshSheet } from './ui/sheet.js';
@@ -209,6 +210,7 @@ function openTab(tab) {
         cafe: () => cafePanel(),
         show: () => showPanel(),
         library: () => libraryPanel(),
+        tournament: () => tournamentPanel(),
         land: () => landPanel(),
         admin: () => adminPanel(() => h('section', { class: 'admin-section' },
             h('p', { class: 'section-title' }, 'Compte'),

@@ -469,6 +469,30 @@ final class Farm
         $this->state['market_upgrades'] = [$track => $level] + $this->marketUpgrades();
     }
 
+    /**
+     * @return array<string, mixed>
+     */
+    public function tournament(): array
+    {
+        return json_decode(json_encode($this->state['tournament'] ?? [], JSON_THROW_ON_ERROR), true); // objects once normalized
+    }
+
+    /**
+     * @param array<string, mixed> $tournament
+     */
+    public function setTournament(array $tournament): void
+    {
+        $this->state['tournament'] = $tournament;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function settings(): array
+    {
+        return json_decode(json_encode($this->state['settings'] ?? [], JSON_THROW_ON_ERROR), true);
+    }
+
     /** Total market XP earned by delivering contracts. */
     public function marketXp(): int
     {

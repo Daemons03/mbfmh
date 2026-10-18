@@ -62,6 +62,21 @@ final readonly class Payload
     }
 
     /**
+     * A JSON object (associative array), contents checked by the caller.
+     *
+     * @return array<string, mixed>
+     */
+    public function object(string $key): array
+    {
+        $value = $this->values[$key] ?? null;
+        if (!is_array($value) || ($value !== [] && array_is_list($value))) {
+            throw self::invalid($key);
+        }
+
+        return $value;
+    }
+
+    /**
      * Object of { id: int >= 0 }.
      *
      * @return array<string, int>

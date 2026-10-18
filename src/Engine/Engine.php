@@ -85,7 +85,7 @@ final class Engine
 
     /**
      * What time alone changes, applied before reads and actions: starter
-     * buildings, market slots, café daily reset, daily show tokens.
+     * buildings, market slots, café daily reset, daily show tokens, tournament week.
      */
     private function settle(Farm $farm, Clock $clock): void
     {
@@ -97,6 +97,9 @@ final class Engine
         }
         if (isset($this->data->toArray()['show_animals'])) {
             (new ShowAnimals($this->data))->grantDailyTokens($farm, $clock->now);
+        }
+        if (isset($this->data->toArray()['tournament'])) {
+            (new Tournament($this->data))->settle($farm, $clock->now);
         }
     }
 
@@ -185,6 +188,7 @@ final class Engine
             'show' => isset($this->data->toArray()['show_animals']) ? (new ShowAnimals($this->data))->view($farm, $clock) : null,
             'library' => $library->view($farm),
             'market' => (new MarketUpgrades($this->data))->view($farm),
+            'tournament' => $farm->tournament() !== [] ? (new Tournament($this->data))->view($farm, $now) : null,
         ];
     }
 

@@ -19,6 +19,7 @@ export function adminPanel(extra = () => null) {
             jobsSection(),
             resourcesSection(),
             barnSection(),
+            tournamentSection(),
             dangerSection(),
             extra(),
         ],
@@ -155,6 +156,40 @@ function barnSection() {
             return barn ? ['set_resources', { barn }] : null;
         }, 'Enregistrer la grange',
         itemIds.map((id) => numberField(id, `${data.items[id].emoji} ${data.items[id].name}`, state.barn.items[id] ?? 0))));
+}
+
+const CURVE_GROUPS = { first: '1ᵉʳ', podium: 'Podium (2ᵉ–3ᵉ)', middle: 'Milieu de tableau', relegated: 'Relégués' };
+const CURVE_PERCENTS = Array.from({ length: 21 }, (_, i) => i * 5); // 0 to 100 %
+
+/** Invented farms of the tournament: group -> objective + percent above it. */
+function tournamentSection() {
+    const view = store.view.tournament;
+    if (!view) return null;
+    const select = (name, options, value, label) => h('label', { class: 'field' },
+        h('span', {}, label),
+        h('select', { name }, options.map(([v, text]) => h('option', { value: v, selected: Number(v) === value }, text))));
+
+    return section('Tournoi',
+        h('p', { class: 'row-sub' }, 'Score de fin de semaine des fermes fictives : objectif de points + pourcentage (chaque ferme tire entre −5 % et ce réglage).'),
+        adminForm((form) => {
+            const curve = {};
+            for (const group of Object.keys(CURVE_GROUPS)) {
+                curve[group] = { objective: Number(form.elements[`${group}-objective`].value), percent: Number(form.elements[`${group}-percent`].value) };
+            }
+            return ['set_tournament_curve', { curve }];
+        }, 'Enregistrer la courbe',
+        Object.entries(CURVE_GROUPS).map(([group, label]) => h('div', { class: 'curve-row' },
+            h('strong', {}, label),
+            select(`${group}-objective`, [1, 2, 3, 4, 5, 6].map((n) => [n, `Objectif ${n}`]), view.curve[group].objective, 'Objectif'),
+            select(`${group}-percent`, CURVE_PERCENTS.map((n) => [n, `+${n} %`]), view.curve[group].percent, 'Au-dessus')))),
+        h('div', { class: 'actions' },
+            h('button', {
+                type: 'button',
+                class: 'btn',
+                onclick: () => {
+                    if (confirm('Terminer le tournoi maintenant (classement, récompenses, montée / descente) ?')) performAdmin('finish_tournament_week');
+                },
+            }, '🏁 Terminer le tournoi maintenant')));
 }
 
 function dangerSection() {

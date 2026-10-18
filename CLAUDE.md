@@ -117,7 +117,7 @@ Toutes les réponses : `{ ok, state?, server_now, error? }`. POST protégés par
 
 Types d'action V1 : `build`, `move`, `demolish`, `plant`, `harvest`, `start_production`, `collect`, `sell_barn`, `fulfill_contract`, `discard_contract`, `buy_expansion`, `upgrade`.
 
-Opérations admin : `set_resources` (cash, or, matériaux, objets de grange — peut dépasser la capacité), `set_level` (+ xp optionnel), `set_speed` (0,1 à 1 000), `finish_all_jobs` (productions et contrats en attente), `unlock_all` (niveau max + tout le terrain), `reset_farm`. Interface : onglet Admin du jeu et `public/admin.html` (même composant `ui/admin.js`).
+Opérations admin : `set_resources` (cash, or, matériaux, objets de grange — peut dépasser la capacité), `set_level` (+ xp optionnel), `set_speed` (0,1 à 1 000), `finish_all_jobs` (productions et contrats en attente), `unlock_all` (niveau max + tout le terrain), `reset_farm`, `set_tournament_curve`, `finish_tournament_week`. Interface : onglet Admin du jeu et `public/admin.html` (même composant `ui/admin.js`).
 
 ## Règles de jeu V1
 
@@ -226,7 +226,7 @@ Sources : captures du joueur (3 contrats niveau de marché 147, écran du tourno
    - **Nourriture instantanée** (tous les animaux), **engrais instantané** (vergers), **humus instantané** (champs) : un objet remplace la nourriture / l'engrais / l'humus d'une production, qui est **prête tout de suite**.
    - **Nourriture, engrais et humus premium** : +50 % de production, durée normale.
    - Actions : `plant { id, crop, humus?, boost?: premium|instant, seed?: premium }` (crop = `rose`, `tulip`, `golden_flower` pour les semences spéciales) ; `start_production { …, boost?: premium|instant }`. Données : `boosts`, `special_crops`, objets `category: special`, `sellable: false`. Pour l'instant, on les obtient par l'admin (objets de grange) ; le tournoi les donnera.
-3. **Tournoi solo** (onglet 🏅)
+3. ✅ **Tournoi solo** (onglet 🏅)
    - Une semaine (lundi 0 h → dimanche 24 h, heure serveur). **Points = XP de marché gagnée dans la semaine** (contrats, tulipes).
    - 18 paliers : bronze, argent, or, émeraude, saphir, diamant × 1★ à 3★. Départ en bronze 1★.
    - Ligue de **20** : le joueur + **19 fermes fictives** (noms inventés). Leurs scores de la semaine suivent une **courbe réglable dans l'admin**, 4 lignes : groupe (fixe) → objectif de points (1 à 6) → pourcentage au-dessus (5, 10, 15… %). Par défaut : **1ᵉʳ** → objectif 6 + 15 % ; **podium** (2ᵉ–3ᵉ) → objectif 5 + 15 % ; **milieu de tableau** (4ᵉ–15ᵉ) → objectif 3 + 40 % ; **relégués** (16ᵉ–20ᵉ) → objectif 2 + 50 %. Chaque ferme d'un groupe tire son pourcentage entre (réglage − 5) et le réglage, pour que les scores diffèrent ; tirage déterministe par semaine. Les fermes progressent au fil de la semaine (score proportionnel au temps écoulé).
@@ -236,6 +236,7 @@ Sources : captures du joueur (3 contrats niveau de marché 147, écran du tourno
      - 2ᵉ et 3ᵉ : pareil avec 5 et +5 par palier.
      - Argent pour tous : base = ce qu'un joueur de niveau `1 + 10·p` gagne en vendant à la grange toute sa production de 8 h ; 1ᵉʳ 100 %, 2ᵉ–3ᵉ 80 %, 4ᵉ–15ᵉ 60 %, 16ᵉ–20ᵉ 40 %.
      - Roses pour le podium (estimé).
+   - Code : `Engine/Tournament.php` (réglé à chaque lecture comme le café). État `tournament = { week, round, started_at, tier, start_xp, seed, last }` ; points = `market_xp − start_xp`. Les fermes fictives montent de 0 (début du tournoi) à leur score final (fin de semaine). Admin : `set_tournament_curve { curve: { groupe: { objective, percent } } }` (dans `settings.tournament_curve`) et `finish_tournament_week` (termine le tournoi tout de suite, un nouveau court jusqu'à la fin de la semaine). Argent de place par palier : 1 500 → 460 000 💵 (calcul du générateur).
 4. **Objectifs de points du tournoi** : 6 paliers par ligue, le 6ᵉ vaut 2 000 points en bronze 1★ et 1,5 M en diamant 1★ (progression géométrique d'un palier à l'autre) ; récompenses : nourriture instantanée, semences, nourriture / humus / engrais premium, clés (tickets violets du jeu), tulipes ; quantités croissantes avec le palier.
 5. Ensuite **V4** : boulangerie et fermes exotiques. Pièces de tournoi et décorations de tournoi : abandonnées.
 

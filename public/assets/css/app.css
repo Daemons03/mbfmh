@@ -665,6 +665,46 @@ svg.mirrored { transform: scaleX(-1); }
     .rarity-grey, .rarity-green, .rarity-blue, .rarity-purple { background: var(--surface-2); }
 }
 
+/* ------------------------------------------------------------ tournament */
+
+.card p { margin: 0; }
+.league-head { display: flex; align-items: center; gap: 12px; }
+.league-emoji { font-size: 44px; line-height: 1; }
+.zone-first, .zone-podium { --zone: var(--go); }
+.zone-middle { --zone: var(--card-border); }
+.zone-relegated { --zone: var(--danger); }
+.zone { color: var(--zone); }
+.objectives { position: relative; padding-bottom: 22px; }
+.objectives .meter { height: 18px; }
+.objective {
+    position: absolute; top: 20px; transform: translateX(-100%);
+    min-width: 20px; height: 20px; padding: 0 4px;
+    display: grid; place-items: center;
+    border-radius: 999px; font-size: 12px; font-weight: 700;
+    background: var(--surface-2); border: 2px solid var(--card-border);
+}
+.objective.done { background: var(--go); border-color: var(--go-dark); color: #fff; }
+.ranking { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.rank-row {
+    display: grid; grid-template-columns: 32px 1fr auto; gap: 8px; align-items: center;
+    padding: 6px 10px; border-radius: 10px;
+    background: var(--surface-2); border-left: 6px solid var(--zone);
+    font-variant-numeric: tabular-nums;
+}
+.rank-row.me { background: #fff1b8; font-weight: 700; box-shadow: 0 0 0 2px var(--xp-dark); }
+@media (prefers-color-scheme: dark) {
+    .rank-row.me { background: #5a4a1a; }
+}
+.rank-number { font-weight: 700; text-align: center; }
+.rank-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rank-points { font-weight: 700; }
+.curve-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; align-items: end; grid-column: 1 / -1; }
+.field select {
+    font: inherit; color: var(--text); width: 100%;
+    padding: 8px 10px; border-radius: 12px;
+    border: 2px solid var(--border); background: var(--surface-2);
+}
+
 /* ------------------------------------------------------------ admin */
 
 .admin-section { display: grid; gap: 10px; padding-bottom: 12px; border-bottom: 2px dashed var(--border); }

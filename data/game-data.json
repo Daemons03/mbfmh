@@ -37652,5 +37652,184 @@
       }
     },
     "_note": "Semences spéciales (joueur) : roses = récolte instantanée +10 XP ; tulipes = XP de marché instantanée selon le niveau du champ (interpolée entre les points) ; fleurs d'or = 2 h, 200 or."
+  },
+  "tournament": {
+    "leagues": [
+      {
+        "id": "bronze",
+        "name": "Bronze",
+        "emoji": "🥉"
+      },
+      {
+        "id": "silver",
+        "name": "Argent",
+        "emoji": "🥈"
+      },
+      {
+        "id": "gold",
+        "name": "Or",
+        "emoji": "🥇"
+      },
+      {
+        "id": "emerald",
+        "name": "Émeraude",
+        "emoji": "💚"
+      },
+      {
+        "id": "sapphire",
+        "name": "Saphir",
+        "emoji": "💙"
+      },
+      {
+        "id": "diamond",
+        "name": "Diamant",
+        "emoji": "💎"
+      }
+    ],
+    "stars": 3,
+    "size": 20,
+    "promoted": 3,
+    "relegated": 5,
+    "groups": {
+      "first": [
+        1,
+        1
+      ],
+      "podium": [
+        2,
+        3
+      ],
+      "middle": [
+        4,
+        15
+      ],
+      "relegated": [
+        16,
+        20
+      ]
+    },
+    "objectives": {
+      "first_tier": 2000,
+      "ratio": 1.5548,
+      "fractions": [
+        0.05,
+        0.12,
+        0.25,
+        0.45,
+        0.7,
+        1.0
+      ]
+    },
+    "bot_curve": [
+      {
+        "group": "first",
+        "objective": 6,
+        "percent": 15
+      },
+      {
+        "group": "podium",
+        "objective": 5,
+        "percent": 15
+      },
+      {
+        "group": "middle",
+        "objective": 3,
+        "percent": 40
+      },
+      {
+        "group": "relegated",
+        "objective": 2,
+        "percent": 50
+      }
+    ],
+    "bot_spread": 5,
+    "rank_rewards": {
+      "cash_base": [
+        1500,
+        5600,
+        18000,
+        24000,
+        56000,
+        74000,
+        100000,
+        130000,
+        150000,
+        170000,
+        210000,
+        300000,
+        390000,
+        430000,
+        460000,
+        460000,
+        460000,
+        460000
+      ],
+      "cash_share": {
+        "first": 1.0,
+        "podium": 0.8,
+        "middle": 0.6,
+        "relegated": 0.4
+      },
+      "materials": [
+        {
+          "material": "keys",
+          "from_tier": 0
+        },
+        {
+          "material": "mallets",
+          "from_tier": 6
+        },
+        {
+          "material": "buckets",
+          "from_tier": 12
+        }
+      ],
+      "first": {
+        "start": 10,
+        "step": 10
+      },
+      "podium": {
+        "start": 5,
+        "step": 5
+      },
+      "roses": {
+        "first": 5,
+        "podium": 2
+      }
+    },
+    "bot_names": [
+      "Les Trois Chênes",
+      "Ferme du Moulin Bleu",
+      "Le Pré Fleuri",
+      "La Basse-Cour",
+      "Domaine des Lilas",
+      "Ferme des Collines",
+      "Le Clos Joli",
+      "La Grange Rouge",
+      "Les Vergers d'Antan",
+      "Ferme du Ruisseau",
+      "Le Champ de Blé",
+      "La Bergerie d'en Haut",
+      "Ferme Belle-Rive",
+      "Le Petit Bocage",
+      "Les Ruches Dorées",
+      "Ferme de la Source",
+      "Le Val Tranquille",
+      "La Ferme aux Oies",
+      "Domaine du Tilleul",
+      "Le Hameau Vert",
+      "Ferme des Peupliers",
+      "Les Prés Salés",
+      "La Ferme du Coteau",
+      "Le Jardin de Mamie",
+      "Ferme du Lavoir",
+      "Le Moulin d'Or",
+      "La Combe aux Pommes",
+      "Ferme des Quatre Vents",
+      "Le Verger Rose",
+      "La Ferme Gourmande"
+    ],
+    "_estimated": true,
+    "_note": "Règles du joueur : ligues bronze → diamant de 1 à 3 étoiles, ligue de 20 (joueur + 19 fermes fictives), 3 montent, 5 descendent ; points = XP de marché de la semaine ; 6ᵉ objectif = 2 000 en bronze 1★ et 1,5 M en diamant 1★ (progression géométrique) ; récompenses de place (clés, maillets dès or, seaux dès saphir) ; argent = production de 8 h vendue à la grange par un joueur de niveau 1 + 10 × palier (1 récolte par heure au plus, 2 champs + 1 par 5 niveaux, un bâtiment de chaque) × 100 / 80 / 60 / 40 %. Objectifs 1 à 5 (fractions du 6ᵉ), roses du podium et noms des fermes : estimés / inventés."
   }
 }

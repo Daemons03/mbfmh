@@ -15,7 +15,12 @@ final readonly class Admin
     public const float MIN_SPEED = 0.1;
     public const float MAX_SPEED = 1000.0;
 
-    private const array OPS = ['set_resources', 'set_level', 'set_speed', 'finish_all_jobs', 'unlock_all', 'reset_farm'];
+    private const array OPS = [
+        'set_resources', 'set_level', 'set_speed', 'finish_all_jobs', 'unlock_all', 'reset_farm',
+        'set_tournament_curve', 'finish_tournament_week',
+    ];
+
+    public const int MAX_CURVE_PERCENT = 200;
 
     public function __construct(
         private GameData $data,
@@ -46,6 +51,8 @@ final readonly class Admin
             'set_speed' => $this->setSpeed($state, $payload),
             'finish_all_jobs' => $this->finishAllJobs($state, $now),
             'unlock_all' => $this->unlockAll($state),
+            'set_tournament_curve' => $this->setTournamentCurve($state, $payload),
+            'finish_tournament_week' => $this->finishTournamentWeek($state, $now),
         };
 
         // Same post-processing as any read: fill market slots if some are missing.
@@ -58,6 +65,47 @@ final readonly class Admin
     public static function ops(): array
     {
         return self::OPS;
+    }
+
+    /**
+     * payload: { curve: { group: { objective: 1-6, percent: 0-200 } } } — how
+     * the invented farms of the tournament score (groups: first, podium,
+     * middle, relegated); saved in settings.tournament_curve.
+     *
+     * @param array<string, mixed> $state
+     * @return array<string, mixed>
+     */
+    private function setTournamentCurve(array $state, Payload $payload): array
+    {
+        $groups = array_keys($this->data->toArray()['tournament']['groups']);
+        $rows = [];
+        foreach ($payload->object('curve') as $group => $row) {
+            $objective = $row['objective'] ?? null;
+            $percent = $row['percent'] ?? null;
+            if (!in_array($group, $groups, true) || !is_int($objective) || $objective < 1 || $objective > 6
+                || !is_int($percent) || $percent < 0 || $percent > self::MAX_CURVE_PERCENT) {
+                throw new GameError('invalid_payload', 'Courbe du tournoi invalide.', ['field' => "curve.{$group}"]);
+            }
+            $rows[] = ['group' => $group, 'objective' => $objective, 'percent' => $percent];
+        }
+        $state['settings'] = (array) $state['settings'];
+        $state['settings']['tournament_curve'] = $rows;
+
+        return $state;
+    }
+
+    /**
+     * Ends the tournament now (ranking, rewards, promotion), for testing.
+     *
+     * @param array<string, mixed> $state
+     * @return array<string, mixed>
+     */
+    private function finishTournamentWeek(array $state, int $now): array
+    {
+        $farm = new Farm($state, $this->data);
+        (new Tournament($this->data))->finishWeek($farm, $now);
+
+        return $farm->toArray();
     }
 
     /**
