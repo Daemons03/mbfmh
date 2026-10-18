@@ -1,4 +1,6 @@
 """Production buildings: recipes (run / batch), windmill feeds, chicken coop."""
+import re
+
 from conftest import close_sheet, reload, row, settle, tap
 
 
@@ -93,3 +95,16 @@ def test_start_every_idle_coop_at_once(game, farm):
     assert len(started) == 2, "25 feed: two coops of 10"
     assert state["barn"]["items"] == {"chicken_feed": 5}
     assert farm.log()[-1] == "start_production_all"
+
+
+def test_silos_have_no_start_all(game, farm):
+    farm.patch({"level": 10, "cash": 50_000, "barn.items": {"dung": 500}})
+    farm.add_house()
+    farm.add_house(10, 2)
+    reload(game)
+    for x in (6, 8):
+        build_here(game, x, 4, "Silo")
+    tap(game, 8, 4)
+    card = recipe_card(game, "Engrais")
+    card.get_by_role("button", name="Lancer").wait_for()
+    assert card.get_by_role("button", name=re.compile("Tout")).count() == 0

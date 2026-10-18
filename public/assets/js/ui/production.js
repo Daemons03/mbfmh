@@ -144,8 +144,12 @@ function recipeCard(building, id, recipe, mode) {
                 mode === 'instant' ? null : allButton(building, body, label !== ready, 'Tout'))));
 }
 
+/** Buildings without "Tout": silos are started one by one. */
+const NO_START_ALL = new Set(['silo']);
+
 /** "Tout (N)": the same start on every idle building of this kind (variants included). */
 function allButton(building, body, disabled, text) {
+    if (NO_START_ALL.has(store.data.buildings[building.type].variant_of ?? building.type)) return null;
     const group = idleGroup(building);
     if (group.length < 2) return null;
     return h('button', {
