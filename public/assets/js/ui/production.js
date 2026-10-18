@@ -12,8 +12,8 @@ export function itemChips(amounts, { compareToBarn = false } = {}) {
         const item = store.data.items[id];
         if (!compareToBarn) return h('span', { class: 'chip', title: item.name }, `${item.emoji} ${fmtInt(quantity)}`);
         const have = store.state.barn.items[id] ?? 0;
-        return h('span', { class: `chip${have < quantity ? ' missing' : ''}`, title: item.name },
-            `${item.emoji} ${fmtInt(Math.min(have, quantity))}/${fmtInt(quantity)}`);
+        return h('span', { class: `chip${have < quantity ? ' missing' : ''}`, title: `${item.name} : ${fmtInt(have)} en grange` },
+            `${item.emoji} ${fmtInt(Math.min(have, quantity))}/${fmtInt(quantity)} (${fmtInt(have)})`);
     }));
 }
 

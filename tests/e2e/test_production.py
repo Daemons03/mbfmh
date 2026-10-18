@@ -73,8 +73,13 @@ def test_missing_inputs(game, farm):
     tap(game, 8, 4)
     game.wait_for_selector("#sheet:not([hidden])")
     card = recipe_card(game, "Œuf")
-    assert card.locator(".chip.missing").inner_text() == "🐥 9/10"
+    assert card.locator(".chip.missing").inner_text() == "🐥 9/10 (9)"
     assert card.get_by_role("button", name="Ingrédients manquants").is_disabled()
+
+    farm.patch({"barn.items": {"chicken_feed": 180}})
+    reload(game)
+    tap(game, 8, 4)
+    assert recipe_card(game, "Œuf").locator(".chip").first.inner_text() == "🐥 10/10 (180)", "stock in the barn"
 
 
 def test_start_every_idle_coop_at_once(game, farm):

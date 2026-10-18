@@ -16,7 +16,7 @@ def test_dairy_cream_batches(game, farm):
     names = game.locator("#sheet .recipe .row-title").all_inner_texts()
     assert len(names) == 4 and any("Crème" in n for n in names)
     assert "1 / 4 lots" in recipe_card(game, "Crème").inner_text()
-    assert recipe_card(game, "Fromage").locator(".chip.missing").inner_text().startswith("🫒 0/110"), "no olive oil yet"
+    assert recipe_card(game, "Fromage").locator(".chip.missing").inner_text().startswith("🫒 0/110 (0)"), "no olive oil yet"
     close_sheet(game)
 
     run_and_collect(game, 6, 4, "Crème", timeout=30_000, batches=2)  # 2 x 3 h / 1000 = 21.6 s
