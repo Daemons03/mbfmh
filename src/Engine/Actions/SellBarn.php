@@ -23,6 +23,10 @@ final class SellBarn implements Action
             throw new GameError('unknown_item', 'Produit inconnu.', ['item' => $item]);
         }
 
+        if (($farm->data->item($item)['sellable'] ?? true) === false) {
+            throw new GameError('not_sellable', 'Cet objet ne se vend pas.', ['item' => $item]);
+        }
+
         $farm->removeFromBarn($item, $quantity);
         $farm->gain(['cash' => (int) floor($quantity * $farm->data->item($item)['barn_price'])]);
     }

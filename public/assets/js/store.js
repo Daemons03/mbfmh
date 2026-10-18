@@ -80,3 +80,8 @@ export function footprintOf(type, rotated = false) {
     const [w, h] = definition(type).size;
     return rotated ? [h, w] : [w, h];
 }
+
+/** Emoji of a job's product: an item, or a special crop (golden flowers). */
+export function productEmoji(product) {
+    return store.data.items[product]?.emoji ?? store.data.special_crops?.[product]?.emoji ?? null;
+}

@@ -220,11 +220,12 @@ Sources : captures du joueur (3 contrats niveau de marché 147, écran du tourno
    - Niveau de marché **sans plafond** : XP cumulée pour atteindre le niveau n + 1 ≈ `1 800 × n²` (niveau 147 ≈ 38,8 M).
    - Améliorations en deux parties : normale (matériaux, fan site) **+ « or »** (payée en or, coût doublé à chaque niveau) : Argent or 10 niveaux +5 (100, 200, 400… or) ; Expérience or 10 niveaux +3 (500, 1 000…) ; Expérience de marché or 30 niveaux +5 (300, 600…). XP et XP de marché : bonus **fixe** par contrat. Argent : bonus en **%** du contrat (≈ 0,25 % par point, ex. 95 → ~24 %).
    - Contrats qui grandissent avec le niveau du joueur (de ~10 pièces par produit au niveau 1 à 100+ au niveau 150) ; **chaque contrat** donne un matériau ≈ argent ÷ 100.
-2. **Objets spéciaux** (gratuits : aucun cash à payer en les utilisant ; non vendables, sans limite de grange ; gagnés au tournoi)
+2. ✅ **Objets spéciaux** (gratuits : aucun cash à payer en les utilisant ; non vendables, sans limite de grange ; gagnés au tournoi)
    - Cultures de base : pas de semence (illimitées). **Semences premium** par culture : +10 % de récolte.
    - **Roses** : récolte instantanée, +10 XP. **Tulipes** : récolte instantanée, XP de marché selon le niveau du champ (niv. 1 → 450, niv. 10 → 1 620, niv. 18 → 2 340, interpolé). **Fleurs d'or** : 2 h, 200 or.
    - **Nourriture instantanée** (tous les animaux), **engrais instantané** (vergers), **humus instantané** (champs) : un objet remplace la nourriture / l'engrais / l'humus d'une production, qui est **prête tout de suite**.
    - **Nourriture, engrais et humus premium** : +50 % de production, durée normale.
+   - Actions : `plant { id, crop, humus?, boost?: premium|instant, seed?: premium }` (crop = `rose`, `tulip`, `golden_flower` pour les semences spéciales) ; `start_production { …, boost?: premium|instant }`. Données : `boosts`, `special_crops`, objets `category: special`, `sellable: false`. Pour l'instant, on les obtient par l'admin (objets de grange) ; le tournoi les donnera.
 3. **Tournoi solo** (onglet 🏅)
    - Une semaine (lundi 0 h → dimanche 24 h, heure serveur). **Points = XP de marché gagnée dans la semaine** (contrats, tulipes).
    - 18 paliers : bronze, argent, or, émeraude, saphir, diamant × 1★ à 3★. Départ en bronze 1★.

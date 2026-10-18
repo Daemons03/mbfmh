@@ -81,6 +81,19 @@ final readonly class Payload
         return $value;
     }
 
+    /**
+     * @param list<string> $allowed
+     */
+    public function choice(string $key, array $allowed): string
+    {
+        $value = $this->values[$key] ?? null;
+        if (!in_array($value, $allowed, true)) {
+            throw self::invalid($key);
+        }
+
+        return $value;
+    }
+
     private static function invalid(string $key): GameError
     {
         return new GameError('invalid_payload', "Paramètre « {$key} » manquant ou invalide.", ['field' => $key]);

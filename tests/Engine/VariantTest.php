@@ -107,7 +107,7 @@ final class VariantTest extends EngineTestCase
         foreach ($expected as $crop => [$level1, $level18]) {
             foreach ([1 => $level1, 18 => $level18] as $level => $values) {
                 $actual = array_map(
-                    fn (string $field): int => \FermeTranquille\Engine\Crop::harvest($this->data, $crop, $field, $level, false)[$crop],
+                    fn (string $field): int => \FermeTranquille\Engine\Crop::harvest($this->data, $crop, $field, $level)[$crop],
                     ['field', 'fertile_field', 'premium_field'],
                 );
                 self::assertSame($values, $actual, "{$crop} level {$level}");

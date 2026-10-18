@@ -60,6 +60,9 @@ final class GameDataValidator
         if (isset($this->data['market_upgrades'])) {
             $this->checkMarketUpgrades();
         }
+        if (isset($this->data['boosts'])) {
+            $this->checkBoosts();
+        }
 
         return $this->errors;
     }
@@ -113,8 +116,11 @@ final class GameDataValidator
         foreach ($this->entries($this->data['items']) as $id => $item) {
             $path = "items.{$id}";
             $this->nameAndEmoji($item, $path);
-            if (!in_array($item['category'] ?? null, ['crop', 'goods', 'byproduct'], true)) {
-                $this->errors[] = "{$path}.category: must be crop, goods or byproduct";
+            if (!in_array($item['category'] ?? null, ['crop', 'goods', 'byproduct', 'special'], true)) {
+                $this->errors[] = "{$path}.category: must be crop, goods, byproduct or special";
+            }
+            if (array_key_exists('sellable', $item) && !is_bool($item['sellable'])) {
+                $this->errors[] = "{$path}.sellable: must be true or false";
             }
             $this->level($item['unlock_level'] ?? null, "{$path}.unlock_level");
             $this->nonNegativeNumber($item['barn_price'] ?? null, "{$path}.barn_price");
@@ -398,6 +404,44 @@ final class GameDataValidator
             }
             $previous = is_int($points) ? $points : $previous;
             $this->cost($milestone['reward'] ?? null, "cafe.milestones[{$i}].reward");
+        }
+    }
+
+    private function checkBoosts(): void
+    {
+        $boosts = $this->data['boosts'];
+        $item = $this->itemRef(...);
+        foreach (['feed', 'fertilizer', 'humus'] as $kind) {
+            foreach (['premium', 'instant'] as $variant) {
+                $item($boosts[$kind][$variant] ?? null, "boosts.{$kind}.{$variant}");
+            }
+        }
+        foreach (['feed', 'fertilizer'] as $kind) {
+            foreach ((array) ($boosts[$kind]['inputs'] ?? []) as $i => $input) {
+                $item($input, "boosts.{$kind}.inputs[{$i}]");
+            }
+        }
+        $this->positiveNumber($boosts['premium_factor'] ?? null, 'boosts.premium_factor');
+        $this->positiveNumber($boosts['premium_seed_factor'] ?? null, 'boosts.premium_seed_factor');
+        foreach ((array) ($boosts['premium_seeds'] ?? []) as $crop => $seed) {
+            if (!isset($this->data['crops'][$crop])) {
+                $this->errors[] = "boosts.premium_seeds.{$crop}: unknown crop";
+            }
+            $item($seed, "boosts.premium_seeds.{$crop}");
+        }
+        foreach ($this->entries($this->data['special_crops'] ?? []) as $id => $crop) {
+            $this->nameAndEmoji($crop, "special_crops.{$id}");
+            $item($crop['seed'] ?? null, "special_crops.{$id}.seed");
+            if (!($crop['instant'] ?? false)) {
+                $this->positiveInt($crop['duration'] ?? null, "special_crops.{$id}.duration");
+            }
+        }
+    }
+
+    private function itemRef(mixed $id, string $path): void
+    {
+        if (!is_string($id) || !isset($this->data['items'][$id])) {
+            $this->errors[] = "{$path}: unknown item " . json_encode($id);
         }
     }
 

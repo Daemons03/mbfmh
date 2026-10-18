@@ -642,6 +642,7 @@ svg.mirrored { transform: scaleX(-1); }
 }
 .contract-foot { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
 .reward { font-size: 14px; font-weight: 700; }
+.choices { display: grid; gap: 6px; }
 .checkbox { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
 .checkbox input { width: 22px; height: 22px; accent-color: var(--go); }
 .recipe { gap: 6px; }

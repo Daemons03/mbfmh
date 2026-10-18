@@ -30,6 +30,16 @@ function itemRow(id, quantity) {
     const item = store.data.items[id];
     const total = Math.floor(quantity * item.barn_price);
 
+    if (item.sellable === false) {
+        // Special items: used in fields and buildings, never sold.
+        return h('div', { class: 'row' },
+            h('span', { class: 'row-emoji' }, item.emoji),
+            h('div', { class: 'row-main' },
+                h('div', { class: 'row-title' }, item.name),
+                h('div', { class: 'row-sub' }, `${fmtInt(quantity)} · objet spécial, gratuit à l'usage${item.description ? ` · ${item.description}` : ''}`)),
+            h('span'));
+    }
+
     return h('div', { class: 'row stack' },
         h('span', { class: 'row-emoji' }, item.emoji),
         h('div', { class: 'row-main' },

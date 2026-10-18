@@ -11,7 +11,8 @@ use FermeTranquille\Engine\GameError;
 use FermeTranquille\Engine\Payload;
 
 /**
- * payload: { id } — the whole harvest (crop + flower nectar) goes to the barn, or nothing does.
+ * payload: { id } — the whole harvest (crop + flower nectar) goes to the barn, or
+ * nothing does; golden flowers pay their gold.
  */
 final class Harvest implements Action
 {
@@ -27,10 +28,16 @@ final class Harvest implements Action
             throw new GameError('not_ready', 'Pas encore prêt.', ['remaining' => $clock->remaining($job)]);
         }
 
-        $crop = $farm->data->crop($job['product']);
-        // Jobs planted before per-level yields stored no outputs: compute them now.
-        $farm->addToBarn($job['outputs'] ?? Crop::harvest($farm->data, $job['product'], $field['type'], $field['level'], !empty($job['humus'])));
-        $farm->addXp($crop['xp']);
+        if (isset($job['reward'])) {
+            // Special crop (golden flowers): a reward instead of a harvest.
+            $farm->gain($job['reward']);
+        } else {
+            // Jobs planted before per-level yields stored no outputs: compute them now.
+            $farm->addToBarn($job['outputs'] ?? Crop::harvest(
+                $farm->data, $job['product'], $field['type'], $field['level'], empty($job['humus']) ? 0.0 : Crop::HUMUS_BONUS,
+            ));
+        }
+        $farm->addXp($job['xp'] ?? $farm->data->crop($job['product'])['xp']);
 
         unset($field['job']);
         $farm->saveBuilding($field);

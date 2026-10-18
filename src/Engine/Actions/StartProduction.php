@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FermeTranquille\Engine\Actions;
 
+use FermeTranquille\Engine\Boosts;
 use FermeTranquille\Engine\Clock;
 use FermeTranquille\Engine\Farm;
 use FermeTranquille\Engine\GameError;
@@ -12,7 +13,8 @@ use FermeTranquille\Engine\Payload;
 use FermeTranquille\Engine\Production;
 
 /**
- * payload: { id, recipe?, quantity? } — recipe can be omitted when the
+ * payload: { id, recipe?, quantity?, boost? } — boost: 'premium' or 'instant'
+ * feed / fertilizer (one special item replaces it, free). recipe can be omitted when the
  * building has only one; quantity (batches, default 1) only for batch
  * buildings. Takes inputs from the barn and pays the cost; the job keeps its
  * own outputs (library bonus included) and XP, so the result is fixed at start. Refused when an output
@@ -39,6 +41,12 @@ final class StartProduction implements Action
             $payload->has('recipe') ? $payload->string('recipe') : null,
         );
         $farm->assertLevel($farm->data->item($recipe['id'])['unlock_level']);
+        if ($payload->has('boost')) {
+            $boosts = new Boosts($farm->data);
+            $kind = $boosts->kindFor($recipe['inputs'])
+                ?? throw new GameError('no_boost', 'Ce bâtiment ne prend ni nourriture ni engrais spéciaux.');
+            $recipe = $boosts->boostRecipe($recipe, $kind, $payload->choice('boost', Boosts::VARIANTS));
+        }
         $recipe['outputs'][$recipe['id']] += (new Library($farm->data))->bonus($farm, $recipe['id']); // per batch
         $quantity = $payload->has('quantity') ? $payload->int('quantity', 1) : 1;
         $max = Production::maxQuantity($farm->data, $building['type'], $building['level'], $recipe['id']);

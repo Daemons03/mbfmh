@@ -55,7 +55,7 @@ final class FieldTest extends EngineTestCase
     public function testPlantRules(): void
     {
         $this->assertGameError('level_too_low', 'plant', ['id' => 'b2', 'crop' => 'cabbage']);
-        $this->assertGameError('unknown_crop', 'plant', ['id' => 'b2', 'crop' => 'tulip']);
+        $this->assertGameError('unknown_crop', 'plant', ['id' => 'b2', 'crop' => 'orchid']);
         $this->assertGameError('not_a_field', 'plant', ['id' => 'b1', 'crop' => 'corn']);
         $this->assertGameError('unknown_building', 'plant', ['id' => 'b99', 'crop' => 'corn']);
         $this->assertGameError('invalid_payload', 'plant', ['id' => 'b2']);

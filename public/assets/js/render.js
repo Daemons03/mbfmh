@@ -3,7 +3,7 @@ import { fmtDuration, fmtInt, fmtNumber, fmtShort } from './format.js';
 import { buildingArt, hasOverlay, outsideArt, pennant, s, tierOf } from './art.js';
 import { needsMirror, spriteBox, spriteFor, spriteUrl } from './sprites.js';
 import { buildingBox, cellTop, DEPTH, footprintPoints, layout, mapSize, outsideLot } from './iso.js';
-import { buildingById, definition, footprintOf, jobStatus, store } from './store.js';
+import { buildingById, definition, footprintOf, jobStatus, productEmoji, store } from './store.js';
 import { canFulfill } from './ui/market.js';
 
 export function renderTopbar() {
@@ -269,7 +269,7 @@ function buildingNode(building, data, L) {
     const classes = ['building', def.kind];
     const status = jobStatus(building);
     const ready = Boolean(status?.ready);
-    const product = building.job ? data.items[building.job.product]?.emoji ?? null : null;
+    const product = building.job ? productEmoji(building.job.product) : null;
     const art = { working: Boolean(building.job) && !ready, ready, product };
     const sprite = spriteFor(building.type, tierOf(building.level, def.levels.length));
     const { content, top } = sprite

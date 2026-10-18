@@ -1985,6 +1985,222 @@
       },
       "_estimated": true,
       "_note": "Prix estimés (valeur des ingrédients × 1,2)."
+    },
+    "premium_seed_wildflower": {
+      "name": "Semence premium : fleurs sauvages",
+      "emoji": "🌱",
+      "category": "special",
+      "unlock_level": 1,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Champ : +10 % de récolte."
+    },
+    "premium_seed_corn": {
+      "name": "Semence premium : maïs",
+      "emoji": "🌱",
+      "category": "special",
+      "unlock_level": 1,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Champ : +10 % de récolte."
+    },
+    "premium_seed_cabbage": {
+      "name": "Semence premium : chou",
+      "emoji": "🌱",
+      "category": "special",
+      "unlock_level": 8,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Champ : +10 % de récolte."
+    },
+    "premium_seed_wheat": {
+      "name": "Semence premium : blé",
+      "emoji": "🌱",
+      "category": "special",
+      "unlock_level": 14,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Champ : +10 % de récolte."
+    },
+    "premium_seed_dandelion": {
+      "name": "Semence premium : pissenlit",
+      "emoji": "🌱",
+      "category": "special",
+      "unlock_level": 18,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Champ : +10 % de récolte."
+    },
+    "premium_seed_lettuce": {
+      "name": "Semence premium : mâche",
+      "emoji": "🌱",
+      "category": "special",
+      "unlock_level": 31,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Champ : +10 % de récolte."
+    },
+    "premium_seed_potato": {
+      "name": "Semence premium : pomme de terre",
+      "emoji": "🌱",
+      "category": "special",
+      "unlock_level": 36,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Champ : +10 % de récolte."
+    },
+    "premium_seed_carrot": {
+      "name": "Semence premium : carotte",
+      "emoji": "🌱",
+      "category": "special",
+      "unlock_level": 55,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Champ : +10 % de récolte."
+    },
+    "premium_seed_barley": {
+      "name": "Semence premium : orge",
+      "emoji": "🌱",
+      "category": "special",
+      "unlock_level": 100,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Champ : +10 % de récolte."
+    },
+    "rose_seed": {
+      "name": "Graines de roses",
+      "emoji": "🌹",
+      "category": "special",
+      "unlock_level": 1,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Champ : +10 XP tout de suite."
+    },
+    "tulip_seed": {
+      "name": "Bulbes de tulipes",
+      "emoji": "🌷",
+      "category": "special",
+      "unlock_level": 1,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Champ : XP de marché tout de suite, selon le niveau du champ."
+    },
+    "golden_flower_seed": {
+      "name": "Graines de fleurs d'or",
+      "emoji": "🏵️",
+      "category": "special",
+      "unlock_level": 1,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Champ : 2 h, puis 200 d'or."
+    },
+    "instant_feed": {
+      "name": "Nourriture instantanée",
+      "emoji": "🥫",
+      "category": "special",
+      "unlock_level": 1,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Remplace la nourriture d'une production animale : prête tout de suite."
+    },
+    "premium_feed": {
+      "name": "Nourriture premium",
+      "emoji": "🍱",
+      "category": "special",
+      "unlock_level": 1,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Remplace la nourriture d'une production animale : +50 %."
+    },
+    "instant_fertilizer": {
+      "name": "Engrais instantané",
+      "emoji": "🧪",
+      "category": "special",
+      "unlock_level": 1,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Remplace l'engrais d'une production de verger : prête tout de suite."
+    },
+    "premium_fertilizer": {
+      "name": "Engrais premium",
+      "emoji": "🧴",
+      "category": "special",
+      "unlock_level": 1,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Remplace l'engrais d'une production de verger : +50 %."
+    },
+    "instant_humus": {
+      "name": "Humus instantané",
+      "emoji": "⏳",
+      "category": "special",
+      "unlock_level": 1,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Champ : récolte prête tout de suite."
+    },
+    "premium_humus": {
+      "name": "Humus premium",
+      "emoji": "🍄",
+      "category": "special",
+      "unlock_level": 1,
+      "barn_price": 0,
+      "market_price": 0,
+      "marketable": false,
+      "barn_limit": false,
+      "sellable": false,
+      "description": "Champ : +50 % de récolte (au lieu de +25 %)."
     }
   },
   "crops": {
@@ -37355,5 +37571,86 @@
     },
     "_note": "Bonus ajouté à chaque contrat livré. Argent : en % du contrat (cash_percent_per_point % par point) ; XP et XP de marché : fixes. Pistes normales : fan site (matériaux, « market certificate » en clés) ; pistes « or » : joueur (coût en or doublé à chaque niveau). Pistes aventure non reprises. « Expérience de marché (or) » : ×1,43 par niveau, de 300 à 10 000 000 d'or (choix du joueur).",
     "cash_percent_per_point": 0.25
+  },
+  "boosts": {
+    "feed": {
+      "inputs": [
+        "chicken_feed",
+        "pig_feed",
+        "cattle_feed",
+        "goat_feed",
+        "duck_feed",
+        "rabbit_feed",
+        "sheep_feed"
+      ],
+      "premium": "premium_feed",
+      "instant": "instant_feed"
+    },
+    "fertilizer": {
+      "inputs": [
+        "fertilizer"
+      ],
+      "premium": "premium_fertilizer",
+      "instant": "instant_fertilizer"
+    },
+    "humus": {
+      "premium": "premium_humus",
+      "instant": "instant_humus"
+    },
+    "premium_factor": 1.5,
+    "premium_seed_factor": 1.1,
+    "premium_seeds": {
+      "wildflower": "premium_seed_wildflower",
+      "corn": "premium_seed_corn",
+      "cabbage": "premium_seed_cabbage",
+      "wheat": "premium_seed_wheat",
+      "dandelion": "premium_seed_dandelion",
+      "lettuce": "premium_seed_lettuce",
+      "potato": "premium_seed_potato",
+      "carrot": "premium_seed_carrot",
+      "barley": "premium_seed_barley"
+    },
+    "_note": "Objets gagnés au tournoi, gratuits à l'usage (aucun cash payé). Un objet remplace toute la nourriture / l'engrais d'une production (estimé). Premium : produit principal ×1,5 ; semence premium : récolte ×1,1 (arrondi au-dessus)."
+  },
+  "special_crops": {
+    "rose": {
+      "name": "Roses",
+      "emoji": "🌹",
+      "seed": "rose_seed",
+      "instant": true,
+      "reward": {
+        "xp": 10
+      }
+    },
+    "tulip": {
+      "name": "Tulipes",
+      "emoji": "🌷",
+      "seed": "tulip_seed",
+      "instant": true,
+      "market_xp_by_field_level": [
+        [
+          1,
+          450
+        ],
+        [
+          10,
+          1620
+        ],
+        [
+          18,
+          2340
+        ]
+      ]
+    },
+    "golden_flower": {
+      "name": "Fleurs d'or",
+      "emoji": "🏵️",
+      "seed": "golden_flower_seed",
+      "duration": 7200,
+      "reward": {
+        "gold": 200
+      }
+    },
+    "_note": "Semences spéciales (joueur) : roses = récolte instantanée +10 XP ; tulipes = XP de marché instantanée selon le niveau du champ (interpolée entre les points) ; fleurs d'or = 2 h, 200 or."
   }
 }

@@ -103,12 +103,46 @@ function recipeCard(building, id, recipe, mode) {
                 h('button', { type: 'button', class: 'btn', disabled: quantity >= max, onclick: () => setQuantity(quantity + 1) }, '+'),
                 h('button', { type: 'button', class: 'btn', disabled: quantity >= max, onclick: () => setQuantity(max) }, 'Max'))
                 : h('span'),
-            h('button', {
-                type: 'button',
-                class: 'btn btn-primary',
-                disabled: label !== ready,
-                onclick: () => perform('start_production', mode === 'batch'
-                    ? { id: building.id, recipe: id, quantity }
-                    : { id: building.id, recipe: id }),
-            }, label)));
+            h('div', { class: 'row-actions' },
+                boostButtons(building, id, recipe, locked || Boolean(tooBig)),
+                h('button', {
+                    type: 'button',
+                    class: 'btn btn-primary',
+                    disabled: label !== ready,
+                    onclick: () => perform('start_production', mode === 'batch'
+                        ? { id: building.id, recipe: id, quantity }
+                        : { id: building.id, recipe: id }),
+                }, label))));
+}
+
+/** Which special items a recipe can take instead of its feed / fertilizer. */
+function boostKind(inputs) {
+    const boosts = store.data.boosts;
+    if (!boosts) return null;
+    return ['feed', 'fertilizer'].find((kind) => Object.keys(inputs).some((k) => boosts[kind].inputs.includes(k))) ?? null;
+}
+
+/** "⚡ Instantané" / "✨ Premium" buttons when the barn holds the special feed or fertilizer. */
+function boostButtons(building, id, recipe, disabled) {
+    const kind = boostKind(recipe.inputs);
+    if (!kind) return null;
+    const { data, state } = store;
+    const main = recipe.outputs[id];
+    const variants = [
+        ['instant', '⚡ Instantané', 'prêt tout de suite'],
+        ['premium', `✨ Premium · ${fmtInt(Math.ceil(Number((main * data.boosts.premium_factor).toFixed(6))))}`, '+50 %'],
+    ];
+
+    return variants.map(([variant, text, effect]) => {
+        const item = data.boosts[kind][variant];
+        const have = state.barn.items[item] ?? 0;
+        if (!have) return null;
+        return h('button', {
+            type: 'button',
+            class: 'btn btn-go',
+            disabled,
+            title: `1 ${data.items[item].emoji} ${data.items[item].name} à la place : ${effect}, gratuit (${fmtInt(have)} en grange)`,
+            onclick: () => perform('start_production', { id: building.id, recipe: id, boost: variant }),
+        }, text);
+    });
 }
