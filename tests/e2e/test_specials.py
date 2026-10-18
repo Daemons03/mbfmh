@@ -32,9 +32,13 @@ def test_roses_and_golden_flowers(game, farm):
     row(game, "Roses").get_by_role("button", name="Planter").click()
     settle(game)
     assert farm.state()["xp"] == 10
+    assert game.locator("#sheet").is_hidden(), "the panel closes once planted"
 
+    tap(game, 3, 0)
     row(game, "Fleurs d'or").get_by_role("button", name="Planter").click()
     settle(game)
+    tap(game, 3, 0)
+    game.wait_for_selector("#sheet:not([hidden])")
     assert "Fleurs d'or" in game.locator("#sheet-body").inner_text()
     field = next(b for b in farm.state()["buildings"] if b.get("x") == 2 and b.get("y") == 0)
     assert field["job"]["reward"] == {"gold": 200}

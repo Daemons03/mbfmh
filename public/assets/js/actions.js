@@ -1,6 +1,7 @@
 import { api, ApiError } from './api.js';
 import { fmtInt } from './format.js';
-import { applyResponse, notify, store } from './store.js';
+import { applyResponse, definition, notify, store } from './store.js';
+import { closeSheet, isSheetOpen } from './ui/sheet.js';
 import { toast } from './ui/toast.js';
 
 let onUnauthenticated = () => {};
@@ -28,7 +29,19 @@ export async function perform(type, payload = {}) {
             return perform(type, { ...payload, sell_surplus: true });
         }
     }
+    if (done && closesPanel(type, payload) && isSheetOpen()) closeSheet();
     return done;
+}
+
+/** Actions that start or pick up a job: the panel closes once they succeed. */
+const CLOSING = new Set(['plant', 'harvest', 'start_production', 'collect', 'start_show_animal']);
+
+function closesPanel(type, payload) {
+    if (!CLOSING.has(type)) return false;
+    if (type !== 'start_production') return true;
+    // Instant crafting (sewing workshop) keeps its panel open for the next item.
+    const building = store.state.buildings.find((b) => b.id === payload.id);
+    return definition(building.type).production?.mode !== 'instant';
 }
 
 /**

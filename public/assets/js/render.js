@@ -3,7 +3,7 @@ import { fmtDuration, fmtInt, fmtNumber, fmtShort } from './format.js';
 import { buildingArt, hasOverlay, outsideArt, pennant, s, tierOf } from './art.js';
 import { needsMirror, spriteBox, spriteFor, spriteUrl } from './sprites.js';
 import { buildingBox, cellTop, DEPTH, footprintPoints, layout, mapSize, outsideLot } from './iso.js';
-import { buildingById, definition, footprintOf, jobStatus, productEmoji, store } from './store.js';
+import { buildingById, definition, footprintOf, jobStatus, productEmoji, serverNow, store } from './store.js';
 import { canFulfill } from './ui/market.js';
 
 export function renderTopbar() {
@@ -134,6 +134,8 @@ export function renderGrid() {
     if (all) tags.push(all);
     const market = marketTag(L);
     if (market) tags.push(market);
+    const show = showTag(L, data);
+    if (show) tags.push(show);
     nodes.push(...tags); // banners and timers stay above every building
     // Footprint preview: follows the mouse, or marks the spot picked by a first tap on touch screens.
     const pending = mode?.pending ? ghostFor(mode, mode.pending) : null;
@@ -350,7 +352,7 @@ function hasJobs(def) {
 function jobMarker(building, def, status, product, data) {
     if (!hasJobs(def)) return null;
     if (status?.ready) return { node: pennant('ready', product ?? '✓'), title: 'Prêt' };
-    if (status) return { node: countdownBadge(status), title: null };
+    if (status) return { node: readyTicker(status.readyAt), title: null }; // no timer shown while working
 
     return { node: pennant('idle', idleProduct(building, def, data)), title: 'Inactif' };
 }
@@ -396,8 +398,43 @@ function marketTag(L) {
     }, pennant('ready', '🏪'), h('span', { class: 'tab-badge' }, String(ready)));
 }
 
-function countdownBadge(status) {
-    return h('span', { class: 'badge', dataset: { readyAt: status.readyAt } }, fmtShort(status.remaining));
+/** Invisible: lets the countdown tick re-render the map when the job becomes ready. */
+/**
+ * Banner above the show animals: yellow with the product when an animal is
+ * ready, pale blue "zZ" when a slot is free, nothing while they all work.
+ */
+function showTag(L, data) {
+    const view = store.view.show;
+    const show = store.state.show;
+    if (!view || !store.state.buildings.some((b) => b.type === 'show_animal')) return null;
+    const active = Object.entries(show?.active ?? {});
+    const now = serverNow();
+    const ready = active.find(([species]) => view.active[species].ready_at <= now);
+    let node;
+    let title;
+    if (ready) {
+        node = pennant('ready', data.items[Object.keys(ready[1].outputs)[0]]?.emoji ?? '✓');
+        title = 'Prêt';
+    } else if (view.active_count < view.slots) {
+        node = pennant('idle', data.buildings.show_animal.emoji);
+        title = 'Inactif';
+    } else {
+        node = readyTicker(Math.min(...active.map(([species]) => view.active[species].ready_at)));
+        title = null;
+    }
+    const lot = outsideLot(OUTSIDE_ORDER.indexOf('show_animal'));
+    const [centerX, centerY] = cellTop(L, lot.x + lot.w / 2, lot.y + lot.h / 2);
+
+    return h('div', {
+        class: 'tags',
+        dataset: { outside: 'show_animal', built: '1' },
+        title,
+        style: { left: `calc(var(--u) * ${centerX})`, top: `calc(var(--u) * ${centerY - 2.6})` },
+    }, node);
+}
+
+function readyTicker(readyAt) {
+    return h('span', { hidden: true, dataset: { readyAt } });
 }
 
 /**

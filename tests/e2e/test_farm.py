@@ -30,6 +30,8 @@ def test_plant_countdown_and_one_tap_harvest(game, farm):
     assert row(game, "Chou").get_by_role("button").inner_text() == "Niv. 8"
 
     row(game, "Maïs").get_by_role("button", name="Planter").click()
+    game.wait_for_selector("#sheet", state="hidden")  # the panel closes once planted
+    tap(game, 3, 0)
     countdown = game.locator("#sheet [data-ready-at]")
     countdown.wait_for()
     first = countdown.inner_text()
