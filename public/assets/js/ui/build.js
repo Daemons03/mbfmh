@@ -1,4 +1,5 @@
 import { perform } from '../actions.js';
+import { buildingIcon } from '../art.js';
 import { h } from '../dom.js';
 import { fmtCost, fmtInt } from '../format.js';
 import { canAfford, store, workersNeeded } from '../store.js';
@@ -52,7 +53,7 @@ function farmRow(type, def, cell, startPlacement) {
     if (first.happiness) stats.push(`${first.happiness > 0 ? '+' : ''}${fmtInt(first.happiness)} 😊`);
 
     return h('div', { class: `row stack${locked ? ' disabled' : ''}` },
-        h('span', { class: 'row-emoji' }, def.emoji),
+        h('span', { class: 'row-emoji' }, buildingIcon(type, def) ?? def.emoji),
         h('div', { class: 'row-main' },
             h('div', { class: 'row-title' }, def.name),
             h('div', { class: 'row-sub' }, [fmtCost(first.cost, store.data), ...stats, `${w}×${hh}`, `${fmtInt(count)}/${fmtInt(def.max_count)}`].join(' · '))),

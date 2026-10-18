@@ -1,4 +1,5 @@
 import { perform } from '../actions.js';
+import { buildingArt } from '../art.js';
 import { h } from '../dom.js';
 import { fmtCost, fmtDuration, fmtInt } from '../format.js';
 import { buildingById, canAfford, definition, jobStatus, productionCost, store, workersNeeded } from '../store.js';
@@ -21,6 +22,7 @@ export function buildingPanel(id, { startMove }) {
             const def = definition(building.type);
 
             return [
+                hero(building, def),
                 ...content(building, def),
                 h('p', { class: 'section-title' }, 'Bâtiment'),
                 h('div', { class: 'list' }, upgradeRow(building)),
@@ -28,6 +30,20 @@ export function buildingPanel(id, { startMove }) {
             ];
         },
     };
+}
+
+/** Picture of the building with its level and size. */
+function hero(building, def) {
+    const status = jobStatus(building);
+    const product = building.job ? store.data.items[building.job.product]?.emoji ?? null : null;
+    const { svg } = buildingArt(building, def, { working: Boolean(building.job) && !status?.ready, ready: Boolean(status?.ready), product });
+    const [w, hh] = def.size ?? [0, 0];
+
+    return h('div', { class: 'hero' },
+        h('div', { class: 'hero-picture' }, svg),
+        h('div', { class: 'hero-info' },
+            h('div', { class: 'hero-level' }, `Niveau ${building.level} / ${def.levels.length}`),
+            def.size ? h('div', { class: 'row-sub' }, `◇ ${w}×${hh}`) : null));
 }
 
 function content(building, def) {

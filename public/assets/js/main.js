@@ -1,6 +1,7 @@
 import { perform, refresh, setUnauthenticatedHandler } from './actions.js';
 import { api, ApiError } from './api.js';
 import { h, $ } from './dom.js';
+import { cellAt, cellTop, footprintPoints } from './iso.js';
 import { renderGrid, renderTopbar, tickCountdowns } from './render.js';
 import { applyResponse, buildingById, definition, jobStatus, notify, serverNow, store, subscribe } from './store.js';
 import { barnPanel } from './ui/barn.js';
@@ -44,6 +45,7 @@ async function startGame() {
     applyResponse(stateResponse);
     showScreen('app');
     notify();
+    centerOnFarm();
     startTimers();
 }
 
@@ -92,25 +94,75 @@ function renderModeBanner() {
 
 // ------------------------------------------------------------ grid input
 
-function cellFromEvent(event) {
+/** Size of one unit (half a tile width) in screen pixels. */
+function unitPx() {
     const grid = $('#grid');
-    const rect = grid.getBoundingClientRect();
-    const side = store.view.grid.side;
-    const x = Math.floor(((event.clientX - rect.left) / rect.width) * side);
-    const y = Math.floor(((event.clientY - rect.top) / rect.height) * side);
-    if (x < 0 || y < 0 || x >= side || y >= side) return null;
+    return grid.getBoundingClientRect().width / (2 * Number(grid.dataset.side));
+}
 
-    return { x, y };
+function cellFromEvent(event) {
+    const rect = $('#grid').getBoundingClientRect();
+    const u = unitPx();
+
+    return cellAt(store.view.grid.side, (event.clientX - rect.left) / u, (event.clientY - rect.top) / u);
+}
+
+/** Footprint preview while placing or moving: green when the spot is free. */
+function onGridHover(event) {
+    const ghost = $('#ghost');
+    if (!ghost) return;
+    const { mode } = store;
+    const cell = mode ? cellFromEvent(event) : null;
+    if (!cell) {
+        ghost.setAttribute('points', '0,0');
+        return;
+    }
+    const type = mode.kind === 'build' ? mode.type : buildingById(mode.id)?.type;
+    const [w, h_] = definition(type).size;
+    ghost.setAttribute('points', footprintPoints(store.view.grid.side, cell.x, cell.y, w, h_));
+    ghost.classList.toggle('invalid', !spotIsFree(cell, w, h_, mode.kind === 'move' ? mode.id : null));
+}
+
+/** Client-side hint only (owned land, no overlap); the server decides. */
+function spotIsFree(cell, w, h_, ignoreId) {
+    const { side, block_size: blockSize, owned_blocks: ownedBlocks } = store.view.grid;
+    const owned = new Set(ownedBlocks.map(([bx, by]) => `${bx},${by}`));
+    for (let y = cell.y; y < cell.y + h_; y++) {
+        for (let x = cell.x; x < cell.x + w; x++) {
+            if (x >= side || y >= side || !owned.has(`${Math.floor(x / blockSize)},${Math.floor(y / blockSize)}`)) return false;
+        }
+    }
+    return store.state.buildings.every((b) => {
+        if (b.x === undefined || b.id === ignoreId) return true;
+        const [bw, bh] = definition(b.type).size;
+        return cell.x >= b.x + bw || b.x >= cell.x + w || cell.y >= b.y + bh || b.y >= cell.y + h_;
+    });
 }
 
 function cellClasses(cell) {
     return $(`#grid .cell[data-x="${cell.x}"][data-y="${cell.y}"]`)?.classList;
 }
 
+/** Scrolls the map so the owned land is in view (first display). */
+function centerOnFarm() {
+    const { side, block_size: blockSize, owned_blocks: ownedBlocks } = store.view.grid;
+    const xs = ownedBlocks.map(([bx]) => bx);
+    const ys = ownedBlocks.map(([, by]) => by);
+    const cx = ((Math.min(...xs) + Math.max(...xs) + 1) / 2) * blockSize;
+    const cy = ((Math.min(...ys) + Math.max(...ys) + 1) / 2) * blockSize;
+    const [ux, uy] = cellTop(side, cx, cy);
+    const map = $('#map');
+    const u = unitPx();
+    const gridRect = $('#grid').getBoundingClientRect();
+    const mapRect = map.getBoundingClientRect();
+    map.scrollLeft += gridRect.left - mapRect.left + ux * u - map.clientWidth / 2;
+    map.scrollTop += gridRect.top - mapRect.top + uy * u - map.clientHeight / 2;
+}
+
 async function onGridClick(event) {
     const cell = cellFromEvent(event);
-    if (!cell) return;
-    const buildingEl = event.target.closest('.building');
+    const buildingEl = event.target.closest('.building, .tags');
+    if (!cell && (store.mode || !buildingEl)) return;
 
     if (store.mode) {
         const { mode } = store;
@@ -193,7 +245,13 @@ function readZoom() {
 let zoomIndex = readZoom();
 
 function applyZoom() {
+    const map = $('#map');
+    const before = { x: map.scrollLeft + map.clientWidth / 2, y: map.scrollTop + map.clientHeight / 2, w: map.scrollWidth, h: map.scrollHeight };
     document.documentElement.style.setProperty('--cell', `${ZOOM_LEVELS[zoomIndex]}px`);
+    if (before.w > 0) {
+        map.scrollLeft = (before.x * map.scrollWidth) / before.w - map.clientWidth / 2;
+        map.scrollTop = (before.y * map.scrollHeight) / before.h - map.clientHeight / 2;
+    }
     $('#zoom-in').disabled = zoomIndex === ZOOM_LEVELS.length - 1;
     $('#zoom-out').disabled = zoomIndex === 0;
     try {
@@ -243,6 +301,7 @@ function wire() {
     setUnauthenticatedHandler(() => showLogin('Session expirée, reconnectez-vous.'));
 
     $('#grid').addEventListener('click', onGridClick);
+    $('#grid').addEventListener('pointermove', onGridHover);
     $('#zoom-in').addEventListener('click', () => zoom(1));
     $('#zoom-out').addEventListener('click', () => zoom(-1));
     for (const button of document.querySelectorAll('#tabs button')) {

@@ -15,7 +15,7 @@
 
     <section id="login" class="login" hidden>
         <form id="login-form" class="login-card" autocomplete="on">
-            <h1>🌾 Ferme Tranquille</h1>
+            <h1 class="outlined">🌾 Ferme Tranquille</h1>
             <label>Identifiant
                 <input name="login" autocomplete="username" required autocapitalize="none" spellcheck="false">
             </label>
@@ -28,7 +28,7 @@
     </section>
 
     <div id="app" class="app" hidden>
-        <header id="topbar" class="topbar"></header>
+        <header id="topbar" class="topbar wood"></header>
 
         <main class="map-wrap">
             <div id="mode-banner" class="mode-banner" hidden></div>
@@ -41,7 +41,7 @@
             </div>
         </main>
 
-        <nav id="tabs" class="tabs">
+        <nav id="tabs" class="tabs wood">
             <button type="button" data-tab="build"><span>🔨</span>Construire</button>
             <button type="button" data-tab="barn"><span>🛖</span>Grange</button>
             <button type="button" data-tab="market"><span>🏪</span>Marché</button>
@@ -54,10 +54,10 @@
     </div>
 
     <div id="sheet-backdrop" class="sheet-backdrop" hidden></div>
-    <aside id="sheet" class="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <aside id="sheet" class="sheet wood" hidden role="dialog" aria-modal="true" aria-labelledby="sheet-title">
         <div class="sheet-head">
-            <h2 id="sheet-title"></h2>
-            <button type="button" class="btn-round" id="sheet-close" aria-label="Fermer">×</button>
+            <h2 id="sheet-title" class="outlined"></h2>
+            <button type="button" class="btn-round btn-close" id="sheet-close" aria-label="Fermer">×</button>
         </div>
         <div id="sheet-body" class="sheet-body"></div>
     </aside>

@@ -179,12 +179,11 @@ def reload(page: Page):
 
 
 def tap(page: Page, x: int, y: int):
-    """Clicks grid cell (x, y), scrolling the map so it is on screen."""
-    page.evaluate("""([x, y]) => document.querySelector(`#grid .cell[data-x="${x}"][data-y="${y}"]`)
-        .scrollIntoView({ block: 'center', inline: 'center' })""", [x, y])
-    box = page.locator("#grid").bounding_box()
-    size = box["width"] / grid_side(page)
-    page.mouse.click(box["x"] + (x + 0.5) * size, box["y"] + (y + 0.5) * size)
+    """Clicks the centre of grid cell (x, y) (a diamond on the isometric map), scrolling it into view."""
+    cell = page.locator(f'#grid .cell[data-x="{x}"][data-y="{y}"]')
+    cell.evaluate("e => e.scrollIntoView({ block: 'center', inline: 'center' })")
+    box = cell.bounding_box()
+    page.mouse.click(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
 
 
 def grid_side(page: Page) -> int:
