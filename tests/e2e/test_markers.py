@@ -42,7 +42,7 @@ def test_one_ready_job_has_no_collect_all(game, farm):
 
 
 def test_outside_lots_open_their_panel(game, farm):
-    assert game.locator(".outside").count() == 5, "market, show animals, library, external barn, café"
+    assert game.locator(".outside").count() == 6, "market, show animals, library, external barn, café, sewing workshop"
     assert game.locator(".outside.empty[data-outside=library]").count() == 1
 
     game.locator(".outside[data-outside=library]").click()

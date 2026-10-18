@@ -13188,10 +13188,6 @@
       "name": "Atelier de couture",
       "emoji": "🧵",
       "kind": "production",
-      "size": [
-        2,
-        2
-      ],
       "max_count": 1,
       "production": {
         "mode": "instant",
@@ -13451,7 +13447,9 @@
             "workers"
           ]
         }
-      ]
+      ],
+      "zone": "outside",
+      "_note": "Hors de la ferme (comme la bibliothèque ou le café)."
     },
     "farmhouse": {
       "name": "Ferme principale",

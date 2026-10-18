@@ -20,7 +20,7 @@ final class SewingTest extends EngineTestCase
         $this->state['level'] = 200;
         $this->state['cash'] = 100_000_000;
         $this->setBuilding('b1', ['level' => 25]); // 1 400 places per product
-        $this->act('build', ['type' => 'sewing_workshop', 'x' => 6, 'y' => 4]);
+        $this->act('build', ['type' => 'sewing_workshop']);
     }
 
     public function testTwentyRecipes(): void
@@ -79,5 +79,15 @@ final class SewingTest extends EngineTestCase
 
         self::assertArrayHasKey('buckets', $seen, 'green/purple goods bring buckets');
         self::assertArrayHasKey('mallets', $seen, 'light/red goods bring mallets');
+    }
+
+    public function testOlderFarmsMoveTheWorkshopOffTheGrid(): void
+    {
+        $this->state['buildings'][] = ['id' => 'old', 'type' => 'sewing_workshop', 'x' => 6, 'y' => 4, 'level' => 3];
+
+        $this->state = $this->decode($this->engine->resolve($this->state, self::NOW));
+
+        self::assertSame(['id' => 'old', 'type' => 'sewing_workshop', 'level' => 3], $this->building('old'));
+        $this->act('build', ['type' => 'house', 'x' => 6, 'y' => 4]); // the cells are free again
     }
 }

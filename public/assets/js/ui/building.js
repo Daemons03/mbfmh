@@ -38,7 +38,7 @@ function hero(building, def) {
     const status = jobStatus(building);
     const product = building.job ? store.data.items[building.job.product]?.emoji ?? null : null;
     let picture = buildingPicture(building.type, def, { level: building.level, rotated: building.rotated, cls: 'hero-sprite' });
-    if (picture.tagName.toLowerCase() === 'svg') {
+    if (def.size && picture.tagName.toLowerCase() === 'svg') {
         picture = buildingArt(building, def, { working: Boolean(building.job) && !status?.ready, ready: Boolean(status?.ready), product }).svg;
         if (building.rotated) picture.classList.add('mirrored');
     }

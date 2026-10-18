@@ -54,7 +54,7 @@ export function happinessEffect(factor) {
 }
 
 /** Outside buildings shown along the farm, from its top corner down. */
-export const OUTSIDE_ORDER = ['market', 'show_animal', 'library', 'external_barn', 'cafe'];
+export const OUTSIDE_ORDER = ['market', 'show_animal', 'library', 'external_barn', 'cafe', 'sewing_workshop'];
 
 export function currentLayout() {
     return layout(store.view.grid.side, OUTSIDE_ORDER.length);

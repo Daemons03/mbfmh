@@ -59,6 +59,14 @@ final class Farm
      */
     public function ensureStarterBuildings(): void
     {
+        // Buildings that moved outside the farm (sewing workshop) leave the grid.
+        foreach ($this->state['buildings'] as $index => $building) {
+            if (isset($building['x']) && $this->data->isOutside($building['type'])) {
+                unset($building['x'], $building['y'], $building['rotated']);
+                $this->state['buildings'][$index] = $building;
+            }
+        }
+
         foreach ($this->data->starterBuildings() as $type) {
             $outside = $this->data->isOutside($type);
             $existing = null;

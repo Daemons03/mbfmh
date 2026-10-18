@@ -152,7 +152,11 @@ async function onGridClick(event) {
     const outside = store.mode ? null : event.target.closest('.outside, [data-outside]');
     if (outside) {
         const tabs = { market: 'market', show_animal: 'show', library: 'library', external_barn: 'barn', cafe: 'cafe' };
-        openTab(outside.dataset.built ? tabs[outside.dataset.outside] : 'build');
+        const type = outside.dataset.outside;
+        const building = store.state.buildings.find((b) => b.type === type);
+        if (!outside.dataset.built) openTab('build');
+        else if (tabs[type]) openTab(tabs[type]);
+        else openSheet(buildingPanel(building.id, { startMove })); // sewing workshop: its own panel
         return;
     }
     const cell = cellFromEvent(event);
