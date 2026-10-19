@@ -32,7 +32,7 @@ Ce document s'adresse à un assistant (Claude) qui a un accès shell au serveur 
 - Les **sessions** durent 30 jours, dans `var/sessions/`. Le cookie est `Secure` : **HTTPS est obligatoire**, sinon la connexion ne tient pas.
 - Les données de jeu (`data/game-data.json`) sont mises en cache dans `var/cache/` ; le cache se renouvelle tout seul quand le fichier change.
 - Le fuseau horaire est réglé dans la config (`Europe/Paris`) : il fixe la remise à zéro quotidienne du café et la semaine du tournoi.
-- Le journal `action_log` se purge tout seul (> 30 jours). **Aucune tâche cron n'est nécessaire** au fonctionnement du jeu.
+- Le journal `action_log` se purge tout seul (> 30 jours). Seule tâche planifiée : le **timer systemd `ferme-bots`** (étape 10), qui fait jouer les bots juste après minuit ; sans lui, le premier appel du jour s'en charge (rattrapage limité à 7 jours par requête).
 
 ## Réinstallation, étape par étape
 
@@ -192,6 +192,47 @@ curl -sI https://foyer.dagniere.com/                     # 200 (l'autre site n'e
 Le premier appel connecté crée les 1 000 bots (moins d'une seconde) ; ensuite le premier appel de chaque jour les fait jouer (environ 1 s).
 
 Ensuite, le propriétaire ouvre `https://bfmh.dagniere.com/`, se connecte, puis vérifie : la carte s'affiche avec ses images ; une action (planter) fonctionne ; après rechargement de la page, il est toujours connecté.
+
+### 10. Bots : timer systemd
+
+Fait jouer les bots à 0 h 05 (et 3 h 05 en secours), heure de Paris, même sans visite ; `Persistent=true` rattrape un passage manqué au démarrage. Le serveur est en UTC, d'où le fuseau dans `OnCalendar`.
+
+`/etc/systemd/system/ferme-bots.service` :
+
+```ini
+[Unit]
+Description=Ferme Tranquille : faire jouer les bots (jour du jeu)
+After=mariadb.service
+
+[Service]
+Type=oneshot
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/ferme-tranquille
+ExecStart=/usr/bin/php scripts/advance-bots.php
+Nice=10
+```
+
+`/etc/systemd/system/ferme-bots.timer` :
+
+```ini
+[Unit]
+Description=Ferme Tranquille : bots à 0 h 05 et 3 h 05 (heure de Paris)
+
+[Timer]
+OnCalendar=*-*-* 00:05:00 Europe/Paris
+OnCalendar=*-*-* 03:05:00 Europe/Paris
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+```
+
+```bash
+sudo systemctl daemon-reload && sudo systemctl enable --now ferme-bots.timer
+systemctl list-timers ferme-bots.timer          # prochain passage
+journalctl -u ferme-bots.service -n 5 -o cat    # « Bots à jour (…) »
+```
 
 ## Reprendre la ferme locale (optionnel)
 
