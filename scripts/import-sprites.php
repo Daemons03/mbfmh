@@ -45,7 +45,7 @@ const NAMES = [
     'moulin' => 'windmill', 'moulin_premium' => 'premium_windmill',
     'silo' => 'silo', 'composteur' => 'composter', 'ruche' => 'beehive', 'ruche_premium' => 'premium_beehive',
     'laiterie' => 'dairy', 'confiture' => 'jam_kitchen', 'fabrique_artisanale' => 'manufactory', 'atelier_couture' => 'sewing_workshop',
-    'maison' => 'house', 'habitation_premium' => 'premium_house', 'grange' => 'barn', 'ferme' => 'farmhouse', 'corps' => 'farmhouse',
+    'maison' => 'house', 'habitation_premium' => 'premium_house', 'maison_premium' => 'premium_house', 'grange' => 'barn', 'ferme' => 'farmhouse', 'corps' => 'farmhouse',
     'marche' => 'market', 'concour_animal' => 'show_animal', 'bibliotheque' => 'library', 'grange_exterieur' => 'external_barn',
     'cafe_boutique' => 'cafe',
     'deco_20bo_3x3' => 'duck_pond', 'deco_20bo_3x3_bis' => 'gazebo', 'deco_47bo-size6x3' => 'wind_pump',

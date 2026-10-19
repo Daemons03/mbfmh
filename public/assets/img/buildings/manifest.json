@@ -751,21 +751,89 @@
         }
     },
     "house": {
-        "1": {
-            "file": "house-1.webp",
-            "width": 178,
-            "height": 119,
+        "L1": {
+            "file": "house-L1.webp",
+            "width": 291,
+            "height": 173,
             "left": [
-                1,
-                82.5
+                4,
+                95.5
             ],
             "right": [
-                177,
-                78.8
+                287,
+                102.5
             ],
             "bottom": [
-                75.5,
-                118
+                147,
+                168
+            ]
+        },
+        "L10": {
+            "file": "house-L10.webp",
+            "width": 386,
+            "height": 221,
+            "left": [
+                4,
+                140
+            ],
+            "right": [
+                381,
+                139.5
+            ],
+            "bottom": [
+                172,
+                217
+            ]
+        },
+        "L15": {
+            "file": "house-L15.webp",
+            "width": 392,
+            "height": 241,
+            "left": [
+                5,
+                159.5
+            ],
+            "right": [
+                388,
+                161.5
+            ],
+            "bottom": [
+                183,
+                237
+            ]
+        },
+        "L18": {
+            "file": "house-L18.webp",
+            "width": 451,
+            "height": 257,
+            "left": [
+                5,
+                159.5
+            ],
+            "right": [
+                446,
+                169.5
+            ],
+            "bottom": [
+                205.5,
+                253
+            ]
+        },
+        "L5": {
+            "file": "house-L5.webp",
+            "width": 348,
+            "height": 196,
+            "left": [
+                4,
+                112
+            ],
+            "right": [
+                344,
+                114
+            ],
+            "bottom": [
+                165.3,
+                191
             ]
         }
     },
@@ -1384,38 +1452,89 @@
         }
     },
     "premium_house": {
-        "1": {
-            "file": "premium_house-1.webp",
-            "width": 157,
-            "height": 123,
+        "L1": {
+            "file": "premium_house-L1.webp",
+            "width": 302,
+            "height": 174,
             "left": [
-                2,
-                88
+                4,
+                98
             ],
             "right": [
-                151,
-                93
+                298,
+                94.5
             ],
             "bottom": [
-                72.5,
-                123
+                139.5,
+                169
             ]
         },
-        "2": {
-            "file": "premium_house-2.webp",
-            "width": 141,
-            "height": 140,
+        "L10": {
+            "file": "premium_house-L10.webp",
+            "width": 422,
+            "height": 218,
             "left": [
-                2,
-                103.5
+                4,
+                130
             ],
             "right": [
-                136,
-                109
+                418,
+                130
             ],
             "bottom": [
-                57.5,
-                140
+                182.5,
+                213
+            ]
+        },
+        "L15": {
+            "file": "premium_house-L15.webp",
+            "width": 493,
+            "height": 234,
+            "left": [
+                4,
+                146.5
+            ],
+            "right": [
+                489,
+                148
+            ],
+            "bottom": [
+                214,
+                229
+            ]
+        },
+        "L18": {
+            "file": "premium_house-L18.webp",
+            "width": 544,
+            "height": 234,
+            "left": [
+                4,
+                150
+            ],
+            "right": [
+                540,
+                156
+            ],
+            "bottom": [
+                237.1,
+                234
+            ]
+        },
+        "L5": {
+            "file": "premium_house-L5.webp",
+            "width": 382,
+            "height": 203,
+            "left": [
+                5,
+                121
+            ],
+            "right": [
+                378,
+                115
+            ],
+            "bottom": [
+                159.5,
+                198
             ]
         }
     },
