@@ -74,7 +74,7 @@ final class WorkersTest extends EngineTestCase
         self::assertSame(10_000 - 16, $this->state['cash'], 'corn 43 x 0.374 = 16');
     }
 
-    public function testUnhappyFarmPaysMore(): void
+    public function testHappinessNeverGoesBelowZero(): void
     {
         $this->state['cash'] = 100_000;
         $this->state['level'] = 50;
@@ -82,10 +82,13 @@ final class WorkersTest extends EngineTestCase
         for ($i = 0; $i < 5; $i++) {
             $this->state['buildings'][] = ['id' => "h{$i}", 'type' => 'house', 'x' => 2 * $i, 'y' => 8, 'level' => 1];
         }
-        // 110 - 5 x 35 = -65 happiness: factor 1.54 + (3.30 - 1.54) x 45 / 80 = 2.53
-        $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
+        // 110 - 5 x 35 = -65: held at 0, costs stay normal (x1).
+        $view = $this->decode($this->engine->view($this->state, self::NOW));
+        self::assertSame(0, $view['happiness']['value']);
+        self::assertSame(1, $view['happiness']['cost_factor']);
 
-        self::assertSame(100_000 - 109, $this->state['cash'], 'corn 43 x 2.53');
+        $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
+        self::assertSame(100_000 - 43, $this->state['cash'], 'corn 43 x 1');
     }
 
     public function testDecorationsAddHappiness(): void

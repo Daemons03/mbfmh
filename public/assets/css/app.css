@@ -549,9 +549,13 @@ svg.mirrored { transform: scaleX(-1); }
     padding: 10px 6px 10px 10px;
 }
 .sheet-head h2 {
+    min-width: 0;
     margin: 0; font-size: 22px; font-weight: 700;
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
+/* Building panels: name, then the level smaller below it. */
+.sheet-head h2 .title-name { display: block; overflow: hidden; text-overflow: ellipsis; line-height: 1.15; }
+.sheet-head h2 .title-sub { display: block; font-size: 14px; line-height: 1.2; }
 .sheet-body {
     overflow-y: auto; padding: 14px 12px 20px;
     display: grid; gap: 12px; align-content: start;
@@ -612,6 +616,36 @@ svg.mirrored { transform: scaleX(-1); }
     .row-sub { color: #b9cfd9; }
 }
 .row-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+/* ------------------------------------------------------------ level folds */
+
+.fold {
+    border: 3px solid var(--card-border); border-radius: 14px;
+    background: var(--surface-2);
+}
+.fold > summary {
+    padding: 10px 12px; cursor: pointer;
+    font-weight: 700; list-style: none;
+    display: flex; align-items: center; gap: 8px;
+}
+.fold > summary::-webkit-details-marker { display: none; }
+.fold > summary::before { content: "▸"; color: var(--wood); transition: transform 0.15s; }
+.fold[open] > summary::before { transform: rotate(90deg); }
+.fold[open] > summary { border-bottom: 2px solid var(--border); }
+.fold > :not(summary) { margin: 8px 10px; }
+.restabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+.restab {
+    flex: none; width: 42px; height: 42px; font-size: 24px;
+    border: 3px solid var(--card-border); border-radius: 10px;
+    background: var(--surface); cursor: pointer;
+}
+.restab.active { border-color: var(--go); box-shadow: 0 0 0 2px var(--go); background: var(--surface-2); }
+.table-wrap { overflow-x: auto; }
+table.levels { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+table.levels th { text-align: left; color: var(--muted); font-weight: 600; padding: 4px 6px; border-bottom: 2px solid var(--border); white-space: nowrap; }
+table.levels td { padding: 5px 6px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.levels td:first-child, table.levels th:first-child { text-align: right; width: 2.5em; }
+table.levels tr.current td { background: color-mix(in srgb, var(--go) 18%, transparent); font-weight: 700; }
+
 /* ------------------------------------------------------------ barn */
 
 /* Two wooden tabs: products / resources. */

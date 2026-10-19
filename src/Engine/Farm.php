@@ -166,6 +166,10 @@ final class Farm
         }
     }
 
+    /**
+     * Sum of the buildings' happiness, never below zero: houses can cancel the
+     * decorations' bonus but never make costs higher than normal (x1).
+     */
     public function happiness(): int
     {
         $happiness = 0;
@@ -173,7 +177,7 @@ final class Farm
             $happiness += $this->data->buildingLevel($building['type'], $building['level'])['happiness'] ?? 0;
         }
 
-        return $happiness;
+        return max(0, $happiness);
     }
 
     /**

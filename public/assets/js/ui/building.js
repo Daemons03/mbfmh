@@ -4,6 +4,7 @@ import { buildingPicture } from '../sprites.js';
 import { h } from '../dom.js';
 import { fmtCost, fmtDuration, fmtInt } from '../format.js';
 import { buildingById, canAfford, definition, footprintOf, jobStatus, productEmoji, productionCost, store, workersNeeded } from '../store.js';
+import { levelBlocks } from './levels.js';
 import { jobControls, productionBlock } from './production.js';
 import { closeSheet, refreshSheet } from './sheet.js';
 
@@ -15,7 +16,10 @@ export function buildingPanel(id, { startMove }) {
         title: () => {
             const building = buildingById(id);
             const def = definition(building.type);
-            return `${def.emoji} ${def.name} — niv. ${building.level}`;
+            return [
+                h('span', { class: 'title-name' }, `${def.emoji} ${def.name}`),
+                h('span', { class: 'title-sub' }, `Niveau ${building.level} / ${def.levels.length}`),
+            ];
         },
         render: () => {
             const building = buildingById(id);
@@ -27,6 +31,7 @@ export function buildingPanel(id, { startMove }) {
                 ...content(building, def),
                 h('p', { class: 'section-title' }, 'Bâtiment'),
                 h('div', { class: 'list' }, upgradeRow(building)),
+                levelBlocks(building, def),
                 otherActions(building, def, startMove),
             ];
         },

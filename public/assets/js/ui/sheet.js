@@ -33,7 +33,9 @@ export function refreshSheet() {
         closeSheet(); // panel subject disappeared (e.g. demolished building)
         return;
     }
-    $('#sheet-title').textContent = typeof current.title === 'function' ? current.title() : current.title;
+    // A title is text, or nodes (name with the level below it).
+    const title = typeof current.title === 'function' ? current.title() : current.title;
+    $('#sheet-title').replaceChildren(...[title].flat());
     const scroll = $('#sheet-body').scrollTop;
     $('#sheet-body').replaceChildren(...[body].flat(Infinity).filter((node) => node !== null && node !== undefined && node !== false));
     $('#sheet-body').scrollTop = scroll;

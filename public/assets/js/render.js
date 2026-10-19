@@ -32,7 +32,6 @@ export function renderTopbar() {
             h('span', {
                 class: 'res',
                 title: `Bonheur : coût des productions ×${fmtNumber(view.happiness.cost_factor)}`,
-                style: view.happiness.value < 0 ? { color: 'var(--danger)' } : {},
             }, `😊 ${fmtInt(view.happiness.value)} (${happinessEffect(view.happiness.cost_factor)})`),
             h('span', {
                 class: 'res',

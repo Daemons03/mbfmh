@@ -26,7 +26,7 @@ def test_starting_farm(game):
 def test_plant_countdown_and_one_tap_harvest(game, farm):
     tap(game, 3, 0)
     game.wait_for_selector("#sheet:not([hidden])")
-    assert game.locator("#sheet-title").inner_text() == "🟫 Champ — niv. 1"
+    assert game.locator("#sheet-title").inner_text() == "🟫 Champ\nNiveau 1 / 18"
     assert row(game, "Chou").get_by_role("button").inner_text() == "Niv. 8"
 
     row(game, "Maïs").get_by_role("button", name="Planter").click()
@@ -328,3 +328,38 @@ def test_zoom_buttons_and_banner_stay_above_buildings(game, farm):
         return result;
     }""")
     assert on_top == [True, True, True]
+
+
+def test_level_folds_costs_and_production(game):
+    tap(game, 3, 0)
+    game.wait_for_selector("#sheet:not([hidden])")
+    costs = game.locator("details.fold", has_text="Coût des niveaux suivants")
+    production = game.locator("details.fold", has_text="Production par niveau")
+    assert costs.get_attribute("open") is None, "folded by default"
+
+    costs.locator("summary").click()
+    assert costs.locator("tbody tr").count() == 17, "levels 2 to 18"
+    assert costs.locator("tbody tr").first.inner_text().startswith("2")
+
+    production.locator("summary").click()
+    production.get_by_role("tab", name="Maïs").click()
+    rows = production.locator("tbody tr")
+    assert rows.count() == 18
+    assert "10 🌽" in rows.first.inner_text() and "current" in rows.first.get_attribute("class")
+    assert "27 🌽" in rows.last.inner_text()
+    reload(game)
+    tap(game, 3, 0)
+    assert game.locator("details.fold[open]").count() == 0, "a new page starts folded"
+
+
+def test_long_building_name_keeps_the_panel_whole(game, farm):
+    buildings = farm.state()["buildings"] + [{"id": "d1", "type": "premium_duck_coop", "x": 6, "y": 4, "level": 1}]
+    farm.patch({"buildings": buildings})
+    reload(game)
+    tap(game, 7, 5)
+    game.wait_for_selector("#sheet:not([hidden])")
+    assert game.locator("#sheet-title .title-sub").inner_text() == "Niveau 1 / 12"
+    close = game.locator("#sheet-close").bounding_box()
+    sheet = game.locator("#sheet").bounding_box()
+    assert close["x"] + close["width"] <= sheet["x"] + sheet["width"], "close button stays inside"
+    assert game.evaluate("document.querySelector('#sheet').scrollWidth <= document.querySelector('#sheet').clientWidth")
