@@ -37,6 +37,110 @@
             ]
         }
     },
+    "barn": {
+        "L1": {
+            "file": "barn-L1.webp",
+            "width": 320,
+            "height": 257,
+            "left": [
+                0,
+                177.5
+            ],
+            "right": [
+                320,
+                172
+            ],
+            "bottom": [
+                152.5,
+                257
+            ]
+        },
+        "L10": {
+            "file": "barn-L10.webp",
+            "width": 320,
+            "height": 256,
+            "left": [
+                0,
+                174
+            ],
+            "right": [
+                319,
+                169.5
+            ],
+            "bottom": [
+                152.5,
+                256
+            ]
+        },
+        "L15": {
+            "file": "barn-L15.webp",
+            "width": 320,
+            "height": 213,
+            "left": [
+                1,
+                146
+            ],
+            "right": [
+                319,
+                149.5
+            ],
+            "bottom": [
+                127,
+                212
+            ]
+        },
+        "L20": {
+            "file": "barn-L20.webp",
+            "width": 320,
+            "height": 186,
+            "left": [
+                0,
+                109
+            ],
+            "right": [
+                320,
+                131.3
+            ],
+            "bottom": [
+                147.5,
+                186
+            ]
+        },
+        "L25": {
+            "file": "barn-L25.webp",
+            "width": 320,
+            "height": 185,
+            "left": [
+                0,
+                106.5
+            ],
+            "right": [
+                320,
+                132
+            ],
+            "bottom": [
+                147.5,
+                185
+            ]
+        },
+        "L5": {
+            "file": "barn-L5.webp",
+            "width": 320,
+            "height": 256,
+            "left": [
+                0,
+                174
+            ],
+            "right": [
+                320,
+                167
+            ],
+            "bottom": [
+                153.5,
+                256
+            ]
+        }
+    },
     "beehive": {
         "1": {
             "file": "beehive-1.webp",
@@ -224,6 +328,110 @@
             "bottom": [
                 234,
                 250
+            ]
+        }
+    },
+    "farmhouse": {
+        "L1": {
+            "file": "farmhouse-L1.webp",
+            "width": 320,
+            "height": 260,
+            "left": [
+                1,
+                178.5
+            ],
+            "right": [
+                319,
+                173.5
+            ],
+            "bottom": [
+                152.5,
+                260
+            ]
+        },
+        "L2": {
+            "file": "farmhouse-L2.webp",
+            "width": 320,
+            "height": 249,
+            "left": [
+                0,
+                167
+            ],
+            "right": [
+                319,
+                162.5
+            ],
+            "bottom": [
+                152.5,
+                249
+            ]
+        },
+        "L3": {
+            "file": "farmhouse-L3.webp",
+            "width": 320,
+            "height": 249,
+            "left": [
+                0,
+                167
+            ],
+            "right": [
+                319,
+                162.5
+            ],
+            "bottom": [
+                152.5,
+                249
+            ]
+        },
+        "L4": {
+            "file": "farmhouse-L4.webp",
+            "width": 320,
+            "height": 233,
+            "left": [
+                0,
+                156.5
+            ],
+            "right": [
+                320,
+                144.5
+            ],
+            "bottom": [
+                145,
+                233
+            ]
+        },
+        "L5": {
+            "file": "farmhouse-L5.webp",
+            "width": 320,
+            "height": 216,
+            "left": [
+                0,
+                146.5
+            ],
+            "right": [
+                320,
+                119
+            ],
+            "bottom": [
+                131.5,
+                216
+            ]
+        },
+        "L6": {
+            "file": "farmhouse-L6.webp",
+            "width": 320,
+            "height": 185,
+            "left": [
+                0,
+                107
+            ],
+            "right": [
+                320,
+                132
+            ],
+            "bottom": [
+                147.5,
+                185
             ]
         }
     },
@@ -1409,21 +1617,72 @@
         }
     },
     "premium_windmill": {
-        "1": {
-            "file": "premium_windmill-1.webp",
-            "width": 155,
-            "height": 100,
+        "L1": {
+            "file": "premium_windmill-L1.webp",
+            "width": 320,
+            "height": 359,
             "left": [
-                0,
-                57
+                1,
+                260.1
             ],
             "right": [
-                154,
-                72
+                320,
+                250
             ],
             "bottom": [
-                87.4,
-                100
+                160,
+                358
+            ]
+        },
+        "L12": {
+            "file": "premium_windmill-L12.webp",
+            "width": 320,
+            "height": 180,
+            "left": [
+                0,
+                101.5
+            ],
+            "right": [
+                320,
+                127
+            ],
+            "bottom": [
+                147.5,
+                180
+            ]
+        },
+        "L4": {
+            "file": "premium_windmill-L4.webp",
+            "width": 320,
+            "height": 359,
+            "left": [
+                0,
+                250
+            ],
+            "right": [
+                320,
+                250
+            ],
+            "bottom": [
+                160,
+                358
+            ]
+        },
+        "L8": {
+            "file": "premium_windmill-L8.webp",
+            "width": 320,
+            "height": 364,
+            "left": [
+                0,
+                265
+            ],
+            "right": [
+                319,
+                266.5
+            ],
+            "bottom": [
+                160.5,
+                364
             ]
         }
     },
@@ -1561,21 +1820,72 @@
         }
     },
     "windmill": {
-        "1": {
-            "file": "windmill-1.webp",
-            "width": 193,
-            "height": 134,
+        "L1": {
+            "file": "windmill-L1.webp",
+            "width": 320,
+            "height": 312,
             "left": [
-                5,
-                91
+                1,
+                220.5
             ],
             "right": [
-                190,
-                96.5
+                319,
+                220.5
             ],
             "bottom": [
-                90,
-                134
+                159.5,
+                312
+            ]
+        },
+        "L12": {
+            "file": "windmill-L12.webp",
+            "width": 320,
+            "height": 180,
+            "left": [
+                0,
+                101.5
+            ],
+            "right": [
+                320,
+                127
+            ],
+            "bottom": [
+                147.5,
+                180
+            ]
+        },
+        "L4": {
+            "file": "windmill-L4.webp",
+            "width": 320,
+            "height": 313,
+            "left": [
+                0,
+                221.5
+            ],
+            "right": [
+                320,
+                221.5
+            ],
+            "bottom": [
+                159.5,
+                313
+            ]
+        },
+        "L8": {
+            "file": "windmill-L8.webp",
+            "width": 320,
+            "height": 318,
+            "left": [
+                0,
+                226.5
+            ],
+            "right": [
+                320,
+                226
+            ],
+            "bottom": [
+                159.5,
+                318
             ]
         }
     }

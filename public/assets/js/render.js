@@ -213,7 +213,7 @@ function outsideNode(type, n, L, data) {
         built = Boolean(building);
         level = building?.level ?? 1;
     }
-    const sprite = built ? spriteFor(type, tierOf(level, levels)) : null;
+    const sprite = built ? spriteFor(type, tierOf(level, levels), level) : null;
     const { content, top } = sprite
         ? pictureContent(sprite, [lot.w, lot.h], lot.w, lot.h, false, () => null)
         : svgContent(outsideArt(type, def, { level, levels, built }), false);
@@ -272,7 +272,7 @@ function buildingNode(building, data, L) {
     const ready = Boolean(status?.ready);
     const product = building.job ? productEmoji(building.job.product) : null;
     const art = { working: Boolean(building.job) && !ready, ready, product };
-    const sprite = spriteFor(building.type, tierOf(building.level, def.levels.length));
+    const sprite = spriteFor(building.type, tierOf(building.level, def.levels.length), building.level);
     const { content, top } = sprite
         ? pictureContent(sprite, def.size, w, h_, Boolean(building.rotated), (t) => hasOverlay(building.type, def) ? buildingArt(building, def, { ...art, overlay: true, rotated: Boolean(building.rotated), top: t }).svg : null)
         : svgContent(buildingArt(building, def, art), Boolean(building.rotated));

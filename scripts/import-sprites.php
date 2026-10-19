@@ -10,6 +10,12 @@ declare(strict_types=1);
  * corners, see sprite-metrics.php).
  *
  *   php scripts/import-sprites.php asset-a-integrer/all
+ *   php scripts/import-sprites.php images/trier --levels
+ *
+ * --levels: the number after the name is the building level the picture
+ * starts at (moulin_4.png: from level 4), saved as <type>-L<level>.webp;
+ * without it, the number is the visual tier 1-3 (<type>-<tier>.webp).
+ * JPG renders on a flat background are cut out first (cutout.php).
  *
  * Unknown names are listed and skipped. Re-run it after adding pictures;
  * without a folder it only measures the pictures and rewrites manifest.json.
@@ -39,7 +45,7 @@ const NAMES = [
     'moulin' => 'windmill', 'moulin_premium' => 'premium_windmill',
     'silo' => 'silo', 'composteur' => 'composter', 'ruche' => 'beehive', 'ruche_premium' => 'premium_beehive',
     'laiterie' => 'dairy', 'confiture' => 'jam_kitchen', 'fabrique_artisanale' => 'manufactory', 'atelier_couture' => 'sewing_workshop',
-    'maison' => 'house', 'habitation_premium' => 'premium_house', 'grange' => 'barn', 'ferme' => 'farmhouse',
+    'maison' => 'house', 'habitation_premium' => 'premium_house', 'grange' => 'barn', 'ferme' => 'farmhouse', 'corps' => 'farmhouse',
     'marche' => 'market', 'concour_animal' => 'show_animal', 'bibliotheque' => 'library', 'grange_exterieur' => 'external_barn',
     'cafe_boutique' => 'cafe',
     'deco_20bo_3x3' => 'duck_pond', 'deco_20bo_3x3_bis' => 'gazebo', 'deco_47bo-size6x3' => 'wind_pump',
@@ -47,40 +53,49 @@ const NAMES = [
     'terrain_a_acheter' => 'land_locked',
 ];
 
-$source = rtrim($argv[1] ?? '', '/');
+require __DIR__ . '/cutout.php';
+
+$byLevel = in_array('--levels', $argv, true);
+$source = rtrim(array_values(array_diff(array_slice($argv, 1), ['--levels']))[0] ?? '', '/');
 $target = dirname(__DIR__) . '/public/assets/img/buildings';
 if ($source !== '' && !is_dir($source)) {
-    fwrite(STDERR, "Usage: php scripts/import-sprites.php [<folder>]   (no folder: only rebuild manifest.json)\n");
+    fwrite(STDERR, "Usage: php scripts/import-sprites.php [<folder> [--levels]]   (no folder: only rebuild manifest.json)\n");
     exit(2);
 }
 if (!is_dir($target)) {
     mkdir($target, 0775, true);
 }
 
-foreach ($source === '' ? [] : glob("{$source}/*.png") as $file) {
-    $name = basename($file, '.png');
-    $tier = 1;
+foreach ($source === '' ? [] : glob("{$source}/*.{png,jpg,jpeg}", GLOB_BRACE) as $file) {
+    $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+    $name = basename($file, ".{$extension}");
+    $number = 1;
     $prefix = $name;
-    if (preg_match('/^(.*?)_?(\d)$/', $name, $m) && isset(NAMES[$m[1]])) {
-        [$prefix, $tier] = [$m[1], (int) $m[2]];
+    if (preg_match($byLevel ? '/^(.*?)_(\d+)$/' : '/^(.*?)_?(\d)$/', $name, $m) && isset(NAMES[$m[1]])) {
+        [$prefix, $number] = [$m[1], (int) $m[2]];
     }
     $type = NAMES[$prefix] ?? null;
     if ($type === null) {
-        echo "skipped (unknown name): {$name}.png\n";
+        echo "skipped (unknown name): {$name}.{$extension}\n";
         continue;
     }
-    $image = imagecreatefrompng($file);
-    imagepalettetotruecolor($image);
+    if ($extension === 'png') {
+        $image = imagecreatefrompng($file);
+        imagepalettetotruecolor($image);
+    } else {
+        $image = cutout(imagecreatefromjpeg($file)); // flat background: cut the building out
+    }
     imagealphablending($image, false);
     imagesavealpha($image, true);
-    imagewebp($image, "{$target}/{$type}-{$tier}.webp", WEBP_QUALITY);
-    echo "{$name}.png -> {$type}-{$tier}.webp\n";
+    $out = $byLevel ? "{$type}-L{$number}.webp" : "{$type}-{$number}.webp";
+    imagewebp($image, "{$target}/{$out}", WEBP_QUALITY);
+    echo "{$name}.{$extension} -> {$out}\n";
 }
 
 // Manifest of everything in the target folder.
 $manifest = [];
-foreach (glob("{$target}/*-[0-9].webp") as $file) {
-    preg_match('/^(.+)-(\d)$/', basename($file, '.webp'), $m);
+foreach (glob("{$target}/*-{[0-9],L[0-9]*}.webp", GLOB_BRACE) as $file) {
+    preg_match('/^(.+)-(\d|L\d+)$/', basename($file, '.webp'), $m);
     $metrics = json_decode(shell_exec('php ' . escapeshellarg(__DIR__ . '/sprite-metrics.php') . ' ' . escapeshellarg($file)), true);
     $manifest[$m[1]][$m[2]] = ['file' => basename($file)] + $metrics[basename($file)];
 }

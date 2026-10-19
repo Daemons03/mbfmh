@@ -422,3 +422,19 @@ def test_daily_gold_and_premium_rabbits(game, farm):
     rabbits = row(game, "Clapier premium")
     assert "1 960" in text(rabbits), "gold cost"
     assert game.locator(".row-emoji img[src*=premium_rabbit_hutch]").count() == 1, "its generated picture"
+
+
+def test_pictures_follow_the_building_level(game, farm):
+    st = farm.state()
+    for b in st["buildings"]:
+        if b["type"] == "barn":
+            b["level"] = 12  # pictures from levels 1, 5, 10, 15...: the level 10 one
+    st["buildings"].append({"id": "w1", "type": "windmill", "x": 5, "y": 1, "level": 4})
+    farm.patch({"buildings": st["buildings"]})
+    reload(game)
+
+    src = lambda selector: game.locator(f"{selector} img.sprite").get_attribute("src")
+    assert src(".building[data-id=b1]").endswith("barn-L10.webp")
+    assert src(".building[data-id=w1]").endswith("windmill-L4.webp")
+    farmhouse = next(b for b in st["buildings"] if b["type"] == "farmhouse")
+    assert src(f".building[data-id={farmhouse['id']}]").endswith("farmhouse-L1.webp")

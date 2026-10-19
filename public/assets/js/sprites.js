@@ -4,9 +4,10 @@ import { store } from './store.js';
 
 /**
  * Building pictures (public/assets/img/buildings, see scripts/import-sprites.php).
- * manifest.json gives, per type and tier, the picture size and the left,
- * right and bottom corners of its ground diamond, so it can be laid exactly
- * on a footprint. Missing tiers fall back to the one below.
+ * manifest.json gives, per type and tier (or starting level, "L4"), the
+ * picture size and the left, right and bottom corners of its ground
+ * diamond, so it can be laid exactly on a footprint. Missing tiers fall back
+ * to the one below.
  */
 
 const BASE = 'assets/img/buildings/';
@@ -20,12 +21,27 @@ export async function loadSprites() {
     }
 }
 
-/** Picture for a type at a tier (1-3), or the closest lower tier; null when none. */
-export function spriteFor(type, tier) {
-    const tiers = store.sprites?.[type];
-    if (!tiers) return null;
+/**
+ * Picture for a type: by building level when it has some ("L4": from level
+ * 4 on, the highest reached wins), else at a tier (1-3) or the closest lower
+ * tier; null when none.
+ */
+export function spriteFor(type, tier, level = null) {
+    const pictures = store.sprites?.[type];
+    if (!pictures) return null;
+    const byLevel = Object.keys(pictures)
+        .filter((key) => key.startsWith('L'))
+        .map((key) => [Number(key.slice(1)), pictures[key]])
+        .sort(([a], [b]) => a - b);
+    if (byLevel.length) {
+        let picture = byLevel[0][1];
+        for (const [from, candidate] of byLevel) {
+            if (from <= (level ?? 1)) picture = candidate;
+        }
+        return picture;
+    }
     for (let t = tier; t >= 1; t--) {
-        if (tiers[t]) return tiers[t];
+        if (pictures[t]) return pictures[t];
     }
     return null;
 }
@@ -74,7 +90,7 @@ export function spriteImg(sprite, { mirrored = false, cls = 'sprite-icon' } = {}
 
 /** Picture of a building type for lists and cards: its image when there is one, else the drawing. */
 export function buildingPicture(type, def, { level = 1, rotated = false, cls = 'sprite-icon' } = {}) {
-    const sprite = spriteFor(type, tierOf(level, def.levels?.length ?? 1));
+    const sprite = spriteFor(type, tierOf(level, def.levels?.length ?? 1), level);
     if (!sprite) return buildingIcon(type, def, level);
     const mirrored = def.size ? needsMirror(sprite, def.size, rotated) : false;
     return spriteImg(sprite, { mirrored, cls });

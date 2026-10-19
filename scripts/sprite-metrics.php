@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 /**
  * Measures building sprites (PNG or WebP with transparency) for the isometric map:
- * leftmost, rightmost and bottom opaque points, i.e. the left, right and
- * bottom corners of the ground diamond. Prints JSON {file: metrics}.
+ * bottom opaque point, then leftmost and rightmost opaque points in the
+ * ground band, i.e. the bottom, left and right corners of the ground
+ * diamond. Prints JSON {file: metrics}.
  *
  *   php scripts/sprite-metrics.php public/assets/img/buildings/*.webp
  */
@@ -18,22 +19,27 @@ foreach (array_slice($argv, 1) as $path) {
     $opaque = static fn (int $x, int $y): bool => ((imagecolorat($image, $x, $y) >> 24) & 0x7F) < 40;
 
     $left = $right = $bottom = null;
+    for ($y = $h - 1; $y >= 0 && $bottom === null; $y--) {
+        $xs = array_filter(range(0, $w - 1), static fn (int $x): bool => $opaque($x, $y));
+        if ($xs) {
+            $bottom = [array_sum($xs) / count($xs), $y + 1];
+        }
+    }
+    // Left and right corners of the ground: only in the band a 2:1 diamond as wide as the
+    // picture can reach above its bottom corner, so windmill sails or chimneys sticking
+    // out higher up are not taken for them.
+    $top = max(0, (int) floor($bottom[1] - 0.55 * $w));
+    $rows = range($top, $h - 1);
     for ($x = 0; $x < $w && $left === null; $x++) {
-        $ys = array_filter(range(0, $h - 1), static fn (int $y): bool => $opaque($x, $y));
+        $ys = array_filter($rows, static fn (int $y): bool => $opaque($x, $y));
         if ($ys) {
             $left = [$x, array_sum($ys) / count($ys)];
         }
     }
     for ($x = $w - 1; $x >= 0 && $right === null; $x--) {
-        $ys = array_filter(range(0, $h - 1), static fn (int $y): bool => $opaque($x, $y));
+        $ys = array_filter($rows, static fn (int $y): bool => $opaque($x, $y));
         if ($ys) {
             $right = [$x + 1, array_sum($ys) / count($ys)];
-        }
-    }
-    for ($y = $h - 1; $y >= 0 && $bottom === null; $y--) {
-        $xs = array_filter(range(0, $w - 1), static fn (int $x): bool => $opaque($x, $y));
-        if ($xs) {
-            $bottom = [array_sum($xs) / count($xs), $y + 1];
         }
     }
     $result[basename($path)] = [
