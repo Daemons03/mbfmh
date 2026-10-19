@@ -178,6 +178,7 @@ Courbe XP estimée : `xp_needed(n) = round(50 * n^1.6)`.
 - Appui sur une case : panneau contextuel (planter, récolter, produire, améliorer, déplacer, détruire).
 - Comptes à rebours mis à jour chaque seconde côté client, synchronisation `GET /api/state` toutes les 30 s et au retour sur l'onglet.
 - Thème clair/sombre via `prefers-color-scheme`. Responsive dès 360 px.
+- Confirmations dans les fenêtres du jeu (`ui/modal.js` : `openModal`, `confirmModal`, bouton rouge pour ce qui détruit ou fait perdre), jamais `confirm` / `prompt` du navigateur (les tests e2e échouent si une boîte du navigateur s'ouvre).
 
 ## Tests
 

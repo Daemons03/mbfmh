@@ -1,5 +1,5 @@
 """Solo tournament: league, ranking, end of the week, admin curve."""
-from conftest import close_sheet, open_tab, reload, settle, text
+from conftest import accept_modal, close_sheet, open_tab, reload, settle, text
 
 
 def test_league_and_ranking(game, farm):
@@ -21,6 +21,7 @@ def test_end_of_week_promotes_and_pays(game, farm):
 
     open_tab(game, "admin")
     game.get_by_role("button", name="Terminer le tournoi maintenant").click()
+    accept_modal(game)
     settle(game)
     state = farm.state()
     assert state["tournament"]["tier"] == 1

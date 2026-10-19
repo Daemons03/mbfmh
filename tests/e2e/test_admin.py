@@ -1,7 +1,7 @@
 """Step 10: admin tab and admin.html."""
 import json
 
-from conftest import ROOT, close_sheet, grid_side, open_tab, row, settle, tap
+from conftest import ROOT, accept_modal, close_sheet, grid_side, open_tab, row, settle, tap
 
 MAX_LEVEL = json.loads((ROOT / "data" / "game-data.json").read_text())["player"]["max_level"]
 
@@ -63,11 +63,15 @@ def test_level_unlock_and_reset(game, farm):
     assert game.locator(".level-badge").inner_text() == "Niv. 20"
 
     game.get_by_role("button", name="Tout débloquer").click()
+    accept_modal(game)
     settle(game)
     assert game.locator(".level-badge").inner_text() == f"Niv. {MAX_LEVEL}"
     assert grid_side(game) == 32
 
-    game.get_by_role("button", name="Réinitialiser la ferme").click()  # prompt answered "RESET"
+    game.get_by_role("button", name="Réinitialiser la ferme").click()
+    modal = game.locator(".modal")
+    assert modal.get_by_role("button", name="🗑️ Réinitialiser").is_disabled(), "until RESET is typed"
+    accept_modal(game, fill="RESET")
     settle(game)
     state = farm.state()
     assert (state["level"], state["cash"], state["expansions"]) == (1, 2000, 6)

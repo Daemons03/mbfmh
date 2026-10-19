@@ -2,6 +2,7 @@ import { idleGroup, perform, performAll } from '../actions.js';
 import { h } from '../dom.js';
 import { fmtCost, fmtDuration, fmtInt } from '../format.js';
 import { canAfford, jobStatus, productionCost, speedUpCost, store } from '../store.js';
+import { confirmModal } from './modal.js';
 import { refreshSheet } from './sheet.js';
 
 /** Chosen number of batches per "buildingId:recipe", kept while the panel re-renders. */
@@ -77,8 +78,9 @@ export function jobControls(building, status) {
         h('button', {
             type: 'button',
             class: 'btn',
-            onclick: () => {
-                if (confirm('Annuler cette production ? Tout ce qui a été engagé (cash, semences, humus, nourriture, engrais, ingrédients) est perdu.')) {
+            onclick: async () => {
+                const lost = 'Tout ce qui a été engagé (cash, semences, humus, nourriture, engrais, ingrédients) est perdu.';
+                if (await confirmModal('Annuler cette production ?', lost, { confirm: 'Annuler la production', cancel: 'Garder', danger: true })) {
                     perform('cancel_job', { id: building.id });
                 }
             },

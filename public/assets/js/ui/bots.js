@@ -3,6 +3,7 @@ import { performAdmin } from '../actions.js';
 import { h } from '../dom.js';
 import { fmtInt, fmtNumber } from '../format.js';
 import { store } from '../store.js';
+import { confirmModal } from './modal.js';
 import { openSheet, refreshSheet } from './sheet.js';
 import { toast } from './toast.js';
 
@@ -155,8 +156,10 @@ export function botAdminSection(section, numberField) {
         h('div', { class: 'actions' }, h('button', {
             type: 'button',
             class: 'btn btn-danger',
-            onclick: () => {
-                if (confirm('Recréer les 1 000 bots au niveau 1 ?')) performAdmin('reset_bots').then(done);
+            onclick: async () => {
+                if (await confirmModal('Réinitialiser les bots ?', 'Les 1 000 bots repartent du niveau 1, avec de nouveaux noms et profils.', { confirm: 'Réinitialiser', danger: true })) {
+                    performAdmin('reset_bots').then(done);
+                }
             },
         }, 'Réinitialiser les bots')));
 }

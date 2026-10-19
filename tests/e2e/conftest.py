@@ -130,7 +130,8 @@ def make_page(browser, request):
         # HTTP 401/409/422 are expected answers; the browser logs them as resource errors.
         page.on("console", lambda m: m.type == "error" and "Failed to load resource" not in m.text
                 and errors.append(f"console: {m.text}"))
-        page.on("dialog", lambda d: d.accept("RESET") if d.type == "prompt" else d.accept())
+        # The game asks through its own modals: a browser dialog is a bug.
+        page.on("dialog", lambda d: (errors.append(f"browser dialog: {d.message}"), d.dismiss()))
         return page
 
     yield make
@@ -228,6 +229,16 @@ def cash_text(page: Page) -> str:
 def row(page: Page, title: str):
     """The list row whose title is exactly `title` (not "Moulin premium" for "Moulin")."""
     return page.locator(".row").filter(has=page.locator(".row-title", has_text=re.compile(f"^{re.escape(title)}$")))
+
+
+def accept_modal(page: Page, fill: str | None = None):
+    """Confirms the game's modal (typing `fill` in its field first, e.g. RESET)."""
+    modal = page.locator(".modal")
+    modal.wait_for()
+    if fill is not None:
+        modal.locator("input").fill(fill)
+    modal.locator(".modal-actions .btn").last.click()
+    modal.wait_for(state="detached")
 
 
 def settle(page: Page):

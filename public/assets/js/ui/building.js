@@ -5,6 +5,7 @@ import { h } from '../dom.js';
 import { fmtCost, fmtDuration, fmtInt } from '../format.js';
 import { buildingById, canAfford, definition, footprintOf, jobStatus, productEmoji, productionCost, store, workersNeeded } from '../store.js';
 import { levelBlocks } from './levels.js';
+import { confirmModal } from './modal.js';
 import { jobControls, productionBlock } from './production.js';
 import { closeSheet, refreshSheet } from './sheet.js';
 
@@ -339,7 +340,7 @@ function otherActions(building, def, startMove) {
             disabled: Boolean(building.job),
             title: building.job ? 'Récoltez d\'abord' : null,
             onclick: async () => {
-                if (!confirm(`Détruire ${def.name.toLowerCase()} ? Aucun remboursement.`)) return;
+                if (!await confirmModal(`Détruire ${def.name.toLowerCase()} ?`, 'Aucun remboursement.', { confirm: '🗑️ Détruire', danger: true })) return;
                 if (await perform('demolish', { id: building.id })) closeSheet();
             },
         }, '🗑️ Détruire'));

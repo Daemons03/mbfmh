@@ -3,6 +3,7 @@ import { h } from '../dom.js';
 import { fmtCost, fmtDuration, fmtInt } from '../format.js';
 import { serverNow, store } from '../store.js';
 import { upgradeRow } from './building.js';
+import { confirmModal } from './modal.js';
 import { refreshSheet } from './sheet.js';
 
 /** Open species tab and the animal shown in each, kept while the panel re-renders. */
@@ -143,8 +144,10 @@ function activeRow(config, show, view, speciesId) {
         h('div', { class: 'row-actions' },
             remaining > 0 ? h('button', {
                 type: 'button', class: 'btn',
-                onclick: () => {
-                    if (confirm(`Arrêter ${animal.name} ? Sa production est perdue.`)) perform('cancel_show_animal', { species: speciesId });
+                onclick: async () => {
+                    if (await confirmModal(`Arrêter ${animal.name} ?`, 'Sa production en cours est perdue.', { confirm: 'Arrêter', danger: true })) {
+                        perform('cancel_show_animal', { species: speciesId });
+                    }
                 },
             }, 'Annuler') : null,
             h('button', {

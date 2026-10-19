@@ -3,6 +3,7 @@ import { h } from '../dom.js';
 import { fmtInt, fmtNumber } from '../format.js';
 import { store } from '../store.js';
 import { botAdminSection } from './bots.js';
+import { confirmModal, openModal } from './modal.js';
 import { toast } from './toast.js';
 
 const SPEED_PRESETS = [1, 10, 100, 1000];
@@ -112,8 +113,10 @@ function levelSection() {
             h('button', {
                 type: 'button',
                 class: 'btn',
-                onclick: () => {
-                    if (confirm('Passer au niveau maximum et acheter tout le terrain ?')) performAdmin('unlock_all');
+                onclick: async () => {
+                    if (await confirmModal('Tout débloquer ?', 'Passer au niveau maximum et acheter tout le terrain.', { confirm: '🔓 Tout débloquer' })) {
+                        performAdmin('unlock_all');
+                    }
                 },
             }, '🔓 Tout débloquer (niveau max + terrain)')));
 }
@@ -188,8 +191,10 @@ function tournamentSection() {
             h('button', {
                 type: 'button',
                 class: 'btn',
-                onclick: () => {
-                    if (confirm('Terminer le tournoi maintenant (classement, récompenses, montée / descente) ?')) performAdmin('finish_tournament_week');
+                onclick: async () => {
+                    if (await confirmModal('Terminer le tournoi ?', 'Classement, récompenses, montée ou descente maintenant ; un nouveau tournoi court jusqu\'à la fin de la semaine.', { confirm: '🏁 Terminer' })) {
+                        performAdmin('finish_tournament_week');
+                    }
                 },
             }, '🏁 Terminer le tournoi maintenant')));
 }
@@ -200,9 +205,22 @@ function dangerSection() {
             h('button', {
                 type: 'button',
                 class: 'btn btn-danger',
-                onclick: () => {
-                    const answer = prompt('La ferme repartira de zéro. Tapez RESET pour confirmer.');
-                    if (answer === 'RESET') performAdmin('reset_farm');
+                onclick: async () => {
+                    const ok = await openModal({
+                        title: 'Réinitialiser la ferme ?',
+                        body: (setConfirmEnabled) => [
+                            h('p', {}, 'La ferme repartira de zéro : bâtiments, grange, niveau, tout est perdu.'),
+                            h('label', { class: 'field' },
+                                h('span', {}, 'Tapez RESET pour confirmer'),
+                                h('input', {
+                                    type: 'text', name: 'confirm-reset', autocomplete: 'off', autocapitalize: 'characters',
+                                    oninput: (event) => setConfirmEnabled(event.target.value.trim() === 'RESET'),
+                                })),
+                        ],
+                        confirm: '🗑️ Réinitialiser',
+                        danger: true,
+                    });
+                    if (ok) performAdmin('reset_farm');
                 },
             }, '🗑️ Réinitialiser la ferme')));
 }

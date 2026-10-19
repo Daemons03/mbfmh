@@ -1,7 +1,7 @@
 """Step 6: login, grid, plant, harvest, sell, build, move."""
 import re
 
-from conftest import cell_center, PASSWORD, cash_text, close_sheet, grid_side, login, open_tab, reload, row, settle, tap, text
+from conftest import PASSWORD, accept_modal, cash_text, cell_center, close_sheet, grid_side, login, open_tab, reload, row, settle, tap, text
 
 
 def test_wrong_password_then_login(page, farm, base_url):
@@ -186,7 +186,8 @@ def test_cancel_then_speed_up_a_crop(game, farm):
     cash = farm.state()["cash"]
 
     tap(game, 3, 0)
-    game.get_by_role("button", name="Annuler").click()  # confirm accepted by the page fixture
+    game.get_by_role("button", name="Annuler").click()
+    accept_modal(game)
     row(game, "Maïs").wait_for()  # the field can be planted again
     state = farm.state()
     assert "job" not in next(b for b in state["buildings"] if b["id"] == "b2")
@@ -389,3 +390,20 @@ def test_long_building_name_keeps_the_panel_whole(game, farm):
     sheet = game.locator("#sheet").bounding_box()
     assert close["x"] + close["width"] <= sheet["x"] + sheet["width"], "close button stays inside"
     assert game.evaluate("document.querySelector('#sheet').scrollWidth <= document.querySelector('#sheet').clientWidth")
+
+
+def test_demolish_asks_in_a_modal(game, farm):
+    tap(game, 3, 2)  # field b3
+    game.get_by_role("button", name="🗑️ Détruire").click()
+    modal = game.locator(".modal")
+    modal.wait_for()
+    assert "Détruire champ ?" in text(modal) and "Aucun remboursement" in text(modal)
+    game.keyboard.press("Escape")
+    modal.wait_for(state="detached")
+    assert any(b["id"] == "b3" for b in farm.state()["buildings"]), "Escape keeps it"
+
+    game.get_by_role("button", name="🗑️ Détruire").click()
+    accept_modal(game)
+    settle(game)
+    assert not any(b["id"] == "b3" for b in farm.state()["buildings"])
+    assert farm.log() == ["demolish"]
