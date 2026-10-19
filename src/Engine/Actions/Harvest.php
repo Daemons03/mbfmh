@@ -11,9 +11,11 @@ use FermeTranquille\Engine\GameError;
 use FermeTranquille\Engine\Payload;
 
 /**
- * payload: { id, sell_surplus? } — the whole harvest (crop + flower nectar) goes
- * to the barn, or nothing does; with sell_surplus, what does not fit is sold at
- * barn price instead. Golden flowers pay their gold.
+ * payload: { id, sell_surplus?, sell? } — the whole harvest (crop + flower
+ * nectar) goes to the barn, or nothing does. sell_surplus: what does not fit
+ * is sold at barn price instead; sell { item: n }: n of a product are sold
+ * (harvest first, then barn), at least what does not fit. Golden flowers pay
+ * their gold.
  */
 final class Harvest implements Action
 {
@@ -37,7 +39,9 @@ final class Harvest implements Action
             $outputs = $job['outputs'] ?? Crop::harvest(
                 $farm->data, $job['product'], $field['type'], $field['level'], empty($job['humus']) ? 0.0 : Crop::HUMUS_BONUS,
             );
-            if ($payload->has('sell_surplus') && $payload->bool('sell_surplus')) {
+            if ($payload->has('sell')) {
+                $farm->addToBarnSellingSurplus($outputs, $payload->quantities('sell'));
+            } elseif ($payload->has('sell_surplus') && $payload->bool('sell_surplus')) {
                 $farm->addToBarnSellingSurplus($outputs);
             } else {
                 $farm->addToBarn($outputs);

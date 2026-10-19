@@ -11,8 +11,10 @@ use FermeTranquille\Engine\Payload;
 use FermeTranquille\Engine\Production;
 
 /**
- * payload: { id, sell_surplus? } — every output goes to the barn, or nothing does;
- * with sell_surplus, what does not fit is sold at barn price instead.
+ * payload: { id, sell_surplus?, sell? } — every output goes to the barn, or
+ * nothing does. sell_surplus: what does not fit is sold at barn price
+ * instead; sell { item: n }: n of a product are sold (outputs first, then
+ * barn), at least what does not fit.
  */
 final class Collect implements Action
 {
@@ -29,7 +31,9 @@ final class Collect implements Action
             throw new GameError('not_ready', 'Pas encore prêt.', ['remaining' => $clock->remaining($job)]);
         }
 
-        if ($payload->has('sell_surplus') && $payload->bool('sell_surplus')) {
+        if ($payload->has('sell')) {
+            $farm->addToBarnSellingSurplus($job['outputs'], $payload->quantities('sell'));
+        } elseif ($payload->has('sell_surplus') && $payload->bool('sell_surplus')) {
             $farm->addToBarnSellingSurplus($job['outputs']);
         } else {
             $farm->addToBarn($job['outputs']);

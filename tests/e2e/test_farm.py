@@ -120,17 +120,43 @@ def test_harvest_offers_to_sell_what_does_not_fit(game, farm):
     ready_field(farm)
     farm.patch({"barn.items": {"corn": 195}})
     reload(game)
-    messages = []
-    game.on("dialog", lambda d: messages.append(d.message))  # accepted by the page fixture
 
     tap(game, 3, 0)
+    modal = game.locator(".modal")
+    modal.wait_for()
+    assert "195 en grange + 10 récoltés, 5 ne rentrent pas" in text(modal)
+    assert "+25" in text(modal.locator(".status")), "the minimum by default: 5 at 5"
+    modal.get_by_role("button", name="Vendre et récolter").click()
     settle(game)
-    settle(game)
-    assert "5 🌽 Maïs" in messages[0] and "+25" in messages[0]
+
     state = farm.state()
     assert state["barn"]["items"] == {"corn": 200}
     assert state["cash"] == 2000 + 25
     assert "job" not in next(b for b in state["buildings"] if b["id"] == "b2")
+
+
+def test_harvest_sells_more_with_the_slider_or_cancels(game, farm):
+    ready_field(farm)
+    farm.patch({"barn.items": {"corn": 195}})
+    reload(game)
+
+    tap(game, 3, 0)
+    game.locator(".modal").wait_for()
+    game.get_by_role("button", name="Annuler").click()
+    game.locator(".modal").wait_for(state="detached")
+    assert farm.state()["barn"]["items"] == {"corn": 195}, "nothing sold, the crop waits"
+
+    tap(game, 3, 0)
+    modal = game.locator(".modal")
+    slider = modal.locator("input[type=range]")
+    assert (slider.get_attribute("min"), slider.get_attribute("max")) == ("5", "205")
+    slider.fill("105")
+    assert "il en restera 100 / 200 en grange" in text(modal)
+    modal.get_by_role("button", name="Vendre et récolter").click()
+    settle(game)
+    state = farm.state()
+    assert state["barn"]["items"] == {"corn": 100}
+    assert state["cash"] == 2000 + 105 * 5
 
 
 def test_crops_follow_a_rotated_field(game, farm):

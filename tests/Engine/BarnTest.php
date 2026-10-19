@@ -62,6 +62,33 @@ final class BarnTest extends EngineTestCase
         self::assertSame($cash, $this->state['cash']);
     }
 
+    public function testHarvestSellingMoreThanTheSurplus(): void
+    {
+        $this->state['barn']['items'] = ['corn' => 196];
+        $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
+        $cash = $this->state['cash'];
+
+        // 10 harvested, 6 must go: sell 50 (the 10 harvested, then 40 from the barn).
+        $this->act('harvest', ['id' => 'b2', 'sell' => ['corn' => 50]], 300);
+
+        self::assertSame(['corn' => 156], $this->state['barn']['items']);
+        self::assertSame($cash + 50 * 5, $this->state['cash']);
+    }
+
+    public function testSellNeverBelowWhatDoesNotFitNorAboveTheStock(): void
+    {
+        $this->state['barn']['items'] = ['corn' => 196];
+        $this->act('plant', ['id' => 'b2', 'crop' => 'corn']);
+        $this->act('harvest', ['id' => 'b2', 'sell' => ['corn' => 1]], 300);
+        self::assertSame(['corn' => 200], $this->state['barn']['items'], '6 sold anyway');
+
+        $this->act('plant', ['id' => 'b2', 'crop' => 'corn'], 300);
+        $this->act('harvest', ['id' => 'b2', 'sell' => ['corn' => 9999]], 600);
+        self::assertSame([], $this->state['barn']['items'], 'everything sold, no more');
+        $this->act('plant', ['id' => 'b2', 'crop' => 'corn'], 600);
+        $this->assertGameError('invalid_payload', 'harvest', ['id' => 'b2', 'sell' => ['corn' => -1]], 900);
+    }
+
     public function testUpgradeBarnRaisesCapacity(): void
     {
         $this->state['barn']['items'] = ['corn' => 195];

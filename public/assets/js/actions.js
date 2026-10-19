@@ -1,6 +1,8 @@
 import { api, ApiError } from './api.js';
+import { h } from './dom.js';
 import { fmtInt } from './format.js';
 import { applyResponse, buildingById, definition, notify, store } from './store.js';
+import { openModal } from './ui/modal.js';
 import { closeSheet, isSheetOpen } from './ui/sheet.js';
 import { toast } from './ui/toast.js';
 
@@ -21,13 +23,10 @@ export async function perform(type, payload = {}) {
         refused = error;
         return true;
     });
-    // Barn full on a pick up: offer to sell what does not fit instead.
+    // Barn full on a pick up: offer to sell what does not fit, or more.
     if (refused) {
-        const { lines, cash } = surplusFor(type, payload, refused);
-        const emoji = store.data.currencies.cash.emoji;
-        if (confirm(`Grange pleine, ne rentre pas :\n${lines.join('\n')}\n\nVendre ce surplus directement (+${fmtInt(cash)} ${emoji}) ?`)) {
-            return perform(type, { ...payload, sell_surplus: true });
-        }
+        const sell = await askSurplusSale(surplusFor(type, payload, refused));
+        if (sell) return perform(type, { ...payload, sell });
     }
     if (done && closesPanel(type, payload) && isSheetOpen()) closeSheet();
     return done;
@@ -45,11 +44,12 @@ function closesPanel(type, payload) {
 }
 
 /**
- * What a refused harvest / collect would sell to fit the barn:
- * { lines: ['12 🌽 Maïs'], cash }, or null when selling cannot help.
+ * What a refused harvest / collect cannot store: one line per product that
+ * does not fit, { id, item, incoming, have, min } (min = what must be sold),
+ * or null when selling cannot help.
  */
 function surplusFor(type, payload, error) {
-    if (!(error instanceof ApiError) || error.code !== 'barn_full' || payload.sell_surplus) return null;
+    if (!(error instanceof ApiError) || error.code !== 'barn_full' || payload.sell_surplus || payload.sell) return null;
     if (type !== 'harvest' && type !== 'collect') return null;
     const outputs = store.state.buildings.find((b) => b.id === payload.id)?.job?.outputs;
     if (!outputs) return null;
@@ -57,17 +57,73 @@ function surplusFor(type, payload, error) {
     const { items } = store.data;
     const capacity = store.view.barn.capacity;
     const lines = [];
-    let cash = 0;
-    for (const [id, quantity] of Object.entries(outputs)) {
+    for (const [id, incoming] of Object.entries(outputs)) {
         if (items[id].barn_limit === false) continue;
-        const surplus = quantity - Math.max(0, capacity - (store.state.barn.items[id] ?? 0));
-        if (surplus <= 0) continue;
+        const have = store.state.barn.items[id] ?? 0;
+        const min = incoming - Math.max(0, capacity - have);
+        if (min <= 0) continue;
         if (items[id].sellable === false) return null;
-        lines.push(`${fmtInt(surplus)} ${items[id].emoji} ${items[id].name}`);
-        cash += Math.floor(surplus * items[id].barn_price);
+        lines.push({ id, item: items[id], incoming, have, min });
     }
 
-    return lines.length ? { lines, cash } : null;
+    return lines.length ? lines : null;
+}
+
+/**
+ * Modal: one slider per product that does not fit, from what must go to
+ * all of it (harvest and barn). Resolves { item: quantity } or null.
+ */
+async function askSurplusSale(lines) {
+    if (!lines) return null;
+    const cash = store.data.currencies.cash.emoji;
+    const capacity = store.view.barn.capacity;
+    const chosen = Object.fromEntries(lines.map((line) => [line.id, line.min]));
+    const total = h('strong', {});
+    const updateTotal = () => {
+        total.textContent = `+${fmtInt(lines.reduce((sum, l) => sum + Math.floor(chosen[l.id] * l.item.barn_price), 0))} ${cash}`;
+    };
+
+    const rows = lines.map((line) => {
+        const max = line.incoming + line.have;
+        const amount = h('strong', {});
+        const after = h('span', { class: 'row-sub' });
+        const show = () => {
+            amount.textContent = `${fmtInt(chosen[line.id])} ${line.item.emoji}`;
+            after.textContent = `+${fmtInt(Math.floor(chosen[line.id] * line.item.barn_price))} ${cash} · il en restera ${fmtInt(max - chosen[line.id])} / ${fmtInt(capacity)} en grange`;
+        };
+        show();
+        return h('div', { class: 'surplus-row' },
+            h('div', { class: 'row-title' }, `${line.item.emoji} ${line.item.name} : `, h('span', { class: 'row-sub' },
+                `${fmtInt(line.have)} en grange + ${fmtInt(line.incoming)} récoltés, ${fmtInt(line.min)} ne rentrent pas`)),
+            h('div', { class: 'sell' },
+                h('input', {
+                    type: 'range',
+                    min: line.min,
+                    max,
+                    value: line.min,
+                    'aria-label': `${line.item.name} à vendre`,
+                    oninput: (event) => {
+                        chosen[line.id] = Number(event.target.value);
+                        show();
+                        updateTotal();
+                    },
+                }),
+                amount),
+            after);
+    });
+    updateTotal();
+
+    const ok = await openModal({
+        title: 'Grange pleine',
+        body: [
+            h('p', {}, 'Choisissez combien vendre au prix de la grange (au moins ce qui ne rentre pas) :'),
+            rows,
+            h('p', { class: 'status' }, 'Total : ', total),
+        ],
+        confirm: 'Vendre et récolter',
+    });
+
+    return ok ? chosen : null;
 }
 
 /** Same as perform() for admin operations. */

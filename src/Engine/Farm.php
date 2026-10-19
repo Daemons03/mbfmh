@@ -411,24 +411,36 @@ final class Farm
     }
 
     /**
-     * Stores what fits and sells the rest at barn price. Products that cannot
-     * be sold still make the whole thing refused when they do not fit.
+     * Stores what fits and sells the rest at barn price. $sell asks to sell
+     * more of an incoming product (from the harvest, then from the barn):
+     * never less than what does not fit. Products that cannot be sold still
+     * make the whole thing refused when they do not fit.
      *
      * @param array<string, int> $items
+     * @param array<string, int> $sell
      */
-    public function addToBarnSellingSurplus(array $items): void
+    public function addToBarnSellingSurplus(array $items, array $sell = []): void
     {
         $capacity = $this->barnCapacity();
         $cash = 0;
+        $fromBarn = [];
         foreach ($items as $item => $quantity) {
-            $surplus = $this->isBarnLimited($item) ? $quantity - max(0, $capacity - $this->barnQuantity($item)) : 0;
-            if ($surplus <= 0 || ($this->data->item($item)['sellable'] ?? true) === false) {
+            if (($this->data->item($item)['sellable'] ?? true) === false) {
                 continue;
             }
-            $items[$item] -= $surplus;
-            $cash += (int) floor($surplus * $this->data->item($item)['barn_price']);
+            $surplus = $this->isBarnLimited($item) ? $quantity - max(0, $capacity - $this->barnQuantity($item)) : 0;
+            $sold = min(max($surplus, $sell[$item] ?? 0), $quantity + $this->barnQuantity($item));
+            if ($sold <= 0) {
+                continue;
+            }
+            $items[$item] -= min($sold, $quantity);
+            $fromBarn[$item] = $sold - min($sold, $quantity);
+            $cash += (int) floor($sold * $this->data->item($item)['barn_price']);
         }
 
+        foreach (array_filter($fromBarn) as $item => $quantity) {
+            $this->removeFromBarn($item, $quantity);
+        }
         $this->addToBarn(array_filter($items));
         $this->gain(['cash' => $cash]);
     }
