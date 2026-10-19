@@ -32,7 +32,8 @@ def test_world_ranking_sorts_and_filters(game):
     game.get_by_role("tab", name="🌍 Classement").click()
     game.locator(".rank-row.world").first.wait_for()
     assert "1 000 fermes" in text(game.locator("#sheet-body"))
-    assert game.locator(".rank-row.world").count() == 100
+    top = game.locator(".rank-row.world").evaluate_all("rows => rows.filter(r => !r.previousElementSibling || !r.matches('.rank-gap ~ .rank-row')).length")
+    assert top == 100, "the top 100 before my place"
 
     game.get_by_role("button", name="Autour de moi").click()
     assert game.locator(".rank-row.world.me").count() == 1
@@ -69,3 +70,18 @@ def test_admin_moves_the_bots_forward_and_sets_their_speed(game, farm):
     game.locator(".rank-row.world").first.wait_for()
     assert text(game.locator(".rank-row.world .rank-stats").first) != before, "3 more days played"
     assert "bots ×2" in text(game.locator("#sheet-body"))
+
+
+def test_my_place_outside_the_top_100(game, farm):
+    open_tab(game, "tournament")
+    game.get_by_role("tab", name="🌍 Classement").click()
+    game.locator(".rank-row.world").first.wait_for()
+    body = text(game.locator("#sheet-body"))
+    place = int(body.split("ma place : ")[1].split("ᵉ")[0].replace(" ", ""))
+    assert place > 100, "a new farm at level 1 behind 1 000 bots"
+
+    gap = game.locator(".rank-gap")
+    assert f"ma place est {place:,}ᵉ".replace(",", " ") in text(gap)
+    me = game.locator(".rank-row.world.me")
+    assert text(me.locator(".rank-number")) == f"{place:,}".replace(",", " ")
+    assert game.locator(".rank-gap ~ .rank-row").count() >= 3, "my place with its neighbours"

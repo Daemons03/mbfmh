@@ -54,10 +54,11 @@ export function rankingBlock(back) {
             return b1 - a1 || b2 - a2 || (a.me ? -1 : b.me ? 1 : 0);
         });
     const myRank = rows.findIndex((r) => r.me);
+    // [index, row] to show; null marks the gap before the player's place outside the top 100.
+    const around = (from, to) => rows.slice(Math.max(0, from), to).map((row, i) => [Math.max(0, from) + i, row]);
     const shown = view === 'top'
-        ? rows.slice(0, 100)
-        : rows.slice(Math.max(0, myRank - 10), myRank + 11);
-    const firstRank = view === 'top' ? 0 : Math.max(0, myRank - 10);
+        ? [...around(0, 100), ...(myRank >= 100 ? [null, ...around(myRank - 2, myRank + 3)] : [])]
+        : around(myRank - 10, myRank + 11);
 
     const chip = (active, label, onclick) => h('button', { type: 'button', class: `chip-btn${active ? ' active' : ''}`, onclick }, label);
 
@@ -72,15 +73,21 @@ export function rankingBlock(back) {
             h('span', { class: 'chip-sep' }),
             chip(view === 'top', 'Top 100', () => { view = 'top'; refreshSheet(); }),
             chip(view === 'me', 'Autour de moi', () => { view = 'me'; refreshSheet(); })),
-        h('ol', { class: 'ranking world' }, shown.map((row, i) => h('li', {
-            class: `rank-row world${row.me ? ' me' : ''}`,
-            onclick: row.me ? null : () => openSheet(botPanel(row.id, back)),
-        },
-        h('span', { class: 'rank-number' }, fmtInt(firstRank + i + 1)),
-        h('span', { class: 'rank-name' }, row.me ? `⭐ ${row.name}` : row.name, ' ', titleBadge(row.title)),
-        h('span', { class: 'rank-stats' }, `niv. ${fmtInt(row.level)} · 🏪 ${fmtInt(row.market_level)}`),
-        h('span', { class: 'rank-tier' }, row.tier_name)))),
+        h('ol', { class: 'ranking world' }, shown.map((entry) => (entry === null
+            ? h('li', { class: 'rank-gap' }, `⋯ hors du top 100 : ma place est ${fmtInt(myRank + 1)}ᵉ`)
+            : rankRow(entry, back)))),
     ];
+}
+
+function rankRow([index, row], back) {
+    return h('li', {
+        class: `rank-row world${row.me ? ' me' : ''}`,
+        onclick: row.me ? null : () => openSheet(botPanel(row.id, back)),
+    },
+    h('span', { class: 'rank-number' }, fmtInt(index + 1)),
+    h('span', { class: 'rank-name' }, row.me ? `⭐ ${row.name}` : row.name, ' ', titleBadge(row.title)),
+    h('span', { class: 'rank-stats' }, `niv. ${fmtInt(row.level)} · 🏪 ${fmtInt(row.market_level)}`),
+    h('span', { class: 'rank-tier' }, row.tier_name));
 }
 
 /** Profile of one bot: level, market, tier, land and buildings. back(): panel to return to. */
