@@ -133,6 +133,10 @@ bfmh.dagniere.com {
 		-Server
 	}
 
+	# Code and pages: the browser checks for a new version on every load (304 if unchanged)
+	@revalidate path / *.html *.js *.css *.json
+	header @revalidate Cache-Control "no-cache"
+
 	# Replaces public/.htaccess (Caddy ignores it)
 	@hidden path */.*
 	respond @hidden 404
@@ -225,6 +229,7 @@ Mets ça en place seulement avec l'accord du propriétaire.
 | 502 sur les pages PHP | PHP-FPM arrêté (`systemctl status php8.4-fpm`) ou `caddy` hors du groupe `www-data` |
 | Réponse `{"error":"server_error"}` | Voir `journalctl -u php8.4-fpm` et `/var/log/php8.4-fpm.log` (lignes `[ferme-tranquille]`) ; souvent identifiants MariaDB ou `vendor/` manquant. `app.debug = true` montre le message, **à remettre à false ensuite** |
 | Erreur 409 « stale_state » ponctuelle | Normal : deux onglets ou appareils ; le jeu recharge l'état tout seul |
+| Mise à jour invisible dans le navigateur | Lignes `@revalidate` / `Cache-Control "no-cache"` absentes du bloc Caddy : le navigateur garde l'ancien JavaScript en cache (rechargement forcé en attendant) |
 | Images absentes (dessins à la place) | `public/assets/img/buildings/manifest.json` absent : le code n'est pas à jour |
 | Café ou tournoi décalé d'une heure | `app.timezone` absent ou incorrect dans `config/config.php` |
 | MariaDB tué (OOM) | Mémoire saturée par Supabase : `free -m`, `journalctl -k | grep -i oom` |
