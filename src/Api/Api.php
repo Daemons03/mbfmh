@@ -269,7 +269,8 @@ final class Api
     }
 
     /**
-     * Ranking: every bot (id, name, title, level, market level, tier) and the player.
+     * Ranking: every bot (id, name, title, level, market level, tier), the
+     * other players (login) and the player.
      */
     private function ranking(int $userId): ApiResponse
     {
@@ -287,9 +288,23 @@ final class Api
             'tier' => $bot['tier'], 'tier_name' => $tierNames[$bot['tier']] ??= $tournament->tierInfo($bot['tier'])['name'],
         ];
         $tier = $farm->tournament()['tier'] ?? 0;
+        $players = [];
+        foreach ($this->states->all() as $player) {
+            if ($player['user_id'] === $userId) {
+                continue;
+            }
+            $other = new Farm($player['state'], $this->gameData);
+            $otherTier = $other->tournament()['tier'] ?? 0;
+            $players[] = [
+                'name' => $player['login'], 'level' => $other->level(), 'market_xp' => $other->marketXp(),
+                'market_level' => MarketUpgrades::levelFor($this->gameData, $other->marketXp())['level'],
+                'tier' => $otherTier, 'tier_name' => $tierNames[$otherTier] ??= $tournament->tierInfo($otherTier)['name'],
+            ];
+        }
 
         return $this->ok([
             'bots' => array_map($row, $this->bots->bots()),
+            'players' => $players,
             'me' => [
                 'level' => $farm->level(), 'market_xp' => $farm->marketXp(),
                 'market_level' => MarketUpgrades::levelFor($this->gameData, $farm->marketXp())['level'],

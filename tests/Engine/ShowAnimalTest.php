@@ -131,6 +131,21 @@ final class ShowAnimalTest extends EngineTestCase
         self::assertSame([], $this->state['show']['active']);
     }
 
+    public function testCollectSellingWhatDoesNotFit(): void
+    {
+        $this->state['show'] = ['animals' => ['chicken_grey_3' => ['level' => 1, 'cards' => 0]], 'active' => []];
+        $this->state['barn']['items'] = ['egg' => 1300]; // 1 400 places
+        $this->act('start_show_animal', ['animal' => 'chicken_grey_3']); // 3 h 30: 323 eggs
+        $this->assertGameError('barn_full', 'collect_show_animal', ['species' => 'chicken'], 12600);
+        $cash = $this->state['cash'];
+
+        $this->act('collect_show_animal', ['species' => 'chicken', 'sell' => ['egg' => 323]], 12600);
+
+        self::assertSame(['egg' => 1300], $this->state['barn']['items'], '223 had to go, 323 sold');
+        self::assertSame($cash + (int) floor(323 * $this->data->item('egg')['barn_price']), $this->state['cash']);
+        self::assertSame([], $this->state['show']['active']);
+    }
+
     public function testCancelFreesTheSlotAndLosesTheProducts(): void
     {
         $this->state['show'] = ['animals' => ['chicken_blue_1' => ['level' => 1, 'cards' => 0]], 'active' => []];

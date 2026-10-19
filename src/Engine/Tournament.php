@@ -105,7 +105,7 @@ final readonly class Tournament
         if ($state === []) {
             $farm->setTournament([
                 'week' => $week['id'], 'round' => 0, 'started_at' => $now, 'tier' => 0, 'start_xp' => $farm->marketXp(),
-                'seed' => substr(hash('sha256', "tournament:{$now}"), 0, 16),
+                'seed' => bin2hex(random_bytes(8)), // its own league of bots, even for farms made the same second
             ]);
 
             return;
@@ -235,7 +235,7 @@ final readonly class Tournament
      */
     public function botScores(Farm $farm, array $state, float $progress, int $at = 0): array
     {
-        $bots = $this->opponents?->league($state['week'], $state['tier'], $at);
+        $bots = $this->opponents?->league($state['week'], $state['tier'], $at, (string) ($state['seed'] ?? ''));
         if ($bots !== null) {
             usort($bots, static fn (array $a, array $b): int => $b['points'] <=> $a['points']);
 

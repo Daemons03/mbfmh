@@ -13,8 +13,9 @@ interface TournamentOpponents
     /**
      * The opponents of a week in a tier, with their points at $at, or null
      * when there are none for that week (the invented farms are used then).
+     * $seed: the farm's tournament seed, so two farms get different leagues.
      *
      * @return list<array{id: int, name: string, title: string, points: int}>|null
      */
-    public function league(string $week, int $tier, int $at): ?array;
+    public function league(string $week, int $tier, int $at, string $seed = ''): ?array;
 }

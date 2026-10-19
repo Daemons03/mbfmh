@@ -879,7 +879,8 @@ table.levels tr.current td { background: color-mix(in srgb, var(--go) 18%, trans
 .bot-title-70 { background: #3e8fd0; }
 .bot-title-60 { background: #4f9a3a; }
 .bot-title-50 { background: #8a8a8a; }
-.rank-row.clickable, .rank-row.world:not(.me) { cursor: pointer; }
+.rank-row.clickable, .rank-row.world:not(.me):not(.player) { cursor: pointer; }
+.rank-row.world.player { font-weight: 700; background: color-mix(in srgb, var(--accent) 14%, var(--surface-2)); }
 .rank-row.world { grid-template-columns: 40px 1fr auto; --zone: var(--card-border); }
 .rank-row.world .rank-tier { grid-column: 2 / -1; font-size: 12px; color: var(--muted); margin-top: -4px; }
 .rank-stats { font-size: 13px; font-weight: 600; white-space: nowrap; }

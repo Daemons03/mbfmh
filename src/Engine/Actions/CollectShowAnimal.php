@@ -11,7 +11,9 @@ use FermeTranquille\Engine\Payload;
 use FermeTranquille\Engine\ShowAnimals;
 
 /**
- * payload: { species } — everything to the barn, or nothing.
+ * payload: { species, sell? } — everything to the barn, or nothing; sell
+ * { item: n }: n are sold at barn price (outputs first, then barn), at least
+ * what does not fit.
  */
 final class CollectShowAnimal implements Action
 {
@@ -26,7 +28,11 @@ final class CollectShowAnimal implements Action
             throw new GameError('not_ready', 'Pas encore prêt.', ['remaining' => $clock->remaining($job)]);
         }
 
-        $farm->addToBarn($job['outputs']);
+        if ($payload->has('sell')) {
+            $farm->addToBarnSellingSurplus($job['outputs'], $payload->quantities('sell'));
+        } else {
+            $farm->addToBarn($job['outputs']);
+        }
         unset($show['active'][$species]);
         $farm->setShow($show);
     }

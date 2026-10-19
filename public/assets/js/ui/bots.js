@@ -47,7 +47,9 @@ export function rankingBlock(back) {
 
     const key = SORTS[sort][1];
     const me = { ...ranking.me, name: 'Ma ferme', me: true };
-    const rows = [...ranking.bots.filter((b) => title === 'all' || b.title === title), me]
+    // Other players' farms show with every profile ("Tous"), never with a bot filter.
+    const players = title === 'all' ? (ranking.players ?? []).map((p) => ({ ...p, player: true })) : [];
+    const rows = [...ranking.bots.filter((b) => title === 'all' || b.title === title), ...players, me]
         .sort((a, b) => {
             const [a1, a2] = key(a);
             const [b1, b2] = key(b);
@@ -63,7 +65,7 @@ export function rankingBlock(back) {
     const chip = (active, label, onclick) => h('button', { type: 'button', class: `chip-btn${active ? ' active' : ''}`, onclick }, label);
 
     return [
-        h('p', { class: 'row-sub' }, `${fmtInt(ranking.bots.length)} fermes · ma place : `, h('strong', {}, `${fmtInt(myRank + 1)}ᵉ`),
+        h('p', { class: 'row-sub' }, `${fmtInt(ranking.bots.length + (ranking.players?.length ?? 0) + 1)} fermes · ma place : `, h('strong', {}, `${fmtInt(myRank + 1)}ᵉ`),
             ranking.world ? ` · bots ×${fmtNumber(ranking.world.speed)}` : ''),
         h('div', { class: 'chip-row' },
             Object.entries(SORTS).map(([id, [label]]) => chip(sort === id, label, () => { sort = id; refreshSheet(); }))),
@@ -80,12 +82,13 @@ export function rankingBlock(back) {
 }
 
 function rankRow([index, row], back) {
+    const bot = !row.me && !row.player;
     return h('li', {
-        class: `rank-row world${row.me ? ' me' : ''}`,
-        onclick: row.me ? null : () => openSheet(botPanel(row.id, back)),
+        class: `rank-row world${row.me ? ' me' : ''}${row.player ? ' player' : ''}`,
+        onclick: bot ? () => openSheet(botPanel(row.id, back)) : null,
     },
     h('span', { class: 'rank-number' }, fmtInt(index + 1)),
-    h('span', { class: 'rank-name' }, row.me ? `⭐ ${row.name}` : row.name, ' ', titleBadge(row.title)),
+    h('span', { class: 'rank-name' }, row.me ? `⭐ ${row.name}` : row.player ? `👤 ${row.name}` : row.name, ' ', bot ? titleBadge(row.title) : null),
     h('span', { class: 'rank-stats' }, `niv. ${fmtInt(row.level)} · 🏪 ${fmtInt(row.market_level)}`),
     h('span', { class: 'rank-tier' }, row.tier_name));
 }

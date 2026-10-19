@@ -62,3 +62,16 @@ def test_objective_rewards(game, farm):
     assert game.locator(".objective-reward").count() == 6
     assert game.locator(".objective-reward.done").count() == 2
     assert farm.state()["barn"]["items"] == {"instant_feed": 1, "tulip_seed": 1}
+
+
+def test_two_farms_get_different_bot_leagues(game, farm):
+    from conftest import Farm
+    other = Farm("e2e-playwright-2")
+    other.reset()
+    try:
+        names = lambda f: {row["name"] for row in f._run("view", f.login)["tournament"]["ranking"] if not row["me"]}
+        mine, theirs = names(farm), names(other)
+        assert len(mine) == len(theirs) == 19
+        assert len(mine & theirs) < 10, "each farm draws its own league among the tier's bots"
+    finally:
+        other.delete()

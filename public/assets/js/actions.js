@@ -44,14 +44,15 @@ function closesPanel(type, payload) {
 }
 
 /**
- * What a refused harvest / collect cannot store: one line per product that
+ * What a refused harvest / collect (or show animal) cannot store: one line per product that
  * does not fit, { id, item, incoming, have, min } (min = what must be sold),
  * or null when selling cannot help.
  */
 function surplusFor(type, payload, error) {
     if (!(error instanceof ApiError) || error.code !== 'barn_full' || payload.sell_surplus || payload.sell) return null;
-    if (type !== 'harvest' && type !== 'collect') return null;
-    const outputs = store.state.buildings.find((b) => b.id === payload.id)?.job?.outputs;
+    const outputs = type === 'collect_show_animal'
+        ? store.state.show?.active?.[payload.species]?.outputs
+        : (type === 'harvest' || type === 'collect') && store.state.buildings.find((b) => b.id === payload.id)?.job?.outputs;
     if (!outputs) return null;
 
     const { items } = store.data;

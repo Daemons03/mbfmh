@@ -61,6 +61,21 @@ final class StateRepository
     }
 
     /**
+     * Every farm with its owner's login (ranking of the players).
+     *
+     * @return list<array{user_id: int, login: string, state: array<string, mixed>}>
+     */
+    public function all(): array
+    {
+        $rows = $this->pdo->query('SELECT u.id, u.login, s.state_json FROM users u JOIN player_state s ON s.user_id = u.id ORDER BY u.id')
+            ->fetchAll(PDO::FETCH_ASSOC);
+
+        return array_map(fn (array $row): array => [
+            'user_id' => (int) $row['id'], 'login' => $row['login'], 'state' => $this->engine->normalize(self::decode($row['state_json'])),
+        ], $rows);
+    }
+
+    /**
      * Writes $state if nobody wrote since $expectedVersion was read.
      *
      * @param array<string, mixed> $state

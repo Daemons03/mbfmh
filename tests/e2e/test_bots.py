@@ -31,7 +31,7 @@ def test_world_ranking_sorts_and_filters(game):
     open_tab(game, "tournament")
     game.get_by_role("tab", name="🌍 Classement").click()
     game.locator(".rank-row.world").first.wait_for()
-    assert "1 000 fermes" in text(game.locator("#sheet-body"))
+    assert "1 001 fermes" in text(game.locator("#sheet-body")), "1 000 bots and mine"
     top = game.locator(".rank-row.world").evaluate_all("rows => rows.filter(r => !r.previousElementSibling || !r.matches('.rank-gap ~ .rank-row')).length")
     assert top == 100, "the top 100 before my place"
 
@@ -85,3 +85,23 @@ def test_my_place_outside_the_top_100(game, farm):
     me = game.locator(".rank-row.world.me")
     assert text(me.locator(".rank-number")) == f"{place:,}".replace(",", " ")
     assert game.locator(".rank-gap ~ .rank-row").count() >= 3, "my place with its neighbours"
+
+
+def test_other_players_are_in_the_ranking(game, farm):
+    from conftest import Farm
+    other = Farm("e2e-playwright-2")
+    other.reset()
+    try:
+        other.patch({"level": 30})
+        open_tab(game, "tournament")
+        game.get_by_role("tab", name="🌍 Classement").click()
+        player = game.locator(".rank-row.world.player")
+        player.wait_for()
+        assert "👤 e2e-playwright-2" in text(player)
+        assert "niv. 30" in text(player)
+        assert "1 002 fermes" in text(game.locator("#sheet-body")), "1 000 bots, the other farm and mine"
+
+        game.get_by_role("button", name="90", exact=True).click()
+        assert game.locator(".rank-row.world.player").count() == 0, "a profile filter shows bots only"
+    finally:
+        other.delete()

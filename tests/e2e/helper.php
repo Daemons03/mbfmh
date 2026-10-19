@@ -16,6 +16,7 @@ declare(strict_types=1);
 //   php tests/e2e/helper.php ensure-bots <login>      (creates / updates the bot world now, so no request waits for it)
 
 use FermeTranquille\Auth;
+use FermeTranquille\BotLeagues;
 use FermeTranquille\BotRepository;
 use FermeTranquille\Config;
 use FermeTranquille\Db;
@@ -43,7 +44,10 @@ if (!str_starts_with($login, 'e2e-')) {
 }
 
 $pdo = Db::pdo();
-$engine = new Engine(GameData::load());
+date_default_timezone_set((string) (Config::get()['app']['timezone'] ?? 'UTC')); // the API's day
+$bots = new BotRepository($pdo, new BotWorld(GameData::load()));
+// Same engine as the API: the tournament against the bots.
+$engine = (new Engine(GameData::load()))->withOpponents(new BotLeagues($bots, GameData::load()));
 $states = new StateRepository($pdo, $engine, purgeChance: 0);
 $auth = new Auth($pdo, new class implements Session {
     public function get(string $key): mixed
@@ -125,8 +129,7 @@ switch ($command) {
         break;
 
     case 'ensure-bots':
-        date_default_timezone_set((string) (Config::get()['app']['timezone'] ?? 'UTC')); // the API's day
-        (new BotRepository($pdo, new BotWorld(GameData::load())))->ensure(time());
+        $bots->ensure(time());
         $print(true);
         break;
 

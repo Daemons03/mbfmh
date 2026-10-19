@@ -8,11 +8,11 @@ use FermeTranquille\Engine\BotWorld;
 use FermeTranquille\Engine\TournamentOpponents;
 
 /**
- * The player's tournament opponents taken from the bot world: the first
- * league of the tier (the one with the player's seat, as BotWorld::closeWeek
- * forms them), completed from the nearest tiers when the tier is short.
- * This week: market XP earned since Monday, today's share growing through
- * the day; a past week: what the bots made that week (their history).
+ * The player's tournament opponents taken from the bot world: 19 bots of
+ * the tier drawn with the farm's tournament seed (each farm its own league,
+ * the same all week), completed from the nearest tiers when the tier is
+ * short. This week: market XP earned since Monday, today's share growing
+ * through the day; a past week: what the bots made that week (their history).
  */
 final class BotLeagues implements TournamentOpponents
 {
@@ -25,15 +25,15 @@ final class BotLeagues implements TournamentOpponents
     ) {
     }
 
-    public function league(string $week, int $tier, int $at): ?array
+    public function league(string $week, int $tier, int $at, string $seed = ''): ?array
     {
-        return $this->cache["{$week}:{$tier}:{$at}"] ??= $this->compute($week, $tier, $at);
+        return $this->cache["{$week}:{$tier}:{$at}:{$seed}"] ??= $this->compute($week, $tier, $at, $seed);
     }
 
     /**
      * @return list<array{id: int, name: string, title: string, points: int}>|null
      */
-    private function compute(string $week, int $tier, int $at): ?array
+    private function compute(string $week, int $tier, int $at, string $seed): ?array
     {
         $meta = $this->bots->meta();
         if ($meta === null) {
@@ -60,12 +60,14 @@ final class BotLeagues implements TournamentOpponents
             $all = static fn (): array => $played;
         }
 
-        $league = BotWorld::leagues($members, $week, $size, static fn (array $bot): int => $bot['id'])[0] ?? [];
+        $draw = static fn (array $bot): int => crc32("{$week}:{$seed}:{$bot['id']}");
+        usort($members, static fn (array $a, array $b): int => $draw($a) <=> $draw($b) ?: $a['id'] <=> $b['id']);
+        $league = array_slice($members, 0, $size - 1);
         if (count($league) < $size - 1) {
             // Short tier: the nearest tiers fill the league.
             $others = array_values(array_filter($all(), static fn (array $bot): bool => $tierOf($bot) !== $tier));
             usort($others, static fn (array $a, array $b): int => abs($tierOf($a) - $tier) <=> abs($tierOf($b) - $tier)
-                ?: crc32("{$week}:{$a['id']}") <=> crc32("{$week}:{$b['id']}"));
+                ?: $draw($a) <=> $draw($b));
             $league = [...$league, ...array_slice($others, 0, $size - 1 - count($league))];
         }
 

@@ -68,3 +68,19 @@ def test_each_animal_has_its_own_duration(game, farm):
     game.wait_for_selector("#sheet", state="hidden")
     job = farm.state()["show"]["active"]["chicken"]
     assert (job["animal"], job["duration"], job["outputs"]) == ("chicken_grey_2", 1200, {"egg": 30})
+
+
+def test_full_barn_offers_to_sell_from_a_show_animal(game, farm):
+    job = {"animal": "chicken_grey_3", "started_at": int(time.time()) - 99_999, "duration": 12600, "outputs": {"egg": 323}}
+    farm.patch({"show.animals": {"chicken_grey_3": {"level": 1, "cards": 1}}, "show.active": {"chicken": job}, "barn.items": {"egg": 100}})
+    reload(game)
+    open_tab(game, "show")
+    game.get_by_role("button", name="Récupérer").click()
+    modal = game.locator(".modal")
+    modal.wait_for()
+    assert "100 en grange + 323 récoltés, 223 ne rentrent pas" in modal.inner_text().replace("\u202f", " ")
+    accept_modal(game)
+    settle(game)
+    state = farm.state()
+    assert state["barn"]["items"] == {"egg": 200}
+    assert state["show"]["active"] == {}

@@ -205,7 +205,7 @@ final class BotWorldTest extends TestCase
     public function testTournamentPlaysAgainstTheBots(): void
     {
         $opponents = new class () implements TournamentOpponents {
-            public function league(string $week, int $tier, int $at): ?array
+            public function league(string $week, int $tier, int $at, string $seed = ''): ?array
             {
                 $bots = [];
                 for ($i = 1; $i <= 19; $i++) {

@@ -61,7 +61,10 @@ def base_url():
 
 
 class Farm:
-    """The E2E account's farm, edited server-side through tests/e2e/helper.php."""
+    """An E2E account's farm (e2e-playwright by default), edited server-side through tests/e2e/helper.php."""
+
+    def __init__(self, login: str = LOGIN):
+        self.login = login
 
     def _run(self, *args: str):
         out = subprocess.run(["php", "tests/e2e/helper.php", *args], cwd=ROOT, check=True,
@@ -69,33 +72,33 @@ class Farm:
         return json.loads(out)
 
     def reset(self):
-        self._run("reset-user", LOGIN, PASSWORD)
+        self._run("reset-user", self.login, PASSWORD)
 
     def delete(self):
-        self._run("delete-user", LOGIN)
+        self._run("delete-user", self.login)
 
     def patch(self, values: dict):
         """Sets dotted paths (e.g. {"settings.speed": 100}); bumps the version like another device would."""
-        self._run("patch-state", LOGIN, json.dumps(values))
+        self._run("patch-state", self.login, json.dumps(values))
 
     def state(self) -> dict:
-        return self._run("get-state", LOGIN)["state"]
+        return self._run("get-state", self.login)["state"]
 
     def log(self) -> list[str]:
-        return self._run("log", LOGIN)
+        return self._run("log", self.login)
 
     def reset_bots(self):
         """A fresh bot world (shared by every test), created right away."""
-        self._run("reset-bots", LOGIN)
-        self._run("ensure-bots", LOGIN)
+        self._run("reset-bots", self.login)
+        self._run("ensure-bots", self.login)
 
     def add_house(self, x: int = 10, y: int = 0):
         """A house on the farm (2x2): 10 more workers, -35 happiness."""
-        self._run("add-house", LOGIN, str(x), str(y))
+        self._run("add-house", self.login, str(x), str(y))
 
     def cost(self, cash: int) -> int:
         """Cash actually paid for a production cost, after the happiness effect."""
-        factor = self._run("view", LOGIN)["happiness"]["cost_factor"]
+        factor = self._run("view", self.login)["happiness"]["cost_factor"]
         return int(cash * factor + 0.5)
 
 
