@@ -105,7 +105,7 @@ export function botPanel(id, back) {
                 h('div', { class: 'card' },
                     h('div', { class: 'row-title' }, bot.name, ' ', titleBadge(bot.title)),
                     h('p', { class: 'status' }, `Niveau ${fmtInt(bot.level)} · marché niv. ${fmtInt(bot.market_level)} · ${bot.tier_name}`),
-                    h('p', { class: 'row-sub' }, `${fmtInt(bot.cash)} ${store.data.currencies.cash.emoji} · ${fmtInt(bot.expansions)} extensions de terrain`)),
+                    h('p', { class: 'row-sub' }, `${fmtInt(bot.cash)} ${store.data.currencies.cash.emoji} · ${fmtInt(bot.gold)} ${store.data.currencies.gold.emoji} · ${fmtInt(bot.expansions)} extensions de terrain`)),
                 h('p', { class: 'section-title' }, 'Bâtiments'),
                 h('div', { class: 'list' }, bot.buildings
                     .sort((a, b) => (buildings[a.type]?.levels[0].unlock_level ?? 0) - (buildings[b.type]?.levels[0].unlock_level ?? 0))

@@ -97,28 +97,28 @@ function speedSection() {
 }
 
 function levelSection() {
-    const max = store.data.player.max_level;
+    const max = store.data.player.max_level ?? 100_000; // no max level: the server's bound
 
     return section('Niveau',
         adminForm((form) => {
             const level = readInt(form, 'level');
             if (level === null) return null;
             if (level < 1 || level > max) {
-                toast(`Niveau entre 1 et ${max}.`, 'error');
+                toast(`Niveau entre 1 et ${fmtInt(max)}.`, 'error');
                 return null;
             }
             return ['set_level', { level }];
-        }, 'Appliquer', numberField('level', `Niveau (1 à ${max})`, store.state.level, { min: 1, max })),
+        }, 'Appliquer', numberField('level', store.data.player.max_level ? `Niveau (1 à ${max})` : 'Niveau', store.state.level, { min: 1, max })),
         h('div', { class: 'actions' },
             h('button', {
                 type: 'button',
                 class: 'btn',
                 onclick: async () => {
-                    if (await confirmModal('Tout débloquer ?', 'Passer au niveau maximum et acheter tout le terrain.', { confirm: '🔓 Tout débloquer' })) {
+                    if (await confirmModal('Tout débloquer ?', 'Passer au niveau qui débloque tout le contenu et acheter tout le terrain.', { confirm: '🔓 Tout débloquer' })) {
                         performAdmin('unlock_all');
                     }
                 },
-            }, '🔓 Tout débloquer (niveau max + terrain)')));
+            }, '🔓 Tout débloquer (tout le contenu + terrain)')));
 }
 
 function jobsSection() {

@@ -13,9 +13,13 @@ declare(strict_types=1);
 //   php tests/e2e/helper.php add-house   <login> <x> <y>   (10 more workers, -35 happiness)
 //   php tests/e2e/helper.php view        <login>      -> derived values (workers, happiness...)
 //   php tests/e2e/helper.php reset-bots  <login>      (empties the bot world: recreated at the next request)
+//   php tests/e2e/helper.php ensure-bots <login>      (creates / updates the bot world now, so no request waits for it)
 
 use FermeTranquille\Auth;
+use FermeTranquille\BotRepository;
+use FermeTranquille\Config;
 use FermeTranquille\Db;
+use FermeTranquille\Engine\BotWorld;
 use FermeTranquille\Engine\Engine;
 use FermeTranquille\GameData;
 use FermeTranquille\Session\Session;
@@ -117,6 +121,12 @@ switch ($command) {
     case 'reset-bots':
         $pdo->exec('DELETE FROM bots');
         $pdo->exec('DELETE FROM bot_world');
+        $print(true);
+        break;
+
+    case 'ensure-bots':
+        date_default_timezone_set((string) (Config::get()['app']['timezone'] ?? 'UTC')); // the API's day
+        (new BotRepository($pdo, new BotWorld(GameData::load())))->ensure(time());
         $print(true);
         break;
 

@@ -163,8 +163,9 @@ final readonly class Admin
     private function setLevel(array $state, Payload $payload): array
     {
         $level = $payload->int('level', 1);
-        if ($level > $this->data->maxLevel()) {
-            throw new GameError('invalid_payload', "Niveau maximum : {$this->data->maxLevel()}.", ['field' => 'level']);
+        $max = $this->data->maxLevel() ?? 100_000;
+        if ($level > $max) {
+            throw new GameError('invalid_payload', "Niveau maximum : {$max}.", ['field' => 'level']);
         }
         $xp = $payload->has('xp') ? $payload->int('xp', 0) : 0;
         $needed = $this->data->xpForLevel($level);
@@ -219,14 +220,15 @@ final readonly class Admin
     }
 
     /**
-     * Max level and all land: every crop, building and expansion is available.
+     * Max level (or the level unlocking the last content) and all land:
+     * every crop, building and expansion is available.
      *
      * @param array<string, mixed> $state
      * @return array<string, mixed>
      */
     private function unlockAll(array $state): array
     {
-        $state['level'] = $this->data->maxLevel();
+        $state['level'] = max($state['level'], $this->data->maxLevel() ?? $this->data->highestUnlockLevel());
         $state['xp'] = 0;
         $state['expansions'] = $this->data->initialExpansions() + count($this->data->toArray()['land']['expansions']);
 

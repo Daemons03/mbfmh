@@ -293,8 +293,9 @@ final readonly class Tournament
     }
 
     /**
-     * What a rank pays in a tier: cash for everyone; keys, mallets (from
-     * gold 1★) and buckets (from sapphire 1★) and roses for the podium.
+     * What a rank pays in a tier: cash and gold for everyone (gold × tier + 1);
+     * keys, mallets (from gold 1★) and buckets (from sapphire 1★) and roses
+     * for the podium.
      *
      * @return array<string, int>
      */
@@ -303,6 +304,9 @@ final readonly class Tournament
         $rules = $this->config()['rank_rewards'];
         $group = $this->groupOf($rank);
         $rewards = ['cash' => (int) round($rules['cash_base'][$tier] * $rules['cash_share'][$group])];
+        if (isset($rules['gold'][$group])) {
+            $rewards['gold'] = $rules['gold'][$group] * ($tier + 1); // bronze 1★ × 1, bronze 2★ × 2...
+        }
         if ($group === 'first' || $group === 'podium') {
             $scale = $rules[$group];
             foreach ($rules['materials'] as ['material' => $material, 'from_tier' => $from]) {

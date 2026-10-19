@@ -32,7 +32,7 @@ final class BotRepository
     {
         $row = $this->metaRow();
         if ($row === null) {
-            $this->create($now, 1.0);
+            $this->create($now, (float) ($this->world->config()['default_speed'] ?? 1));
 
             return;
         }

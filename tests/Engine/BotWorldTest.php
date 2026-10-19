@@ -162,6 +162,38 @@ final class BotWorldTest extends TestCase
         self::assertSame([3 => 14, 4 => 37, 5 => 9], $tiers);
     }
 
+    public function testPlacesInTheirLeaguePayGold(): void
+    {
+        $bots = array_slice($this->world->create(self::MONDAY, 'gold')['bots'], 0, 19);
+        foreach ($bots as $i => $bot) {
+            $bots[$i]['gold'] = 0;
+            $bots[$i]['week_start_mxp'] = 0;
+            $bots[$i]['market_xp'] = 100 * ($i + 1); // the last one wins
+        }
+
+        $closed = $this->world->closeWeek($bots, '2026-W43');
+        self::assertSame(1000, $closed[18]['gold'], '1st in bronze 1★');
+        self::assertSame(500, $closed[17]['gold']);
+        self::assertSame(250, $closed[10]['gold'], 'middle of the table');
+        self::assertSame(100, $closed[0]['gold'], 'relegated');
+    }
+
+    public function testGoldBuysPremiumBuildings(): void
+    {
+        $bot = $this->world->create(self::MONDAY, 'premium')['bots'][0];
+        $bot['level'] = 20;
+        $bot['cash'] = 5_000_000;
+        $bot['gold'] = 100_000;
+        $bot['expansions'] = 20;
+        $bot['buildings'][] = ['house', 1];
+        $bot['buildings'][] = ['house', 1];
+
+        $after = $this->world->simulateDay($bot, ['seed' => 's', 'speed' => 1.0], self::MONDAY);
+        $types = array_column($after['buildings'], 0);
+        self::assertNotEmpty(array_filter($types, static fn (string $t): bool => str_starts_with($t, 'premium_')));
+        self::assertLessThan(100_000 + 100, $after['gold'], 'gold spent');
+    }
+
     public function testLeaguesKeepOneSeatForThePlayer(): void
     {
         $leagues = BotWorld::leagues(range(1, 45), '2026-W43', 20, static fn (int $id): int => $id);

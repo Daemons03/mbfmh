@@ -156,20 +156,39 @@ final class GameData
         return $this->data['land']['initial_expansions'];
     }
 
-    public function maxLevel(): int
+    /** Highest player level, null when there is none. */
+    public function maxLevel(): ?int
     {
-        return $this->data['player']['max_level'];
+        return $this->data['player']['max_level'] ?? null;
+    }
+
+    /** The level that unlocks the last crop, building level or expansion. */
+    public function highestUnlockLevel(): int
+    {
+        $levels = array_column($this->data['items'], 'unlock_level');
+        foreach ($this->data['buildings'] as $building) {
+            $levels = [...$levels, ...array_column($building['levels'], 'unlock_level')];
+        }
+        $levels = [...$levels, ...array_column($this->data['land']['expansions'], 'unlock_level')];
+
+        return max(1, ...array_map('intval', $levels));
+    }
+
+    /** Amount of a gold reward (gold_rewards.daily_login, per_level), 0 when not set. */
+    public function goldReward(string $key): int
+    {
+        return $this->data['gold_rewards'][$key] ?? 0;
     }
 
     /**
-     * XP needed to go from $level to $level + 1 (0 at max level).
+     * XP needed to go from $level to $level + 1 (0 at max level, if any).
      */
     public function xpForLevel(int $level): int
     {
         if ($level < 1) {
             throw new InvalidArgumentException("Invalid level: {$level}");
         }
-        if ($level >= $this->maxLevel()) {
+        if ($this->maxLevel() !== null && $level >= $this->maxLevel()) {
             return 0;
         }
         $curve = $this->data['player']['xp_curve'];

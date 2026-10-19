@@ -106,11 +106,13 @@ final class Engine
 
     /**
      * What time alone changes, applied before reads and actions: starter
-     * buildings, market slots, café daily reset, daily show tokens, tournament week.
+     * buildings, daily gold, market slots, café daily reset, daily show
+     * tokens, tournament week.
      */
     private function settle(Farm $farm, Clock $clock): void
     {
         $farm->ensureStarterBuildings();
+        $farm->grantDailyGold(Cafe::day($clock->now));
         (new Market($this->data))->resolve($farm, $clock);
         if ($farm->cafe() !== []) {
             // Daily reset is persisted, so the state always shows today's gauge.

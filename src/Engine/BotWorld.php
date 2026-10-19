@@ -24,7 +24,8 @@ use Random\Randomizer;
  * windmill, which feeds the animals...). What is left is sold: market
  * products as contracts (cash, XP, market XP and materials like the
  * player's), the rest at the barn. Then it levels up and spends: land,
- * houses, new buildings, upgrades. No gold: no premium, no variants.
+ * houses, new buildings (premium ones when its gold pays for them),
+ * upgrades. Gold like the player: daily, per level, tournament places.
  *
  * Tournament: every Monday the bots of each tier play their leagues of
  * `size` (first league one short, the player's seat), ranked by the market
@@ -96,7 +97,7 @@ final class BotWorld
                 'title' => $profile['title'],
                 'activity' => $profile['activity'],
                 'level' => 1, 'xp' => 0,
-                'cash' => $initial['cash'] ?? 0, 'market_xp' => 0,
+                'cash' => $initial['cash'] ?? 0, 'gold' => $initial['gold'] ?? 0, 'market_xp' => 0,
                 'materials' => [], 'expansions' => $this->data->initialExpansions(),
                 'buildings' => $buildings,
                 'tier' => 0,
@@ -185,6 +186,7 @@ final class BotWorld
         $bot['day_start_mxp'] = $bot['market_xp'];
         $bot['market_xp'] += $result['market_xp'];
         $bot['day_gain'] = $result['market_xp'];
+        $bot['gold'] = ($bot['gold'] ?? 0) + $this->data->goldReward('daily_login'); // it plays every day
 
         $bot = $this->levelUp($bot);
 
@@ -511,9 +513,10 @@ final class BotWorld
      */
     private function levelUp(array $bot): array
     {
-        while ($bot['level'] < $this->data->maxLevel() && $bot['xp'] >= $this->data->xpForLevel($bot['level'])) {
-            $bot['xp'] -= $this->data->xpForLevel($bot['level']);
+        while (($needed = $this->data->xpForLevel($bot['level'])) > 0 && $bot['xp'] >= $needed) {
+            $bot['xp'] -= $needed;
             $bot['level']++;
+            $bot['gold'] = ($bot['gold'] ?? 0) + $this->data->goldReward('per_level');
         }
 
         return $bot;
@@ -552,9 +555,11 @@ final class BotWorld
         foreach ($this->wantedBuildings($bot) as $type) {
             $first = $this->data->building($type)['levels'][0];
             $need = max(0, -($first['workers'] ?? 0));
+            $premium = $this->premiumOf($bot, $type);
             $step = match (true) {
                 $this->freeWorkers($bot) < $need => $this->moreWorkers($bot, $reserve),
                 $this->freeLand($bot) < $this->area($type) => $this->moreLand($bot, $reserve),
+                $premium !== null => $this->build($bot, $premium),
                 $this->affordable($bot, $first['cost'], $reserve) => $this->build($bot, $type),
                 default => null,
             };
@@ -598,7 +603,8 @@ final class BotWorld
     {
         $t = $this->tables();
         $level = $bot['level'];
-        $counts = array_count_values(array_column($bot['buildings'], 0));
+        // A premium building counts as its normal one.
+        $counts = array_count_values(array_map(fn (string $type): string => $t['base'][$type] ?? $type, array_column($bot['buildings'], 0)));
         $animals = 0;
         $orchards = 0;
         foreach ($counts as $type => $count) {
@@ -632,6 +638,18 @@ final class BotWorld
         sort($wanted); // missing types first, then the earliest unlocked
 
         return array_column($wanted, 2);
+    }
+
+    /** The premium version of $type when it is unlocked and the bot's gold pays for it. */
+    private function premiumOf(array $bot, string $type): ?string
+    {
+        $premium = $this->tables()['premium'][$type] ?? null;
+        if ($premium === null) {
+            return null;
+        }
+        $first = $this->data->building($premium)['levels'][0];
+
+        return ($first['unlock_level'] ?? 1) <= $bot['level'] && $this->affordable($bot, $first['cost'], 0) ? $premium : null;
     }
 
     /**
@@ -690,8 +708,11 @@ final class BotWorld
         if ($expansion === null || ($expansion['unlock_level'] ?? 1) > $bot['level']) {
             return null;
         }
-        foreach ($expansion['costs'] as $cost) {
-            if (!isset($cost['gold']) && $this->affordable($bot, $cost, $reserve)) {
+        // Cash first, gold when cash is short.
+        $costs = $expansion['costs'];
+        usort($costs, static fn (array $a, array $b): int => isset($a['gold']) <=> isset($b['gold']));
+        foreach ($costs as $cost) {
+            if ($this->affordable($bot, $cost, $reserve)) {
                 $bot = $this->pay($bot, $cost);
                 $bot['expansions']++;
 
@@ -711,7 +732,7 @@ final class BotWorld
         foreach ($cost as $resource => $quantity) {
             $have = match ($resource) {
                 'cash' => $bot['cash'] - $reserve,
-                'gold' => 0,
+                'gold' => $bot['gold'] ?? 0,
                 default => $bot['materials'][$resource] ?? 0,
             };
             if ($have < $quantity) {
@@ -730,8 +751,8 @@ final class BotWorld
     private function pay(array $bot, array $cost): array
     {
         foreach ($cost as $resource => $quantity) {
-            if ($resource === 'cash') {
-                $bot['cash'] -= $quantity;
+            if ($resource === 'cash' || $resource === 'gold') {
+                $bot[$resource] -= $quantity;
             } else {
                 $bot['materials'][$resource] -= $quantity;
             }
@@ -798,6 +819,7 @@ final class BotWorld
                 $promoted = min($tournament['promoted'], intdiv($size, 4));
                 $relegated = min($tournament['relegated'], intdiv($size, 4));
                 foreach ($league as $rank => $i) {
+                    $bots[$i]['gold'] = ($bots[$i]['gold'] ?? 0) + $this->placeGold($tier, $rank + 1);
                     if ($rank < $promoted) {
                         $bots[$i]['tier'] = min($top, $tier + 1);
                     } elseif ($rank >= $size - $relegated) {
@@ -811,6 +833,19 @@ final class BotWorld
         }
 
         return $bots;
+    }
+
+    /** Gold of a 1-based place in a league of a tier, like the player's (rank_rewards.gold × tier + 1). */
+    private function placeGold(int $tier, int $rank): int
+    {
+        $tournament = $this->data->toArray()['tournament'];
+        foreach ($tournament['groups'] as $group => [$from, $to]) {
+            if ($rank >= $from && $rank <= $to) {
+                return ($tournament['rank_rewards']['gold'][$group] ?? 0) * ($tier + 1);
+            }
+        }
+
+        return ($tournament['rank_rewards']['gold']['relegated'] ?? 0) * ($tier + 1);
     }
 
     /**
@@ -877,7 +912,8 @@ final class BotWorld
 
     /**
      * usable: type => field | production | house | storage | special (buildings bots keep);
-     * buildable: type => role (what they build); roles; house; crops; stages (item => chain depth).
+     * buildable: type => role (what they build); roles; house; premium: normal => premium type;
+     * base: premium => normal type; crops; stages (item => chain depth).
      *
      * @return array<string, mixed>
      */
@@ -891,9 +927,18 @@ final class BotWorld
         $usable = [];
         $buildable = [];
         $roles = [];
+        $premium = [];
+        $base = [];
         $house = null;
         foreach ($data['buildings'] as $type => $definition) {
-            if (($definition['zone'] ?? 'farm') !== 'farm' || isset($definition['variant']) || $definition['kind'] === 'decoration') {
+            $variant = $definition['variant'] ?? null;
+            if (($definition['zone'] ?? 'farm') !== 'farm' || ($variant !== null && $variant !== 'premium') || $definition['kind'] === 'decoration') {
+                continue; // fertile and free range variants: not for bots
+            }
+            if ($variant === 'premium') {
+                $usable[$type] = $definition['kind'];
+                $premium[$definition['variant_of']] = $type;
+                $base[$type] = $definition['variant_of'];
                 continue;
             }
             $mode = $definition['production']['mode'] ?? null;
@@ -947,8 +992,13 @@ final class BotWorld
             $happiness += $this->data->buildingLevel($type, $level)['happiness'] ?? 0;
         }
 
+        foreach ($base as $type => $normal) {
+            $roles[$type] = $roles[$normal] ?? $data['buildings'][$type]['kind'];
+        }
+
         return self::$tables[$key] = [
             'usable' => $usable, 'buildable' => $buildable, 'roles' => $roles, 'house' => $house,
+            'premium' => $premium, 'base' => $base,
             'crops' => $data['crops'], 'stages' => $stages, 'cost_factor' => $this->data->costFactor(max(0, $happiness)),
         ];
     }

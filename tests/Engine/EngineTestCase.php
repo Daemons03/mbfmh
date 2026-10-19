@@ -38,6 +38,7 @@ abstract class EngineTestCase extends TestCase
         $raw = GameData::load(cacheDir: null)->toArray();
         $raw['buildings']['farmhouse']['levels'][0]['workers'] = 10_000;
         $raw['buildings']['fence']['levels'][0]['happiness'] = 0;
+        $raw['gold_rewards'] = ['daily_login' => 0, 'per_level' => 0]; // GoldRewardTest checks them
 
         return GameData::fromArray($raw);
     }

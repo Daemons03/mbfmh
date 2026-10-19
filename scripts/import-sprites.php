@@ -11,7 +11,8 @@ declare(strict_types=1);
  *
  *   php scripts/import-sprites.php asset-a-integrer/all
  *
- * Unknown names are listed and skipped. Re-run it after adding pictures.
+ * Unknown names are listed and skipped. Re-run it after adding pictures;
+ * without a folder it only measures the pictures and rewrites manifest.json.
  */
 
 const WEBP_QUALITY = 88;
@@ -24,7 +25,8 @@ const NAMES = [
     'etable' => 'cowshed', 'etable_premium' => 'premium_cowshed', 'etable_plein_air' => 'free_range_cowshed',
     'chevre' => 'goat_stable', 'chevre_premium' => 'premium_goat_stable', 'chevre_plein_air' => 'free_range_goat_stable',
     'canard' => 'duck_coop', 'canard_premium' => 'premium_duck_coop', 'canard_plein_air' => 'free_range_duck_coop',
-    'clapier' => 'rabbit_hutch', 'mouton' => 'sheep_pen',
+    'clapier' => 'rabbit_hutch', 'clapier_premium' => 'premium_rabbit_hutch',
+    'mouton' => 'sheep_pen', 'mouton_premium' => 'premium_sheep_pen',
     'pommerai' => 'apple_orchard', 'pommerai_premium' => 'premium_apple_orchard', 'pommerai_plein_air' => 'free_range_apple_orchard',
     'pommerai_fertile' => 'fertile_apple_orchard',
     'ceriserai' => 'cherry_orchard', 'cerise_premium' => 'premium_cherry_orchard', 'cerise_plein_air' => 'free_range_cherry_orchard',
@@ -47,15 +49,15 @@ const NAMES = [
 
 $source = rtrim($argv[1] ?? '', '/');
 $target = dirname(__DIR__) . '/public/assets/img/buildings';
-if (!is_dir($source)) {
-    fwrite(STDERR, "Usage: php scripts/import-sprites.php <folder>\n");
+if ($source !== '' && !is_dir($source)) {
+    fwrite(STDERR, "Usage: php scripts/import-sprites.php [<folder>]   (no folder: only rebuild manifest.json)\n");
     exit(2);
 }
 if (!is_dir($target)) {
     mkdir($target, 0775, true);
 }
 
-foreach (glob("{$source}/*.png") as $file) {
+foreach ($source === '' ? [] : glob("{$source}/*.png") as $file) {
     $name = basename($file, '.png');
     $tier = 1;
     $prefix = $name;

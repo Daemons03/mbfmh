@@ -53,13 +53,15 @@ final class TournamentTest extends EngineTestCase
 
     public function testRankRewards(): void
     {
-        self::assertSame(['cash' => 1500, 'keys' => 10, 'rose_seed' => 5], $this->tournament->rankRewards(0, 1));
-        self::assertSame(['cash' => 1200, 'keys' => 5, 'rose_seed' => 2], $this->tournament->rankRewards(0, 3));
-        self::assertSame(['cash' => 900], $this->tournament->rankRewards(0, 15));
-        self::assertSame(['cash' => 600], $this->tournament->rankRewards(0, 16));
-        // Diamond 3★: the first gets 180 keys, 120 mallets (from gold 1★) and 60 buckets (from sapphire 1★).
-        self::assertSame(['cash' => 460000, 'keys' => 180, 'mallets' => 120, 'buckets' => 60, 'rose_seed' => 5], $this->tournament->rankRewards(17, 1));
-        self::assertSame(['cash' => 312000, 'keys' => 65, 'mallets' => 35, 'buckets' => 5, 'rose_seed' => 2], $this->tournament->rankRewards(12, 2));
+        self::assertSame(['cash' => 1500, 'gold' => 1000, 'keys' => 10, 'rose_seed' => 5], $this->tournament->rankRewards(0, 1));
+        self::assertSame(['cash' => 1200, 'gold' => 500, 'keys' => 5, 'rose_seed' => 2], $this->tournament->rankRewards(0, 3));
+        self::assertSame(['cash' => 900, 'gold' => 250], $this->tournament->rankRewards(0, 15));
+        self::assertSame(['cash' => 600, 'gold' => 100], $this->tournament->rankRewards(0, 16));
+        // Bronze 2★: gold × 2.
+        self::assertSame([2000, 1000, 500, 200], array_map(fn (int $rank): int => $this->tournament->rankRewards(1, $rank)['gold'], [1, 2, 4, 20]));
+        // Diamond 3★: gold × 18; the first gets 180 keys, 120 mallets (from gold 1★) and 60 buckets (from sapphire 1★).
+        self::assertSame(['cash' => 460000, 'gold' => 18000, 'keys' => 180, 'mallets' => 120, 'buckets' => 60, 'rose_seed' => 5], $this->tournament->rankRewards(17, 1));
+        self::assertSame(['cash' => 312000, 'gold' => 6500, 'keys' => 65, 'mallets' => 35, 'buckets' => 5, 'rose_seed' => 2], $this->tournament->rankRewards(12, 2));
     }
 
     public function testNineteenFarmsFollowTheCurve(): void
@@ -89,7 +91,7 @@ final class TournamentTest extends EngineTestCase
         $state = $this->state['tournament'];
         self::assertSame(1, $state['tier'], 'bronze 2★');
         self::assertSame(['week' => $state['last']['week'], 'tier' => 0, 'new_tier' => 1, 'rank' => 1, 'points' => 2_400,
-            'rewards' => ['cash' => 1500, 'keys' => 10, 'rose_seed' => 5]], $state['last']);
+            'rewards' => ['cash' => 1500, 'gold' => 1000, 'keys' => 10, 'rose_seed' => 5]], $state['last']);
         self::assertSame($cash + 1500, $this->state['cash']);
         self::assertSame(10 + 5, $this->state['materials']['keys'], '1st place + objective 6');
         self::assertSame(5, $this->state['barn']['items']['rose_seed']);

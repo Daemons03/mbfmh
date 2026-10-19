@@ -75,7 +75,8 @@
     }
   },
   "player": {
-    "max_level": 250,
+    "max_level": null,
+    "_note_max_level": "null : pas de niveau maximum (la courbe d'XP continue).",
     "xp_curve": {
       "base": 50,
       "exponent": 1.6,
@@ -4821,9 +4822,666 @@
             "gold": 1000000
           },
           "capacity": 1350
+        },
+        {
+          "level": 28,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 1170000
+          },
+          "capacity": 1400,
+          "_estimated": true
+        },
+        {
+          "level": 29,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 1370000
+          },
+          "capacity": 1450,
+          "_estimated": true
+        },
+        {
+          "level": 30,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 1610000
+          },
+          "capacity": 1500,
+          "_estimated": true
+        },
+        {
+          "level": 31,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 1880000
+          },
+          "capacity": 1550,
+          "_estimated": true
+        },
+        {
+          "level": 32,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 2200000
+          },
+          "capacity": 1600,
+          "_estimated": true
+        },
+        {
+          "level": 33,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 2580000
+          },
+          "capacity": 1650,
+          "_estimated": true
+        },
+        {
+          "level": 34,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 3020000
+          },
+          "capacity": 1700,
+          "_estimated": true
+        },
+        {
+          "level": 35,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 3530000
+          },
+          "capacity": 1750,
+          "_estimated": true
+        },
+        {
+          "level": 36,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 4130000
+          },
+          "capacity": 1800,
+          "_estimated": true
+        },
+        {
+          "level": 37,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 4840000
+          },
+          "capacity": 1850,
+          "_estimated": true
+        },
+        {
+          "level": 38,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 5670000
+          },
+          "capacity": 1900,
+          "_estimated": true
+        },
+        {
+          "level": 39,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 6640000
+          },
+          "capacity": 1950,
+          "_estimated": true
+        },
+        {
+          "level": 40,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 7770000
+          },
+          "capacity": 2000,
+          "_estimated": true
+        },
+        {
+          "level": 41,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 9100000
+          },
+          "capacity": 2050,
+          "_estimated": true
+        },
+        {
+          "level": 42,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 10700000
+          },
+          "capacity": 2100,
+          "_estimated": true
+        },
+        {
+          "level": 43,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 12500000
+          },
+          "capacity": 2150,
+          "_estimated": true
+        },
+        {
+          "level": 44,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 14600000
+          },
+          "capacity": 2200,
+          "_estimated": true
+        },
+        {
+          "level": 45,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 17100000
+          },
+          "capacity": 2250,
+          "_estimated": true
+        },
+        {
+          "level": 46,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 20000000
+          },
+          "capacity": 2300,
+          "_estimated": true
+        },
+        {
+          "level": 47,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 23400000
+          },
+          "capacity": 2350,
+          "_estimated": true
+        },
+        {
+          "level": 48,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 27400000
+          },
+          "capacity": 2400,
+          "_estimated": true
+        },
+        {
+          "level": 49,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 32100000
+          },
+          "capacity": 2450,
+          "_estimated": true
+        },
+        {
+          "level": 50,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 37600000
+          },
+          "capacity": 2500,
+          "_estimated": true
+        },
+        {
+          "level": 51,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 44000000
+          },
+          "capacity": 2550,
+          "_estimated": true
+        },
+        {
+          "level": 52,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 51600000
+          },
+          "capacity": 2600,
+          "_estimated": true
+        },
+        {
+          "level": 53,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 60400000
+          },
+          "capacity": 2650,
+          "_estimated": true
+        },
+        {
+          "level": 54,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 70700000
+          },
+          "capacity": 2700,
+          "_estimated": true
+        },
+        {
+          "level": 55,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 82800000
+          },
+          "capacity": 2750,
+          "_estimated": true
+        },
+        {
+          "level": 56,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 96900000
+          },
+          "capacity": 2800,
+          "_estimated": true
+        },
+        {
+          "level": 57,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 113000000
+          },
+          "capacity": 2850,
+          "_estimated": true
+        },
+        {
+          "level": 58,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 133000000
+          },
+          "capacity": 2900,
+          "_estimated": true
+        },
+        {
+          "level": 59,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 156000000
+          },
+          "capacity": 2950,
+          "_estimated": true
+        },
+        {
+          "level": 60,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 182000000
+          },
+          "capacity": 3000,
+          "_estimated": true
+        },
+        {
+          "level": 61,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 213000000
+          },
+          "capacity": 3050,
+          "_estimated": true
+        },
+        {
+          "level": 62,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 250000000
+          },
+          "capacity": 3100,
+          "_estimated": true
+        },
+        {
+          "level": 63,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 292000000
+          },
+          "capacity": 3150,
+          "_estimated": true
+        },
+        {
+          "level": 64,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 342000000
+          },
+          "capacity": 3200,
+          "_estimated": true
+        },
+        {
+          "level": 65,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 401000000
+          },
+          "capacity": 3250,
+          "_estimated": true
+        },
+        {
+          "level": 66,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 469000000
+          },
+          "capacity": 3300,
+          "_estimated": true
+        },
+        {
+          "level": 67,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 549000000
+          },
+          "capacity": 3350,
+          "_estimated": true
+        },
+        {
+          "level": 68,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 643000000
+          },
+          "capacity": 3400,
+          "_estimated": true
+        },
+        {
+          "level": 69,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 753000000
+          },
+          "capacity": 3450,
+          "_estimated": true
+        },
+        {
+          "level": 70,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 881000000
+          },
+          "capacity": 3500,
+          "_estimated": true
+        },
+        {
+          "level": 71,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 1030000000
+          },
+          "capacity": 3550,
+          "_estimated": true
+        },
+        {
+          "level": 72,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 1210000000
+          },
+          "capacity": 3600,
+          "_estimated": true
+        },
+        {
+          "level": 73,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 1410000000
+          },
+          "capacity": 3650,
+          "_estimated": true
+        },
+        {
+          "level": 74,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 1660000000
+          },
+          "capacity": 3700,
+          "_estimated": true
+        },
+        {
+          "level": 75,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 1940000000
+          },
+          "capacity": 3750,
+          "_estimated": true
+        },
+        {
+          "level": 76,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 2270000000
+          },
+          "capacity": 3800,
+          "_estimated": true
+        },
+        {
+          "level": 77,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 2660000000
+          },
+          "capacity": 3850,
+          "_estimated": true
+        },
+        {
+          "level": 78,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 3110000000
+          },
+          "capacity": 3900,
+          "_estimated": true
+        },
+        {
+          "level": 79,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 3640000000
+          },
+          "capacity": 3950,
+          "_estimated": true
+        },
+        {
+          "level": 80,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 4270000000
+          },
+          "capacity": 4000,
+          "_estimated": true
+        },
+        {
+          "level": 81,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 5000000000
+          },
+          "capacity": 4050,
+          "_estimated": true
+        },
+        {
+          "level": 82,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 5850000000
+          },
+          "capacity": 4100,
+          "_estimated": true
+        },
+        {
+          "level": 83,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 6850000000
+          },
+          "capacity": 4150,
+          "_estimated": true
+        },
+        {
+          "level": 84,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 8020000000
+          },
+          "capacity": 4200,
+          "_estimated": true
+        },
+        {
+          "level": 85,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 9390000000
+          },
+          "capacity": 4250,
+          "_estimated": true
+        },
+        {
+          "level": 86,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 11000000000
+          },
+          "capacity": 4300,
+          "_estimated": true
+        },
+        {
+          "level": 87,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 12900000000
+          },
+          "capacity": 4350,
+          "_estimated": true
+        },
+        {
+          "level": 88,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 15100000000
+          },
+          "capacity": 4400,
+          "_estimated": true
+        },
+        {
+          "level": 89,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 17600000000
+          },
+          "capacity": 4450,
+          "_estimated": true
+        },
+        {
+          "level": 90,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 20700000000
+          },
+          "capacity": 4500,
+          "_estimated": true
+        },
+        {
+          "level": 91,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 24200000000
+          },
+          "capacity": 4550,
+          "_estimated": true
+        },
+        {
+          "level": 92,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 28300000000
+          },
+          "capacity": 4600,
+          "_estimated": true
+        },
+        {
+          "level": 93,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 33200000000
+          },
+          "capacity": 4650,
+          "_estimated": true
+        },
+        {
+          "level": 94,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 38800000000
+          },
+          "capacity": 4700,
+          "_estimated": true
+        },
+        {
+          "level": 95,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 45500000000
+          },
+          "capacity": 4750,
+          "_estimated": true
+        },
+        {
+          "level": 96,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 53200000000
+          },
+          "capacity": 4800,
+          "_estimated": true
+        },
+        {
+          "level": 97,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 62300000000
+          },
+          "capacity": 4850,
+          "_estimated": true
+        },
+        {
+          "level": 98,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 72900000000
+          },
+          "capacity": 4900,
+          "_estimated": true
+        },
+        {
+          "level": 99,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 85400000000
+          },
+          "capacity": 4950,
+          "_estimated": true
+        },
+        {
+          "level": 100,
+          "unlock_level": 13,
+          "cost": {
+            "gold": 100000000000
+          },
+          "capacity": 5000,
+          "_estimated": true
         }
       ],
-      "_note": "Sa capacité s'ajoute à celle de la grange, pour chaque produit. Niveaux > 1 : niveau requis inconnu, on reprend celui du déblocage."
+      "_note": "Sa capacité s'ajoute à celle de la grange, pour chaque produit. Niveaux > 1 : niveau requis inconnu, on reprend celui du déblocage. Niveaux 28 à 100 (créés pour Ferme Tranquille) : +50 de capacité par niveau, coût en or × 1.1708 par niveau depuis le 27 (1 M) jusqu'à 100 milliards pour le niveau 100."
     },
     "library": {
       "name": "Bibliothèque",
@@ -22427,6 +23085,630 @@
       "variant_of": "duck_coop",
       "variant": "free_range"
     },
+    "premium_rabbit_hutch": {
+      "name": "Clapier premium",
+      "emoji": "🐇",
+      "kind": "production",
+      "size": [
+        2,
+        2
+      ],
+      "max_count": null,
+      "production": {
+        "mode": "run",
+        "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
+      },
+      "variant_of": "rabbit_hutch",
+      "variant": "premium",
+      "_estimated": true,
+      "_note": "Créé pour Ferme Tranquille (absent des données du jeu) : produits ×1,6 de la version normale comme les autres animaux premium ; coût en or = courbe de la cabane à canards premium × 1,4 (débloqué plus tard) ; ouvriers, durées, nourriture et XP de la version normale.",
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 55,
+          "cost": {
+            "gold": 1960
+          },
+          "recipes": {
+            "gray_wool": {
+              "inputs": {
+                "rabbit_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "gray_wool": 128,
+                "dung": 34
+              },
+              "duration": 2700,
+              "xp": 30
+            }
+          },
+          "workers": -4
+        },
+        {
+          "level": 2,
+          "unlock_level": 64,
+          "cost": {
+            "gold": 8400
+          },
+          "recipes": {
+            "gray_wool": {
+              "inputs": {
+                "rabbit_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "gray_wool": 144,
+                "dung": 37
+              },
+              "duration": 2700,
+              "xp": 30
+            }
+          },
+          "workers": -5
+        },
+        {
+          "level": 3,
+          "unlock_level": 72,
+          "cost": {
+            "gold": 16800
+          },
+          "recipes": {
+            "gray_wool": {
+              "inputs": {
+                "rabbit_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "gray_wool": 160,
+                "dung": 40
+              },
+              "duration": 2700,
+              "xp": 30
+            }
+          },
+          "workers": -6
+        },
+        {
+          "level": 4,
+          "unlock_level": 81,
+          "cost": {
+            "gold": 70000
+          },
+          "recipes": {
+            "gray_wool": {
+              "inputs": {
+                "rabbit_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "gray_wool": 176,
+                "dung": 45
+              },
+              "duration": 2700,
+              "xp": 30
+            }
+          },
+          "workers": -7
+        },
+        {
+          "level": 5,
+          "unlock_level": 100,
+          "cost": {
+            "gold": 238000
+          },
+          "recipes": {
+            "gray_wool": {
+              "inputs": {
+                "rabbit_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "gray_wool": 192,
+                "white_wool": 16,
+                "dung": 50
+              },
+              "duration": 2700,
+              "xp": 30
+            }
+          },
+          "workers": -8
+        },
+        {
+          "level": 6,
+          "unlock_level": 109,
+          "cost": {
+            "gold": 308000
+          },
+          "recipes": {
+            "gray_wool": {
+              "inputs": {
+                "rabbit_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "gray_wool": 208,
+                "white_wool": 19,
+                "dung": 54
+              },
+              "duration": 2700,
+              "xp": 30
+            }
+          },
+          "workers": -9
+        },
+        {
+          "level": 7,
+          "unlock_level": 118,
+          "cost": {
+            "gold": 805000
+          },
+          "recipes": {
+            "gray_wool": {
+              "inputs": {
+                "rabbit_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "gray_wool": 232,
+                "white_wool": 22,
+                "dung": 58
+              },
+              "duration": 2700,
+              "xp": 30
+            }
+          },
+          "workers": -10
+        },
+        {
+          "level": 8,
+          "unlock_level": 127,
+          "cost": {
+            "gold": 1070000
+          },
+          "recipes": {
+            "gray_wool": {
+              "inputs": {
+                "rabbit_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "gray_wool": 256,
+                "white_wool": 26,
+                "dung": 61
+              },
+              "duration": 2700,
+              "xp": 30
+            }
+          },
+          "workers": -11
+        },
+        {
+          "level": 9,
+          "unlock_level": 136,
+          "cost": {
+            "gold": 1540000
+          },
+          "recipes": {
+            "gray_wool": {
+              "inputs": {
+                "rabbit_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "gray_wool": 280,
+                "white_wool": 29,
+                "dung": 64
+              },
+              "duration": 2700,
+              "xp": 30
+            }
+          },
+          "workers": -12
+        },
+        {
+          "level": 10,
+          "unlock_level": 145,
+          "cost": {
+            "gold": 2030000
+          },
+          "recipes": {
+            "gray_wool": {
+              "inputs": {
+                "rabbit_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "gray_wool": 312,
+                "white_wool": 32,
+                "dung": 67
+              },
+              "duration": 2700,
+              "xp": 30
+            }
+          },
+          "workers": -13
+        },
+        {
+          "level": 11,
+          "unlock_level": 154,
+          "cost": {
+            "gold": 2520000
+          },
+          "recipes": {
+            "gray_wool": {
+              "inputs": {
+                "rabbit_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "gray_wool": 336,
+                "white_wool": 40,
+                "dung": 70
+              },
+              "duration": 2700,
+              "xp": 30
+            }
+          },
+          "workers": -15
+        },
+        {
+          "level": 12,
+          "unlock_level": 163,
+          "cost": {
+            "gold": 3080000
+          },
+          "recipes": {
+            "gray_wool": {
+              "inputs": {
+                "rabbit_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "gray_wool": 360,
+                "white_wool": 48,
+                "dung": 74
+              },
+              "duration": 2700,
+              "xp": 30
+            }
+          },
+          "workers": -18
+        }
+      ]
+    },
+    "premium_sheep_pen": {
+      "name": "Bergerie premium",
+      "emoji": "🐑",
+      "kind": "production",
+      "size": [
+        3,
+        2
+      ],
+      "max_count": null,
+      "production": {
+        "mode": "run",
+        "_note": "Nourriture, cash, durée, XP et quantités : valeurs du jeu (captures du joueur)."
+      },
+      "variant_of": "sheep_pen",
+      "variant": "premium",
+      "_estimated": true,
+      "_note": "Créé pour Ferme Tranquille (absent des données du jeu) : produits ×1,6 de la version normale comme les autres animaux premium ; coût en or = courbe de la cabane à canards premium × 2,0 (débloqué plus tard) ; ouvriers, durées, nourriture et XP de la version normale.",
+      "levels": [
+        {
+          "level": 1,
+          "unlock_level": 100,
+          "cost": {
+            "gold": 2800
+          },
+          "recipes": {
+            "sheep_wool": {
+              "inputs": {
+                "sheep_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "sheep_wool": 288,
+                "dung": 104
+              },
+              "duration": 3600,
+              "xp": 60
+            }
+          },
+          "workers": -4
+        },
+        {
+          "level": 2,
+          "unlock_level": 108,
+          "cost": {
+            "gold": 12000
+          },
+          "recipes": {
+            "sheep_wool": {
+              "inputs": {
+                "sheep_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "sheep_wool": 320,
+                "dung": 115
+              },
+              "duration": 3600,
+              "xp": 60
+            }
+          },
+          "workers": -5
+        },
+        {
+          "level": 3,
+          "unlock_level": 116,
+          "cost": {
+            "gold": 24000
+          },
+          "recipes": {
+            "sheep_wool": {
+              "inputs": {
+                "sheep_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "sheep_wool": 352,
+                "dung": 126
+              },
+              "duration": 3600,
+              "xp": 60
+            }
+          },
+          "workers": -6
+        },
+        {
+          "level": 4,
+          "unlock_level": 126,
+          "cost": {
+            "gold": 100000
+          },
+          "recipes": {
+            "sheep_wool": {
+              "inputs": {
+                "sheep_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "sheep_wool": 384,
+                "dung": 139
+              },
+              "duration": 3600,
+              "xp": 60
+            }
+          },
+          "workers": -7
+        },
+        {
+          "level": 5,
+          "unlock_level": 135,
+          "cost": {
+            "gold": 340000
+          },
+          "recipes": {
+            "sheep_wool": {
+              "inputs": {
+                "sheep_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "sheep_wool": 424,
+                "dung": 154
+              },
+              "duration": 3600,
+              "xp": 60
+            }
+          },
+          "workers": -8
+        },
+        {
+          "level": 6,
+          "unlock_level": 145,
+          "cost": {
+            "gold": 440000
+          },
+          "recipes": {
+            "sheep_wool": {
+              "inputs": {
+                "sheep_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "sheep_wool": 464,
+                "dung": 170
+              },
+              "duration": 3600,
+              "xp": 60
+            }
+          },
+          "workers": -9
+        },
+        {
+          "level": 7,
+          "unlock_level": 155,
+          "cost": {
+            "gold": 1150000
+          },
+          "recipes": {
+            "sheep_wool": {
+              "inputs": {
+                "sheep_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "sheep_wool": 488,
+                "dung": 178
+              },
+              "duration": 3600,
+              "xp": 60
+            }
+          },
+          "workers": -10
+        },
+        {
+          "level": 8,
+          "unlock_level": 165,
+          "cost": {
+            "gold": 1530000
+          },
+          "recipes": {
+            "sheep_wool": {
+              "inputs": {
+                "sheep_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "sheep_wool": 512,
+                "dung": 187
+              },
+              "duration": 3600,
+              "xp": 60
+            }
+          },
+          "workers": -11
+        },
+        {
+          "level": 9,
+          "unlock_level": 175,
+          "cost": {
+            "gold": 2200000
+          },
+          "recipes": {
+            "sheep_wool": {
+              "inputs": {
+                "sheep_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "sheep_wool": 536,
+                "dung": 197
+              },
+              "duration": 3600,
+              "xp": 60
+            }
+          },
+          "workers": -12
+        },
+        {
+          "level": 10,
+          "unlock_level": 185,
+          "cost": {
+            "gold": 2900000
+          },
+          "recipes": {
+            "sheep_wool": {
+              "inputs": {
+                "sheep_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "sheep_wool": 560,
+                "dung": 206
+              },
+              "duration": 3600,
+              "xp": 60
+            }
+          },
+          "workers": -13
+        },
+        {
+          "level": 11,
+          "unlock_level": 195,
+          "cost": {
+            "gold": 3600000
+          },
+          "recipes": {
+            "sheep_wool": {
+              "inputs": {
+                "sheep_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "sheep_wool": 584,
+                "dung": 216
+              },
+              "duration": 3600,
+              "xp": 60
+            }
+          },
+          "workers": -15
+        },
+        {
+          "level": 12,
+          "unlock_level": 205,
+          "cost": {
+            "gold": 4400000
+          },
+          "recipes": {
+            "sheep_wool": {
+              "inputs": {
+                "sheep_feed": 10
+              },
+              "cost": {
+                "cash": 32
+              },
+              "outputs": {
+                "sheep_wool": 608,
+                "dung": 226
+              },
+              "duration": 3600,
+              "xp": 60
+            }
+          },
+          "workers": -18
+        }
+      ]
+    },
     "premium_field": {
       "name": "Champ premium",
       "emoji": "🟫",
@@ -37658,6 +38940,7 @@
   },
   "bots": {
     "count": 1000,
+    "default_speed": 2,
     "profiles": [
       {
         "title": "90",
@@ -37972,6 +39255,11 @@
     "_estimated": true,
     "_note": "Bots du classement et du tournoi (simulés, partent du niveau 1). Chaque jour : production de toute leur ferme pendant 24 h × vitesse des bots × activité du profil (± daily_jitter), durées réelles du jeu (max_runs_per_day : plafond facultatif par bâtiment), chaînes respectées (maïs → aliment → poules…) ; une production n'est gardée que si elle rapporte plus que la vente de ses ingrédients, XP comptée à xp_value 💵 ; coûts réduits par le bonheur de la clôture de départ, comme le joueur ; sans assez de cash, les champs plantent la meilleure culture. Vente : contracts_per_day contrats pour une journée pleine (moins selon l'activité), chacun 1 à 3 produits tirés parmi ce que le bot produit (argent, XP, XP de marché, matériaux comme le joueur) ; au-delà de cette demande, un produit part à la grange. Puis achats : terrain, habitations, bâtiments débloqués, améliorations (sans or : ni premium ni variantes). Noms : personnages historiques, numérotés en cas de doublon ; titre = pourcentage du profil."
   },
+  "gold_rewards": {
+    "daily_login": 100,
+    "per_level": 1000,
+    "_note": "Or gagné par le joueur comme par les bots : daily_login au premier passage de chaque jour, per_level à chaque niveau gagné. Le tournoi donne aussi de l'or selon la place (tournament.rank_rewards.gold)."
+  },
   "speed_up": {
     "gold_per_minute": 10,
     "_note": "Accélérer une production en cours (champ, bâtiment) : 10 or par minute restante entamée, 10 or au minimum. Annuler : tout ce qui a été engagé est perdu."
@@ -38199,6 +39487,13 @@
       "roses": {
         "first": 5,
         "podium": 2
+      },
+      "gold": {
+        "first": 1000,
+        "podium": 500,
+        "middle": 250,
+        "relegated": 100,
+        "_note": "Or de place en bronze 1★, multiplié par (palier + 1) : bronze 2★ = 2 000 / 1 000 / 500 / 200, … diamant 3★ = × 18."
       }
     },
     "bot_names": [

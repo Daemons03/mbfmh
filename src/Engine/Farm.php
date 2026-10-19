@@ -234,16 +234,34 @@ final class Farm
     /**
      * Adds XP and applies level-ups. xp is the progress inside the current level.
      */
+    /** XP, with gold_rewards.per_level gold for every level gained. */
     public function addXp(int $amount): void
     {
         $this->state['xp'] += $amount;
+        $gained = 0;
         while (($needed = $this->data->xpForLevel($this->state['level'])) > 0 && $this->state['xp'] >= $needed) {
             $this->state['xp'] -= $needed;
             $this->state['level']++;
+            $gained++;
         }
-        if ($this->state['level'] >= $this->data->maxLevel()) {
+        if ($this->data->maxLevel() !== null && $this->state['level'] >= $this->data->maxLevel()) {
             $this->state['xp'] = 0;
         }
+        if ($gained > 0) {
+            $this->gain(['gold' => $gained * $this->data->goldReward('per_level')]);
+        }
+    }
+
+    /**
+     * gold_rewards.daily_login gold on the first visit of each day.
+     */
+    public function grantDailyGold(string $today): void
+    {
+        if (($this->state['login_day'] ?? null) === $today) {
+            return;
+        }
+        $this->state['login_day'] = $today;
+        $this->gain(['gold' => $this->data->goldReward('daily_login')]);
     }
 
     public function assertLevel(int $required): void

@@ -317,7 +317,7 @@ final class Api
 
         return $this->ok(['bot' => [
             'id' => $bot['id'], 'name' => $bot['name'], 'title' => $bot['title'],
-            'level' => $bot['level'], 'cash' => $bot['cash'], 'expansions' => $bot['expansions'],
+            'level' => $bot['level'], 'cash' => $bot['cash'], 'gold' => $bot['gold'] ?? 0, 'expansions' => $bot['expansions'],
             'market_xp' => $bot['market_xp'],
             'market_level' => MarketUpgrades::levelFor($this->gameData, $bot['market_xp'])['level'],
             'tier' => $bot['tier'], 'tier_name' => $this->engine()->tournament()->tierInfo($bot['tier'])['name'],

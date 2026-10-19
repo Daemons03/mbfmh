@@ -80,7 +80,8 @@ final class GameDataTest extends TestCase
 
         self::assertSame(50, $data->xpForLevel(1));
         self::assertSame((int) round(50 * 10 ** 1.6), $data->xpForLevel(10));
-        self::assertSame(0, $data->xpForLevel($data->maxLevel()));
+        self::assertNull($data->maxLevel(), 'no max level: the curve goes on');
+        self::assertSame((int) round(50 * 500 ** 1.6), $data->xpForLevel(500));
     }
 
     public function testMetadataIsStrippedFromInitialStateAndMarket(): void
@@ -99,7 +100,7 @@ final class GameDataTest extends TestCase
         $data['crops']['corn']['plant_cost'] = ['diamonds' => 3];
         $data['buildings']['windmill']['levels'][0]['recipes']['pig_feed']['inputs'] = ['unicorn' => 1];
         $data['buildings']['barn']['levels'][2]['level'] = 7;
-        $data['land']['expansions'][0]['unlock_level'] = 500;
+        $data['land']['expansions'][0]['unlock_level'] = 500_000;
         unset($data['crops']['wheat']);
 
         $errors = implode("\n", GameData::validate($data));

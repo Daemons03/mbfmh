@@ -13,7 +13,8 @@ final class GameDataValidator
     /** @var list<string> */
     private array $errors = [];
 
-    private int $maxLevel = 1;
+    /** Bound for unlock levels: player.max_level, or no real bound when there is none. */
+    private int $maxLevel = 100_000;
 
     /**
      * @param array<string, mixed> $data
@@ -82,7 +83,7 @@ final class GameDataValidator
     private function checkPlayer(): void
     {
         $player = $this->data['player'];
-        if ($this->positiveInt($player['max_level'] ?? null, 'player.max_level')) {
+        if (($player['max_level'] ?? null) !== null && $this->positiveInt($player['max_level'], 'player.max_level')) {
             $this->maxLevel = $player['max_level'];
         }
         $curve = $player['xp_curve'] ?? null;
@@ -448,7 +449,7 @@ final class GameDataValidator
         if (!is_array($bots['names'] ?? null) || $bots['names'] === [] || count(array_unique($bots['names'])) !== count($bots['names'])) {
             $this->errors[] = 'bots.names: must be a non-empty list of distinct names';
         }
-        foreach (['land_use', 'xp_value', 'contracts_per_day'] as $key) {
+        foreach (['land_use', 'xp_value', 'contracts_per_day', 'default_speed'] as $key) {
             $this->positiveNumber($bots[$key] ?? null, "bots.{$key}");
         }
         foreach (['purchases_per_day', 'history_weeks', 'max_catch_up_days'] as $key) {

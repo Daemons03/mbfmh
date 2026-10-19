@@ -85,8 +85,9 @@ class Farm:
         return self._run("log", LOGIN)
 
     def reset_bots(self):
-        """Empties the bot world (shared by every test): a fresh one comes with the next request."""
+        """A fresh bot world (shared by every test), created right away."""
         self._run("reset-bots", LOGIN)
+        self._run("ensure-bots", LOGIN)
 
     def add_house(self, x: int = 10, y: int = 0):
         """A house on the farm (2x2): 10 more workers, -35 happiness."""
@@ -96,6 +97,12 @@ class Farm:
         """Cash actually paid for a production cost, after the happiness effect."""
         factor = self._run("view", LOGIN)["happiness"]["cost_factor"]
         return int(cash * factor + 0.5)
+
+
+@pytest.fixture(scope="session", autouse=True)
+def bot_world():
+    """The bot world exists before the first test: no request waits while 1 000 bots are created."""
+    Farm()._run("ensure-bots", LOGIN)
 
 
 @pytest.fixture

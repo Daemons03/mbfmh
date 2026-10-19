@@ -200,7 +200,7 @@ def test_cancel_then_speed_up_a_crop(game, farm):
     assert re.search(r"\(20 ", speed.inner_text()), "corn: 2 min left, 10 gold a minute"
     speed.click()
     game.get_by_role("button", name=re.compile("^Récolter")).wait_for()
-    assert farm.state()["gold"] == 50 - 20
+    assert farm.state()["gold"] == 50 + 100 - 20, "start + daily gold - speed up"
     assert farm.log() == ["plant", "cancel_job", "plant", "speed_up"]
 
 
@@ -407,3 +407,18 @@ def test_demolish_asks_in_a_modal(game, farm):
     settle(game)
     assert not any(b["id"] == "b3" for b in farm.state()["buildings"])
     assert farm.log() == ["demolish"]
+
+
+def test_daily_gold_and_premium_rabbits(game, farm):
+    assert farm.state()["gold"] == 50 + 100, "first visit of the day"
+    reload(game)
+    assert farm.state()["gold"] == 50 + 100, "once a day"
+
+    farm.patch({"level": 60, "gold": 5000, "cash": 10_000})
+    farm.add_house()
+    reload(game)
+    open_tab(game, "build")
+    game.get_by_role("tab", name="Premium").click()
+    rabbits = row(game, "Clapier premium")
+    assert "1 960" in text(rabbits), "gold cost"
+    assert game.locator(".row-emoji img[src*=premium_rabbit_hutch]").count() == 1, "its generated picture"

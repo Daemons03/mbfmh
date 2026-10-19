@@ -3,7 +3,11 @@ import json
 
 from conftest import ROOT, accept_modal, close_sheet, grid_side, open_tab, row, settle, tap
 
-MAX_LEVEL = json.loads((ROOT / "data" / "game-data.json").read_text())["player"]["max_level"]
+DATA = json.loads((ROOT / "data" / "game-data.json").read_text())
+# No max level: "tout débloquer" goes to the level of the last unlock (GameData::highestUnlockLevel).
+MAX_LEVEL = max([i["unlock_level"] for i in DATA["items"].values()]
+                + [l["unlock_level"] for b in DATA["buildings"].values() for l in b["levels"] if "unlock_level" in l]
+                + [e["unlock_level"] for e in DATA["land"]["expansions"]])
 
 
 def test_finish_jobs_and_speed(game, farm):

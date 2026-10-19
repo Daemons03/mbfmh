@@ -69,7 +69,7 @@ final class AdminTest extends EngineTestCase
     public function testSetLevelValidation(): void
     {
         $this->assertOpError('invalid_payload', 'set_level', ['level' => 0]);
-        $this->assertOpError('invalid_payload', 'set_level', ['level' => $this->data->maxLevel() + 1]);
+        $this->assertOpError('invalid_payload', 'set_level', ['level' => 100_001]);
         $this->assertOpError('invalid_payload', 'set_level', ['level' => 1, 'xp' => $this->data->xpForLevel(1)]);
     }
 
@@ -112,7 +112,7 @@ final class AdminTest extends EngineTestCase
     {
         $this->op('unlock_all', []);
 
-        self::assertSame($this->data->maxLevel(), $this->state['level']);
+        self::assertSame($this->data->highestUnlockLevel(), $this->state['level'], 'no max level: the last unlock');
         self::assertSame(55, $this->state['expansions']);
         $this->act('plant', ['id' => 'b2', 'crop' => 'barley']);
         // Block 55 is (7,5): cells x 28-31, y 20-23. Below it (y 24) is still locked.
