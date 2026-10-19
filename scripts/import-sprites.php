@@ -27,6 +27,7 @@ const WEBP_QUALITY = 88;
 const NAMES = [
     'champ' => 'field', 'champ_fertile' => 'fertile_field', 'champ_premium' => 'premium_field',
     'poule' => 'chicken_coop', 'poule_premium' => 'premium_chicken_coop', 'poule_plein_air' => 'free_range_chicken_coop',
+    'poulailler' => 'chicken_coop', 'poulailler_premium' => 'premium_chicken_coop', 'poulailler_plein_air' => 'free_range_chicken_coop',
     'porcherie' => 'pigsty', 'porcherie_premium' => 'premium_pigsty', 'porcherie_plein_air' => 'free_range_pigsty',
     'etable' => 'cowshed', 'etable_premium' => 'premium_cowshed', 'etable_plein_air' => 'free_range_cowshed',
     'chevre' => 'goat_stable', 'chevre_premium' => 'premium_goat_stable', 'chevre_plein_air' => 'free_range_goat_stable',

@@ -199,21 +199,72 @@
         }
     },
     "chicken_coop": {
-        "1": {
-            "file": "chicken_coop-1.webp",
-            "width": 177,
-            "height": 94,
+        "L1": {
+            "file": "chicken_coop-L1.webp",
+            "width": 334,
+            "height": 234,
             "left": [
-                0,
-                50.5
+                4,
+                154
             ],
             "right": [
-                176,
-                55
+                330,
+                150.5
             ],
             "bottom": [
-                76,
-                93
+                163,
+                229
+            ]
+        },
+        "L10": {
+            "file": "chicken_coop-L10.webp",
+            "width": 413,
+            "height": 280,
+            "left": [
+                4,
+                179.5
+            ],
+            "right": [
+                409,
+                171
+            ],
+            "bottom": [
+                193.5,
+                275
+            ]
+        },
+        "L12": {
+            "file": "chicken_coop-L12.webp",
+            "width": 421,
+            "height": 279,
+            "left": [
+                4,
+                182.5
+            ],
+            "right": [
+                416,
+                173.4
+            ],
+            "bottom": [
+                192.5,
+                274
+            ]
+        },
+        "L5": {
+            "file": "chicken_coop-L5.webp",
+            "width": 376,
+            "height": 253,
+            "left": [
+                4,
+                164
+            ],
+            "right": [
+                372,
+                158.5
+            ],
+            "bottom": [
+                176,
+                248
             ]
         }
     },
@@ -455,21 +506,89 @@
         }
     },
     "field": {
-        "1": {
-            "file": "field-1.webp",
-            "width": 189,
-            "height": 90,
+        "L1": {
+            "file": "field-L1.webp",
+            "width": 322,
+            "height": 166,
             "left": [
-                0,
-                38
+                4,
+                87
             ],
             "right": [
-                189,
-                54.5
+                317,
+                94.5
             ],
             "bottom": [
-                119.5,
-                90
+                144,
+                162
+            ]
+        },
+        "L10": {
+            "file": "field-L10.webp",
+            "width": 418,
+            "height": 202,
+            "left": [
+                4,
+                110
+            ],
+            "right": [
+                414,
+                109
+            ],
+            "bottom": [
+                166,
+                198
+            ]
+        },
+        "L15": {
+            "file": "field-L15.webp",
+            "width": 429,
+            "height": 207,
+            "left": [
+                4,
+                104.5
+            ],
+            "right": [
+                424,
+                114.3
+            ],
+            "bottom": [
+                170,
+                202
+            ]
+        },
+        "L18": {
+            "file": "field-L18.webp",
+            "width": 506,
+            "height": 220,
+            "left": [
+                5,
+                109
+            ],
+            "right": [
+                502,
+                122.5
+            ],
+            "bottom": [
+                213,
+                216
+            ]
+        },
+        "L5": {
+            "file": "field-L5.webp",
+            "width": 383,
+            "height": 174,
+            "left": [
+                5,
+                85
+            ],
+            "right": [
+                378,
+                96.5
+            ],
+            "bottom": [
+                178.5,
+                170
             ]
         }
     },
@@ -531,38 +650,72 @@
         }
     },
     "free_range_chicken_coop": {
-        "1": {
-            "file": "free_range_chicken_coop-1.webp",
-            "width": 200,
-            "height": 103,
+        "L1": {
+            "file": "free_range_chicken_coop-L1.webp",
+            "width": 384,
+            "height": 240,
             "left": [
-                3,
-                57.5
+                4,
+                147.5
             ],
             "right": [
-                199,
-                54
+                380,
+                144.5
             ],
             "bottom": [
-                91,
-                103
+                190.5,
+                236
             ]
         },
-        "2": {
-            "file": "free_range_chicken_coop-2.webp",
-            "width": 178,
-            "height": 114,
+        "L10": {
+            "file": "free_range_chicken_coop-L10.webp",
+            "width": 416,
+            "height": 292,
             "left": [
-                0,
-                79.5
+                4,
+                187
             ],
             "right": [
-                178,
-                75.3
+                412,
+                193.5
             ],
             "bottom": [
-                75,
-                113
+                199,
+                286
+            ]
+        },
+        "L12": {
+            "file": "free_range_chicken_coop-L12.webp",
+            "width": 416,
+            "height": 279,
+            "left": [
+                4,
+                187.5
+            ],
+            "right": [
+                412,
+                186.5
+            ],
+            "bottom": [
+                177.5,
+                274
+            ]
+        },
+        "L5": {
+            "file": "free_range_chicken_coop-L5.webp",
+            "width": 401,
+            "height": 279,
+            "left": [
+                4,
+                178.5
+            ],
+            "right": [
+                397,
+                174.5
+            ],
+            "bottom": [
+                201,
+                275
             ]
         }
     },
@@ -677,38 +830,72 @@
         }
     },
     "free_range_pigsty": {
-        "1": {
-            "file": "free_range_pigsty-1.webp",
-            "width": 188,
-            "height": 93,
+        "L1": {
+            "file": "free_range_pigsty-L1.webp",
+            "width": 385,
+            "height": 232,
             "left": [
-                1,
-                37
+                5,
+                140
             ],
             "right": [
-                186,
-                58.5
+                380,
+                137
             ],
             "bottom": [
-                118.5,
-                92
+                197,
+                227
             ]
         },
-        "2": {
-            "file": "free_range_pigsty-2.webp",
-            "width": 201,
-            "height": 136,
+        "L10": {
+            "file": "free_range_pigsty-L10.webp",
+            "width": 416,
+            "height": 279,
             "left": [
-                1,
-                92.3
+                5,
+                169
             ],
             "right": [
-                200,
-                70.1
+                412,
+                165.5
             ],
             "bottom": [
-                92.5,
-                136
+                194.5,
+                274
+            ]
+        },
+        "L12": {
+            "file": "free_range_pigsty-L12.webp",
+            "width": 429,
+            "height": 329,
+            "left": [
+                5,
+                220.5
+            ],
+            "right": [
+                426,
+                204.3
+            ],
+            "bottom": [
+                214,
+                324
+            ]
+        },
+        "L5": {
+            "file": "free_range_pigsty-L5.webp",
+            "width": 408,
+            "height": 249,
+            "left": [
+                5,
+                152
+            ],
+            "right": [
+                404,
+                146
+            ],
+            "bottom": [
+                201.5,
+                245
             ]
         }
     },
@@ -990,21 +1177,72 @@
         }
     },
     "pigsty": {
-        "1": {
-            "file": "pigsty-1.webp",
-            "width": 190,
-            "height": 129,
+        "L1": {
+            "file": "pigsty-L1.webp",
+            "width": 354,
+            "height": 208,
             "left": [
-                0,
-                77.5
+                5,
+                132
             ],
             "right": [
-                189,
-                94
+                350,
+                114.5
             ],
             "bottom": [
-                120,
-                129
+                156,
+                203
+            ]
+        },
+        "L10": {
+            "file": "pigsty-L10.webp",
+            "width": 422,
+            "height": 259,
+            "left": [
+                4,
+                157.5
+            ],
+            "right": [
+                417,
+                153
+            ],
+            "bottom": [
+                200,
+                254
+            ]
+        },
+        "L12": {
+            "file": "pigsty-L12.webp",
+            "width": 423,
+            "height": 293,
+            "left": [
+                3,
+                176.5
+            ],
+            "right": [
+                419,
+                176
+            ],
+            "bottom": [
+                212,
+                288
+            ]
+        },
+        "L5": {
+            "file": "pigsty-L5.webp",
+            "width": 383,
+            "height": 224,
+            "left": [
+                4,
+                140.5
+            ],
+            "right": [
+                378,
+                121.5
+            ],
+            "bottom": [
+                169,
+                220
             ]
         }
     },
@@ -1187,55 +1425,72 @@
         }
     },
     "premium_chicken_coop": {
-        "1": {
-            "file": "premium_chicken_coop-1.webp",
-            "width": 138,
-            "height": 82,
+        "L1": {
+            "file": "premium_chicken_coop-L1.webp",
+            "width": 355,
+            "height": 236,
             "left": [
-                0,
-                51.5
+                4,
+                151
             ],
             "right": [
-                137,
-                51
+                350,
+                145
             ],
             "bottom": [
-                59.5,
-                82
+                176,
+                231
             ]
         },
-        "2": {
-            "file": "premium_chicken_coop-2.webp",
-            "width": 144,
-            "height": 82,
+        "L10": {
+            "file": "premium_chicken_coop-L10.webp",
+            "width": 400,
+            "height": 271,
             "left": [
-                0,
-                54.5
+                5,
+                168
             ],
             "right": [
-                139,
-                52
+                395,
+                167.5
             ],
             "bottom": [
-                57.5,
-                82
+                197,
+                267
             ]
         },
-        "3": {
-            "file": "premium_chicken_coop-3.webp",
-            "width": 138,
-            "height": 83,
+        "L12": {
+            "file": "premium_chicken_coop-L12.webp",
+            "width": 418,
+            "height": 280,
             "left": [
-                0,
-                55.5
+                5,
+                174.5
             ],
             "right": [
-                138,
-                50.5
+                414,
+                175
             ],
             "bottom": [
-                59.5,
-                83
+                206.5,
+                276
+            ]
+        },
+        "L5": {
+            "file": "premium_chicken_coop-L5.webp",
+            "width": 390,
+            "height": 255,
+            "left": [
+                4,
+                156.5
+            ],
+            "right": [
+                385,
+                154
+            ],
+            "bottom": [
+                186,
+                251
             ]
         }
     },
@@ -1346,55 +1601,89 @@
         }
     },
     "premium_field": {
-        "1": {
-            "file": "premium_field-1.webp",
-            "width": 158,
-            "height": 73,
+        "L1": {
+            "file": "premium_field-L1.webp",
+            "width": 319,
+            "height": 164,
             "left": [
-                1,
-                24
+                5,
+                86
             ],
             "right": [
-                157,
-                43
+                315,
+                92
             ],
             "bottom": [
-                101,
-                72
+                129,
+                159
             ]
         },
-        "2": {
-            "file": "premium_field-2.webp",
-            "width": 157,
-            "height": 74,
+        "L10": {
+            "file": "premium_field-L10.webp",
+            "width": 488,
+            "height": 214,
             "left": [
-                0,
-                25.5
+                4,
+                119
             ],
             "right": [
-                156,
-                44.4
+                483,
+                105
             ],
             "bottom": [
-                101.5,
-                73
+                174.5,
+                209
             ]
         },
-        "3": {
-            "file": "premium_field-3.webp",
-            "width": 154,
-            "height": 76,
+        "L15": {
+            "file": "premium_field-L15.webp",
+            "width": 508,
+            "height": 246,
             "left": [
-                0,
-                32.5
+                5,
+                149
             ],
             "right": [
-                154,
-                48
+                504,
+                137.5
             ],
             "bottom": [
-                97.5,
-                76
+                196.5,
+                241
+            ]
+        },
+        "L18": {
+            "file": "premium_field-L18.webp",
+            "width": 574,
+            "height": 243,
+            "left": [
+                5,
+                143
+            ],
+            "right": [
+                570,
+                115
+            ],
+            "bottom": [
+                229,
+                238
+            ]
+        },
+        "L5": {
+            "file": "premium_field-L5.webp",
+            "width": 423,
+            "height": 192,
+            "left": [
+                4,
+                108.5
+            ],
+            "right": [
+                418,
+                98
+            ],
+            "bottom": [
+                148.5,
+                188
             ]
         }
     },
@@ -1645,55 +1934,72 @@
         }
     },
     "premium_pigsty": {
-        "1": {
-            "file": "premium_pigsty-1.webp",
-            "width": 157,
-            "height": 106,
+        "L1": {
+            "file": "premium_pigsty-L1.webp",
+            "width": 389,
+            "height": 211,
             "left": [
-                1,
-                56.5
+                5,
+                123
             ],
             "right": [
-                156,
-                75.5
+                385,
+                115
             ],
             "bottom": [
-                101,
-                106
+                184.5,
+                207
             ]
         },
-        "2": {
-            "file": "premium_pigsty-2.webp",
-            "width": 147,
-            "height": 108,
+        "L10": {
+            "file": "premium_pigsty-L10.webp",
+            "width": 431,
+            "height": 271,
             "left": [
-                0,
-                62.5
+                4,
+                169
             ],
             "right": [
-                147,
-                77.5
+                426,
+                165.5
             ],
             "bottom": [
-                92,
-                107
+                211,
+                266
             ]
         },
-        "3": {
-            "file": "premium_pigsty-3.webp",
-            "width": 148,
-            "height": 104,
+        "L12": {
+            "file": "premium_pigsty-L12.webp",
+            "width": 429,
+            "height": 300,
             "left": [
-                1,
-                60
+                5,
+                182.5
             ],
             "right": [
-                147,
-                76
+                425,
+                184.5
             ],
             "bottom": [
-                94.5,
-                103
+                213.5,
+                296
+            ]
+        },
+        "L5": {
+            "file": "premium_pigsty-L5.webp",
+            "width": 409,
+            "height": 240,
+            "left": [
+                4,
+                145.5
+            ],
+            "right": [
+                405,
+                139
+            ],
+            "bottom": [
+                199.5,
+                236
             ]
         }
     },

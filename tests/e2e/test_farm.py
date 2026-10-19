@@ -278,7 +278,10 @@ def test_rotate_when_placing_and_in_place(game, farm):
 
     field = next(b for b in farm.state()["buildings"] if (b.get("x"), b.get("y")) == (6, 0))
     assert field.get("rotated") is True, "2 x 3 instead of 3 x 2"
-    assert game.locator(f".building[data-id={field['id']}] .mirrored").count() == 1
+    picture = game.locator(f".building[data-id={field['id']}] img.sprite")
+    mirrored = "mirrored" in picture.get_attribute("class")
+    starter = game.locator(".building[data-id=b2] img.sprite")  # same picture, not turned
+    assert mirrored != ("mirrored" in starter.get_attribute("class")), "a quarter turn mirrors the picture"
 
     tap(game, 6, 2)  # third row only exists once rotated
     game.wait_for_selector("#sheet:not([hidden])")
@@ -286,6 +289,7 @@ def test_rotate_when_placing_and_in_place(game, farm):
     game.get_by_role("button", name="Pivoter").click()
     settle(game)
     assert "rotated" not in next(b for b in farm.state()["buildings"] if b["id"] == field["id"])
+    assert ("mirrored" in picture.get_attribute("class")) != mirrored, "turned back"
     assert farm.log() == ["build", "rotate"]
 
 

@@ -5848,7 +5848,7 @@
       "name": "Fabrique artisanale",
       "emoji": "🏺",
       "kind": "production",
-      "max_count": 1,
+      "max_count": 2,
       "levels": [
         {
           "level": 1,
@@ -14576,9 +14576,81 @@
           "workers": 65,
           "happiness": -180,
           "_estimated": true
+        },
+        {
+          "level": 13,
+          "unlock_level": 129,
+          "cost": {
+            "cash": 1900000,
+            "mallets": 9280,
+            "buckets": 10900
+          },
+          "workers": 70,
+          "happiness": -190,
+          "_estimated": true
+        },
+        {
+          "level": 14,
+          "unlock_level": 139,
+          "cost": {
+            "cash": 2850000,
+            "mallets": 14800,
+            "buckets": 17400
+          },
+          "workers": 75,
+          "happiness": -200,
+          "_estimated": true
+        },
+        {
+          "level": 15,
+          "unlock_level": 149,
+          "cost": {
+            "cash": 4270000,
+            "mallets": 23800,
+            "buckets": 27900
+          },
+          "workers": 80,
+          "happiness": -210,
+          "_estimated": true
+        },
+        {
+          "level": 16,
+          "unlock_level": 159,
+          "cost": {
+            "cash": 6400000,
+            "mallets": 38000,
+            "buckets": 44600
+          },
+          "workers": 85,
+          "happiness": -220,
+          "_estimated": true
+        },
+        {
+          "level": 17,
+          "unlock_level": 169,
+          "cost": {
+            "cash": 9610000,
+            "mallets": 60800,
+            "buckets": 71300
+          },
+          "workers": 90,
+          "happiness": -230,
+          "_estimated": true
+        },
+        {
+          "level": 18,
+          "unlock_level": 179,
+          "cost": {
+            "cash": 14400000,
+            "mallets": 97300,
+            "buckets": 114000
+          },
+          "workers": 95,
+          "happiness": -240,
+          "_estimated": true
         }
       ],
-      "_note": "Ouvriers et bonheur : valeurs du jeu (captures du joueur, identiques au fan site)."
+      "_note": "Ouvriers et bonheur : valeurs du jeu (captures du joueur, identiques au fan site). Niveaux 13 à 18 (créés pour Ferme Tranquille) : +5 ouvriers par niveau, niveau requis et bonheur de l'habitation premium, coût × 1,5 en cash et × 1,6 en maillets et seaux par niveau."
     },
     "flowerbed": {
       "name": "Parterre de fleurs",
