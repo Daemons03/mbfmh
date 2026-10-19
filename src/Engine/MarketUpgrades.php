@@ -84,8 +84,17 @@ final readonly class MarketUpgrades
      */
     public function marketLevel(Farm $farm): array
     {
-        $step = $this->data->market()['market_xp']['level_step'] ?? 1800;
-        $total = $farm->marketXp();
+        return self::levelFor($this->data, $farm->marketXp());
+    }
+
+    /**
+     * Market level of a total market XP (the player's or a bot's).
+     *
+     * @return array{level: int, xp: int, needed: int}
+     */
+    public static function levelFor(GameData $data, int $total): array
+    {
+        $step = $data->market()['market_xp']['level_step'] ?? 1800;
         $level = (int) floor(sqrt($total / $step)) + 1;
         while ($step * $level ** 2 <= $total) { // float rounding at exact thresholds
             $level++;

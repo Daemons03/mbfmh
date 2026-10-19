@@ -42,6 +42,21 @@ final class TestDb
                 created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
             )',
         );
+        $pdo->exec(
+            'CREATE TABLE bot_world (
+                id INTEGER PRIMARY KEY,
+                meta_json TEXT NOT NULL,
+                version INTEGER NOT NULL DEFAULT 1,
+                updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            )',
+        );
+        $pdo->exec(
+            'CREATE TABLE bots (
+                id INTEGER PRIMARY KEY,
+                tier INTEGER NOT NULL,
+                data_json TEXT NOT NULL
+            )',
+        );
 
         return $pdo;
     }

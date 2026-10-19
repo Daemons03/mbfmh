@@ -5,8 +5,10 @@ declare(strict_types=1);
 use FermeTranquille\Api\Api;
 use FermeTranquille\Api\ApiResponse;
 use FermeTranquille\Auth;
+use FermeTranquille\BotRepository;
 use FermeTranquille\Config;
 use FermeTranquille\Db;
+use FermeTranquille\Engine\BotWorld;
 use FermeTranquille\Engine\Engine;
 use FermeTranquille\GameData;
 use FermeTranquille\Session\NativeSession;
@@ -39,6 +41,7 @@ try {
         $gameData,
         $engine,
         new StateRepository($pdo, $engine),
+        bots: new BotRepository($pdo, new BotWorld($gameData)),
     );
 
     $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
@@ -57,7 +60,7 @@ try {
         }
     }
 
-    $send($api->handle($method, $route, $body, $_SERVER['HTTP_X_CSRF_TOKEN'] ?? null));
+    $send($api->handle($method, $route, $body, $_SERVER['HTTP_X_CSRF_TOKEN'] ?? null, $_GET));
 } catch (Throwable $e) {
     error_log('[ferme-tranquille] ' . $e);
     $send(new ApiResponse(500, [

@@ -2,6 +2,7 @@ import { performAdmin } from '../actions.js';
 import { h } from '../dom.js';
 import { fmtInt, fmtNumber } from '../format.js';
 import { store } from '../store.js';
+import { botAdminSection } from './bots.js';
 import { toast } from './toast.js';
 
 const SPEED_PRESETS = [1, 10, 100, 1000];
@@ -20,6 +21,7 @@ export function adminPanel(extra = () => null) {
             resourcesSection(),
             barnSection(),
             tournamentSection(),
+            botAdminSection(section, numberField),
             dangerSection(),
             extra(),
         ],

@@ -1,8 +1,13 @@
 import { h } from '../dom.js';
 import { fmtCost, fmtDuration, fmtInt } from '../format.js';
 import { serverNow, store } from '../store.js';
+import { botPanel, rankingBlock, titleBadge } from './bots.js';
+import { openSheet, refreshSheet } from './sheet.js';
 
 const GROUPS = { first: 'Montée', podium: 'Montée', middle: 'Maintien', relegated: 'Descente' };
+
+/** Open tab: the player's league or the ranking of every farm. */
+let tab = 'league';
 
 export function tournamentPanel() {
     return {
@@ -10,13 +15,26 @@ export function tournamentPanel() {
         render: () => {
             const view = store.view.tournament;
             if (!view) return [h('p', { class: 'muted' }, 'Le tournoi démarre à la prochaine synchronisation.')];
+            const tabButton = (id, label) => h('button', {
+                type: 'button',
+                role: 'tab',
+                class: `subtab${tab === id ? ' active' : ''}`,
+                'aria-selected': tab === id ? 'true' : 'false',
+                onclick: () => {
+                    tab = id;
+                    refreshSheet();
+                },
+            }, label);
 
             return [
-                leagueCard(view),
-                lastWeekCard(view),
-                pointsCard(view),
-                h('p', { class: 'section-title' }, 'Classement'),
-                h('ol', { class: 'ranking' }, view.ranking.map((row, i) => rankRow(row, i + 1))),
+                h('div', { class: 'subtabs', role: 'tablist' }, tabButton('league', '🏅 Ma ligue'), tabButton('world', '🌍 Classement')),
+                tab === 'world' ? rankingBlock(tournamentPanel) : [
+                    leagueCard(view),
+                    lastWeekCard(view),
+                    pointsCard(view),
+                    h('p', { class: 'section-title' }, 'Ma ligue'),
+                    h('ol', { class: 'ranking' }, view.ranking.map((row, i) => rankRow(row, i + 1))),
+                ],
             ];
         },
     };
@@ -112,8 +130,12 @@ function pointsCard(view) {
 
 function rankRow(row, rank) {
     const group = groupOf(rank);
-    return h('li', { class: `rank-row zone-${group}${row.me ? ' me' : ''}` },
-        h('span', { class: 'rank-number' }, String(rank)),
-        h('span', { class: 'rank-name' }, row.me ? `⭐ ${row.name}` : row.name),
-        h('span', { class: 'rank-points' }, fmtInt(row.points)));
+    const bot = !row.me && row.id;
+    return h('li', {
+        class: `rank-row zone-${group}${row.me ? ' me' : ''}${bot ? ' clickable' : ''}`,
+        onclick: bot ? () => openSheet(botPanel(row.id, tournamentPanel)) : null,
+    },
+    h('span', { class: 'rank-number' }, String(rank)),
+    h('span', { class: 'rank-name' }, row.me ? `⭐ ${row.name}` : row.name, ' ', titleBadge(row.title)),
+    h('span', { class: 'rank-points' }, fmtInt(row.points)));
 }

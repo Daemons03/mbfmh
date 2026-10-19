@@ -42,8 +42,21 @@ final class Engine
         'upgrade_market' => Actions\UpgradeMarket::class,
     ];
 
-    public function __construct(private readonly GameData $data)
+    public function __construct(
+        private readonly GameData $data,
+        private readonly ?TournamentOpponents $opponents = null,
+    ) {
+    }
+
+    /** Same engine with the tournament played against these opponents (the bots). */
+    public function withOpponents(?TournamentOpponents $opponents): self
     {
+        return new self($this->data, $opponents);
+    }
+
+    public function tournament(): Tournament
+    {
+        return new Tournament($this->data, $this->opponents);
     }
 
     /**
@@ -70,7 +83,7 @@ final class Engine
         $this->settle($farm, $clock);
         (new $actionClass())->apply($farm, new Payload($payload), $clock);
         if (isset($this->data->toArray()['tournament'])) {
-            (new Tournament($this->data))->grantObjectives($farm); // objectives reached by this action pay at once
+            $this->tournament()->grantObjectives($farm); // objectives reached by this action pay at once
         }
 
         return $farm->toArray();
@@ -107,7 +120,7 @@ final class Engine
             (new ShowAnimals($this->data))->grantDailyTokens($farm, $clock->now);
         }
         if (isset($this->data->toArray()['tournament'])) {
-            $tournament = new Tournament($this->data);
+            $tournament = $this->tournament();
             $tournament->settle($farm, $clock->now);
             $tournament->grantObjectives($farm); // e.g. points given by the admin
         }
@@ -198,7 +211,7 @@ final class Engine
             'show' => isset($this->data->toArray()['show_animals']) ? (new ShowAnimals($this->data))->view($farm, $clock) : null,
             'library' => $library->view($farm),
             'market' => (new MarketUpgrades($this->data))->view($farm),
-            'tournament' => $farm->tournament() !== [] ? (new Tournament($this->data))->view($farm, $now) : null,
+            'tournament' => $farm->tournament() !== [] ? $this->tournament()->view($farm, $now) : null,
         ];
     }
 

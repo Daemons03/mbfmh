@@ -12,6 +12,7 @@ declare(strict_types=1);
 //   php tests/e2e/helper.php log         <login>      -> ["plant", "harvest", ...]
 //   php tests/e2e/helper.php add-house   <login> <x> <y>   (10 more workers, -35 happiness)
 //   php tests/e2e/helper.php view        <login>      -> derived values (workers, happiness...)
+//   php tests/e2e/helper.php reset-bots  <login>      (empties the bot world: recreated at the next request)
 
 use FermeTranquille\Auth;
 use FermeTranquille\Db;
@@ -111,6 +112,12 @@ switch ($command) {
 
     case 'view':
         $print($engine->view($states->load($userId())['state'], time()));
+        break;
+
+    case 'reset-bots':
+        $pdo->exec('DELETE FROM bots');
+        $pdo->exec('DELETE FROM bot_world');
+        $print(true);
         break;
 
     case 'log':

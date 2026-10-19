@@ -84,6 +84,10 @@ class Farm:
     def log(self) -> list[str]:
         return self._run("log", LOGIN)
 
+    def reset_bots(self):
+        """Empties the bot world (shared by every test): a fresh one comes with the next request."""
+        self._run("reset-bots", LOGIN)
+
     def add_house(self, x: int = 10, y: int = 0):
         """A house on the farm (2x2): 10 more workers, -35 happiness."""
         self._run("add-house", LOGIN, str(x), str(y))

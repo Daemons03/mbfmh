@@ -54,6 +54,8 @@ Un panneau admin permet de modifier librement ressources, niveau et vitesse du t
 users(id PK, login UNIQUE, password_hash, created_at)
 player_state(user_id PK FK, state_json JSON, version INT, updated_at)
 action_log(id PK, user_id, action_type, payload_json, created_at)  -- debug, purge > 30 jours
+bot_world(id PK = 1, meta_json JSON, version INT, updated_at)      -- monde des bots : jour, semaine, vitesse
+bots(id PK, tier, data_json JSON)                                   -- un bot par ligne (tier = palier de la semaine)
 ```
 
 L'état complet de la ferme est un document JSON (`state_json`). `version` est incrémentée à chaque écriture ; une écriture avec une version périmée renvoie HTTP 409 et le front recharge l'état.
@@ -110,6 +112,8 @@ Toutes les réponses : `{ ok, state?, server_now, error? }`. POST protégés par
 | GET | /api/state | `{ state, version, view }` (créé au premier accès) |
 | POST | /api/action | `{ type, payload, version }` → `{ state, version, view }` |
 | POST | /api/admin | `{ op, payload, version }` → `{ state, version, view }` (même verrou 409/422 qu'`/api/action`, journalisé `admin:<op>`) |
+| GET | /api/bots | classement : tous les bots (id, nom, titre, niveau, niveau de marché, palier) + `me` + `world` |
+| GET | /api/bot?id= | profil d'un bot (bâtiments et niveaux, cash, terrain) |
 
 - `view` = valeurs dérivées jamais stockées : `barn {capacity, full}`, `grid {side, block_size, owned_blocks, next_block}`, `xp_needed`, `jobs {id: {ready_at, ready}}`, `contracts {id: {available_at, available}}`, `production {id: {inputs, outputs, duration, xp}}`.
 - Codes d'erreur : 400 requête mal formée, 401 non connecté, 403 CSRF, 409 `stale_state` (renvoie `state` + `version` à jour), 422 règle de jeu (`error` = code stable, `message` en français, `details`).
@@ -121,6 +125,8 @@ Types d'action V1 : `build`, `move`, `demolish`, `plant`, `harvest`, `start_prod
 Productions en cours (champ, bâtiment de production) : `cancel_job { id }` annule, tout ce qui a été engagé est perdu ; `speed_up { id }` rend prêt tout de suite contre de l'or : `speed_up.gold_per_minute` (10) par minute restante entamée, 10 au minimum. Animaux de concours : `cancel_show_animal { species }` (production perdue, emplacement libéré).
 
 « Tout » : `plant_all` (mêmes options que `plant`) plante le champ choisi puis tous les autres champs libres ; `start_production_all` (mêmes options que `start_production`) lance le bâtiment choisi puis tous les bâtiments libres du même type, variantes comprises (lots plafonnés par bâtiment). Chaque bâtiment refusé (ressources épuisées) est annulé et passé ; le front signale ceux qui restent libres. Pas de « Tout » pour les silos. Construire : onglets Normaux, Premium (premium et fertile), Plein air, Décoration, Extérieur. Nombre de bâtiments : champs, bâtiments d'animaux, vergers et prairies (variantes comprises) **illimités** (`max_count: null`) ; les autres gardent leur limite (moulin 2, moulin premium 3, silo 2, composteur 2, ruche 2, laiterie 1, confitures 1, grange 1…). Marché : « Jeter » sans confirmation.
+
+Opérations admin des bots (monde commun, la ferme ne change pas) : `set_bot_speed { speed }` (0,1 à 100), `advance_bots { days }` (1 à 60), `reset_bots`.
 
 Opérations admin : `set_resources` (cash, or, matériaux, objets de grange — peut dépasser la capacité), `set_level` (+ xp optionnel), `set_speed` (0,1 à 1 000), `finish_all_jobs` (productions et contrats en attente), `unlock_all` (niveau max + tout le terrain), `reset_farm`, `set_tournament_curve`, `finish_tournament_week`. Interface : onglet Admin du jeu et `public/admin.html` (même composant `ui/admin.js`).
 
@@ -243,7 +249,8 @@ Sources : captures du joueur (3 contrats niveau de marché 147, écran du tourno
      - Roses pour le podium (estimé).
    - Code : `Engine/Tournament.php` (réglé à chaque lecture comme le café). État `tournament = { week, round, started_at, tier, start_xp, seed, last }` ; points = `market_xp − start_xp`. Les fermes fictives montent de 0 (début du tournoi) à leur score final (fin de semaine). Admin : `set_tournament_curve { curve: { groupe: { objective, percent } } }` (dans `settings.tournament_curve`) et `finish_tournament_week` (termine le tournoi tout de suite, un nouveau court jusqu'à la fin de la semaine). Argent de place par palier : 1 500 → 460 000 💵 (calcul du générateur).
 4. ✅ **Objectifs de points du tournoi** : 6 paliers par ligue (6ᵉ = 2 000 points en bronze 1★, 1,5 M en diamant 1★ ; objectifs 1 à 5 = 5, 12, 25, 45, 70 % du 6ᵉ), récompense versée dès que l'objectif est atteint (après chaque action, et à la lecture). Options par objectif, qui changent chaque semaine : 1 = nourriture / engrais / humus instantané ; 2 = tulipes / fleurs d'or / semences premium de la meilleure culture ; 3 = nourriture premium ; 4 = humus premium ; 5 = engrais premium ; 6 = clés. Quantités = base + par palier (diamant 3★ : 5, 10, 150, 70, 150, 60 comme la capture). État : `tournament.claimed`.
-5. Ensuite **V4** : boulangerie et fermes exotiques. Pièces de tournoi et décorations de tournoi : abandonnées.
+5. ✅ **Bots** (`Engine/BotWorld.php`, données `bots`) : 1 000 fermes simulées aux noms de personnages historiques (numérotés en cas de doublon) avec un titre de profil : 20 % « 90 », 30 % « 70 », 40 % « 60 », 10 % « 50 » (part d'une journée de 24 h jouée, ± 10 % par jour). Elles partent du niveau 1 et avancent d'un jour à la fois (calculé au premier appel du jour, 7 jours de rattrapage par requête) : production de toute la ferme avec les durées réelles et les chaînes (une recette n'est gardée que si la ferme y gagne, XP comptée à `xp_value`), demande du marché limitée (`contracts_per_day` contrats, 1 à 3 produits parmi ceux du bot ; le surplus part à la grange), coûts réduits par la clôture comme le joueur, puis achats (terrain, habitations, bâtiments débloqués, améliorations ; jamais d'or). Elles jouent leurs propres ligues chaque lundi (3 montent, 5 descendent) ; la ligue du joueur = la première ligue de bots de son palier (complétée par les paliers voisins), points = vraie XP de marché de la semaine (`TournamentOpponents` / `BotLeagues`). Sans tables `bots`, le tournoi garde ses fermes inventées (courbe admin). Écran : onglets « Ma ligue » / « Classement » (tri niveau, marché, palier ; filtre par titre ; top 100 / autour de moi) ; un tap sur un bot ouvre son profil. Vitesse des bots réglable dans l'admin, indépendante de celle du joueur.
+6. Ensuite **V4** : boulangerie et fermes exotiques. Pièces de tournoi et décorations de tournoi : abandonnées.
 
 ### Café-boutique (V2.9)
 

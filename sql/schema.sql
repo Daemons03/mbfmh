@@ -33,3 +33,21 @@ CREATE TABLE IF NOT EXISTS action_log (
     KEY idx_action_log_created (created_at),
     CONSTRAINT fk_action_log_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Bots of the ranking and the tournament (simulated, see Engine/BotWorld.php).
+-- One world (id 1): day, week, speed; one row per bot, tier = its tier this week.
+CREATE TABLE IF NOT EXISTS bot_world (
+    id         TINYINT UNSIGNED NOT NULL,
+    meta_json  JSON             NOT NULL,
+    version    INT UNSIGNED     NOT NULL DEFAULT 1,
+    updated_at DATETIME         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS bots (
+    id        INT UNSIGNED     NOT NULL,
+    tier      TINYINT UNSIGNED NOT NULL,
+    data_json JSON             NOT NULL,
+    PRIMARY KEY (id),
+    KEY idx_bots_tier (tier)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

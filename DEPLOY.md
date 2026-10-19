@@ -189,6 +189,8 @@ curl -sI https://bfmh.dagniere.com/.htaccess             # 404
 curl -sI https://foyer.dagniere.com/                     # 200 (l'autre site n'est pas cassé)
 ```
 
+Le premier appel connecté crée les 1 000 bots (moins d'une seconde) ; ensuite le premier appel de chaque jour les fait jouer (environ 1 s).
+
 Ensuite, le propriétaire ouvre `https://bfmh.dagniere.com/`, se connecte, puis vérifie : la carte s'affiche avec ses images ; une action (planter) fonctionne ; après rechargement de la page, il est toujours connecté.
 
 ## Reprendre la ferme locale (optionnel)
@@ -215,7 +217,7 @@ ssh debian@162.19.39.231 'cd /var/www/ferme-tranquille && git pull && composer i
 ```
 
 - Rien d'autre à faire : `data/game-data.json` est relu automatiquement (cache par date de modification), opcache revalide les fichiers PHP modifiés.
-- Si `sql/schema.sql` change un jour, applique seulement les nouveautés, jamais de `DROP`.
+- Si `sql/schema.sql` change, applique-le : toutes les tables sont en `CREATE TABLE IF NOT EXISTS`, donc `sudo mariadb ferme_tranquille < sql/schema.sql` ajoute les nouvelles sans toucher aux données (jamais de `DROP`). Exemple : les tables `bot_world` et `bots` (bots du classement et du tournoi) ; tant qu'elles manquent, le jeu tourne sans bots.
 - **Nouvelles images** : le propriétaire les importe sur son poste (`php scripts/import-sprites.php asset-a-integrer/all`) et les commite dans `public/assets/img/buildings/`. Sur le serveur, la mise à jour du code suffit.
 
 ## Sauvegardes (recommandé)

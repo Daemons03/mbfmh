@@ -60,4 +60,6 @@ export const api = {
     state: () => request('GET', 'state'),
     action: (type, payload, version) => request('POST', 'action', { type, payload, version }),
     admin: (op, payload, version) => request('POST', 'admin', { op, payload, version }),
+    bots: () => request('GET', 'bots'),
+    bot: (id) => request('GET', `bot?id=${encodeURIComponent(id)}`),
 };

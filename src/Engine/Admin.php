@@ -103,7 +103,7 @@ final readonly class Admin
     private function finishTournamentWeek(array $state, int $now): array
     {
         $farm = new Farm($state, $this->data);
-        (new Tournament($this->data))->finishWeek($farm, $now);
+        $this->engine->tournament()->finishWeek($farm, $now);
 
         return $farm->toArray();
     }

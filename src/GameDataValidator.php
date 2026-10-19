@@ -66,6 +66,9 @@ final class GameDataValidator
         if (isset($this->data['show_animals'])) {
             $this->checkShowAnimals();
         }
+        if (isset($this->data['bots'])) {
+            $this->checkBots();
+        }
         if (isset($this->data['speed_up'])) {
             $this->positiveNumber($this->data['speed_up']['gold_per_minute'] ?? null, 'speed_up.gold_per_minute');
         }
@@ -417,6 +420,42 @@ final class GameDataValidator
             }
             $previous = is_int($points) ? $points : $previous;
             $this->cost($milestone['reward'] ?? null, "cafe.milestones[{$i}].reward");
+        }
+    }
+
+    /**
+     * Bots: count, profiles whose shares add up to 1, names, tuning numbers.
+     */
+    private function checkBots(): void
+    {
+        $bots = $this->data['bots'];
+        $this->positiveInt($bots['count'] ?? null, 'bots.count');
+        $shares = 0.0;
+        foreach ((array) ($bots['profiles'] ?? []) as $i => $profile) {
+            $activity = $profile['activity'] ?? null;
+            if (!is_int($activity) && !is_float($activity) || $activity <= 0 || $activity > 1) {
+                $this->errors[] = "bots.profiles[{$i}].activity: must be in ]0, 1]";
+            }
+            $this->positiveNumber($profile['share'] ?? null, "bots.profiles[{$i}].share");
+            $shares += (float) ($profile['share'] ?? 0);
+            if (!is_string($profile['title'] ?? null)) {
+                $this->errors[] = "bots.profiles[{$i}].title: must be a string";
+            }
+        }
+        if (abs($shares - 1.0) > 0.001) {
+            $this->errors[] = 'bots.profiles: shares must add up to 1';
+        }
+        if (!is_array($bots['names'] ?? null) || $bots['names'] === [] || count(array_unique($bots['names'])) !== count($bots['names'])) {
+            $this->errors[] = 'bots.names: must be a non-empty list of distinct names';
+        }
+        foreach (['land_use', 'xp_value', 'contracts_per_day'] as $key) {
+            $this->positiveNumber($bots[$key] ?? null, "bots.{$key}");
+        }
+        foreach (['purchases_per_day', 'history_weeks', 'max_catch_up_days'] as $key) {
+            $this->positiveInt($bots[$key] ?? null, "bots.{$key}");
+        }
+        if (($bots['max_runs_per_day'] ?? null) !== null) {
+            $this->positiveNumber($bots['max_runs_per_day'], 'bots.max_runs_per_day');
         }
     }
 

@@ -21,7 +21,9 @@ use Random\Randomizer;
  * (round counts closed weeks; started_at is when this tournament began;
  * claimed = objectives already rewarded this week).
  *
- * Invented farms: each one belongs to a rank group and finishes the week at
+ * Opponents: the bots of the player's tier (TournamentOpponents), scored
+ * by the market XP they really earn this week. Without bots, invented
+ * farms: each one belongs to a rank group and finishes the week at
  * objective(group) × (1 + p %), p drawn between (percent - spread) and
  * percent from the curve (admin-tunable, settings.tournament_curve); their
  * score grows linearly from started_at to the end of the week.
@@ -30,8 +32,10 @@ final readonly class Tournament
 {
     private const int WEEK = 7 * 86400;
 
-    public function __construct(private GameData $data)
-    {
+    public function __construct(
+        private GameData $data,
+        private ?TournamentOpponents $opponents = null,
+    ) {
     }
 
     /**
@@ -195,7 +199,7 @@ final readonly class Tournament
         $this->grantObjectives($farm);
         $state = $this->state($farm);
         $points = $farm->marketXp() - $state['start_xp'];
-        $rank = $this->rankOf($points, $this->botScores($farm, $state, 1.0));
+        $rank = $this->rankOf($points, $this->botScores($farm, $state, 1.0, $nextStart));
         $tier = $state['tier'];
         $rewards = $this->rankRewards($tier, $rank);
         $this->pay($farm, $rewards);
@@ -222,14 +226,21 @@ final readonly class Tournament
     }
 
     /**
-     * The invented farms of the week with their score at `progress` (0..1
-     * of the week).
+     * The opponents of the week with their score at $at: the bots of the
+     * tier when there are some, else the invented farms at `progress`
+     * (0..1 of the week).
      *
      * @param array<string, mixed> $state
-     * @return list<array{name: string, points: int, group: string}>
+     * @return list<array{name: string, points: int, title?: string, id?: int, group?: string}>
      */
-    public function botScores(Farm $farm, array $state, float $progress): array
+    public function botScores(Farm $farm, array $state, float $progress, int $at = 0): array
     {
+        $bots = $this->opponents?->league($state['week'], $state['tier'], $at);
+        if ($bots !== null) {
+            usort($bots, static fn (array $a, array $b): int => $b['points'] <=> $a['points']);
+
+            return $bots;
+        }
         $config = $this->config();
         $round = $state['round'] ?? 0;
         $random = new Randomizer(new Xoshiro256StarStar(hash('sha256', "{$state['seed']}:{$round}:{$state['tier']}", true)));
@@ -315,7 +326,7 @@ final readonly class Tournament
         $start = min($state['started_at'] ?? $end - self::WEEK, $end - 1);
         $progress = max(0.0, min(1.0, ($now - $start) / ($end - $start)));
         $points = $farm->marketXp() - $state['start_xp'];
-        $bots = $this->botScores($farm, $state, $progress);
+        $bots = $this->botScores($farm, $state, $progress, $now);
         $rank = $this->rankOf($points, $bots);
 
         $ranking = $bots;
@@ -334,7 +345,10 @@ final readonly class Tournament
             'claimed' => $state['claimed'] ?? 0,
             'rank' => $rank,
             'rewards' => $this->rankRewards($state['tier'], $rank),
-            'ranking' => array_map(static fn (array $row): array => ['name' => $row['name'], 'points' => $row['points'], 'me' => $row['me'] ?? false], $ranking),
+            'ranking' => array_map(static fn (array $row): array => [
+                'name' => $row['name'], 'points' => $row['points'], 'me' => $row['me'] ?? false,
+                'title' => $row['title'] ?? null, 'id' => $row['id'] ?? null,
+            ], $ranking),
             'curve' => $this->curve($farm),
             'last' => isset($state['last']) ? $state['last'] + [
                 'name' => $this->tierInfo($state['last']['tier'])['name'],

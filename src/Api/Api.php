@@ -6,12 +6,17 @@ namespace FermeTranquille\Api;
 
 use Closure;
 use FermeTranquille\Auth;
+use FermeTranquille\BotLeagues;
+use FermeTranquille\BotRepository;
 use FermeTranquille\Engine\Admin;
 use FermeTranquille\Engine\Engine;
+use FermeTranquille\Engine\Farm;
 use FermeTranquille\Engine\GameError;
+use FermeTranquille\Engine\MarketUpgrades;
 use FermeTranquille\GameData;
 use FermeTranquille\StaleStateException;
 use FermeTranquille\StateRepository;
+use PDOException;
 
 /**
  * HTTP-agnostic API dispatcher: public/api/index.php feeds it the request.
@@ -27,10 +32,20 @@ final class Api
         'logout' => 'POST',
         'action' => 'POST',
         'admin' => 'POST',
+        'bots' => 'GET',
+        'bot' => 'GET',
     ];
+
+    /** Admin operations on the bot world rather than on the farm. */
+    private const array BOT_OPS = ['set_bot_speed', 'reset_bots', 'advance_bots'];
 
     /** @var Closure(): int */
     private readonly Closure $now;
+
+    private ?Engine $current = null;
+
+    /** Whether this request's engine plays against the bots (tables present). */
+    private bool $botsReady = false;
 
     /**
      * @param (Closure(): int)|null $now
@@ -41,6 +56,7 @@ final class Api
         private readonly Engine $engine,
         private readonly StateRepository $states,
         ?Closure $now = null,
+        private readonly ?BotRepository $bots = null,
     ) {
         $this->now = $now ?? time(...);
     }
@@ -48,8 +64,9 @@ final class Api
     /**
      * @param string $route path after /api/, e.g. "login"
      * @param array<string, mixed> $body decoded JSON body
+     * @param array<string, mixed> $query query string (GET bot?id=)
      */
-    public function handle(string $method, string $route, array $body, ?string $csrfHeader): ApiResponse
+    public function handle(string $method, string $route, array $body, ?string $csrfHeader, array $query = []): ApiResponse
     {
         $route = trim($route, '/');
 
@@ -65,6 +82,8 @@ final class Api
             ['POST', 'logout'] => $this->logout(),
             ['POST', 'action'] => $this->authenticated(fn (int $userId): ApiResponse => $this->action($userId, $body)),
             ['POST', 'admin'] => $this->authenticated(fn (int $userId): ApiResponse => $this->admin($userId, $body)),
+            ['GET', 'bots'] => $this->authenticated($this->ranking(...)),
+            ['GET', 'bot'] => $this->authenticated(fn (): ApiResponse => $this->botProfile($query)),
             default => $this->notFound($method, $route),
         };
     }
@@ -116,7 +135,7 @@ final class Api
         ['state' => $state, 'version' => $version] = $this->states->load($userId);
 
         // Persist what time alone changes (e.g. empty market slots on a new farm).
-        $resolved = $this->engine->resolve($state, ($this->now)());
+        $resolved = $this->engine()->resolve($state, ($this->now)());
         if (json_encode($resolved) !== json_encode($state)) {
             try {
                 $version = $this->states->save($userId, $resolved, $version);
@@ -144,7 +163,7 @@ final class Api
         }
 
         return $this->mutate($userId, $version, $type, $payload,
-            fn (array $state, int $now): array => $this->engine->apply($state, $type, $payload, $now));
+            fn (array $state, int $now): array => $this->engine()->apply($state, $type, $payload, $now));
     }
 
     /**
@@ -160,7 +179,10 @@ final class Api
         if (!is_string($op) || !is_array($payload) || !is_int($version)) {
             return $this->error(400, 'invalid_admin_request');
         }
-        $admin = new Admin($this->gameData, $this->engine);
+        if (in_array($op, self::BOT_OPS, true)) {
+            return $this->botAdmin($userId, $op, $payload);
+        }
+        $admin = new Admin($this->gameData, $this->engine());
 
         return $this->mutate($userId, $version, "admin:{$op}", $payload,
             fn (array $state, int $now): array => $admin->apply($state, $op, $payload, $now));
@@ -214,10 +236,132 @@ final class Api
     private function stateBody(array $state, int $version): array
     {
         return [
-            'state' => $this->engine->normalize($state),
+            'state' => $this->engine()->normalize($state),
             'version' => $version,
-            'view' => $this->engine->view($state, ($this->now)()),
+            'view' => $this->engine()->view($state, ($this->now)()),
         ];
+    }
+
+    /**
+     * The engine of this request: the bot world brought up to date first,
+     * the tournament played against its bots. Without the bot tables (not
+     * migrated yet) the game goes on with the invented farms.
+     */
+    private function engine(): Engine
+    {
+        if ($this->current !== null) {
+            return $this->current;
+        }
+        if ($this->bots === null) {
+            return $this->current = $this->engine;
+        }
+        try {
+            $this->bots->ensure(($this->now)());
+        } catch (PDOException $e) {
+            error_log('[ferme-tranquille] bots unavailable: ' . $e->getMessage());
+
+            return $this->current = $this->engine;
+        }
+
+        $this->botsReady = true;
+
+        return $this->current = $this->engine->withOpponents(new BotLeagues($this->bots, $this->gameData));
+    }
+
+    /**
+     * Ranking: every bot (id, name, title, level, market level, tier) and the player.
+     */
+    private function ranking(int $userId): ApiResponse
+    {
+        $tournament = $this->engine()->tournament();
+        if (!$this->botsReady) {
+            return $this->error(404, 'no_bots');
+        }
+        $state = $this->engine()->normalize($this->states->load($userId)['state']);
+        $farm = new Farm($state, $this->gameData);
+        $tierNames = [];
+        $row = fn (array $bot): array => [
+            'id' => $bot['id'], 'name' => $bot['name'], 'title' => $bot['title'],
+            'level' => $bot['level'], 'market_xp' => $bot['market_xp'],
+            'market_level' => MarketUpgrades::levelFor($this->gameData, $bot['market_xp'])['level'],
+            'tier' => $bot['tier'], 'tier_name' => $tierNames[$bot['tier']] ??= $tournament->tierInfo($bot['tier'])['name'],
+        ];
+        $tier = $farm->tournament()['tier'] ?? 0;
+
+        return $this->ok([
+            'bots' => array_map($row, $this->bots->bots()),
+            'me' => [
+                'level' => $farm->level(), 'market_xp' => $farm->marketXp(),
+                'market_level' => MarketUpgrades::levelFor($this->gameData, $farm->marketXp())['level'],
+                'tier' => $tier, 'tier_name' => $tournament->tierInfo($tier)['name'],
+            ],
+            'world' => $this->bots->meta(),
+        ]);
+    }
+
+    /**
+     * @param array<string, mixed> $query
+     */
+    private function botProfile(array $query): ApiResponse
+    {
+        $id = filter_var($query['id'] ?? null, FILTER_VALIDATE_INT);
+        $this->engine();
+        $bot = $id === false || !$this->botsReady ? null : $this->bots->bot($id);
+        if ($bot === null) {
+            return $this->error(404, 'unknown_bot');
+        }
+        $buildings = [];
+        foreach ($bot['buildings'] as [$type, $level]) {
+            $buildings[$type][] = $level;
+        }
+
+        return $this->ok(['bot' => [
+            'id' => $bot['id'], 'name' => $bot['name'], 'title' => $bot['title'],
+            'level' => $bot['level'], 'cash' => $bot['cash'], 'expansions' => $bot['expansions'],
+            'market_xp' => $bot['market_xp'],
+            'market_level' => MarketUpgrades::levelFor($this->gameData, $bot['market_xp'])['level'],
+            'tier' => $bot['tier'], 'tier_name' => $this->engine()->tournament()->tierInfo($bot['tier'])['name'],
+            'buildings' => array_map(static fn (string $type, array $levels): array => ['type' => $type, 'levels' => $levels], array_keys($buildings), $buildings),
+        ]]);
+    }
+
+    /**
+     * set_bot_speed { speed }, reset_bots, advance_bots { days }: the bot
+     * world changes, the farm does not.
+     *
+     * @param array<string, mixed> $payload
+     */
+    private function botAdmin(int $userId, string $op, array $payload): ApiResponse
+    {
+        $this->engine();
+        if (!$this->botsReady) {
+            return $this->error(404, 'no_bots');
+        }
+        $now = ($this->now)();
+        switch ($op) {
+            case 'set_bot_speed':
+                $speed = $payload['speed'] ?? null;
+                if (!is_int($speed) && !is_float($speed) || $speed < 0.1 || $speed > 100) {
+                    return $this->error(422, 'invalid_payload', ['message' => 'Vitesse des bots entre 0,1 et 100.', 'details' => (object) ['field' => 'speed']]);
+                }
+                $this->bots->setSpeed($now, (float) $speed);
+                break;
+            case 'reset_bots':
+                $this->bots->reset($now);
+                break;
+            case 'advance_bots':
+                $days = $payload['days'] ?? null;
+                if (!is_int($days) || $days < 1 || $days > 60) {
+                    return $this->error(422, 'invalid_payload', ['message' => 'Entre 1 et 60 jours.', 'details' => (object) ['field' => 'days']]);
+                }
+                $this->bots->advanceDays($now, $days);
+                break;
+        }
+        $this->current = null; // world changed: fresh opponents for the answer
+        $this->states->logAction($userId, "admin:{$op}", $payload);
+        ['state' => $state, 'version' => $version] = $this->states->load($userId);
+
+        return $this->ok($this->stateBody($state, $version) + ['bot_world' => $this->bots->meta()]);
     }
 
     /**
