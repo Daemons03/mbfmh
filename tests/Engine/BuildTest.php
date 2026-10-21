@@ -54,6 +54,35 @@ final class BuildTest extends EngineTestCase
         }
     }
 
+    public function testBuildingsThatNowOverlapMoveToAFreeSpot(): void
+    {
+        // Built when the silo was 1×2: at 3×2 it now covers (8, 4), the windmill's corner.
+        $this->state['buildings'][] = ['id' => 'b90', 'type' => 'silo', 'x' => 6, 'y' => 4, 'level' => 1];
+        $this->state['buildings'][] = ['id' => 'b91', 'type' => 'windmill', 'x' => 8, 'y' => 4, 'level' => 1, 'rotated' => true];
+
+        $this->state = $this->decode($this->engine->resolve($this->state, self::NOW));
+
+        self::assertSame([6, 4], [$this->building('b90')['x'], $this->building('b90')['y']], 'the first one stays');
+        $windmill = $this->building('b91');
+        self::assertNotSame([8, 4], [$windmill['x'], $windmill['y']]);
+        self::assertArrayNotHasKey('rotated', $windmill);
+        $cells = [];
+        foreach ($this->state['buildings'] as $building) {
+            if (!isset($building['x']) || $this->data->isOutside($building['type'])) {
+                continue;
+            }
+            [$w, $h] = $this->data->building($building['type'])['size'];
+            [$w, $h] = empty($building['rotated']) ? [$w, $h] : [$h, $w];
+            for ($dx = 0; $dx < $w; $dx++) {
+                for ($dy = 0; $dy < $h; $dy++) {
+                    $cell = ($building['x'] + $dx) . ',' . ($building['y'] + $dy);
+                    self::assertArrayNotHasKey($cell, $cells, "{$building['id']} overlaps another building at {$cell}");
+                    $cells[$cell] = $building['id'];
+                }
+            }
+        }
+    }
+
     public function testBuildRules(): void
     {
         $this->assertGameError('unknown_building_type', 'build', ['type' => 'castle', 'x' => 5, 'y' => 5]);

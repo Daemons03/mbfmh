@@ -104,9 +104,52 @@ final class Farm
     }
 
     /**
+     * A building that overlaps one listed before it (its size changed in
+     * the data, e.g. the silo from 1×2 to 3×2) moves to the nearest free
+     * spot, unturned; when there is none it stays and is tried again next time.
+     */
+    public function resolveOverlaps(): void
+    {
+        $taken = [];
+        foreach ($this->state['buildings'] as $index => $building) {
+            if (!isset($building['x']) || $this->data->isOutside($building['type'])) {
+                continue;
+            }
+            $cells = $this->cells($building['type'], $building['x'], $building['y'], !empty($building['rotated']));
+            if (array_intersect_key($cells, $taken) !== []) {
+                $spot = $this->freeSpot($building['type'], $building['id'], [$building['x'], $building['y']]);
+                if ($spot !== null) {
+                    [$building['x'], $building['y']] = $spot;
+                    unset($building['rotated']);
+                    $this->state['buildings'][$index] = $building;
+                    $cells = $this->cells($building['type'], $spot[0], $spot[1], false);
+                }
+            }
+            $taken += $cells;
+        }
+    }
+
+    /**
+     * @return array<string, true> "x,y" of the cells a building covers
+     */
+    private function cells(string $type, int $x, int $y, bool $rotated): array
+    {
+        [$width, $height] = $this->footprint($type, $rotated);
+        $cells = [];
+        for ($dx = 0; $dx < $width; $dx++) {
+            for ($dy = 0; $dy < $height; $dy++) {
+                $cells[($x + $dx) . ',' . ($y + $dy)] = true;
+            }
+        }
+
+        return $cells;
+    }
+
+    /**
+     * @param array{int, int}|null $near closest spots to this cell first
      * @return array{int, int}|null start_position if free, else the first free owned spot
      */
-    private function freeSpot(string $type, string $ignoreId): ?array
+    private function freeSpot(string $type, string $ignoreId, ?array $near = null): ?array
     {
         $candidates = [];
         if (isset($this->data->building($type)['start_position'])) {
@@ -117,6 +160,9 @@ final class Farm
             for ($x = 0; $x < $side; $x++) {
                 $candidates[] = [$x, $y];
             }
+        }
+        if ($near !== null) {
+            usort($candidates, static fn (array $a, array $b): int => (abs($a[0] - $near[0]) + abs($a[1] - $near[1])) <=> (abs($b[0] - $near[0]) + abs($b[1] - $near[1])));
         }
         foreach ($candidates as [$x, $y]) {
             try {

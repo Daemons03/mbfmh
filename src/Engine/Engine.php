@@ -112,6 +112,7 @@ final class Engine
     private function settle(Farm $farm, Clock $clock): void
     {
         $farm->ensureStarterBuildings();
+        $farm->resolveOverlaps(); // a building whose size changed in the data
         $farm->grantDailyGold(Cafe::day($clock->now));
         (new Market($this->data))->resolve($farm, $clock);
         if ($farm->cafe() !== []) {

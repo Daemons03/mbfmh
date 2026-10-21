@@ -107,9 +107,9 @@ def test_silos_have_no_start_all(game, farm):
     farm.add_house()
     farm.add_house(10, 2)
     reload(game)
-    for x in (6, 8):
+    for x in (6, 9):  # 3 × 2 each
         build_here(game, x, 4, "Silo")
-    tap(game, 8, 4)
+    tap(game, 9, 4)
     card = recipe_card(game, "Engrais")
     card.get_by_role("button", name="Lancer").wait_for()
     assert card.get_by_role("button", name=re.compile("Tout")).count() == 0
