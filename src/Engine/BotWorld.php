@@ -555,6 +555,21 @@ final class BotWorld
      */
     private function nextPurchase(array $bot, int $reserve): ?array
     {
+        $step = $this->purchaseStep($bot, $reserve);
+
+        return $step === null ? null : $this->applyStep($bot, $step);
+    }
+
+    /**
+     * What to buy next: ['build', type], ['upgrade', building index] or
+     * ['expansion', cost option index]; null when nothing fits the budget.
+     * The real bots (AutoPlayer) turn it into game actions.
+     *
+     * @param array<string, mixed> $bot {level, cash, gold, materials, expansions, buildings: [[type, level]]}
+     * @return array{0: string, 1: string|int}|null
+     */
+    public function purchaseStep(array $bot, int $reserve): ?array
+    {
         // A wanted building, or what it lacks (workers, land); a blocked one leaves its turn to the next.
         foreach ($this->wantedBuildings($bot) as $type) {
             $first = $this->data->building($type)['levels'][0];
@@ -563,8 +578,8 @@ final class BotWorld
             $step = match (true) {
                 $this->freeWorkers($bot) < $need => $this->moreWorkers($bot, $reserve),
                 $this->freeLand($bot) < $this->area($type) => $this->moreLand($bot, $reserve),
-                $premium !== null => $this->build($bot, $premium),
-                $this->affordable($bot, $first['cost'], $reserve) => $this->build($bot, $type),
+                $premium !== null => ['build', $premium],
+                $this->affordable($bot, $first['cost'], $reserve) => ['build', $type],
                 default => null,
             };
             if ($step !== null) {
@@ -584,16 +599,37 @@ final class BotWorld
             [$type, $level] = $bot['buildings'][$index];
             $current = $this->data->buildingLevel($type, $level);
             $extra = max(0, -($next['workers'] ?? 0)) - max(0, -($current['workers'] ?? 0));
-            if ($extra > $this->freeWorkers($bot) || !$this->affordable($bot, $next['cost'], $reserve)) {
-                continue;
+            if ($extra <= $this->freeWorkers($bot) && $this->affordable($bot, $next['cost'], $reserve)) {
+                return ['upgrade', $index];
             }
-            $bot = $this->pay($bot, $next['cost']);
-            $bot['buildings'][$index][1]++;
-
-            return $bot;
         }
 
         return null;
+    }
+
+    /**
+     * The bot after a purchase step (paid, building added or upgraded, land bought).
+     *
+     * @param array<string, mixed> $bot
+     * @param array{0: string, 1: string|int} $step
+     * @return array<string, mixed>
+     */
+    public function applyStep(array $bot, array $step): array
+    {
+        [$kind, $what] = $step;
+        if ($kind === 'build') {
+            $bot = $this->pay($bot, $this->data->building($what)['levels'][0]['cost']);
+            $bot['buildings'][] = [$what, 1];
+        } elseif ($kind === 'upgrade') {
+            [$type, $level] = $bot['buildings'][$what];
+            $bot = $this->pay($bot, $this->data->buildingLevel($type, $level + 1)['cost']);
+            $bot['buildings'][$what][1]++;
+        } else {
+            $bot = $this->pay($bot, $this->data->expansion($bot['expansions'] + 1)['costs'][$what]);
+            $bot['expansions']++;
+        }
+
+        return $bot;
     }
 
     /**
@@ -644,6 +680,12 @@ final class BotWorld
         return array_column($wanted, 2);
     }
 
+    /** Buildings the bots know how to use (no decorations, fertile / free range variants or sewing). */
+    public function isUsable(string $type): bool
+    {
+        return isset($this->tables()['usable'][$type]);
+    }
+
     /** The premium version of $type when it is unlocked and the bot's gold pays for it. */
     private function premiumOf(array $bot, string $type): ?string
     {
@@ -657,22 +699,10 @@ final class BotWorld
     }
 
     /**
-     * @param array<string, mixed> $bot
-     * @return array<string, mixed>
-     */
-    private function build(array $bot, string $type): array
-    {
-        $bot = $this->pay($bot, $this->data->building($type)['levels'][0]['cost']);
-        $bot['buildings'][] = [$type, 1];
-
-        return $bot;
-    }
-
-    /**
      * A new house (or the land for it), else an upgrade of a house or the farmhouse.
      *
      * @param array<string, mixed> $bot
-     * @return array<string, mixed>|null
+     * @return array{0: string, 1: string|int}|null
      */
     private function moreWorkers(array $bot, int $reserve): ?array
     {
@@ -687,7 +717,7 @@ final class BotWorld
                     return $land;
                 }
             } elseif ($this->affordable($bot, $first['cost'], $reserve)) {
-                return $this->build($bot, $house);
+                return ['build', $house];
             }
         }
         foreach ($bot['buildings'] as $index => [$type, $level]) {
@@ -695,32 +725,30 @@ final class BotWorld
             $current = $this->data->buildingLevel($type, $level);
             if ($next !== null && ($next['workers'] ?? 0) > ($current['workers'] ?? 0) && ($current['workers'] ?? 0) > 0
                 && ($next['unlock_level'] ?? 1) <= $bot['level'] && $this->affordable($bot, $next['cost'], $reserve)) {
-                $bot = $this->pay($bot, $next['cost']);
-                $bot['buildings'][$index][1]++;
-
-                return $bot;
+                return ['upgrade', $index];
             }
         }
 
         return null;
     }
 
-    /** @param array<string, mixed> $bot */
+    /**
+     * The next expansion, paid in cash first, in gold when cash is short.
+     *
+     * @param array<string, mixed> $bot
+     * @return array{0: string, 1: int}|null
+     */
     private function moreLand(array $bot, int $reserve): ?array
     {
         $expansion = $this->data->expansion($bot['expansions'] + 1);
         if ($expansion === null || ($expansion['unlock_level'] ?? 1) > $bot['level']) {
             return null;
         }
-        // Cash first, gold when cash is short.
-        $costs = $expansion['costs'];
-        usort($costs, static fn (array $a, array $b): int => isset($a['gold']) <=> isset($b['gold']));
-        foreach ($costs as $cost) {
-            if ($this->affordable($bot, $cost, $reserve)) {
-                $bot = $this->pay($bot, $cost);
-                $bot['expansions']++;
-
-                return $bot;
+        $options = array_keys($expansion['costs']);
+        usort($options, static fn (int $a, int $b): int => isset($expansion['costs'][$a]['gold']) <=> isset($expansion['costs'][$b]['gold']));
+        foreach ($options as $option) {
+            if ($this->affordable($bot, $expansion['costs'][$option], $reserve)) {
+                return ['expansion', $option];
             }
         }
 

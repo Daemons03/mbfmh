@@ -105,3 +105,32 @@ def test_other_players_are_in_the_ranking(game, farm):
         assert game.locator(".rank-row.world.player").count() == 0, "a profile filter shows bots only"
     finally:
         other.delete()
+
+
+def test_visit_a_real_bot_farm(game, farm):
+    from conftest import Farm
+    bot = Farm("e2e-playwright-2")
+    bot.reset()
+    try:
+        bot.patch({"level": 25, "autoplay": {"activity": 0.95}, "cash": 123_456})
+        open_tab(game, "tournament")
+        game.get_by_role("tab", name="🌍 Classement").click()
+        row = game.locator(".rank-row.world.player")
+        row.wait_for()
+        assert "🤖 e2e-playwright-2" in text(row) and "95" in text(row.locator(".bot-title"))
+
+        row.click()
+        banner = game.locator("#visit-banner")
+        banner.wait_for()
+        assert "Ferme de 🤖 e2e-playwright-2 (bot 95 %)" in text(banner)
+        assert "123 456" in text(game.locator(".wallet .res").first), "its top bar"
+        assert game.locator("#tabs").is_hidden()
+        game.locator("#zoom-in").click()  # the map still moves
+        assert game.locator("#sheet").is_hidden()
+
+        banner.get_by_role("button", name="Retour").click()
+        game.locator("#tabs").wait_for()
+        assert banner.is_hidden()
+        game.wait_for_function("() => !document.querySelector('.wallet .res').textContent.replace(/\\s/g, '').includes('123456')")  # my farm again
+    finally:
+        bot.delete()

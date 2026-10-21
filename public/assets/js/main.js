@@ -146,6 +146,7 @@ function centerOnFarm() {
 }
 
 async function onGridClick(event) {
+    if (store.visiting) return; // looking only
     if (!store.mode && event.target.closest('[data-collect-all]')) {
         await perform('collect_all', {});
         return;

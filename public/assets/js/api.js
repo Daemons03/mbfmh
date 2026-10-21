@@ -62,4 +62,5 @@ export const api = {
     admin: (op, payload, version) => request('POST', 'admin', { op, payload, version }),
     bots: () => request('GET', 'bots'),
     bot: (id) => request('GET', `bot?id=${encodeURIComponent(id)}`),
+    farm: (login) => request('GET', `farm?login=${encodeURIComponent(login)}`),
 };

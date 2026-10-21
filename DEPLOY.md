@@ -234,6 +234,54 @@ systemctl list-timers ferme-bots.timer          # prochain passage
 journalctl -u ferme-bots.service -n 5 -o cat    # « Bots à jour (…) »
 ```
 
+### 11. Vrais bots : timer systemd
+
+Les comptes joués automatiquement (`php scripts/autoplay.php list`) jouent un tour toutes les 15 minutes.
+
+```bash
+cd /var/www/ferme-tranquille
+sudo -u www-data php scripts/autoplay.php add Daemons 1       # crée le compte si besoin (mot de passe aléatoire)
+sudo -u www-data php scripts/autoplay.php add Styfller 0.95
+sudo -u www-data php scripts/autoplay.php add Herzo 0.9       # compte existant : la ferme continue, jouée par le bot
+```
+
+`/etc/systemd/system/ferme-autoplay.service` :
+
+```ini
+[Unit]
+Description=Ferme Tranquille : tour des vrais bots
+After=mariadb.service
+
+[Service]
+Type=oneshot
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/ferme-tranquille
+ExecStart=/usr/bin/php scripts/autoplay.php run
+Nice=10
+```
+
+`/etc/systemd/system/ferme-autoplay.timer` :
+
+```ini
+[Unit]
+Description=Ferme Tranquille : vrais bots toutes les 15 minutes
+
+[Timer]
+OnCalendar=*:0/15
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+```
+
+```bash
+sudo systemctl daemon-reload && sudo systemctl enable --now ferme-autoplay.timer
+journalctl -u ferme-autoplay.service -n 5 -o cat   # « Daemons : {"harvest":2,…} »
+```
+
+`php scripts/autoplay.php remove <login>` rend une ferme à son propriétaire.
+
 ## Reprendre la ferme locale (optionnel)
 
 Si le propriétaire veut retrouver sur le serveur la ferme de son poste local, c'est **lui** qui exporte depuis sa machine :

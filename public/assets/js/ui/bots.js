@@ -6,6 +6,7 @@ import { store } from '../store.js';
 import { confirmModal } from './modal.js';
 import { openSheet, refreshSheet } from './sheet.js';
 import { toast } from './toast.js';
+import { startVisit } from './visit.js';
 
 /** Ranking from GET /api/bots, kept a minute; one profile per bot id. */
 let ranking = null; // { bots, me, world, at }
@@ -83,12 +84,18 @@ export function rankingBlock(back) {
 
 function rankRow([index, row], back) {
     const bot = !row.me && !row.player;
+    const real = row.player && row.autoplay ? String(Math.round(row.autoplay * 100)) : null; // a real bot's profile
+    let open = null;
+    if (bot) open = () => openSheet(botPanel(row.id, back));
+    else if (row.player) open = () => startVisit(row.name);
     return h('li', {
         class: `rank-row world${row.me ? ' me' : ''}${row.player ? ' player' : ''}`,
-        onclick: bot ? () => openSheet(botPanel(row.id, back)) : null,
+        title: row.player ? `Voir la ferme de ${row.name}` : null,
+        onclick: open,
     },
     h('span', { class: 'rank-number' }, fmtInt(index + 1)),
-    h('span', { class: 'rank-name' }, row.me ? `⭐ ${row.name}` : row.player ? `👤 ${row.name}` : row.name, ' ', bot ? titleBadge(row.title) : null),
+    h('span', { class: 'rank-name' }, row.me ? `⭐ ${row.name}` : row.player ? `${real ? '🤖' : '👤'} ${row.name}` : row.name, ' ',
+        bot ? titleBadge(row.title) : titleBadge(real)),
     h('span', { class: 'rank-stats' }, `niv. ${fmtInt(row.level)} · 🏪 ${fmtInt(row.market_level)}`),
     h('span', { class: 'rank-tier' }, row.tier_name));
 }

@@ -145,6 +145,12 @@ final class Farm
         return $cells;
     }
 
+    /** Where a new building of $type fits (first free owned spot, unturned), null when nowhere. */
+    public function spotFor(string $type): ?array
+    {
+        return $this->freeSpot($type, '');
+    }
+
     /**
      * @param array{int, int}|null $near closest spots to this cell first
      * @return array{int, int}|null start_position if free, else the first free owned spot

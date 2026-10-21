@@ -10,6 +10,7 @@ export const store = {
     offset: 0,       // server clock - local clock, in seconds
     busy: false,
     mode: null,      // { kind: 'build', type } | { kind: 'move', id }
+    visiting: null,  // { login, autoplay } while looking at another farm (ui/visit.js)
 };
 
 const listeners = new Set();

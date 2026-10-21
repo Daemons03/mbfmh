@@ -34,6 +34,7 @@ final class Api
         'admin' => 'POST',
         'bots' => 'GET',
         'bot' => 'GET',
+        'farm' => 'GET',
     ];
 
     /** Admin operations on the bot world rather than on the farm. */
@@ -84,6 +85,7 @@ final class Api
             ['POST', 'admin'] => $this->authenticated(fn (int $userId): ApiResponse => $this->admin($userId, $body)),
             ['GET', 'bots'] => $this->authenticated($this->ranking(...)),
             ['GET', 'bot'] => $this->authenticated(fn (): ApiResponse => $this->botProfile($query)),
+            ['GET', 'farm'] => $this->authenticated(fn (): ApiResponse => $this->visit($query)),
             default => $this->notFound($method, $route),
         };
     }
@@ -296,7 +298,8 @@ final class Api
             $other = new Farm($player['state'], $this->gameData);
             $otherTier = $other->tournament()['tier'] ?? 0;
             $players[] = [
-                'name' => $player['login'], 'level' => $other->level(), 'market_xp' => $other->marketXp(),
+                'name' => $player['login'], 'autoplay' => $player['state']['autoplay']['activity'] ?? null,
+                'level' => $other->level(), 'market_xp' => $other->marketXp(),
                 'market_level' => MarketUpgrades::levelFor($this->gameData, $other->marketXp())['level'],
                 'tier' => $otherTier, 'tier_name' => $tierNames[$otherTier] ??= $tournament->tierInfo($otherTier)['name'],
             ];
@@ -338,6 +341,32 @@ final class Api
             'tier' => $bot['tier'], 'tier_name' => $this->engine()->tournament()->tierInfo($bot['tier'])['name'],
             'buildings' => array_map(static fn (string $type, array $levels): array => ['type' => $type, 'levels' => $levels], array_keys($buildings), $buildings),
         ]]);
+    }
+
+    /**
+     * Another player's farm (a real bot or another account), to look at:
+     * its state and view brought up to now, nothing saved.
+     *
+     * @param array<string, mixed> $query
+     */
+    private function visit(array $query): ApiResponse
+    {
+        $login = is_string($query['login'] ?? null) ? $query['login'] : '';
+        foreach ($this->states->all() as $farm) {
+            if ($farm['login'] === $login) {
+                $now = ($this->now)();
+                $state = $this->engine()->resolve($farm['state'], $now);
+
+                return $this->ok(['farm' => [
+                    'login' => $login,
+                    'autoplay' => $farm['state']['autoplay']['activity'] ?? null,
+                    'state' => $this->engine()->normalize($state),
+                    'view' => $this->engine()->view($state, $now),
+                ]]);
+            }
+        }
+
+        return $this->error(404, 'unknown_farm');
     }
 
     /**

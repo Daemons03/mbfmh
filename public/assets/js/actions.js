@@ -3,6 +3,7 @@ import { h } from './dom.js';
 import { fmtInt } from './format.js';
 import { applyResponse, buildingById, definition, notify, store } from './store.js';
 import { openModal } from './ui/modal.js';
+import { refreshVisit } from './ui/visit.js';
 import { closeSheet, isSheetOpen } from './ui/sheet.js';
 import { toast } from './ui/toast.js';
 
@@ -17,6 +18,10 @@ export function setUnauthenticatedHandler(handler) {
  * Returns true on success. Only one request changes the farm at a time.
  */
 export async function perform(type, payload = {}) {
+    if (store.visiting) {
+        toast('Vous visitez une autre ferme : revenez à la vôtre pour jouer.', 'warn');
+        return false;
+    }
     let refused = null;
     const done = await send(() => api.action(type, payload, store.version), (error) => {
         if (!surplusFor(type, payload, error)) return false;
@@ -151,6 +156,10 @@ async function send(request, onRefused = () => false) {
 /** Reloads the authoritative state (periodic sync, tab focus, after 409). */
 export async function refresh() {
     if (store.busy) return;
+    if (store.visiting) {
+        await refreshVisit();
+        return;
+    }
     try {
         applyResponse(await api.state());
         notify();
