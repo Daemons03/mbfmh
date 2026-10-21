@@ -40,7 +40,7 @@ final class BotWorldTest extends TestCase
         foreach ($world['bots'] as $bot) {
             self::assertSame(0, $bot['tier']);
             self::assertContains(['farmhouse', 1], $bot['buildings']);
-            self::assertSame(2, count(array_filter($bot['buildings'], static fn (array $b): bool => $b[0] === 'field')));
+            self::assertGreaterThanOrEqual(2, count(array_filter($bot['buildings'], static fn (array $b): bool => $b[0] === 'field')), 'the 2 starting fields (and what day 1 bought)');
         }
         self::assertSame(self::MONDAY, $world['meta']['day_start']);
         self::assertSame('2026-W43', $world['meta']['week']);
@@ -95,10 +95,11 @@ final class BotWorldTest extends TestCase
         $bot = $this->world->create(self::MONDAY, 'chain')['bots'][0];
         $bot['level'] = 10;
         $bot['cash'] = 10_000_000;
-        $bot['buildings'] = [['field', 1], ['field', 1]];
+        $bot['buildings'] = array_fill(0, 6, ['field', 5]); // enough corn for the chain to be worth it
         $fieldsOnly = $this->world->produce($bot, 86400);
 
-        $bot['buildings'][] = ['chicken_coop', 1];
+        // A premium coop (×1.6 eggs), as the bots build: worth its corn once fed.
+        $bot['buildings'][] = ['premium_chicken_coop', 1];
         self::assertSame($fieldsOnly, $this->world->produce($bot, 86400), 'no windmill: no feed, the coop stays idle');
 
         $bot['buildings'][] = ['windmill', 1];

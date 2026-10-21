@@ -243,7 +243,8 @@ final class BotWorld
         $t = $this->tables();
         $items = $this->data->toArray()['items'];
         $level = $bot['level'];
-        $maxRuns = $this->config()['max_runs_per_day'];
+        // Runs per building a full day at 100 % allows, in proportion to the time this bot plays.
+        $maxRuns = $this->config()['max_runs_per_day'] === null ? null : $this->config()['max_runs_per_day'] * $seconds / self::DAY;
 
         $makers = [];
         $producible = array_fill_keys($this->crops($bot), true);
@@ -335,7 +336,8 @@ final class BotWorld
         $t = $this->tables();
         $factor = $t['cost_factor'];
         $xpValue = $this->config()['xp_value'];
-        $maxRuns = $this->config()['max_runs_per_day'];
+        // Runs per building a full day at 100 % allows, in proportion to the time this bot plays.
+        $maxRuns = $this->config()['max_runs_per_day'] === null ? null : $this->config()['max_runs_per_day'] * $seconds / self::DAY;
         $crops = $this->crops($bot);
         $fields = array_values(array_filter($bot['buildings'], fn (array $b): bool => $t['usable'][$b[0]] === 'field'));
         $stock = [];
@@ -524,14 +526,16 @@ final class BotWorld
 
     /**
      * Spends what is left after keeping enough to run the whole farm a full
-     * day: new buildings first (land and houses when they lack), then upgrades.
+     * day (half the cash at most): new buildings first (land and houses when
+     * they lack), then upgrades.
      *
      * @param array<string, mixed> $bot
      * @return array<string, mixed>
      */
     private function spend(array $bot, int $fullDayCost): array
     {
-        $reserve = $fullDayCost;
+        // Half the cash at most: a busier bot (bigger day) must not stop investing.
+        $reserve = (int) min($fullDayCost, $bot['cash'] / 2);
         for ($n = 0; $n < $this->config()['purchases_per_day']; $n++) {
             $next = $this->nextPurchase($bot, $reserve);
             if ($next === null) {

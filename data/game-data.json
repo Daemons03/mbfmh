@@ -39030,7 +39030,7 @@
       }
     ],
     "daily_jitter": 0.1,
-    "max_runs_per_day": null,
+    "max_runs_per_day": 36,
     "xp_value": 1,
     "contracts_per_day": 80,
     "land_use": 0.85,
@@ -39319,7 +39319,7 @@
       "Simone Veil"
     ],
     "_estimated": true,
-    "_note": "Bots du classement et du tournoi (simulés, partent du niveau 1). Chaque jour : production de toute leur ferme pendant 24 h × vitesse des bots × activité du profil (± daily_jitter), durées réelles du jeu (max_runs_per_day : plafond facultatif par bâtiment), chaînes respectées (maïs → aliment → poules…) ; une production n'est gardée que si elle rapporte plus que la vente de ses ingrédients, XP comptée à xp_value 💵 ; coûts réduits par le bonheur de la clôture de départ, comme le joueur ; sans assez de cash, les champs plantent la meilleure culture. Vente : contracts_per_day contrats pour une journée pleine (moins selon l'activité), chacun 1 à 3 produits tirés parmi ce que le bot produit (argent, XP, XP de marché, matériaux comme le joueur) ; au-delà de cette demande, un produit part à la grange. Puis achats : terrain, habitations, bâtiments débloqués, améliorations (sans or : ni premium ni variantes). Noms : personnages historiques, numérotés en cas de doublon ; titre = pourcentage du profil."
+    "_note": "Bots du classement et du tournoi (simulés, partent du niveau 1). Chaque jour : production de toute leur ferme pendant 24 h × vitesse des bots × activité du profil (± daily_jitter), durées réelles du jeu, au plus max_runs_per_day productions par bâtiment pour une journée à 100 % (36 : une toutes les 40 min ; un 90 % en fait 32, un 50 % 18 : c'est ce qui fait la différence entre profils, sans quoi tous manquent de cash et vont au même rythme), chaînes respectées (maïs → aliment → poules…) ; une production n'est gardée que si elle rapporte plus que la vente de ses ingrédients, XP comptée à xp_value 💵 ; coûts réduits par le bonheur de la clôture de départ, comme le joueur ; sans assez de cash, les champs plantent la meilleure culture. Vente : contracts_per_day contrats pour une journée pleine (moins selon l'activité), chacun 1 à 3 produits tirés parmi ce que le bot produit (argent, XP, XP de marché, matériaux comme le joueur) ; au-delà de cette demande, un produit part à la grange. Puis achats : terrain, habitations, bâtiments débloqués, améliorations (sans or : ni premium ni variantes). Noms : personnages historiques, numérotés en cas de doublon ; titre = pourcentage du profil."
   },
   "gold_rewards": {
     "daily_login": 100,
