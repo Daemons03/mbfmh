@@ -278,21 +278,72 @@
         }
     },
     "beehive": {
-        "1": {
-            "file": "beehive-1.webp",
-            "width": 191,
-            "height": 126,
+        "L1": {
+            "file": "beehive-L1.webp",
+            "width": 621,
+            "height": 388,
             "left": [
                 5,
-                56
+                242
             ],
             "right": [
-                190,
-                52
+                617,
+                265
             ],
             "bottom": [
-                150.5,
-                126
+                286.8,
+                384
+            ]
+        },
+        "L2": {
+            "file": "beehive-L2.webp",
+            "width": 642,
+            "height": 414,
+            "left": [
+                4,
+                267.5
+            ],
+            "right": [
+                638,
+                289.5
+            ],
+            "bottom": [
+                301.9,
+                410
+            ]
+        },
+        "L4": {
+            "file": "beehive-L4.webp",
+            "width": 638,
+            "height": 459,
+            "left": [
+                4,
+                299
+            ],
+            "right": [
+                634,
+                307
+            ],
+            "bottom": [
+                323.8,
+                454
+            ]
+        },
+        "L7": {
+            "file": "beehive-L7.webp",
+            "width": 657,
+            "height": 485,
+            "left": [
+                4,
+                329.5
+            ],
+            "right": [
+                654,
+                327.8
+            ],
+            "bottom": [
+                312,
+                481
             ]
         }
     },
@@ -630,21 +681,72 @@
         }
     },
     "dairy": {
-        "1": {
-            "file": "dairy-1.webp",
-            "width": 187,
-            "height": 141,
+        "L1": {
+            "file": "dairy-L1.webp",
+            "width": 618,
+            "height": 443,
             "left": [
-                1,
-                101
+                4,
+                302
             ],
             "right": [
-                186,
-                103.5
+                614,
+                298
             ],
             "bottom": [
-                75.5,
-                141
+                251.5,
+                438
+            ]
+        },
+        "L10": {
+            "file": "dairy-L10.webp",
+            "width": 658,
+            "height": 513,
+            "left": [
+                4,
+                298.5
+            ],
+            "right": [
+                658,
+                327.2
+            ],
+            "bottom": [
+                300,
+                508
+            ]
+        },
+        "L3": {
+            "file": "dairy-L3.webp",
+            "width": 641,
+            "height": 444,
+            "left": [
+                4,
+                292.5
+            ],
+            "right": [
+                637,
+                320
+            ],
+            "bottom": [
+                265.7,
+                439
+            ]
+        },
+        "L6": {
+            "file": "dairy-L6.webp",
+            "width": 640,
+            "height": 499,
+            "left": [
+                3,
+                338.5
+            ],
+            "right": [
+                636,
+                309
+            ],
+            "bottom": [
+                260,
+                495
             ]
         }
     },
@@ -1455,38 +1557,72 @@
         }
     },
     "free_range_goat_stable": {
-        "1": {
-            "file": "free_range_goat_stable-1.webp",
-            "width": 196,
-            "height": 95,
+        "L1": {
+            "file": "free_range_goat_stable-L1.webp",
+            "width": 377,
+            "height": 223,
             "left": [
-                1,
-                51
+                4,
+                139.5
             ],
             "right": [
-                195,
-                46
+                373,
+                136
             ],
             "bottom": [
-                88.5,
-                94
+                191,
+                218
             ]
         },
-        "2": {
-            "file": "free_range_goat_stable-2.webp",
-            "width": 163,
-            "height": 109,
+        "L12": {
+            "file": "free_range_goat_stable-L12.webp",
+            "width": 389,
+            "height": 291,
             "left": [
-                0,
-                70.5
+                4,
+                203
             ],
             "right": [
-                162,
-                63.5
+                385,
+                190.8
             ],
             "bottom": [
-                73,
-                108
+                195.5,
+                287
+            ]
+        },
+        "L4": {
+            "file": "free_range_goat_stable-L4.webp",
+            "width": 383,
+            "height": 256,
+            "left": [
+                4,
+                166
+            ],
+            "right": [
+                379,
+                167.5
+            ],
+            "bottom": [
+                196.5,
+                251
+            ]
+        },
+        "L8": {
+            "file": "free_range_goat_stable-L8.webp",
+            "width": 389,
+            "height": 264,
+            "left": [
+                5,
+                159.3
+            ],
+            "right": [
+                385,
+                166.5
+            ],
+            "bottom": [
+                203.5,
+                260
             ]
         }
     },
@@ -1667,21 +1803,72 @@
         }
     },
     "goat_stable": {
-        "1": {
-            "file": "goat_stable-1.webp",
-            "width": 181,
-            "height": 118,
+        "L1": {
+            "file": "goat_stable-L1.webp",
+            "width": 373,
+            "height": 226,
             "left": [
-                1,
-                71
+                5,
+                140
             ],
             "right": [
-                179,
-                75
+                369,
+                134.5
             ],
             "bottom": [
-                89,
-                118
+                175,
+                222
+            ]
+        },
+        "L12": {
+            "file": "goat_stable-L12.webp",
+            "width": 442,
+            "height": 300,
+            "left": [
+                4,
+                204.5
+            ],
+            "right": [
+                438,
+                193.5
+            ],
+            "bottom": [
+                208.5,
+                295
+            ]
+        },
+        "L4": {
+            "file": "goat_stable-L4.webp",
+            "width": 434,
+            "height": 261,
+            "left": [
+                5,
+                163
+            ],
+            "right": [
+                429,
+                157.5
+            ],
+            "bottom": [
+                211,
+                257
+            ]
+        },
+        "L8": {
+            "file": "goat_stable-L8.webp",
+            "width": 438,
+            "height": 284,
+            "left": [
+                4,
+                174.7
+            ],
+            "right": [
+                434,
+                184.5
+            ],
+            "bottom": [
+                216,
+                279
             ]
         }
     },
@@ -1773,21 +1960,72 @@
         }
     },
     "jam_kitchen": {
-        "1": {
-            "file": "jam_kitchen-1.webp",
-            "width": 187,
-            "height": 143,
+        "L1": {
+            "file": "jam_kitchen-L1.webp",
+            "width": 607,
+            "height": 445,
             "left": [
-                0,
-                86.5
+                5,
+                322.5
             ],
             "right": [
-                187,
-                107.5
+                602,
+                320.5
             ],
             "bottom": [
-                119.5,
-                142
+                304,
+                441
+            ]
+        },
+        "L10": {
+            "file": "jam_kitchen-L10.webp",
+            "width": 645,
+            "height": 518,
+            "left": [
+                4,
+                234
+            ],
+            "right": [
+                641,
+                379.5
+            ],
+            "bottom": [
+                321.5,
+                513
+            ]
+        },
+        "L3": {
+            "file": "jam_kitchen-L3.webp",
+            "width": 630,
+            "height": 456,
+            "left": [
+                4,
+                318.5
+            ],
+            "right": [
+                625,
+                298.8
+            ],
+            "bottom": [
+                302,
+                452
+            ]
+        },
+        "L6": {
+            "file": "jam_kitchen-L6.webp",
+            "width": 633,
+            "height": 493,
+            "left": [
+                4,
+                350.5
+            ],
+            "right": [
+                629,
+                321
+            ],
+            "bottom": [
+                292,
+                489
             ]
         }
     },
@@ -1849,21 +2087,72 @@
         }
     },
     "manufactory": {
-        "1": {
-            "file": "manufactory-1.webp",
-            "width": 177,
-            "height": 120,
+        "L1": {
+            "file": "manufactory-L1.webp",
+            "width": 600,
+            "height": 423,
             "left": [
-                1,
-                85
+                4,
+                296
             ],
             "right": [
-                177,
-                79.2
+                596,
+                287
             ],
             "bottom": [
-                76.5,
-                120
+                253.5,
+                419
+            ]
+        },
+        "L12": {
+            "file": "manufactory-L12.webp",
+            "width": 662,
+            "height": 515,
+            "left": [
+                4,
+                269.5
+            ],
+            "right": [
+                658,
+                318.5
+            ],
+            "bottom": [
+                313,
+                511
+            ]
+        },
+        "L4": {
+            "file": "manufactory-L4.webp",
+            "width": 649,
+            "height": 438,
+            "left": [
+                4,
+                297
+            ],
+            "right": [
+                645,
+                296
+            ],
+            "bottom": [
+                300,
+                434
+            ]
+        },
+        "L8": {
+            "file": "manufactory-L8.webp",
+            "width": 629,
+            "height": 511,
+            "left": [
+                3,
+                337
+            ],
+            "right": [
+                625,
+                318.8
+            ],
+            "bottom": [
+                261.5,
+                506
             ]
         }
     },
@@ -2657,55 +2946,72 @@
         }
     },
     "premium_goat_stable": {
-        "1": {
-            "file": "premium_goat_stable-1.webp",
-            "width": 151,
-            "height": 89,
+        "L1": {
+            "file": "premium_goat_stable-L1.webp",
+            "width": 400,
+            "height": 232,
             "left": [
-                1,
-                55.5
+                4,
+                140.5
             ],
             "right": [
-                151,
-                50.5
+                396,
+                139.5
             ],
             "bottom": [
-                74.5,
-                89
+                202,
+                226
             ]
         },
-        "2": {
-            "file": "premium_goat_stable-2.webp",
-            "width": 158,
-            "height": 90,
+        "L12": {
+            "file": "premium_goat_stable-L12.webp",
+            "width": 435,
+            "height": 294,
             "left": [
-                1,
-                55
+                5,
+                185.6
             ],
             "right": [
-                158,
-                57.5
+                430,
+                144.7
             ],
             "bottom": [
-                79.1,
-                90
+                230.5,
+                289
             ]
         },
-        "3": {
-            "file": "premium_goat_stable-3.webp",
-            "width": 153,
-            "height": 98,
+        "L4": {
+            "file": "premium_goat_stable-L4.webp",
+            "width": 423,
+            "height": 254,
             "left": [
-                1,
-                63.5
+                4,
+                161.5
             ],
             "right": [
-                153,
-                60
+                419,
+                142
             ],
             "bottom": [
-                75.8,
-                97
+                200.5,
+                249
+            ]
+        },
+        "L8": {
+            "file": "premium_goat_stable-L8.webp",
+            "width": 434,
+            "height": 271,
+            "left": [
+                4,
+                172
+            ],
+            "right": [
+                430,
+                148.7
+            ],
+            "bottom": [
+                222.5,
+                267
             ]
         }
     },

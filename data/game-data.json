@@ -1122,6 +1122,7 @@
     },
     "nectar": {
       "name": "Nectar de forêt",
+      "barn_limit": false,
       "emoji": "🌺",
       "category": "byproduct",
       "unlock_level": 67,
@@ -1291,6 +1292,7 @@
     },
     "forest_honey": {
       "name": "Miel de forêt",
+      "barn_limit": false,
       "emoji": "🍯",
       "category": "goods",
       "unlock_level": 67,
@@ -1301,6 +1303,7 @@
     },
     "flower_honey": {
       "name": "Miel de fleur",
+      "barn_limit": false,
       "emoji": "🌸",
       "category": "goods",
       "unlock_level": 67,
@@ -1311,6 +1314,7 @@
     },
     "flower_nectar": {
       "name": "Nectar de fleur",
+      "barn_limit": false,
       "emoji": "🌷",
       "category": "goods",
       "unlock_level": 1,
@@ -12384,10 +12388,7 @@
       "name": "Cuisine de confitures",
       "emoji": "🫙",
       "kind": "production",
-      "size": [
-        3,
-        2
-      ],
+      "size": [2, 2],
       "max_count": 1,
       "production": {
         "mode": "batch",
@@ -12823,10 +12824,7 @@
       "name": "Ruche",
       "emoji": "🐝",
       "kind": "production",
-      "size": [
-        1,
-        2
-      ],
+      "size": [2, 2],
       "max_count": 2,
       "production": {
         "mode": "batch",
@@ -26266,10 +26264,7 @@
       "name": "Ruche premium",
       "emoji": "🐝",
       "kind": "production",
-      "size": [
-        1,
-        2
-      ],
+      "size": [2, 2],
       "max_count": 2,
       "production": {
         "mode": "batch",

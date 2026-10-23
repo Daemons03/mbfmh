@@ -199,7 +199,7 @@ final class ProductionTest extends EngineTestCase
         self::assertSame(5007, $this->state['barn']['items']['dung']);
         $view = $this->decode($this->engine->view($this->state, self::NOW + 390));
         self::assertSame([], $view['barn']['full'], 'unlimited items never count as full');
-        foreach (['dung', 'fertilizer', 'humus', 'leaves', 'chicken_feed', 'sheep_feed'] as $item) {
+        foreach (['dung', 'fertilizer', 'humus', 'leaves', 'chicken_feed', 'sheep_feed', 'forest_honey', 'flower_honey', 'nectar', 'flower_nectar'] as $item) {
             self::assertFalse($this->data->item($item)['barn_limit'], $item);
         }
     }

@@ -131,7 +131,7 @@ final class MarketTest extends EngineTestCase
         $this->state['cash'] = 100_000_000;
         $this->state['materials']['mallets'] = 100;
         $this->state['expansions'] = 16;
-        foreach (['windmill' => [6, 4], 'silo' => [8, 4], 'composter' => [11, 4], 'dairy' => [6, 6], 'beehive' => [9, 6], 'apple_orchard' => [10, 6]] as $type => [$x, $y]) {
+        foreach (['windmill' => [6, 4], 'silo' => [8, 4], 'composter' => [11, 4], 'dairy' => [6, 6], 'beehive' => [9, 6], 'apple_orchard' => [11, 6]] as $type => [$x, $y]) {
             $this->act('build', ['type' => $type, 'x' => $x, 'y' => $y]);
         }
 

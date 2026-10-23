@@ -99,10 +99,10 @@ function itemLists() {
     };
 }
 
-/** Seeds, boosts, feeds, fertilizer, humus, dung, leaves, nectar: used on the farm, not products. */
+/** Seeds, boosts, feeds, fertilizer, humus, dung, leaves, nectars: used on the farm, not products (honeys, unlimited too, are). */
 function isResource(id) {
     const item = store.data.items[id];
-    return item.category === 'special' || item.category === 'byproduct' || item.barn_limit === false;
+    return item.category === 'special' || item.category === 'byproduct' || (item.barn_limit === false && !item.marketable);
 }
 
 /**
