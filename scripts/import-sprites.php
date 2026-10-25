@@ -49,6 +49,7 @@ const NAMES = [
     'amandier' => 'almond_orchard', 'amandier_premium' => 'premium_almond_orchard', 'amandier_plein_air' => 'free_range_almond_orchard',
     'pecher' => 'peach_orchard', 'pecher_premium' => 'premium_peach_orchard', 'pecher_plein_air' => 'free_range_peach_orchard',
     'prairie' => 'meadow', 'prairie_premium' => 'premium_meadow',
+    'champ_exotique' => 'meadow', 'champ_exotique_premium' => 'premium_meadow',
     'moulin' => 'windmill', 'moulin_premium' => 'premium_windmill',
     'silo' => 'silo', 'silo_fumier' => 'silo', 'composteur' => 'composter', 'ruche' => 'beehive', 'ruche_premium' => 'premium_beehive',
     'laiterie' => 'dairy', 'confiture' => 'jam_kitchen', 'atelier_confiture' => 'jam_kitchen', 'fabrique_artisanale' => 'manufactory', 'atelier_couture' => 'sewing_workshop',

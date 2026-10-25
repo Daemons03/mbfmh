@@ -2157,40 +2157,244 @@
         }
     },
     "market": {
-        "1": {
-            "file": "market-1.webp",
-            "width": 581,
-            "height": 293,
+        "L1": {
+            "file": "market-L1.webp",
+            "width": 377,
+            "height": 180,
             "left": [
                 4,
-                122
+                136
             ],
             "right": [
-                577,
-                170
+                373,
+                130.5
             ],
             "bottom": [
-                338,
-                290
+                171.8,
+                176
+            ]
+        },
+        "L10": {
+            "file": "market-L10.webp",
+            "width": 405,
+            "height": 180,
+            "left": [
+                4,
+                134
+            ],
+            "right": [
+                401,
+                116
+            ],
+            "bottom": [
+                174.9,
+                176
+            ]
+        },
+        "L100": {
+            "file": "market-L100.webp",
+            "width": 533,
+            "height": 216,
+            "left": [
+                4,
+                156
+            ],
+            "right": [
+                529,
+                140
+            ],
+            "bottom": [
+                234.7,
+                212
+            ]
+        },
+        "L150": {
+            "file": "market-L150.webp",
+            "width": 586,
+            "height": 225,
+            "left": [
+                5,
+                165
+            ],
+            "right": [
+                581,
+                144.5
+            ],
+            "bottom": [
+                214.1,
+                221
+            ]
+        },
+        "L200": {
+            "file": "market-L200.webp",
+            "width": 560,
+            "height": 233,
+            "left": [
+                4,
+                168.5
+            ],
+            "right": [
+                556,
+                145
+            ],
+            "bottom": [
+                178.7,
+                229
+            ]
+        },
+        "L30": {
+            "file": "market-L30.webp",
+            "width": 424,
+            "height": 201,
+            "left": [
+                4,
+                144
+            ],
+            "right": [
+                419,
+                129
+            ],
+            "bottom": [
+                191.9,
+                197
+            ]
+        },
+        "L300": {
+            "file": "market-L300.webp",
+            "width": 566,
+            "height": 236,
+            "left": [
+                5,
+                176
+            ],
+            "right": [
+                562,
+                149.5
+            ],
+            "bottom": [
+                175.5,
+                232
+            ]
+        },
+        "L50": {
+            "file": "market-L50.webp",
+            "width": 516,
+            "height": 202,
+            "left": [
+                5,
+                148
+            ],
+            "right": [
+                512,
+                134
+            ],
+            "bottom": [
+                189.2,
+                198
+            ]
+        },
+        "L500": {
+            "file": "market-L500.webp",
+            "width": 586,
+            "height": 241,
+            "left": [
+                4,
+                167.5
+            ],
+            "right": [
+                582,
+                164
+            ],
+            "bottom": [
+                258.5,
+                239
+            ]
+        },
+        "L75": {
+            "file": "market-L75.webp",
+            "width": 551,
+            "height": 215,
+            "left": [
+                5,
+                164
+            ],
+            "right": [
+                546,
+                145.5
+            ],
+            "bottom": [
+                279.5,
+                211
             ]
         }
     },
     "meadow": {
-        "1": {
-            "file": "meadow-1.webp",
-            "width": 193,
-            "height": 105,
+        "L1": {
+            "file": "meadow-L1.webp",
+            "width": 545,
+            "height": 226,
             "left": [
-                0,
-                38.5
+                4,
+                149.5
             ],
             "right": [
-                192,
-                68
+                541,
+                133
             ],
             "bottom": [
-                125.5,
-                102
+                196.5,
+                222
+            ]
+        },
+        "L10": {
+            "file": "meadow-L10.webp",
+            "width": 599,
+            "height": 287,
+            "left": [
+                4,
+                187.5
+            ],
+            "right": [
+                594,
+                169.5
+            ],
+            "bottom": [
+                203,
+                282
+            ]
+        },
+        "L3": {
+            "file": "meadow-L3.webp",
+            "width": 558,
+            "height": 239,
+            "left": [
+                5,
+                163
+            ],
+            "right": [
+                554,
+                150
+            ],
+            "bottom": [
+                205.6,
+                235
+            ]
+        },
+        "L6": {
+            "file": "meadow-L6.webp",
+            "width": 591,
+            "height": 254,
+            "left": [
+                4,
+                175
+            ],
+            "right": [
+                587,
+                148.5
+            ],
+            "bottom": [
+                200.8,
+                250
             ]
         }
     },
@@ -2526,21 +2730,72 @@
         }
     },
     "premium_beehive": {
-        "1": {
-            "file": "premium_beehive-1.webp",
-            "width": 156,
-            "height": 109,
+        "L1": {
+            "file": "premium_beehive-L1.webp",
+            "width": 617,
+            "height": 405,
             "left": [
-                2,
-                55
+                4,
+                287.5
             ],
             "right": [
-                156,
-                82.5
+                613,
+                282.5
             ],
             "bottom": [
-                105.5,
-                109
+                274.5,
+                401
+            ]
+        },
+        "L2": {
+            "file": "premium_beehive-L2.webp",
+            "width": 633,
+            "height": 431,
+            "left": [
+                4,
+                314
+            ],
+            "right": [
+                629,
+                312.5
+            ],
+            "bottom": [
+                271.5,
+                426
+            ]
+        },
+        "L4": {
+            "file": "premium_beehive-L4.webp",
+            "width": 643,
+            "height": 478,
+            "left": [
+                5,
+                324.3
+            ],
+            "right": [
+                638,
+                340
+            ],
+            "bottom": [
+                301,
+                473
+            ]
+        },
+        "L7": {
+            "file": "premium_beehive-L7.webp",
+            "width": 660,
+            "height": 520,
+            "left": [
+                4,
+                347
+            ],
+            "right": [
+                660,
+                377.5
+            ],
+            "bottom": [
+                342,
+                516
             ]
         }
     },
@@ -3103,55 +3358,72 @@
         }
     },
     "premium_meadow": {
-        "1": {
-            "file": "premium_meadow-1.webp",
-            "width": 160,
-            "height": 89,
+        "L1": {
+            "file": "premium_meadow-L1.webp",
+            "width": 581,
+            "height": 231,
             "left": [
-                1,
-                39.5
+                4,
+                155
             ],
             "right": [
-                159,
-                52.5
+                577,
+                138.5
             ],
             "bottom": [
-                105,
-                88
+                215.4,
+                227
             ]
         },
-        "2": {
-            "file": "premium_meadow-2.webp",
-            "width": 158,
-            "height": 88,
+        "L10": {
+            "file": "premium_meadow-L10.webp",
+            "width": 613,
+            "height": 304,
             "left": [
-                0,
-                40.5
+                4,
+                192
             ],
             "right": [
-                158,
-                52.5
+                609,
+                184.5
             ],
             "bottom": [
-                101.5,
-                88
+                217.9,
+                300
             ]
         },
-        "3": {
-            "file": "premium_meadow-3.webp",
-            "width": 158,
-            "height": 86,
+        "L3": {
+            "file": "premium_meadow-L3.webp",
+            "width": 587,
+            "height": 239,
             "left": [
-                1,
-                38.5
+                4,
+                163.5
             ],
             "right": [
-                158,
-                50
+                583,
+                154.5
             ],
             "bottom": [
-                101.5,
-                86
+                221.4,
+                235
+            ]
+        },
+        "L6": {
+            "file": "premium_meadow-L6.webp",
+            "width": 603,
+            "height": 255,
+            "left": [
+                4,
+                178
+            ],
+            "right": [
+                599,
+                163.5
+            ],
+            "bottom": [
+                211.1,
+                251
             ]
         }
     },
