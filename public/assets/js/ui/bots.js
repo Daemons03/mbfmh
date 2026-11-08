@@ -57,11 +57,21 @@ export function rankingBlock(back) {
             return b1 - a1 || b2 - a2 || (a.me ? -1 : b.me ? 1 : 0);
         });
     const myRank = rows.findIndex((r) => r.me);
-    // [index, row] to show; null marks the gap before the player's place outside the top 100.
+    // [index, row] to show; null marks a gap. Top 100, then the other real farms and my place below it.
     const around = (from, to) => rows.slice(Math.max(0, from), to).map((row, i) => [Math.max(0, from) + i, row]);
-    const shown = view === 'top'
-        ? [...around(0, 100), ...(myRank >= 100 ? [null, ...around(myRank - 2, myRank + 3)] : [])]
-        : around(myRank - 10, myRank + 11);
+    let shown = around(myRank - 10, myRank + 11);
+    if (view === 'top') {
+        const below = new Set(rows.flatMap((row, i) => (i >= 100 && row.player ? [i] : [])));
+        if (myRank >= 100) for (let i = myRank - 2; i < Math.min(myRank + 3, rows.length); i++) below.add(i);
+        shown = around(0, 100);
+        let previous = 99;
+        for (const i of [...below].sort((a, b) => a - b)) {
+            if (i !== previous + 1) shown.push(null);
+            shown.push([i, rows[i]]);
+            previous = i;
+        }
+    }
+    let gaps = 0;
 
     const chip = (active, label, onclick) => h('button', { type: 'button', class: `chip-btn${active ? ' active' : ''}`, onclick }, label);
 
@@ -77,7 +87,7 @@ export function rankingBlock(back) {
             chip(view === 'top', 'Top 100', () => { view = 'top'; refreshSheet(); }),
             chip(view === 'me', 'Autour de moi', () => { view = 'me'; refreshSheet(); })),
         h('ol', { class: 'ranking world' }, shown.map((entry) => (entry === null
-            ? h('li', { class: 'rank-gap' }, `⋯ hors du top 100 : ma place est ${fmtInt(myRank + 1)}ᵉ`)
+            ? h('li', { class: 'rank-gap' }, gaps++ ? '⋯' : `⋯ hors du top 100${myRank >= 100 ? ` : ma place est ${fmtInt(myRank + 1)}ᵉ` : ''}`)
             : rankRow(entry, back)))),
     ];
 }

@@ -107,6 +107,22 @@ def test_other_players_are_in_the_ranking(game, farm):
         other.delete()
 
 
+def test_other_players_outside_the_top_100_are_listed(game, farm):
+    from conftest import Farm
+    other = Farm("e2e-playwright-2")
+    other.reset()
+    try:
+        other.patch({"autoplay": {"activity": 1}})  # a new farm at level 1, behind 1 000 bots
+        open_tab(game, "tournament")
+        game.get_by_role("tab", name="🌍 Classement").click()
+        player = game.locator(".rank-gap ~ .rank-row.world.player")
+        player.wait_for()
+        assert "🤖 e2e-playwright-2" in text(player)
+        assert int(text(player.locator(".rank-number")).replace(" ", "")) > 100
+    finally:
+        other.delete()
+
+
 def test_visit_a_real_bot_farm(game, farm):
     from conftest import Farm
     bot = Farm("e2e-playwright-2")
