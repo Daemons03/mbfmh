@@ -213,6 +213,27 @@ final class BotWorldTest extends TestCase
         self::assertSame([12, 12, 12, 12], array_slice($tiers, 5), '8th to 11th: lot D and beyond');
     }
 
+    public function testTheWeekCanCloseNow(): void
+    {
+        $world = $this->world->create(self::MONDAY, 'now');
+        $noon = self::MONDAY + 12 * 3600;
+        $farms = [['seed' => 'mine', 'tier' => 0, 'points' => 1_000_000]];
+        $closed = $this->world->closeWeekNow($world['meta'], $world['bots'], $noon, $farms);
+
+        self::assertSame(['mine' => ['rank' => 1, 'size' => 61]], $closed['meta']['results']['2026-W43']);
+        self::assertSame('2026-W43', $closed['meta']['week'], 'the normal close still comes on Monday');
+        foreach ($closed['bots'] as $i => $bot) {
+            $before = $world['bots'][$i];
+            self::assertSame($before['market_xp'], $bot['market_xp'], 'nothing earned is lost');
+            $half = (int) floor($before['day_gain'] * 0.5);
+            self::assertSame([0, $half], $bot['history']['2026-W43'], 'ranked with the points of noon');
+            self::assertSame($before['day_start_mxp'] + $half, $bot['week_start_mxp'], 'the new season counts from noon');
+        }
+        // My farm 1st, then the 60 bots: 59 in lots A and B go up, the 61st stays and gets the last place's prize.
+        self::assertSame([1 => 59, 0 => 1], array_count_values(array_column($closed['bots'], 'tier')));
+        self::assertCount(1, array_filter($closed['bots'], static fn (array $bot): bool => ($bot['loser'] ?? 0) === 1));
+    }
+
     public function testWeekResultsAreKept(): void
     {
         $world = $this->world->create(self::MONDAY, 'results');

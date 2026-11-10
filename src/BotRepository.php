@@ -136,6 +136,25 @@ final class BotRepository
     }
 
     /**
+     * Admin: closes the current week now for the bots and records the real
+     * farms' places (each farm then closes its own week, Tournament::finishWeek);
+     * a new season runs until the normal Monday close.
+     *
+     * @return array<string, array{rank: int, size: int}> places of the real farms, by seed
+     */
+    public function closeWeekNow(int $now): array
+    {
+        $this->ensure($now);
+        $row = $this->metaRow(fresh: true);
+        $world = $this->world->closeWeekNow($row['meta'], $this->bots(), $now, $this->farmsOf($row['meta']['week']));
+        if (!$this->save($row, $world)) {
+            throw new \RuntimeException('Le monde des bots est en cours de simulation, réessayez.');
+        }
+
+        return $world['meta']['results'][$world['meta']['week']];
+    }
+
+    /**
      * Admin: new tiers for some bots (id => tier), e.g. the one-time
      * re-ranking. Bumps the world's version so a simulation running at the
      * same time does not write its older copy over it.
@@ -232,11 +251,31 @@ final class BotRepository
      */
     private function advance(array $row, int $now, ?int $days): void
     {
-        $farms = fn (string $week): array => array_values(array_map(
+        $this->save($row, $this->world->advance($row['meta'], $this->bots(), $now, $days, $this->farmsOf(...)));
+    }
+
+    /**
+     * The real farms that play $week: seed, tier, points.
+     *
+     * @return list<array{seed: string, tier: int, points: int}>
+     */
+    private function farmsOf(string $week): array
+    {
+        return array_values(array_map(
             static fn (array $farm): array => ['seed' => $farm['seed'], 'tier' => $farm['tier'], 'points' => $farm['points']],
             array_filter($this->farms(), static fn (array $farm): bool => $farm['week'] === $week),
         ));
-        $world = $this->world->advance($row['meta'], $this->bots(), $now, $days, $farms);
+    }
+
+    /**
+     * Writes a new state of the world, unless another request changed it
+     * since $row was read (it is simulating the same days).
+     *
+     * @param array{meta: array<string, mixed>, version: int} $row
+     * @param array{meta: array<string, mixed>, bots: list<array<string, mixed>>} $world
+     */
+    private function save(array $row, array $world): bool
+    {
         $this->pdo->beginTransaction();
         try {
             $claim = $this->pdo->prepare('UPDATE bot_world SET meta_json = :meta, version = version + 1 WHERE id = 1 AND version = :version');
@@ -244,7 +283,7 @@ final class BotRepository
             if ($claim->rowCount() === 0) {
                 $this->pdo->rollBack(); // another request is simulating these days
 
-                return;
+                return false;
             }
             $this->pdo->exec('DELETE FROM bots');
             $this->writeBots($world['bots']);
@@ -254,6 +293,9 @@ final class BotRepository
             throw $e;
         }
         $this->metaCache = null;
+        $this->farmsCache = null;
+
+        return true;
     }
 
     /**

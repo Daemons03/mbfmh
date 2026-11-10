@@ -263,6 +263,7 @@ Sources : captures du joueur (3 contrats niveau de marché 147, écran du tourno
    - Écran « Ma ligue » : toute la ligue, un intertitre par lot (« Lot A · montée »…), vraies fermes 👤 / 🤖 cliquables (visite). Onglet « Ligues » : choix du palier (nombre de fermes de chacun), classement en direct de sa ligue avec ses lots (`GET /api/leagues`).
    - Passage : `php scripts/tournament-reseat.php [palier max] [--apply]` reclasse une fois tous les comptes jusqu'à saphir 3★ (niveau puis XP de marché, paliers remplis du haut vers le bas) ; au-dessus, chacun garde son palier.
    - **Coup de pouce du dernier** (`tournament.last_place_bonus`) : le dernier de bronze 1★ en fin de semaine (pas une ferme seule) reçoit en plus de son lot 100 M 💵, 1 M d'or, 20 000 maillets, 20 000 seaux et 1 000 roses (pas de roses pour les bots calculés, sans grange), son activité × 1,2 (bot 50 % → 60 %, vrai bot aussi, 100 % au plus) et le titre « 🥄 Loser of the week » (×n s'il recommence ; `loser` dans le bot ou `tournament.loser`). 🎁 sur la dernière place et ligne de la cagnotte sous la liste.
+   - Clôture immédiate : `php scripts/tournament-close-now.php` termine la semaine tout de suite pour tout le monde (bots classés avec leurs points du moment, puis chaque vraie ferme avec sa place) ; une nouvelle saison court jusqu'à la clôture normale du lundi.
    - Vrais bots laissés à ×10 jusqu'à ce qu'ils rejoignent la ligue du joueur.
 8. Ensuite **V4** : boulangerie et fermes exotiques. Pièces de tournoi et décorations de tournoi : abandonnées.
 

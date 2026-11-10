@@ -881,6 +881,34 @@ final class BotWorld
     }
 
     /**
+     * Closes the current week now (a new season starts at once, the normal
+     * Monday close follows): the bots are ranked with the points the leagues
+     * show (today's share of the day), their next season counts from there.
+     *
+     * @param array<string, mixed> $meta
+     * @param list<array<string, mixed>> $bots
+     * @param list<array{seed: string, tier: int, points: int}> $farms
+     * @return array{meta: array<string, mixed>, bots: list<array<string, mixed>>}
+     */
+    public function closeWeekNow(array $meta, array $bots, int $now, array $farms): array
+    {
+        $dayLength = max(1, self::dayStart($meta['day_start'] + 30 * 3600) - $meta['day_start']);
+        $share = max(0.0, min(1.0, ($now - $meta['day_start']) / $dayLength));
+        $real = [];
+        foreach ($bots as $i => $bot) {
+            $real[$i] = $bot['market_xp'];
+            $bots[$i]['market_xp'] = $bot['day_start_mxp'] + (int) floor($bot['day_gain'] * $share);
+        }
+        $closed = $this->closeWeek($bots, $meta['week'], $farms); // week_start_mxp = the points so far
+        foreach ($closed['bots'] as $i => $bot) {
+            $closed['bots'][$i]['market_xp'] = $real[$i];
+        }
+        $meta['results'][$meta['week']] = $closed['results'];
+
+        return ['meta' => $meta, 'bots' => $closed['bots']];
+    }
+
+    /**
      * The last of bronze 1★: cash, gold and materials of the prize (no barn
      * for the roses), and a busier profile (50 % → 60 %).
      *
