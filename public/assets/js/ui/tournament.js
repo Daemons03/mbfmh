@@ -1,3 +1,4 @@
+import { api } from '../api.js';
 import { h } from '../dom.js';
 import { fmtCost, fmtDuration, fmtInt } from '../format.js';
 import { serverNow, store } from '../store.js';
@@ -7,8 +8,13 @@ import { startVisit } from './visit.js';
 
 const LOTS = { first: 'Lot A', podium: 'Lot B', middle: 'Lot C', relegated: 'Lot D' };
 
-/** Open tab: the player's league or the ranking of every farm. */
+/** Open tab: the player's league, the live ranking of any tier's league or the ranking of every farm. */
 let tab = 'league';
+
+/** GET /api/leagues for the chosen tier (null: mine), kept 30 s. */
+let leagues = null; // { tiers, league, tier, at }
+let leaguesLoading = null;
+let chosenTier = null;
 
 export function tournamentPanel() {
     return {
@@ -28,24 +34,65 @@ export function tournamentPanel() {
             }, label);
 
             return [
-                h('div', { class: 'subtabs', role: 'tablist' }, tabButton('league', '🏅 Ma ligue'), tabButton('world', '🌍 Classement')),
-                tab === 'world' ? rankingBlock(tournamentPanel) : [
+                h('div', { class: 'subtabs', role: 'tablist' },
+                    tabButton('league', '🏅 Ma ligue'), tabButton('leagues', '📋 Ligues'), tabButton('world', '🌍 Classement')),
+                tab === 'world' ? rankingBlock(tournamentPanel) : tab === 'leagues' ? leaguesBlock() : [
                     leagueCard(view),
                     lastWeekCard(view),
                     pointsCard(view),
                     h('p', { class: 'section-title' }, 'Ma ligue'),
-                    h('ol', { class: 'ranking' }, view.ranking.flatMap((row, i) => {
-                        // A header where each lot starts.
-                        const group = groupOf(view, i + 1);
-                        const head = i === 0 || groupOf(view, i) !== group
-                            ? h('li', { class: `rank-lot zone-${group}` }, lotLabel(view, group))
-                            : null;
-                        return [head, rankRow(view, row, i + 1)];
-                    })),
+                    rankingList(view),
                 ],
             ];
         },
     };
+}
+
+/** A league's ranking, a header where each lot starts. view: { ranking, lots, tier, top }. */
+function rankingList(view) {
+    return h('ol', { class: 'ranking' }, view.ranking.flatMap((row, i) => {
+        const group = groupOf(view, i + 1);
+        const head = i === 0 || groupOf(view, i) !== group
+            ? h('li', { class: `rank-lot zone-${group}` }, lotLabel(view, group))
+            : null;
+        return [head, rankRow(view, row, i + 1)];
+    }));
+}
+
+function loadLeagues() {
+    const tier = chosenTier ?? undefined;
+    const fresh = leagues && leagues.tier === chosenTier && Date.now() - leagues.at < 30_000;
+    if (fresh || leaguesLoading) return;
+    leaguesLoading = api.leagues(tier)
+        .then((body) => { leagues = { ...body, tier: chosenTier, at: Date.now() }; })
+        .catch(() => { leagues = { failed: true, tier: chosenTier, at: Date.now() }; })
+        .finally(() => { leaguesLoading = null; refreshSheet(); });
+}
+
+/** Live ranking of any tier's league: a tier picker, then the whole league with its lots. */
+function leaguesBlock() {
+    loadLeagues();
+    if (!leagues || (leagues.tier !== chosenTier && !leagues.failed)) return h('p', { class: 'muted' }, 'Chargement des ligues…');
+    if (leagues.failed) return h('p', { class: 'muted' }, 'Ligues indisponibles pour le moment.');
+    const league = leagues.league;
+    const count = (n) => `${fmtInt(n)} ferme${n > 1 ? 's' : ''}`;
+
+    return [
+        h('label', { class: 'league-picker' }, 'Palier ',
+            h('select', {
+                'aria-label': 'Palier',
+                onchange: (event) => {
+                    chosenTier = Number(event.target.value);
+                    refreshSheet();
+                },
+            }, [...leagues.tiers].reverse().map((t) => h('option', { value: t.tier, selected: t.tier === league.tier },
+                `${t.emoji} ${t.name} · ${count(t.count)}${t.tier === league.mine ? ' · ma ligue' : ''}`)))),
+        h('p', { class: 'row-sub' }, `${league.emoji} ${league.name} · ${count(league.ranking.length)} · fin `,
+            h('strong', { dataset: { readyAt: league.ends_at, format: 'long', prefix: 'dans ' } }, `dans ${fmtDuration(Math.max(0, league.ends_at - serverNow()))}`)),
+        league.ranking.length
+            ? rankingList(league)
+            : h('p', { class: 'muted' }, 'Personne dans ce palier cette semaine.'),
+    ];
 }
 
 /** Lot of a 1-based rank, as on the server (the league's lots; to = null: the end). */

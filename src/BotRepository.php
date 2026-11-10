@@ -109,6 +109,21 @@ final class BotRepository
     }
 
     /**
+     * Number of bots in each tier this week.
+     *
+     * @return array<int, int>
+     */
+    public function tierCounts(): array
+    {
+        $counts = [];
+        foreach ($this->pdo->query('SELECT tier, COUNT(*) AS n FROM bots GROUP BY tier')->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $counts[(int) $row['tier']] = (int) $row['n'];
+        }
+
+        return $counts;
+    }
+
+    /**
      * @return array<string, mixed>|null
      */
     public function bot(int $id): ?array

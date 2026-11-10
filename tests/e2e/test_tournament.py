@@ -85,3 +85,28 @@ def test_real_farms_share_the_league_of_their_tier(game, farm):
         assert any(row["name"] == farm.login and row["player"] for row in rows), "and I am in its league"
     finally:
         other.delete()
+
+
+def test_live_ranking_of_every_league(game, farm):
+    from conftest import Farm
+    other = Farm("e2e-playwright-2")
+    other.reset()
+    try:
+        other.patch({"tournament.tier": 3, "market_xp": 700})
+        open_tab(game, "tournament")
+        game.get_by_role("tab", name="📋 Ligues").click()
+        picker = game.get_by_label("Palier", exact=True)
+        picker.wait_for()
+        assert "Bronze 1★ · 1 001 fermes · ma ligue" in text(picker.locator("option:checked"))
+        assert game.locator(".rank-row.me").count() == 1
+
+        picker.select_option(label="🥈 Argent 1★ · 1 ferme")
+        row = game.locator(".rank-row.player")
+        row.wait_for()
+        assert "👤 e2e-playwright-2" in text(row) and "700" in text(row)
+        assert "Lot A · montée" in text(game.locator(".rank-lot").first)
+
+        picker.select_option(label="🥈 Argent 2★ · 0 ferme")
+        game.get_by_text("Personne dans ce palier cette semaine.").wait_for()
+    finally:
+        other.delete()

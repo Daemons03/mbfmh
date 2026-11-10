@@ -13,6 +13,7 @@ use FermeTranquille\Engine\Engine;
 use FermeTranquille\Engine\Farm;
 use FermeTranquille\Engine\GameError;
 use FermeTranquille\Engine\MarketUpgrades;
+use FermeTranquille\Engine\Tournament;
 use FermeTranquille\GameData;
 use FermeTranquille\StaleStateException;
 use FermeTranquille\StateRepository;
@@ -85,6 +86,7 @@ final class Api
             ['POST', 'admin'] => $this->authenticated(fn (int $userId): ApiResponse => $this->admin($userId, $body)),
             ['GET', 'bots'] => $this->authenticated($this->ranking(...)),
             ['GET', 'bot'] => $this->authenticated(fn (): ApiResponse => $this->botProfile($query)),
+            ['GET', 'leagues'] => $this->authenticated(fn (int $userId): ApiResponse => $this->leagues($userId, $query)),
             ['GET', 'farm'] => $this->authenticated(fn (): ApiResponse => $this->visit($query)),
             default => $this->notFound($method, $route),
         };
@@ -314,6 +316,61 @@ final class Api
                 'tier' => $tier, 'tier_name' => $tournament->tierInfo($tier)['name'],
             ],
             'world' => $this->bots->meta(),
+        ]);
+    }
+
+    /**
+     * Live ranking of one tier's league (?tier=, default: the player's):
+     * every bot and real farm of the tier with its points this week, and
+     * how many farms each tier holds.
+     *
+     * @param array<string, mixed> $query
+     */
+    private function leagues(int $userId, array $query): ApiResponse
+    {
+        $tournament = $this->engine()->tournament();
+        if (!$this->botsReady) {
+            return $this->error(404, 'no_bots');
+        }
+        $now = ($this->now)();
+        $state = $this->engine()->resolve($this->states->load($userId)['state'], $now);
+        $mine = (new Farm($state, $this->gameData))->tournament();
+        $tier = filter_var($query['tier'] ?? $mine['tier'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 0, 'max_range' => $tournament->tierCount() - 1]]);
+        if ($tier === false) {
+            return $this->error(400, 'invalid_tier');
+        }
+        $week = $this->bots->meta()['week'];
+
+        $ranking = (new BotLeagues($this->bots))->league($week, $tier, $now, (string) $mine['seed']) ?? [];
+        if ($mine['tier'] === $tier && $mine['week'] === $week) {
+            $points = (new Farm($state, $this->gameData))->marketXp() - $mine['start_xp'];
+            $ranking[] = ['id' => null, 'name' => 'Ma ferme', 'title' => null, 'points' => $points, 'me' => true];
+        }
+        // Points first; on a tie my farm, then the other real farms (as at the end of the week).
+        usort($ranking, static fn (array $a, array $b): int => $b['points'] <=> $a['points']
+            ?: (int) ($b['me'] ?? false) <=> (int) ($a['me'] ?? false)
+            ?: (int) ($b['player'] ?? false) <=> (int) ($a['player'] ?? false));
+
+        $counts = $this->bots->tierCounts();
+        foreach ($this->bots->farms() as $farm) {
+            if ($farm['week'] === $week) {
+                $counts[$farm['tier']] = ($counts[$farm['tier']] ?? 0) + 1;
+            }
+        }
+        $info = $tournament->tierInfo($tier);
+
+        return $this->ok([
+            'tiers' => array_map(fn (int $t): array => [
+                'tier' => $t, 'name' => $tournament->tierInfo($t)['name'], 'emoji' => $tournament->tierInfo($t)['league']['emoji'], 'count' => $counts[$t] ?? 0,
+            ], range(0, $tournament->tierCount() - 1)),
+            'league' => [
+                'tier' => $tier, 'name' => $info['name'], 'emoji' => $info['league']['emoji'], 'mine' => $mine['tier'],
+                'lots' => $tournament->lots($tier), 'top' => $tournament->tierCount() - 1, 'ends_at' => Tournament::week($now)['start'] + 7 * 86400,
+                'ranking' => array_map(static fn (array $row): array => [
+                    'name' => $row['name'], 'points' => $row['points'], 'id' => $row['id'] ?? null, 'title' => $row['title'] ?? null,
+                    'player' => $row['player'] ?? false, 'me' => $row['me'] ?? false,
+                ], $ranking),
+            ],
         ]);
     }
 

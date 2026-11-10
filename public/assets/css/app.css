@@ -901,6 +901,9 @@ table.levels tr.current td { background: color-mix(in srgb, var(--go) 18%, trans
 /* Tournament league: a header where each lot starts, other real farms highlighted. */
 .rank-lot { padding: 8px 4px 2px; font-size: 13px; font-weight: 700; color: var(--zone); }
 .rank-row.player { font-weight: 700; background: color-mix(in srgb, var(--accent) 14%, var(--surface-2)); }
+/* Tournament "Ligues" tab: tier picker. */
+.league-picker { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+.league-picker select { flex: 1; min-width: 0; padding: 6px 8px; border-radius: 10px; border: 2px solid var(--card-border); background: var(--surface-2); color: inherit; font: inherit; }
 .rank-gap { padding: 6px 10px; text-align: center; font-size: 13px; font-weight: 600; color: var(--muted); }
 .chip-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .chip-btn {

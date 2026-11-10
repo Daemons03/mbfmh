@@ -114,6 +114,7 @@ Toutes les réponses : `{ ok, state?, server_now, error? }`. POST protégés par
 | POST | /api/admin | `{ op, payload, version }` → `{ state, version, view }` (même verrou 409/422 qu'`/api/action`, journalisé `admin:<op>`) |
 | GET | /api/bots | classement : tous les bots (id, nom, titre, niveau, niveau de marché, palier) + `me` + `world` |
 | GET | /api/bot?id= | profil d'un bot (bâtiments et niveaux, cash, terrain) |
+| GET | /api/leagues?tier= | classement en direct de la ligue d'un palier (défaut : le mien) + nombre de fermes par palier |
 
 - `view` = valeurs dérivées jamais stockées : `barn {capacity, full}`, `grid {side, block_size, owned_blocks, next_block}`, `xp_needed`, `jobs {id: {ready_at, ready}}`, `contracts {id: {available_at, available}}`, `production {id: {inputs, outputs, duration, xp}}`.
 - Codes d'erreur : 400 requête mal formée, 401 non connecté, 403 CSRF, 409 `stale_state` (renvoie `state` + `version` à jour), 422 règle de jeu (`error` = code stable, `message` en français, `details`).
@@ -259,7 +260,7 @@ Sources : captures du joueur (3 contrats niveau de marché 147, écran du tourno
    - Le lot D d'un palier a autant de places que A + B du palier du dessous (tailles stables, vérifié au chargement des données) ; au-delà de la dernière place on est en lot D.
    - Fin de semaine calculée **une fois pour tous** par le monde des bots (`BotWorld::closeWeek`, le lundi avec le premier appel ou les timers ; `scripts/autoplay.php` met aussi le monde à jour avant de jouer) : classement par points (une vraie ferme passe devant un bot à égalité), or et palier des bots, place des vraies fermes dans `bot_world.meta.results[semaine][graine]`, appliquée quand la ferme se résout (récompenses, montée / descente). Sans résultat connu (admin « terminer le tournoi »), place calculée sur la ligue en cours.
    - Argent de place : `rank_rewards.cash_by_level` = ce qu'un vrai bot (AutoPlayer, activité 90 %, vitesse ×1) encaisse en une journée à ce niveau (ventes + contrats, mesuré par `scripts/calibrate-tournament-cash.php`), linéaire entre les lignes ; A 100 %, B 80 %, C 60 %, D 40 %. Or, clés, maillets, seaux et roses inchangés, versés à chaque membre du lot.
-   - Écran « Ma ligue » : toute la ligue, un intertitre par lot (« Lot A · montée »…), vraies fermes 👤 / 🤖 cliquables (visite).
+   - Écran « Ma ligue » : toute la ligue, un intertitre par lot (« Lot A · montée »…), vraies fermes 👤 / 🤖 cliquables (visite). Onglet « Ligues » : choix du palier (nombre de fermes de chacun), classement en direct de sa ligue avec ses lots (`GET /api/leagues`).
    - Passage : `php scripts/tournament-reseat.php [palier max] [--apply]` reclasse une fois tous les comptes jusqu'à saphir 3★ (niveau puis XP de marché, paliers remplis du haut vers le bas) ; au-dessus, chacun garde son palier.
    - Vrais bots laissés à ×10 jusqu'à ce qu'ils rejoignent la ligue du joueur.
 8. Ensuite **V4** : boulangerie et fermes exotiques. Pièces de tournoi et décorations de tournoi : abandonnées.

@@ -63,4 +63,5 @@ export const api = {
     bots: () => request('GET', 'bots'),
     bot: (id) => request('GET', `bot?id=${encodeURIComponent(id)}`),
     farm: (login) => request('GET', `farm?login=${encodeURIComponent(login)}`),
+    leagues: (tier) => request('GET', tier === undefined ? 'leagues' : `leagues?tier=${encodeURIComponent(tier)}`),
 };
