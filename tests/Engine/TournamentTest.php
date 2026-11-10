@@ -140,6 +140,31 @@ final class TournamentTest extends EngineTestCase
         self::assertSame(0, $this->state['tournament']['tier'], 'no league below bronze 1★');
     }
 
+    public function testTheLastOfBronzeGetsABoost(): void
+    {
+        $this->state['autoplay'] = ['activity' => 0.5];
+        $cash = $this->state['cash'];
+        $this->finishWeek(); // 0 points: 20th of 20 in bronze 1★
+
+        $last = $this->state['tournament']['last'];
+        self::assertSame(20, $last['rank']);
+        $prize = $this->tournament->cashBase($this->state['level']) * 0.4;
+        self::assertSame((int) round($prize) + 100_000_000, $last['rewards']['cash'], 'lot D + the prize');
+        self::assertSame($cash + $last['rewards']['cash'], $this->state['cash']);
+        self::assertSame(20_000, $this->state['materials']['mallets']);
+        self::assertSame(20_000, $this->state['materials']['buckets']);
+        self::assertSame(1_000, $this->state['barn']['items']['rose_seed']);
+        self::assertSame(0.6, $this->state['autoplay']['activity'], '50 % → 60 %');
+        self::assertSame(1, $this->state['tournament']['loser'], 'Loser of the week');
+
+        $this->state['tournament']['tier'] = 3;
+        $this->finishWeek(); // last of argent 1★: no prize
+        self::assertSame(1, $this->state['tournament']['loser']);
+        self::assertArrayNotHasKey('rose_seed', $this->state['tournament']['last']['rewards']);
+        self::assertSame([], $this->tournament->lastPlaceBonus(0, 1, 1), 'alone in its league: first, not last');
+        self::assertSame(1.0, $this->tournament->boostedActivity(0.9), '100 % at most');
+    }
+
     public function testMiddleOfTheTableStays(): void
     {
         $this->state['tournament']['tier'] = 2;

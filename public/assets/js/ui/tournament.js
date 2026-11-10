@@ -2,7 +2,7 @@ import { api } from '../api.js';
 import { h } from '../dom.js';
 import { fmtCost, fmtDuration, fmtInt } from '../format.js';
 import { serverNow, store } from '../store.js';
-import { botPanel, rankingBlock, titleBadge } from './bots.js';
+import { botPanel, loserBadge, rankingBlock, titleBadge } from './bots.js';
 import { openSheet, refreshSheet } from './sheet.js';
 import { startVisit } from './visit.js';
 
@@ -48,15 +48,22 @@ export function tournamentPanel() {
     };
 }
 
-/** A league's ranking, a header where each lot starts. view: { ranking, lots, tier, top }. */
+/**
+ * A league's ranking, a header where each lot starts, then the prize of the
+ * last place when the tier has one. view: { ranking, lots, tier, top, last_prize }.
+ */
 function rankingList(view) {
-    return h('ol', { class: 'ranking' }, view.ranking.flatMap((row, i) => {
-        const group = groupOf(view, i + 1);
-        const head = i === 0 || groupOf(view, i) !== group
-            ? h('li', { class: `rank-lot zone-${group}` }, lotLabel(view, group))
-            : null;
-        return [head, rankRow(view, row, i + 1)];
-    }));
+    const prize = Object.keys(view.last_prize ?? {}).length ? view.last_prize : null;
+    return [
+        h('ol', { class: 'ranking' }, view.ranking.flatMap((row, i) => {
+            const group = groupOf(view, i + 1);
+            const head = i === 0 || groupOf(view, i) !== group
+                ? h('li', { class: `rank-lot zone-${group}` }, lotLabel(view, group))
+                : null;
+            return [head, rankRow(view, row, i + 1, prize && i > 0 && i === view.ranking.length - 1)];
+        })),
+        prize ? h('p', { class: 'row-sub last-prize' }, `🎁 Le dernier à la fin de la semaine gagne en plus : ${rewardText(prize)}, son activité +20 % et le titre « Loser of the week ».`) : null,
+    ];
 }
 
 function loadLeagues() {
@@ -196,7 +203,7 @@ function pointsCard(view) {
         }, h('span', { class: 'objective-n' }, String(i + 1)), h('span', {}, rewardText(reward)), i < view.claimed ? h('span', { class: 'check' }, '✓') : null))));
 }
 
-function rankRow(view, row, rank) {
+function rankRow(view, row, rank, lastPrize = false) {
     const group = groupOf(view, rank);
     const bot = !row.me && row.id;
     let open = null;
@@ -208,6 +215,7 @@ function rankRow(view, row, rank) {
         onclick: open,
     },
     h('span', { class: 'rank-number' }, fmtInt(rank)),
-    h('span', { class: 'rank-name' }, row.me ? `⭐ ${row.name}` : row.player ? `${row.title ? '🤖' : '👤'} ${row.name}` : row.name, ' ', titleBadge(row.title)),
+    h('span', { class: 'rank-name' }, lastPrize ? '🎁 ' : '', row.me ? `⭐ ${row.name}` : row.player ? `${row.title ? '🤖' : '👤'} ${row.name}` : row.name, ' ',
+        titleBadge(row.title), ' ', loserBadge(row.loser)),
     h('span', { class: 'rank-points' }, fmtInt(row.points)));
 }

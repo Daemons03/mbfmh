@@ -867,6 +867,10 @@ final class BotWorld
                 $i = $member['bot'];
                 $bots[$i]['gold'] = ($bots[$i]['gold'] ?? 0) + $this->placeGold($tier, $group);
                 $bots[$i]['tier'] = $tournament->move($tier, $group);
+                $bonus = $tournament->lastPlaceBonus($tier, $rank + 1, count($members));
+                if ($bonus !== []) {
+                    $bots[$i] = $this->lastPlaceBoost($bots[$i], $bonus, $tournament);
+                }
             }
         }
         foreach ($bots as $i => $bot) {
@@ -874,6 +878,30 @@ final class BotWorld
         }
 
         return ['bots' => $bots, 'results' => $results];
+    }
+
+    /**
+     * The last of bronze 1★: cash, gold and materials of the prize (no barn
+     * for the roses), and a busier profile (50 % → 60 %).
+     *
+     * @param array<string, mixed> $bot
+     * @param array<string, int> $bonus
+     * @return array<string, mixed>
+     */
+    private function lastPlaceBoost(array $bot, array $bonus, Tournament $tournament): array
+    {
+        foreach ($bonus as $id => $quantity) {
+            if ($id === 'cash' || $id === 'gold') {
+                $bot[$id] = ($bot[$id] ?? 0) + $quantity;
+            } elseif (isset($this->data->toArray()['materials'][$id])) {
+                $bot['materials'][$id] = ($bot['materials'][$id] ?? 0) + $quantity;
+            }
+        }
+        $bot['activity'] = $tournament->boostedActivity((float) $bot['activity']);
+        $bot['title'] = (string) round($bot['activity'] * 100);
+        $bot['loser'] = ($bot['loser'] ?? 0) + 1; // « Loser of the week » next to its name
+
+        return $bot;
     }
 
     /** Gold of a lot in a tier, like the player's (rank_rewards.gold × tier + 1). */

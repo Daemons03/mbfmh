@@ -215,12 +215,20 @@ final readonly class Tournament
         }
         $group = self::groupOf($rank, $lots);
         $rewards = $this->rankRewards($tier, $group, $farm->level());
+        $bonus = $this->lastPlaceBonus($tier, $rank, $size);
+        foreach ($bonus as $id => $quantity) {
+            $rewards[$id] = ($rewards[$id] ?? 0) + $quantity;
+        }
+        if ($bonus !== [] && ($activity = $farm->autoplayActivity()) !== null) {
+            $farm->setAutoplayActivity($this->boostedActivity($activity));
+        }
         $this->pay($farm, $rewards);
         $newTier = $this->move($tier, $group);
 
         $farm->setTournament([
             'week' => $nextWeek, 'round' => ($state['round'] ?? 0) + 1, 'started_at' => $nextStart,
             'tier' => $newTier, 'start_xp' => $farm->marketXp(), 'seed' => $state['seed'], 'claimed' => 0,
+            'loser' => ($state['loser'] ?? 0) + ($bonus === [] ? 0 : 1), // weeks finished last of bronze 1★
             'last' => ['week' => $state['week'], 'tier' => $tier, 'new_tier' => $newTier, 'rank' => $rank, 'size' => $size, 'group' => $group, 'points' => $points, 'rewards' => $rewards],
         ]);
     }
@@ -321,6 +329,37 @@ final readonly class Tournament
     }
 
     /**
+     * Extra prize of the very last of a tier's league (last_place_bonus:
+     * bronze 1★), on top of its lot; nothing for a farm alone in its league.
+     *
+     * @return array<string, int>
+     */
+    public function lastPlaceBonus(int $tier, int $rank, int $size): array
+    {
+        $bonus = $this->config()['last_place_bonus'] ?? null;
+
+        return $bonus !== null && $tier === $bonus['tier'] && $size > 1 && $rank === $size ? $bonus['rewards'] : [];
+    }
+
+    /** Activity after the last-place boost (× activity_factor, 100 % at most). */
+    public function boostedActivity(float $activity): float
+    {
+        return min(1.0, round($activity * ($this->config()['last_place_bonus']['activity_factor'] ?? 1.0), 4));
+    }
+
+    /**
+     * Rewards of the last place of this tier, for the screens (empty if none).
+     *
+     * @return array<string, int>
+     */
+    public function lastPlacePrize(int $tier): array
+    {
+        $bonus = $this->config()['last_place_bonus'] ?? null;
+
+        return $bonus !== null && $tier === $bonus['tier'] ? $bonus['rewards'] : [];
+    }
+
+    /**
      * Lot of a 1-based rank.
      *
      * @param array<string, array{0: int, 1: int|null}> $lots
@@ -396,7 +435,7 @@ final readonly class Tournament
         $group = self::groupOf($rank, $league['lots']);
 
         $ranking = $league['farms'];
-        array_splice($ranking, $rank - 1, 0, [['name' => 'Ma ferme', 'points' => $points, 'me' => true]]);
+        array_splice($ranking, $rank - 1, 0, [['name' => 'Ma ferme', 'points' => $points, 'me' => true, 'loser' => $state['loser'] ?? 0]]);
         $tier = $this->tierInfo($state['tier']);
 
         return [
@@ -414,9 +453,11 @@ final readonly class Tournament
             'lots' => $league['lots'],
             'top' => $this->tierCount() - 1,
             'rewards' => $this->rankRewards($state['tier'], $group, $farm->level()),
+            'last_prize' => (object) $this->lastPlacePrize($state['tier']),
             'ranking' => array_map(static fn (array $row): array => [
                 'name' => $row['name'], 'points' => $row['points'], 'me' => $row['me'] ?? false,
                 'title' => $row['title'] ?? null, 'id' => $row['id'] ?? null, 'player' => $row['player'] ?? false,
+                'loser' => $row['loser'] ?? 0,
             ], $ranking),
             'curve' => $this->curve($farm),
             'last' => isset($state['last']) ? $state['last'] + [

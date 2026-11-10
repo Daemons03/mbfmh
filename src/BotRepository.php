@@ -167,9 +167,10 @@ final class BotRepository
 
     /**
      * The real farms in the tournament (player_state): login, tournament
-     * seed, week and tier, points of that week, autoplay activity.
+     * seed, week and tier, points of that week, autoplay activity, weeks
+     * finished last of bronze 1★.
      *
-     * @return list<array{login: string, seed: string, week: string, tier: int, points: int, autoplay: float|null}>
+     * @return list<array{login: string, seed: string, week: string, tier: int, points: int, autoplay: float|null, loser: int}>
      */
     public function farms(): array
     {
@@ -189,6 +190,7 @@ final class BotRepository
                 'login' => $row['login'], 'seed' => $tournament['seed'], 'week' => $tournament['week'], 'tier' => (int) $tournament['tier'],
                 'points' => max(0, ($state['market_xp'] ?? 0) - ($tournament['start_xp'] ?? 0)),
                 'autoplay' => isset($state['autoplay']['activity']) ? (float) $state['autoplay']['activity'] : null,
+                'loser' => (int) ($tournament['loser'] ?? 0),
             ];
         }
 

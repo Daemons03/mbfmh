@@ -901,6 +901,12 @@ table.levels tr.current td { background: color-mix(in srgb, var(--go) 18%, trans
 /* Tournament league: a header where each lot starts, other real farms highlighted. */
 .rank-lot { padding: 8px 4px 2px; font-size: 13px; font-weight: 700; color: var(--zone); }
 .rank-row.player { font-weight: 700; background: color-mix(in srgb, var(--accent) 14%, var(--surface-2)); }
+.loser-badge {
+    display: inline-block; padding: 0 6px; border-radius: 999px;
+    font-size: 11px; font-weight: 700; line-height: 17px; vertical-align: 1px;
+    color: #fff; background: #9b4dca;
+}
+.last-prize { margin-top: 8px; }
 /* Tournament "Ligues" tab: tier picker. */
 .league-picker { display: flex; align-items: center; gap: 8px; font-weight: 700; }
 .league-picker select { flex: 1; min-width: 0; padding: 6px 8px; border-radius: 10px; border: 2px solid var(--card-border); background: var(--surface-2); color: inherit; font: inherit; }

@@ -12,6 +12,8 @@ def test_league_and_ranking(game, farm):
     assert lots == ["Lot A · montée", "Lot B · montée", "Lot C · maintien", "Lot D · maintien"], "nothing below bronze 1★"
     assert game.locator(".rank-row.zone-first").count() == 20
     assert game.locator(".rank-row.zone-relegated").count() == 1001 - 150
+    assert text(game.locator(".rank-row").last).startswith("1 001\n🎁"), "the last place's prize"
+    assert "100 000 000" in text(game.locator(".last-prize")) and "Loser of the week" in text(game.locator(".last-prize"))
 
 
 def test_end_of_week_promotes_and_pays(game, farm):

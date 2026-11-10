@@ -39960,6 +39960,18 @@
     ],
     "_estimated": true,
     "_note": "Règles du joueur : ligues bronze → diamant de 1 à 3 étoiles, ligue de 20 (joueur + 19 fermes fictives), 3 montent, 5 descendent ; points = XP de marché de la semaine ; 6ᵉ objectif = 2 000 en bronze 1★ et 1,5 M en diamant 1★ (progression géométrique) ; récompenses de place (clés, maillets dès or, seaux dès saphir) ; argent = production de 8 h vendue à la grange par un joueur de niveau 1 + 10 × palier (1 récolte par heure au plus, 2 champs + 1 par 5 niveaux, un bâtiment de chaque) × 100 / 80 / 60 / 40 %. Objectifs 1 à 5 (fractions du 6ᵉ), roses du podium et noms des fermes : estimés / inventés. Récompenses des objectifs : une liste d'options par objectif, l'option change chaque semaine (tournoi n mod nombre d'options) ; quantité = base + per_tier × palier (diamant 3★ ≈ capture du joueur : 5, 10, 150, 70, 150, 60). « premium_seed » = semence premium de la meilleure culture débloquée.",
+    "last_place_bonus": {
+      "_note": "Coup de pouce (choix du joueur, 2026-11-10) : le dernier de la ligue de ce palier (bronze 1★) en fin de semaine reçoit ces récompenses en plus de son lot, et son activité est multipliée par activity_factor (bot 50 % → 60 %, vrai bot aussi ; plafond 100 %). Pas pour une ferme seule dans sa ligue. Les bots calculés n'ont pas de grange : pas de roses pour eux.",
+      "tier": 0,
+      "rewards": {
+        "cash": 100000000,
+        "gold": 1000000,
+        "mallets": 20000,
+        "buckets": 20000,
+        "rose_seed": 1000
+      },
+      "activity_factor": 1.2
+    },
     "objective_rewards": [
       [
         {

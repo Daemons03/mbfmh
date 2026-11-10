@@ -602,6 +602,17 @@ final class Farm
         $this->state['tournament'] = $tournament;
     }
 
+    /** Activity of a real bot (state.autoplay), null for a farm played by hand. */
+    public function autoplayActivity(): ?float
+    {
+        return isset($this->state['autoplay']['activity']) ? (float) $this->state['autoplay']['activity'] : null;
+    }
+
+    public function setAutoplayActivity(float $activity): void
+    {
+        $this->state['autoplay']['activity'] = $activity;
+    }
+
     /**
      * @return array<string, mixed>
      */

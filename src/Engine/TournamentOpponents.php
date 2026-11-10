@@ -15,7 +15,9 @@ interface TournamentOpponents
      * when there are no bots (the invented farms are used then). $seed: the
      * farm's tournament seed, left out of its own league.
      *
-     * @return list<array{id: int|null, name: string, title: string|null, points: int, player?: bool}>|null
+     * loser: weeks the farm finished last of bronze 1★.
+     *
+     * @return list<array{id: int|null, name: string, title: string|null, points: int, player?: bool, loser?: int}>|null
      */
     public function league(string $week, int $tier, int $at, string $seed = ''): ?array;
 

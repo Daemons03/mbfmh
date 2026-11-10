@@ -290,6 +290,7 @@ final class Api
             'level' => $bot['level'], 'market_xp' => $bot['market_xp'],
             'market_level' => MarketUpgrades::levelFor($this->gameData, $bot['market_xp'])['level'],
             'tier' => $bot['tier'], 'tier_name' => $tierNames[$bot['tier']] ??= $tournament->tierInfo($bot['tier'])['name'],
+            'loser' => $bot['loser'] ?? 0,
         ];
         $tier = $farm->tournament()['tier'] ?? 0;
         $players = [];
@@ -304,6 +305,7 @@ final class Api
                 'level' => $other->level(), 'market_xp' => $other->marketXp(),
                 'market_level' => MarketUpgrades::levelFor($this->gameData, $other->marketXp())['level'],
                 'tier' => $otherTier, 'tier_name' => $tierNames[$otherTier] ??= $tournament->tierInfo($otherTier)['name'],
+                'loser' => $other->tournament()['loser'] ?? 0,
             ];
         }
 
@@ -314,6 +316,7 @@ final class Api
                 'level' => $farm->level(), 'market_xp' => $farm->marketXp(),
                 'market_level' => MarketUpgrades::levelFor($this->gameData, $farm->marketXp())['level'],
                 'tier' => $tier, 'tier_name' => $tournament->tierInfo($tier)['name'],
+                'loser' => $farm->tournament()['loser'] ?? 0,
             ],
             'world' => $this->bots->meta(),
         ]);
@@ -344,7 +347,7 @@ final class Api
         $ranking = (new BotLeagues($this->bots))->league($week, $tier, $now, (string) $mine['seed']) ?? [];
         if ($mine['tier'] === $tier && $mine['week'] === $week) {
             $points = (new Farm($state, $this->gameData))->marketXp() - $mine['start_xp'];
-            $ranking[] = ['id' => null, 'name' => 'Ma ferme', 'title' => null, 'points' => $points, 'me' => true];
+            $ranking[] = ['id' => null, 'name' => 'Ma ferme', 'title' => null, 'points' => $points, 'me' => true, 'loser' => $mine['loser'] ?? 0];
         }
         // Points first; on a tie my farm, then the other real farms (as at the end of the week).
         usort($ranking, static fn (array $a, array $b): int => $b['points'] <=> $a['points']
@@ -368,8 +371,9 @@ final class Api
                 'lots' => $tournament->lots($tier), 'top' => $tournament->tierCount() - 1, 'ends_at' => Tournament::week($now)['start'] + 7 * 86400,
                 'ranking' => array_map(static fn (array $row): array => [
                     'name' => $row['name'], 'points' => $row['points'], 'id' => $row['id'] ?? null, 'title' => $row['title'] ?? null,
-                    'player' => $row['player'] ?? false, 'me' => $row['me'] ?? false,
+                    'player' => $row['player'] ?? false, 'me' => $row['me'] ?? false, 'loser' => $row['loser'] ?? 0,
                 ], $ranking),
+                'last_prize' => (object) $tournament->lastPlacePrize($tier),
             ],
         ]);
     }
@@ -396,6 +400,7 @@ final class Api
             'market_xp' => $bot['market_xp'],
             'market_level' => MarketUpgrades::levelFor($this->gameData, $bot['market_xp'])['level'],
             'tier' => $bot['tier'], 'tier_name' => $this->engine()->tournament()->tierInfo($bot['tier'])['name'],
+            'loser' => $bot['loser'] ?? 0,
             'buildings' => array_map(static fn (string $type, array $levels): array => ['type' => $type, 'levels' => $levels], array_keys($buildings), $buildings),
         ]]);
     }

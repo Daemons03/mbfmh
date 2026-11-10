@@ -175,6 +175,28 @@ final class BotWorldTest extends TestCase
         self::assertSame(5, array_count_values(array_column($closed, 'tier'))[12]);
     }
 
+    public function testTheLastOfBronzeGetsABoost(): void
+    {
+        $bots = $this->league('loser', 0, 5); // the first one has the fewest points
+        $bots[0]['activity'] = 0.5;
+        $bots[0]['title'] = '50';
+        $bots[0]['cash'] = 0;
+        $closed = $this->world->closeWeek($bots, '2026-W43')['bots'];
+
+        self::assertSame(100_000_000, $closed[0]['cash']);
+        self::assertSame(1_000_000 + 1000, $closed[0]['gold'], 'the prize + lot A gold (5 bots: all in lot A)');
+        self::assertSame(20_000, $closed[0]['materials']['mallets']);
+        self::assertSame(0.6, $closed[0]['activity']);
+        self::assertSame('60', $closed[0]['title']);
+        self::assertSame(1, $closed[0]['loser']);
+        self::assertArrayNotHasKey('loser', $closed[1]);
+
+        // A real farm last: the place is all the bot world records, the farm pays itself.
+        $closed = $this->world->closeWeek($this->league('farm-last', 0, 5), '2026-W43', [['seed' => 'me', 'tier' => 0, 'points' => 0]]);
+        self::assertSame(['rank' => 6, 'size' => 6], $closed['results']['me']);
+        self::assertArrayNotHasKey('loser', $closed['bots'][0]);
+    }
+
     public function testRealFarmsPlayInTheSameLeague(): void
     {
         $farms = [

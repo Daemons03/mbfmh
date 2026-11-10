@@ -8,6 +8,11 @@ import { openSheet, refreshSheet } from './sheet.js';
 import { toast } from './toast.js';
 import { startVisit } from './visit.js';
 
+/** Title of a farm that finished last of bronze 1★ (n times). */
+export function loserBadge(n) {
+    return n > 0 ? h('span', { class: 'loser-badge', title: `Dernier de Bronze 1★ ${fmtInt(n)} fois` }, `🥄 Loser of the week${n > 1 ? ` ×${fmtInt(n)}` : ''}`) : null;
+}
+
 /** Ranking from GET /api/bots, kept a minute; one profile per bot id. */
 let ranking = null; // { bots, me, world, at }
 let loading = null;
@@ -105,7 +110,7 @@ function rankRow([index, row], back) {
     },
     h('span', { class: 'rank-number' }, fmtInt(index + 1)),
     h('span', { class: 'rank-name' }, row.me ? `⭐ ${row.name}` : row.player ? `${real ? '🤖' : '👤'} ${row.name}` : row.name, ' ',
-        bot ? titleBadge(row.title) : titleBadge(real)),
+        bot ? titleBadge(row.title) : titleBadge(real), ' ', loserBadge(row.loser)),
     h('span', { class: 'rank-stats' }, `niv. ${fmtInt(row.level)} · 🏪 ${fmtInt(row.market_level)}`),
     h('span', { class: 'rank-tier' }, row.tier_name));
 }
@@ -130,7 +135,7 @@ export function botPanel(id, back) {
             return [
                 backButton,
                 h('div', { class: 'card' },
-                    h('div', { class: 'row-title' }, bot.name, ' ', titleBadge(bot.title)),
+                    h('div', { class: 'row-title' }, bot.name, ' ', titleBadge(bot.title), ' ', loserBadge(bot.loser)),
                     h('p', { class: 'status' }, `Niveau ${fmtInt(bot.level)} · marché niv. ${fmtInt(bot.market_level)} · ${bot.tier_name}`),
                     h('p', { class: 'row-sub' }, `${fmtInt(bot.cash)} ${store.data.currencies.cash.emoji} · ${fmtInt(bot.gold)} ${store.data.currencies.gold.emoji} · ${fmtInt(bot.expansions)} extensions de terrain`)),
                 h('p', { class: 'section-title' }, 'Bâtiments'),

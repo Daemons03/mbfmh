@@ -54,7 +54,7 @@ final class BotLeagues implements TournamentOpponents
             foreach ($this->bots->farms() as $farm) {
                 if ($farm['week'] === $week && $farm['tier'] === $tier && $farm['seed'] !== $seed) {
                     $farms[] = [
-                        'id' => null, 'name' => $farm['login'], 'points' => $farm['points'], 'player' => true,
+                        'id' => null, 'name' => $farm['login'], 'points' => $farm['points'], 'player' => true, 'loser' => $farm['loser'],
                         'title' => $farm['autoplay'] === null ? null : (string) round($farm['autoplay'] * 100),
                     ];
                 }
@@ -74,6 +74,7 @@ final class BotLeagues implements TournamentOpponents
         // Real farms first: they win ties, as in the final ranking.
         return [...$farms, ...array_map(static fn (array $bot): array => [
             'id' => $bot['id'], 'name' => $bot['name'], 'title' => $bot['title'], 'points' => max(0, $bot['points']),
+            'loser' => $bot['loser'] ?? 0,
         ], $bots)];
     }
 }
