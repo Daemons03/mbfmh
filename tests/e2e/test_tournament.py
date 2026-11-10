@@ -100,6 +100,7 @@ def test_live_ranking_of_every_league(game, farm):
         assert "Bronze 1★ · 1 001 fermes · ma ligue" in text(picker.locator("option:checked"))
         assert game.locator(".rank-row.me").count() == 1
 
+        picker.focus()  # as after a tap: a focused select must not keep the list from updating
         picker.select_option(label="🥈 Argent 1★ · 1 ferme")
         row = game.locator(".rank-row.player")
         row.wait_for()

@@ -83,6 +83,7 @@ function leaguesBlock() {
                 'aria-label': 'Palier',
                 onchange: (event) => {
                     chosenTier = Number(event.target.value);
+                    event.target.blur(); // a focused select keeps the sheet from re-rendering (isEditing)
                     refreshSheet();
                 },
             }, [...leagues.tiers].reverse().map((t) => h('option', { value: t.tier, selected: t.tier === league.tier },
