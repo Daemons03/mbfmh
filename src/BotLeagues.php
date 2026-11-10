@@ -8,20 +8,19 @@ use FermeTranquille\Engine\BotWorld;
 use FermeTranquille\Engine\TournamentOpponents;
 
 /**
- * The player's tournament opponents taken from the bot world: 19 bots of
- * the tier drawn with the farm's tournament seed (each farm its own league,
- * the same all week), completed from the nearest tiers when the tier is
- * short. This week: market XP earned since Monday, today's share growing
- * through the day; a past week: what the bots made that week (their history).
+ * The tournament's opponents from the bot world: every bot of the tier and
+ * every other real farm that plays the same week in the same tier, one
+ * league per tier. This week: market XP earned since Monday (bots: today's
+ * share growing through the day); a past week: the bots' history. Final
+ * places: computed for everybody when the bot world closes the week.
  */
 final class BotLeagues implements TournamentOpponents
 {
-    /** @var array<string, list<array{id: int, name: string, title: string, points: int}>|null> */
+    /** @var array<string, list<array<string, mixed>>|null> */
     private array $cache = [];
 
     public function __construct(
         private readonly BotRepository $bots,
-        private readonly GameData $data,
     ) {
     }
 
@@ -30,8 +29,13 @@ final class BotLeagues implements TournamentOpponents
         return $this->cache["{$week}:{$tier}:{$at}:{$seed}"] ??= $this->compute($week, $tier, $at, $seed);
     }
 
+    public function result(string $week, string $seed): ?array
+    {
+        return $this->bots->result($week, $seed);
+    }
+
     /**
-     * @return list<array{id: int, name: string, title: string, points: int}>|null
+     * @return list<array<string, mixed>>|null
      */
     private function compute(string $week, int $tier, int $at, string $seed): ?array
     {
@@ -39,40 +43,37 @@ final class BotLeagues implements TournamentOpponents
         if ($meta === null) {
             return null;
         }
-        $size = $this->data->toArray()['tournament']['size'];
 
+        $farms = [];
         if ($week === $meta['week']) {
             $dayLength = max(1, BotWorld::dayStart($meta['day_start'] + 30 * 3600) - $meta['day_start']);
             $share = max(0.0, min(1.0, ($at - $meta['day_start']) / $dayLength));
-            $tierOf = static fn (array $bot): int => $bot['tier'];
-            $points = static fn (array $bot): int => (int) floor($bot['day_start_mxp'] - $bot['week_start_mxp'] + $bot['day_gain'] * $share);
-            $members = $this->bots->bots($tier);
-            $all = fn (): array => $this->bots->bots();
+            $bots = array_map(static fn (array $bot): array => $bot + [
+                'points' => (int) floor($bot['day_start_mxp'] - $bot['week_start_mxp'] + $bot['day_gain'] * $share),
+            ], $this->bots->bots($tier));
+            foreach ($this->bots->farms() as $farm) {
+                if ($farm['week'] === $week && $farm['tier'] === $tier && $farm['seed'] !== $seed) {
+                    $farms[] = [
+                        'id' => null, 'name' => $farm['login'], 'points' => $farm['points'], 'player' => true,
+                        'title' => $farm['autoplay'] === null ? null : (string) round($farm['autoplay'] * 100),
+                    ];
+                }
+            }
         } else {
-            $all = $this->bots->bots();
-            $played = array_values(array_filter($all, static fn (array $bot): bool => isset($bot['history'][$week])));
-            if ($played === []) {
+            $bots = [];
+            foreach ($this->bots->bots() as $bot) {
+                if (($bot['history'][$week][0] ?? null) === $tier) {
+                    $bots[] = $bot + ['points' => $bot['history'][$week][1]];
+                }
+            }
+            if ($bots === []) {
                 return null; // a week older than the bots' history
             }
-            $tierOf = static fn (array $bot): int => $bot['history'][$week][0];
-            $points = static fn (array $bot): int => $bot['history'][$week][1];
-            $members = array_values(array_filter($played, static fn (array $bot): bool => $tierOf($bot) === $tier));
-            $all = static fn (): array => $played;
         }
 
-        $draw = static fn (array $bot): int => crc32("{$week}:{$seed}:{$bot['id']}");
-        usort($members, static fn (array $a, array $b): int => $draw($a) <=> $draw($b) ?: $a['id'] <=> $b['id']);
-        $league = array_slice($members, 0, $size - 1);
-        if (count($league) < $size - 1) {
-            // Short tier: the nearest tiers fill the league.
-            $others = array_values(array_filter($all(), static fn (array $bot): bool => $tierOf($bot) !== $tier));
-            usort($others, static fn (array $a, array $b): int => abs($tierOf($a) - $tier) <=> abs($tierOf($b) - $tier)
-                ?: $draw($a) <=> $draw($b));
-            $league = [...$league, ...array_slice($others, 0, $size - 1 - count($league))];
-        }
-
-        return array_map(static fn (array $bot): array => [
-            'id' => $bot['id'], 'name' => $bot['name'], 'title' => $bot['title'], 'points' => max(0, $points($bot)),
-        ], $league);
+        // Real farms first: they win ties, as in the final ranking.
+        return [...$farms, ...array_map(static fn (array $bot): array => [
+            'id' => $bot['id'], 'name' => $bot['name'], 'title' => $bot['title'], 'points' => max(0, $bot['points']),
+        ], $bots)];
     }
 }

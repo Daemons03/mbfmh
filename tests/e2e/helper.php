@@ -47,7 +47,7 @@ $pdo = Db::pdo();
 date_default_timezone_set((string) (Config::get()['app']['timezone'] ?? 'UTC')); // the API's day
 $bots = new BotRepository($pdo, new BotWorld(GameData::load()));
 // Same engine as the API: the tournament against the bots.
-$engine = (new Engine(GameData::load()))->withOpponents(new BotLeagues($bots, GameData::load()));
+$engine = (new Engine(GameData::load()))->withOpponents(new BotLeagues($bots));
 $states = new StateRepository($pdo, $engine, purgeChance: 0);
 $auth = new Auth($pdo, new class implements Session {
     public function get(string $key): mixed

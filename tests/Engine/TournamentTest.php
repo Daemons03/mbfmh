@@ -9,8 +9,9 @@ use FermeTranquille\Engine\Farm;
 use FermeTranquille\Engine\Tournament;
 
 /**
- * Solo tournament: weekly league of 20 (player + 19 invented farms), points =
- * market XP of the week, promotion / relegation, rank rewards, bot curve.
+ * Tournament without bots: weekly league of 20 (player + 19 invented farms),
+ * points = market XP of the week, promotion / relegation, lot rewards, bot curve;
+ * the lots of each tier's league.
  */
 final class TournamentTest extends EngineTestCase
 {
@@ -53,15 +54,43 @@ final class TournamentTest extends EngineTestCase
 
     public function testRankRewards(): void
     {
-        self::assertSame(['cash' => 1500, 'gold' => 1000, 'keys' => 10, 'rose_seed' => 5], $this->tournament->rankRewards(0, 1));
-        self::assertSame(['cash' => 1200, 'gold' => 500, 'keys' => 5, 'rose_seed' => 2], $this->tournament->rankRewards(0, 3));
-        self::assertSame(['cash' => 900, 'gold' => 250], $this->tournament->rankRewards(0, 15));
-        self::assertSame(['cash' => 600, 'gold' => 100], $this->tournament->rankRewards(0, 16));
+        $base = $this->tournament->cashBase(30);
+        self::assertSame(['cash' => $base, 'gold' => 1000, 'keys' => 10, 'rose_seed' => 5], $this->tournament->rankRewards(0, 'first', 30));
+        self::assertSame(['cash' => (int) round($base * 0.8), 'gold' => 500, 'keys' => 5, 'rose_seed' => 2], $this->tournament->rankRewards(0, 'podium', 30));
+        self::assertSame(['cash' => (int) round($base * 0.6), 'gold' => 250], $this->tournament->rankRewards(0, 'middle', 30));
+        self::assertSame(['cash' => (int) round($base * 0.4), 'gold' => 100], $this->tournament->rankRewards(0, 'relegated', 30));
         // Bronze 2★: gold × 2.
-        self::assertSame([2000, 1000, 500, 200], array_map(fn (int $rank): int => $this->tournament->rankRewards(1, $rank)['gold'], [1, 2, 4, 20]));
-        // Diamond 3★: gold × 18; the first gets 180 keys, 120 mallets (from gold 1★) and 60 buckets (from sapphire 1★).
-        self::assertSame(['cash' => 460000, 'gold' => 18000, 'keys' => 180, 'mallets' => 120, 'buckets' => 60, 'rose_seed' => 5], $this->tournament->rankRewards(17, 1));
-        self::assertSame(['cash' => 312000, 'gold' => 6500, 'keys' => 65, 'mallets' => 35, 'buckets' => 5, 'rose_seed' => 2], $this->tournament->rankRewards(12, 2));
+        self::assertSame([2000, 1000, 500, 200], array_map(fn (string $lot): int => $this->tournament->rankRewards(1, $lot, 30)['gold'], ['first', 'podium', 'middle', 'relegated']));
+        // Diamond 3★: gold × 18; lot A gets 180 keys, 120 mallets (from gold 1★) and 60 buckets (from sapphire 1★).
+        self::assertSame(['gold' => 18000, 'keys' => 180, 'mallets' => 120, 'buckets' => 60, 'rose_seed' => 5],
+            array_diff_key($this->tournament->rankRewards(17, 'first', 176), ['cash' => 0]));
+        self::assertSame(['gold' => 6500, 'keys' => 65, 'mallets' => 35, 'buckets' => 5, 'rose_seed' => 2],
+            array_diff_key($this->tournament->rankRewards(12, 'podium', 90), ['cash' => 0]));
+    }
+
+    public function testCashFollowsTheFarmLevel(): void
+    {
+        $rows = $this->data->toArray()['tournament']['rank_rewards']['cash_by_level'];
+        [$first, $second] = $rows;
+        self::assertSame($first[1], $this->tournament->cashBase($first[0]));
+        self::assertSame($first[1], $this->tournament->cashBase(1), 'below the table: its first row');
+        self::assertSame($second[1], $this->tournament->cashBase($second[0]));
+        $middle = intdiv($first[0] + $second[0], 2);
+        self::assertEqualsWithDelta(($first[1] + $second[1]) / 2, $this->tournament->cashBase($middle), abs($second[1] - $first[1]) / ($second[0] - $first[0]) + 1, 'linear');
+        self::assertGreaterThanOrEqual($rows[count($rows) - 1][1], $this->tournament->cashBase(1000), 'beyond the table');
+    }
+
+    public function testLotsOfEachTier(): void
+    {
+        self::assertSame('first', Tournament::groupOf(20, $this->tournament->lots(0)), 'bronze 1★: lot A is 1 to 20');
+        self::assertSame('relegated', Tournament::groupOf(999, $this->tournament->lots(0)), 'bronze 1★: lot D to the end');
+        self::assertSame('podium', Tournament::groupOf(3, $this->tournament->lots(17)));
+        self::assertSame('relegated', Tournament::groupOf(8, $this->tournament->lots(17)));
+        self::assertSame(1, $this->tournament->move(0, 'podium'), 'A and B go up');
+        self::assertSame(0, $this->tournament->move(0, 'relegated'), 'nothing below bronze 1★');
+        self::assertSame(17, $this->tournament->move(17, 'first'), 'nothing above diamond 3★');
+        self::assertSame(16, $this->tournament->move(17, 'relegated'));
+        self::assertSame(5, $this->tournament->move(5, 'middle'));
     }
 
     public function testNineteenFarmsFollowTheCurve(): void
@@ -90,9 +119,10 @@ final class TournamentTest extends EngineTestCase
 
         $state = $this->state['tournament'];
         self::assertSame(1, $state['tier'], 'bronze 2★');
-        self::assertSame(['week' => $state['last']['week'], 'tier' => 0, 'new_tier' => 1, 'rank' => 1, 'points' => 2_400,
-            'rewards' => ['cash' => 1500, 'gold' => 1000, 'keys' => 10, 'rose_seed' => 5]], $state['last']);
-        self::assertSame($cash + 1500, $this->state['cash']);
+        $prize = $this->tournament->cashBase($this->state['level']);
+        self::assertSame(['week' => $state['last']['week'], 'tier' => 0, 'new_tier' => 1, 'rank' => 1, 'size' => 20, 'group' => 'first', 'points' => 2_400,
+            'rewards' => ['cash' => $prize, 'gold' => 1000, 'keys' => 10, 'rose_seed' => 5]], $state['last']);
+        self::assertSame($cash + $prize, $this->state['cash']);
         self::assertSame(10 + 5, $this->state['materials']['keys'], '1st place + objective 6');
         self::assertSame(5, $this->state['barn']['items']['rose_seed']);
         self::assertSame(2_400, $state['start_xp'], 'points start again from zero');

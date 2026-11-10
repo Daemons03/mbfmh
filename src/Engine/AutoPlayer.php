@@ -36,12 +36,15 @@ final class AutoPlayer
 
     /**
      * @param array<string, mixed> $state
-     * @return array{state: array<string, mixed>, actions: list<array{0: string, 1: array<string, mixed>}>}
+     * income: cash that came in through its actions (sales, contracts), spending not deducted.
+     *
+     * @return array{state: array<string, mixed>, actions: list<array{0: string, 1: array<string, mixed>}>, income: int}
      */
     public function turn(array $state, int $now): array
     {
         $state = self::plain($this->engine->resolve($state, $now));
         $done = [];
+        $income = 0;
         $refused = [];
         $purchases = 0;
         $discarded = false;
@@ -52,7 +55,9 @@ final class AutoPlayer
             }
             [$type, $payload] = $next;
             try {
+                $cash = $state['cash'];
                 $state = self::plain($this->engine->apply($state, $type, $payload, $now));
+                $income += max(0, $state['cash'] - $cash);
                 $done[] = $next;
                 if (in_array($type, ['build', 'upgrade', 'buy_expansion'], true)) {
                     $purchases++;
@@ -63,7 +68,7 @@ final class AutoPlayer
             }
         }
 
-        return ['state' => $state, 'actions' => $done];
+        return ['state' => $state, 'actions' => $done, 'income' => $income];
     }
 
     /**

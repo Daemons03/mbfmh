@@ -11,19 +11,22 @@ use Random\Engine\Xoshiro256StarStar;
 use Random\Randomizer;
 
 /**
- * Solo tournament. One week (Monday 00:00 to Sunday 24:00, server time) in a
- * league of `size`: the player and invented farms. Points = market XP earned
- * during the week. At the end the first `promoted` go up a tier, the last
- * `relegated` go down, and everyone is paid by rank.
+ * Tournament. One week (Monday 00:00 to Sunday 24:00, server time); points =
+ * market XP earned during the week. One league per tier: every bot and real
+ * farm of the tier (tiers[].size places, the lowest tier takes the rest).
+ * Ranks fall into lots (tiers[].lots: first = A, podium = B, middle = C,
+ * relegated = D): A and B go up a tier, D goes down, and every lot is paid
+ * (cash from the farm's level, gold, materials, roses).
  *
  * Tiers: league × stars, 0 = bronze 1★ … 17 = diamond 3★.
  * State: tournament = { week, round, started_at, tier, start_xp, seed, claimed, last? }
  * (round counts closed weeks; started_at is when this tournament began;
  * claimed = objectives already rewarded this week).
  *
- * Opponents: the bots of the player's tier (TournamentOpponents), scored
- * by the market XP they really earn this week. Without bots, invented
- * farms: each one belongs to a rank group and finishes the week at
+ * Opponents: the other farms of the tier (TournamentOpponents), scored by
+ * the market XP they really earn this week; the week's final places are
+ * computed once for everybody (result()). Without bots, a league of `size`
+ * with invented farms and the lots `groups`: each one finishes the week at
  * objective(group) × (1 + p %), p drawn between (percent - spread) and
  * percent from the curve (admin-tunable, settings.tournament_curve); their
  * score grows linearly from started_at to the end of the week.
@@ -199,23 +202,26 @@ final readonly class Tournament
         $this->grantObjectives($farm);
         $state = $this->state($farm);
         $points = $farm->marketXp() - $state['start_xp'];
-        $rank = $this->rankOf($points, $this->botScores($farm, $state, 1.0, $nextStart));
         $tier = $state['tier'];
-        $rewards = $this->rankRewards($tier, $rank);
-        $this->pay($farm, $rewards);
-
-        $config = $this->config();
-        $newTier = $tier;
-        if ($rank <= $config['promoted']) {
-            $newTier = min($this->tierCount() - 1, $tier + 1);
-        } elseif ($rank > $config['size'] - $config['relegated']) {
-            $newTier = max(0, $tier - 1);
+        $result = $this->opponents?->result($state['week'], (string) ($state['seed'] ?? ''));
+        if ($result !== null) {
+            ['rank' => $rank, 'size' => $size] = $result; // the place computed for everybody
+            $lots = $this->lots($tier);
+        } else {
+            $league = $this->league($farm, $state, 1.0, $nextStart);
+            $rank = $this->rankOf($points, $league['farms']);
+            $size = count($league['farms']) + 1;
+            $lots = $league['lots'];
         }
+        $group = self::groupOf($rank, $lots);
+        $rewards = $this->rankRewards($tier, $group, $farm->level());
+        $this->pay($farm, $rewards);
+        $newTier = $this->move($tier, $group);
 
         $farm->setTournament([
             'week' => $nextWeek, 'round' => ($state['round'] ?? 0) + 1, 'started_at' => $nextStart,
             'tier' => $newTier, 'start_xp' => $farm->marketXp(), 'seed' => $state['seed'], 'claimed' => 0,
-            'last' => ['week' => $state['week'], 'tier' => $tier, 'new_tier' => $newTier, 'rank' => $rank, 'points' => $points, 'rewards' => $rewards],
+            'last' => ['week' => $state['week'], 'tier' => $tier, 'new_tier' => $newTier, 'rank' => $rank, 'size' => $size, 'group' => $group, 'points' => $points, 'rewards' => $rewards],
         ]);
     }
 
@@ -225,22 +231,55 @@ final readonly class Tournament
         return 1 + count(array_filter($bots, static fn (array $bot): bool => $bot['points'] > $points));
     }
 
+    /** Tier after the week: lots A and B go up, D goes down. */
+    public function move(int $tier, string $group): int
+    {
+        return match ($group) {
+            'first', 'podium' => min($this->tierCount() - 1, $tier + 1),
+            'relegated' => max(0, $tier - 1),
+            default => $tier,
+        };
+    }
+
     /**
-     * The opponents of the week with their score at $at: the bots of the
-     * tier when there are some, else the invented farms at `progress`
-     * (0..1 of the week).
+     * Lots of a tier's league: rank ranges [from, to], to = null for the end.
+     *
+     * @return array<string, array{0: int, 1: int|null}>
+     */
+    public function lots(int $tier): array
+    {
+        return $this->config()['tiers'][$tier]['lots'];
+    }
+
+    /**
+     * The player's league this week: the other farms of the tier with their
+     * score at $at and the tier's lots; without bots, the invented farms at
+     * `progress` (0..1 of the week) and the invented league's lots.
      *
      * @param array<string, mixed> $state
-     * @return list<array{name: string, points: int, title?: string, id?: int, group?: string}>
+     * @return array{farms: list<array<string, mixed>>, lots: array<string, array{0: int, 1: int|null}>}
      */
-    public function botScores(Farm $farm, array $state, float $progress, int $at = 0): array
+    public function league(Farm $farm, array $state, float $progress, int $at = 0): array
     {
-        $bots = $this->opponents?->league($state['week'], $state['tier'], $at, (string) ($state['seed'] ?? ''));
-        if ($bots !== null) {
-            usort($bots, static fn (array $a, array $b): int => $b['points'] <=> $a['points']);
+        $farms = $this->opponents?->league($state['week'], $state['tier'], $at, (string) ($state['seed'] ?? ''));
+        if ($farms !== null) {
+            usort($farms, static fn (array $a, array $b): int => $b['points'] <=> $a['points']);
 
-            return $bots;
+            return ['farms' => $farms, 'lots' => $this->lots($state['tier'])];
         }
+
+        return ['farms' => $this->botScores($farm, $state, $progress), 'lots' => $this->config()['groups']];
+    }
+
+    /**
+     * The invented farms of the week (no bots) with their score at
+     * `progress` (0..1 of the week).
+     *
+     * @param array<string, mixed> $state
+     * @return list<array{name: string, points: int, group: string}>
+     */
+    public function botScores(Farm $farm, array $state, float $progress): array
+    {
         $config = $this->config();
         $round = $state['round'] ?? 0;
         $random = new Randomizer(new Xoshiro256StarStar(hash('sha256', "{$state['seed']}:{$round}:{$state['tier']}", true)));
@@ -281,10 +320,15 @@ final readonly class Tournament
         return $curve;
     }
 
-    public function groupOf(int $rank): string
+    /**
+     * Lot of a 1-based rank.
+     *
+     * @param array<string, array{0: int, 1: int|null}> $lots
+     */
+    public static function groupOf(int $rank, array $lots): string
     {
-        foreach ($this->config()['groups'] as $group => [$from, $to]) {
-            if ($rank >= $from && $rank <= $to) {
+        foreach ($lots as $group => [$from, $to]) {
+            if ($rank >= $from && ($to === null || $rank <= $to)) {
                 return $group;
             }
         }
@@ -293,17 +337,34 @@ final readonly class Tournament
     }
 
     /**
-     * What a rank pays in a tier: cash and gold for everyone (gold × tier + 1);
-     * keys, mallets (from gold 1★) and buckets (from sapphire 1★) and roses
-     * for the podium.
+     * Cash of lot A for a farm of this level: what a real bot takes in
+     * during one day at speed ×1 (rank_rewards.cash_by_level, linear
+     * between the rows, the last slope beyond).
+     */
+    public function cashBase(int $level): int
+    {
+        $rows = $this->config()['rank_rewards']['cash_by_level'];
+        $i = 1;
+        while ($i < count($rows) - 1 && $level > $rows[$i][0]) {
+            $i++;
+        }
+        [[$l0, $c0], [$l1, $c1]] = [$rows[$i - 1], $rows[$i]];
+        $level = max($level, $rows[0][0]);
+
+        return (int) round(max($c0, $c0 + ($c1 - $c0) * ($level - $l0) / ($l1 - $l0)));
+    }
+
+    /**
+     * What a lot pays in a tier: cash (share of the level's base) and gold
+     * (× tier + 1) for everyone; keys, mallets (from gold 1★), buckets (from
+     * sapphire 1★) and roses for lots A and B.
      *
      * @return array<string, int>
      */
-    public function rankRewards(int $tier, int $rank): array
+    public function rankRewards(int $tier, string $group, int $level): array
     {
         $rules = $this->config()['rank_rewards'];
-        $group = $this->groupOf($rank);
-        $rewards = ['cash' => (int) round($rules['cash_base'][$tier] * $rules['cash_share'][$group])];
+        $rewards = ['cash' => (int) round($this->cashBase($level) * $rules['cash_share'][$group])];
         if (isset($rules['gold'][$group])) {
             $rewards['gold'] = $rules['gold'][$group] * ($tier + 1); // bronze 1★ × 1, bronze 2★ × 2...
         }
@@ -330,10 +391,11 @@ final readonly class Tournament
         $start = min($state['started_at'] ?? $end - self::WEEK, $end - 1);
         $progress = max(0.0, min(1.0, ($now - $start) / ($end - $start)));
         $points = $farm->marketXp() - $state['start_xp'];
-        $bots = $this->botScores($farm, $state, $progress, $now);
-        $rank = $this->rankOf($points, $bots);
+        $league = $this->league($farm, $state, $progress, $now);
+        $rank = $this->rankOf($points, $league['farms']);
+        $group = self::groupOf($rank, $league['lots']);
 
-        $ranking = $bots;
+        $ranking = $league['farms'];
         array_splice($ranking, $rank - 1, 0, [['name' => 'Ma ferme', 'points' => $points, 'me' => true]]);
         $tier = $this->tierInfo($state['tier']);
 
@@ -348,10 +410,13 @@ final readonly class Tournament
             'objective_rewards' => array_map(fn (int $n): array => $this->objectiveReward($farm, $state, $n), array_keys($this->objectives($state['tier']))),
             'claimed' => $state['claimed'] ?? 0,
             'rank' => $rank,
-            'rewards' => $this->rankRewards($state['tier'], $rank),
+            'group' => $group,
+            'lots' => $league['lots'],
+            'top' => $this->tierCount() - 1,
+            'rewards' => $this->rankRewards($state['tier'], $group, $farm->level()),
             'ranking' => array_map(static fn (array $row): array => [
                 'name' => $row['name'], 'points' => $row['points'], 'me' => $row['me'] ?? false,
-                'title' => $row['title'] ?? null, 'id' => $row['id'] ?? null,
+                'title' => $row['title'] ?? null, 'id' => $row['id'] ?? null, 'player' => $row['player'] ?? false,
             ], $ranking),
             'curve' => $this->curve($farm),
             'last' => isset($state['last']) ? $state['last'] + [

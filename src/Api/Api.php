@@ -267,7 +267,7 @@ final class Api
 
         $this->botsReady = true;
 
-        return $this->current = $this->engine->withOpponents(new BotLeagues($this->bots, $this->gameData));
+        return $this->current = $this->engine->withOpponents(new BotLeagues($this->bots));
     }
 
     /**

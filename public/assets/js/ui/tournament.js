@@ -3,8 +3,9 @@ import { fmtCost, fmtDuration, fmtInt } from '../format.js';
 import { serverNow, store } from '../store.js';
 import { botPanel, rankingBlock, titleBadge } from './bots.js';
 import { openSheet, refreshSheet } from './sheet.js';
+import { startVisit } from './visit.js';
 
-const GROUPS = { first: 'Montée', podium: 'Montée', middle: 'Maintien', relegated: 'Descente' };
+const LOTS = { first: 'Lot A', podium: 'Lot B', middle: 'Lot C', relegated: 'Lot D' };
 
 /** Open tab: the player's league or the ranking of every farm. */
 let tab = 'league';
@@ -33,19 +34,37 @@ export function tournamentPanel() {
                     lastWeekCard(view),
                     pointsCard(view),
                     h('p', { class: 'section-title' }, 'Ma ligue'),
-                    h('ol', { class: 'ranking' }, view.ranking.map((row, i) => rankRow(row, i + 1))),
+                    h('ol', { class: 'ranking' }, view.ranking.flatMap((row, i) => {
+                        // A header where each lot starts.
+                        const group = groupOf(view, i + 1);
+                        const head = i === 0 || groupOf(view, i) !== group
+                            ? h('li', { class: `rank-lot zone-${group}` }, lotLabel(view, group))
+                            : null;
+                        return [head, rankRow(view, row, i + 1)];
+                    })),
                 ],
             ];
         },
     };
 }
 
-/** Group of a 1-based rank, as on the server (tournament.groups). */
-function groupOf(rank) {
-    for (const [group, [from, to]] of Object.entries(store.data.tournament.groups)) {
-        if (rank >= from && rank <= to) return group;
+/** Lot of a 1-based rank, as on the server (the league's lots; to = null: the end). */
+function groupOf(view, rank) {
+    for (const [group, [from, to]] of Object.entries(view.lots)) {
+        if (rank >= from && (to === null || rank <= to)) return group;
     }
     return 'relegated';
+}
+
+/** What a lot does at the end of the week in this tier: A and B go up, D goes down. */
+function moveOf(view, group) {
+    if ((group === 'first' || group === 'podium') && view.tier < view.top) return 'montée';
+    if (group === 'relegated' && view.tier > 0) return 'descente';
+    return 'maintien';
+}
+
+function lotLabel(view, group) {
+    return `${LOTS[group]} · ${moveOf(view, group)}`;
 }
 
 function ordinal(rank) {
@@ -67,7 +86,7 @@ function rewardText(rewards) {
 
 function leagueCard(view) {
     const remaining = view.ends_at - serverNow();
-    const group = groupOf(view.rank);
+    const group = view.group;
 
     return h('div', { class: 'card league' },
         h('div', { class: 'league-head' },
@@ -76,7 +95,7 @@ function leagueCard(view) {
                 h('div', { class: 'row-title' }, view.name),
                 h('div', { class: 'stars' }, stars(view.stars)))),
         h('p', { class: 'status' }, `${ordinal(view.rank)} / ${fmtInt(view.ranking.length)} · `,
-            h('strong', { class: `zone zone-${group}` }, GROUPS[group])),
+            h('strong', { class: `zone zone-${group}` }, lotLabel(view, group))),
         h('p', { class: 'row-sub' }, `Récompense actuelle : ${rewardText(view.rewards)}`),
         h('p', { class: 'row-sub' }, 'Fin du tournoi ',
             h('strong', { dataset: { readyAt: view.ends_at, format: 'long', prefix: 'dans ' } }, `dans ${fmtDuration(Math.max(0, remaining))}`)));
@@ -88,7 +107,8 @@ function lastWeekCard(view) {
     const move = last.new_tier > last.tier ? `montée en ${last.new_name}` : last.new_tier < last.tier ? `descente en ${last.new_name}` : 'maintien';
 
     return h('div', { class: 'card' },
-        h('div', { class: 'row-title' }, `Tournoi précédent : ${ordinal(last.rank)} en ${last.name}`),
+        h('div', { class: 'row-title' }, `Tournoi précédent : ${ordinal(last.rank)}${last.size ? ` / ${fmtInt(last.size)}` : ''} en ${last.name}`
+            + (last.group ? ` · ${LOTS[last.group]}` : '')),
         h('p', { class: 'row-sub' }, `${fmtInt(last.points)} points · ${move}`),
         h('p', { class: 'row-sub' }, `Reçu : ${rewardText(last.rewards)}`));
 }
@@ -128,14 +148,18 @@ function pointsCard(view) {
         }, h('span', { class: 'objective-n' }, String(i + 1)), h('span', {}, rewardText(reward)), i < view.claimed ? h('span', { class: 'check' }, '✓') : null))));
 }
 
-function rankRow(row, rank) {
-    const group = groupOf(rank);
+function rankRow(view, row, rank) {
+    const group = groupOf(view, rank);
     const bot = !row.me && row.id;
+    let open = null;
+    if (bot) open = () => openSheet(botPanel(row.id, tournamentPanel));
+    else if (row.player) open = () => startVisit(row.name);
     return h('li', {
-        class: `rank-row zone-${group}${row.me ? ' me' : ''}${bot ? ' clickable' : ''}`,
-        onclick: bot ? () => openSheet(botPanel(row.id, tournamentPanel)) : null,
+        class: `rank-row zone-${group}${row.me ? ' me' : ''}${row.player ? ' player' : ''}${open ? ' clickable' : ''}`,
+        title: row.player ? `Voir la ferme de ${row.name}` : null,
+        onclick: open,
     },
-    h('span', { class: 'rank-number' }, String(rank)),
-    h('span', { class: 'rank-name' }, row.me ? `⭐ ${row.name}` : row.name, ' ', titleBadge(row.title)),
+    h('span', { class: 'rank-number' }, fmtInt(rank)),
+    h('span', { class: 'rank-name' }, row.me ? `⭐ ${row.name}` : row.player ? `${row.title ? '🤖' : '👤'} ${row.name}` : row.name, ' ', titleBadge(row.title)),
     h('span', { class: 'rank-points' }, fmtInt(row.points)));
 }

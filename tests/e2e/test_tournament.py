@@ -1,4 +1,4 @@
-"""Solo tournament: league, ranking, end of the week, admin curve."""
+"""Tournament: one league per tier (bots and real farms), lots, end of the week, admin curve."""
 from conftest import accept_modal, close_sheet, open_tab, reload, settle, text
 
 
@@ -6,9 +6,12 @@ def test_league_and_ranking(game, farm):
     open_tab(game, "tournament")
     body = text(game.locator("#sheet-body"))
     assert "Bronze 1★" in body
-    assert game.locator(".rank-row").count() == 20
+    assert game.locator(".rank-row").count() == 1001, "the 1 000 bots of bronze 1★ and my farm"
     assert game.locator(".rank-row.me").count() == 1
-    assert game.locator(".rank-row.zone-relegated").count() == 5
+    lots = [text(lot) for lot in game.locator(".rank-lot").all()]
+    assert lots == ["Lot A · montée", "Lot B · montée", "Lot C · maintien", "Lot D · maintien"], "nothing below bronze 1★"
+    assert game.locator(".rank-row.zone-first").count() == 20
+    assert game.locator(".rank-row.zone-relegated").count() == 1001 - 150
 
 
 def test_end_of_week_promotes_and_pays(game, farm):
@@ -32,7 +35,7 @@ def test_end_of_week_promotes_and_pays(game, farm):
     open_tab(game, "tournament")
     body = text(game.locator("#sheet-body"))
     assert "Bronze 2★" in body
-    assert "Tournoi précédent : 1ᵉʳ en Bronze 1★" in body
+    assert "Tournoi précédent : 1ᵉʳ / 1 001 en Bronze 1★ · Lot A" in body
     assert "montée en Bronze 2★" in body
 
 
@@ -64,14 +67,21 @@ def test_objective_rewards(game, farm):
     assert farm.state()["barn"]["items"] == {"instant_feed": 1, "tulip_seed": 1}
 
 
-def test_two_farms_get_different_bot_leagues(game, farm):
+def test_real_farms_share_the_league_of_their_tier(game, farm):
     from conftest import Farm
     other = Farm("e2e-playwright-2")
     other.reset()
     try:
-        names = lambda f: {row["name"] for row in f._run("view", f.login)["tournament"]["ranking"] if not row["me"]}
-        mine, theirs = names(farm), names(other)
-        assert len(mine) == len(theirs) == 19
-        assert len(mine & theirs) < 10, "each farm draws its own league among the tier's bots"
+        other.patch({"market_xp": 50_000, "autoplay": {"activity": 0.95}})
+        reload(game)
+        open_tab(game, "tournament")
+        first = game.locator(".rank-row").first
+        assert "🤖 e2e-playwright-2" in text(first), "the other farm leads my league"
+        assert "95" in text(first.locator(".bot-title"))
+        first.click()
+        game.locator("#visit-banner").wait_for()
+
+        rows = other._run("view", other.login)["tournament"]["ranking"]
+        assert any(row["name"] == farm.login and row["player"] for row in rows), "and I am in its league"
     finally:
         other.delete()

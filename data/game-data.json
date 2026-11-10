@@ -39441,8 +39441,387 @@
     ],
     "stars": 3,
     "size": 20,
-    "promoted": 3,
-    "relegated": 5,
+    "_tiers_note": "Une ligue par palier : bots et vraies fermes ensemble. size = places (null : tous les comptes restants). Lots (first = A, podium = B, middle = C, relegated = D) : A et B montent, D descend ; le lot D d'un palier compte autant de places que A + B du palier du dessous (tailles stables). Bronze 1★ ne descend pas, diamant 3★ ne monte pas. size et groups : la ligue de fermes inventées (sans bots).",
+    "tiers": [
+      {
+        "size": null,
+        "lots": {
+          "first": [
+            1,
+            20
+          ],
+          "podium": [
+            21,
+            60
+          ],
+          "middle": [
+            61,
+            150
+          ],
+          "relegated": [
+            151,
+            null
+          ]
+        }
+      },
+      {
+        "size": 160,
+        "lots": {
+          "first": [
+            1,
+            10
+          ],
+          "podium": [
+            11,
+            30
+          ],
+          "middle": [
+            31,
+            100
+          ],
+          "relegated": [
+            101,
+            160
+          ]
+        }
+      },
+      {
+        "size": 160,
+        "lots": {
+          "first": [
+            1,
+            10
+          ],
+          "podium": [
+            11,
+            30
+          ],
+          "middle": [
+            31,
+            130
+          ],
+          "relegated": [
+            131,
+            160
+          ]
+        }
+      },
+      {
+        "size": 80,
+        "lots": {
+          "first": [
+            1,
+            3
+          ],
+          "podium": [
+            4,
+            10
+          ],
+          "middle": [
+            11,
+            50
+          ],
+          "relegated": [
+            51,
+            80
+          ]
+        }
+      },
+      {
+        "size": 80,
+        "lots": {
+          "first": [
+            1,
+            3
+          ],
+          "podium": [
+            4,
+            10
+          ],
+          "middle": [
+            11,
+            70
+          ],
+          "relegated": [
+            71,
+            80
+          ]
+        }
+      },
+      {
+        "size": 80,
+        "lots": {
+          "first": [
+            1,
+            3
+          ],
+          "podium": [
+            4,
+            10
+          ],
+          "middle": [
+            11,
+            70
+          ],
+          "relegated": [
+            71,
+            80
+          ]
+        }
+      },
+      {
+        "size": 40,
+        "lots": {
+          "first": [
+            1,
+            3
+          ],
+          "podium": [
+            4,
+            6
+          ],
+          "middle": [
+            7,
+            30
+          ],
+          "relegated": [
+            31,
+            40
+          ]
+        }
+      },
+      {
+        "size": 40,
+        "lots": {
+          "first": [
+            1,
+            3
+          ],
+          "podium": [
+            4,
+            6
+          ],
+          "middle": [
+            7,
+            34
+          ],
+          "relegated": [
+            35,
+            40
+          ]
+        }
+      },
+      {
+        "size": 40,
+        "lots": {
+          "first": [
+            1,
+            3
+          ],
+          "podium": [
+            4,
+            6
+          ],
+          "middle": [
+            7,
+            34
+          ],
+          "relegated": [
+            35,
+            40
+          ]
+        }
+      },
+      {
+        "size": 20,
+        "lots": {
+          "first": [
+            1,
+            1
+          ],
+          "podium": [
+            2,
+            5
+          ],
+          "middle": [
+            6,
+            14
+          ],
+          "relegated": [
+            15,
+            20
+          ]
+        }
+      },
+      {
+        "size": 20,
+        "lots": {
+          "first": [
+            1,
+            1
+          ],
+          "podium": [
+            2,
+            5
+          ],
+          "middle": [
+            6,
+            15
+          ],
+          "relegated": [
+            16,
+            20
+          ]
+        }
+      },
+      {
+        "size": 20,
+        "lots": {
+          "first": [
+            1,
+            1
+          ],
+          "podium": [
+            2,
+            5
+          ],
+          "middle": [
+            6,
+            15
+          ],
+          "relegated": [
+            16,
+            20
+          ]
+        }
+      },
+      {
+        "size": 10,
+        "lots": {
+          "first": [
+            1,
+            1
+          ],
+          "podium": [
+            2,
+            3
+          ],
+          "middle": [
+            4,
+            5
+          ],
+          "relegated": [
+            6,
+            10
+          ]
+        }
+      },
+      {
+        "size": 10,
+        "lots": {
+          "first": [
+            1,
+            1
+          ],
+          "podium": [
+            2,
+            3
+          ],
+          "middle": [
+            4,
+            7
+          ],
+          "relegated": [
+            8,
+            10
+          ]
+        }
+      },
+      {
+        "size": 10,
+        "lots": {
+          "first": [
+            1,
+            1
+          ],
+          "podium": [
+            2,
+            3
+          ],
+          "middle": [
+            4,
+            7
+          ],
+          "relegated": [
+            8,
+            10
+          ]
+        }
+      },
+      {
+        "size": 10,
+        "lots": {
+          "first": [
+            1,
+            1
+          ],
+          "podium": [
+            2,
+            3
+          ],
+          "middle": [
+            4,
+            7
+          ],
+          "relegated": [
+            8,
+            10
+          ]
+        }
+      },
+      {
+        "size": 10,
+        "lots": {
+          "first": [
+            1,
+            1
+          ],
+          "podium": [
+            2,
+            3
+          ],
+          "middle": [
+            4,
+            7
+          ],
+          "relegated": [
+            8,
+            10
+          ]
+        }
+      },
+      {
+        "size": 10,
+        "lots": {
+          "first": [
+            1,
+            1
+          ],
+          "podium": [
+            2,
+            3
+          ],
+          "middle": [
+            4,
+            7
+          ],
+          "relegated": [
+            8,
+            10
+          ]
+        }
+      }
+    ],
     "groups": {
       "first": [
         1,
@@ -39497,25 +39876,15 @@
     ],
     "bot_spread": 5,
     "rank_rewards": {
-      "cash_base": [
-        1500,
-        5600,
-        18000,
-        24000,
-        56000,
-        74000,
-        100000,
-        130000,
-        150000,
-        170000,
-        210000,
-        300000,
-        390000,
-        430000,
-        460000,
-        460000,
-        460000,
-        460000
+      "_cash_note": "Argent du lot A selon le niveau de la ferme : ce qu'un vrai bot (activité 90 %, vitesse ×1) encaisse en une journée (ventes + contrats), moyennes lissées de scripts/calibrate-tournament-cash.php (2026-11-10, 400 jours jusqu'au niveau 167) ; au-delà, prolongé avec la dernière pente.",
+      "cash_by_level": [
+        [1, 6500],
+        [10, 40000],
+        [20, 57000],
+        [70, 58500],
+        [80, 65000],
+        [100, 71500],
+        [160, 76500]
       ],
       "cash_share": {
         "first": 1.0,

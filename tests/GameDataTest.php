@@ -112,6 +112,19 @@ final class GameDataTest extends TestCase
         self::assertStringContainsString('items.wheat: crop item without crops.wheat', $errors);
     }
 
+    public function testValidationChecksTheTournamentLots(): void
+    {
+        $data = $this->realData();
+        $data['tournament']['tiers'][5]['lots']['middle'] = [12, 70]; // a gap after lot B (4-10)
+        $data['tournament']['tiers'][17]['lots']['middle'] = [4, 6];
+        $data['tournament']['tiers'][17]['lots']['relegated'] = [7, 10]; // 4 go down, 3 come up from diamond 2★
+
+        $errors = implode("\n", GameData::validate($data));
+
+        self::assertStringContainsString('tournament.tiers[5].lots.middle: ranks [from, to] following the previous lot', $errors);
+        self::assertStringContainsString('tournament.tiers[17].lots.relegated: 3 places', $errors);
+    }
+
     public function testValidationReportsMissingSections(): void
     {
         self::assertContains('missing section: items', GameData::validate([]));

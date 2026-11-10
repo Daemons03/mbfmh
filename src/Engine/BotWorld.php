@@ -14,7 +14,7 @@ use Random\Randomizer;
  * The bots of the ranking and the tournament: a simulated world, advanced one
  * day at a time (server time zone). Pure: arrays in, arrays out.
  *
- * meta = { seed, day, day_start, week, speed, created_at }
+ * meta = { seed, day, day_start, week, speed, created_at, results: {week: {seed: {rank, size}}} }
  * bot  = { id, name, title, activity, level, xp, cash, market_xp, materials,
  *          expansions, buildings: [[type, level], ...], tier,
  *          week_start_mxp, day_start_mxp, day_gain, history: {week: [tier, gain]} }
@@ -27,9 +27,9 @@ use Random\Randomizer;
  * houses, new buildings (premium ones when its gold pays for them),
  * upgrades. Gold like the player: daily, per level, tournament places.
  *
- * Tournament: every Monday the bots of each tier play their leagues of
- * `size` (first league one short, the player's seat), ranked by the market
- * XP of the week; the first `promoted` go up, the last `relegated` down.
+ * Tournament: every Monday closes the week of one league per tier, bots and
+ * real farms together, ranked by the market XP of the week; lots A and B go
+ * up, D goes down (Tournament::lots). meta.results = the real farms' places.
  */
 final class BotWorld
 {
@@ -136,13 +136,15 @@ final class BotWorld
 
     /**
      * Simulates the days between the last one and $now (at most
-     * max_catch_up_days at once). Mondays first close the bots' week.
+     * max_catch_up_days at once). Mondays first close the week;
+     * $farms(week) gives the real farms that played it.
      *
      * @param array<string, mixed> $meta
      * @param list<array<string, mixed>> $bots
+     * @param (callable(string): list<array{seed: string, tier: int, points: int}>)|null $farms
      * @return array{meta: array<string, mixed>, bots: list<array<string, mixed>>}
      */
-    public function advance(array $meta, array $bots, int $now, ?int $days = null): array
+    public function advance(array $meta, array $bots, int $now, ?int $days = null, ?callable $farms = null): array
     {
         $limit = $days ?? $this->config()['max_catch_up_days'];
         $today = self::dayStart($now);
@@ -150,7 +152,9 @@ final class BotWorld
             $day = self::nextDayStart($meta['day_start']);
             $week = Tournament::week($day)['id'];
             if ($week !== $meta['week']) {
-                $bots = $this->closeWeek($bots, $meta['week']);
+                $closed = $this->closeWeek($bots, $meta['week'], $farms === null ? [] : $farms($meta['week']));
+                $bots = $closed['bots'];
+                $meta['results'] = array_slice([...$meta['results'] ?? [], $meta['week'] => $closed['results']], -$this->config()['history_weeks'], null, true);
                 $meta['week'] = $week;
             }
             foreach ($bots as $i => $bot) {
@@ -826,15 +830,18 @@ final class BotWorld
     // ------------------------------------------------------------ weeks and leagues
 
     /**
-     * Closes the bots' week: history, then promotion / relegation in each league.
+     * Closes the week for everybody: one league per tier with the bots and
+     * the real farms that played the week ($farms), ranked by points (real
+     * farms first on a tie). Bots: history, place gold, new tier; real farms:
+     * their place, applied when they next settle (Tournament::closeWeek).
      *
      * @param list<array<string, mixed>> $bots
-     * @return list<array<string, mixed>>
+     * @param list<array{seed: string, tier: int, points: int}> $farms
+     * @return array{bots: list<array<string, mixed>>, results: array<string, array{rank: int, size: int}>}
      */
-    public function closeWeek(array $bots, string $week): array
+    public function closeWeek(array $bots, string $week, array $farms = []): array
     {
-        $tournament = $this->data->toArray()['tournament'];
-        $top = count($tournament['leagues']) * $tournament['stars'] - 1;
+        $tournament = new Tournament($this->data);
         $keep = $this->config()['history_weeks'];
 
         $byTier = [];
@@ -842,62 +849,37 @@ final class BotWorld
             $gain = $bot['market_xp'] - $bot['week_start_mxp'];
             $bots[$i]['history'][$week] = [$bot['tier'], $gain];
             $bots[$i]['history'] = array_slice($bots[$i]['history'], -$keep, null, true);
-            $byTier[$bot['tier']][] = $i;
+            $byTier[$bot['tier']][] = ['bot' => $i, 'points' => $gain, 'key' => sprintf('b%08d', $bot['id'])];
         }
-        foreach ($byTier as $tier => $indexes) {
-            foreach (self::leagues($indexes, $week, $tournament['size'], static fn (int $i): int => $bots[$i]['id']) as $league) {
-                usort($league, static fn (int $a, int $b): int => $bots[$b]['history'][$week][1] <=> $bots[$a]['history'][$week][1]);
-                $size = count($league);
-                $promoted = min($tournament['promoted'], intdiv($size, 4));
-                $relegated = min($tournament['relegated'], intdiv($size, 4));
-                foreach ($league as $rank => $i) {
-                    $bots[$i]['gold'] = ($bots[$i]['gold'] ?? 0) + $this->placeGold($tier, $rank + 1);
-                    if ($rank < $promoted) {
-                        $bots[$i]['tier'] = min($top, $tier + 1);
-                    } elseif ($rank >= $size - $relegated) {
-                        $bots[$i]['tier'] = max(0, $tier - 1);
-                    }
+        foreach ($farms as $farm) {
+            $byTier[$farm['tier']][] = ['seed' => $farm['seed'], 'points' => $farm['points'], 'key' => "a{$farm['seed']}"];
+        }
+        $results = [];
+        foreach ($byTier as $tier => $members) {
+            usort($members, static fn (array $a, array $b): int => $b['points'] <=> $a['points'] ?: strcmp($a['key'], $b['key']));
+            $lots = $tournament->lots($tier);
+            foreach ($members as $rank => $member) {
+                if (isset($member['seed'])) {
+                    $results[$member['seed']] = ['rank' => $rank + 1, 'size' => count($members)];
+                    continue;
                 }
+                $group = Tournament::groupOf($rank + 1, $lots);
+                $i = $member['bot'];
+                $bots[$i]['gold'] = ($bots[$i]['gold'] ?? 0) + $this->placeGold($tier, $group);
+                $bots[$i]['tier'] = $tournament->move($tier, $group);
             }
         }
         foreach ($bots as $i => $bot) {
             $bots[$i]['week_start_mxp'] = $bot['market_xp'];
         }
 
-        return $bots;
+        return ['bots' => $bots, 'results' => $results];
     }
 
-    /** Gold of a 1-based place in a league of a tier, like the player's (rank_rewards.gold × tier + 1). */
-    private function placeGold(int $tier, int $rank): int
+    /** Gold of a lot in a tier, like the player's (rank_rewards.gold × tier + 1). */
+    private function placeGold(int $tier, string $group): int
     {
-        $tournament = $this->data->toArray()['tournament'];
-        foreach ($tournament['groups'] as $group => [$from, $to]) {
-            if ($rank >= $from && $rank <= $to) {
-                return ($tournament['rank_rewards']['gold'][$group] ?? 0) * ($tier + 1);
-            }
-        }
-
-        return ($tournament['rank_rewards']['gold']['relegated'] ?? 0) * ($tier + 1);
-    }
-
-    /**
-     * The leagues of one tier for a week: members shuffled by week, the
-     * first league one short (the player's seat), then leagues of `size`.
-     *
-     * @template T
-     * @param list<T> $members
-     * @param callable(T): int $id
-     * @return list<list<T>>
-     */
-    public static function leagues(array $members, string $week, int $size, callable $id): array
-    {
-        usort($members, static fn ($a, $b): int => crc32("{$week}:{$id($a)}") <=> crc32("{$week}:{$id($b)}") ?: $id($a) <=> $id($b));
-        $leagues = [array_slice($members, 0, $size - 1)];
-        for ($offset = $size - 1; $offset < count($members); $offset += $size) {
-            $leagues[] = array_slice($members, $offset, $size);
-        }
-
-        return array_values(array_filter($leagues));
+        return ($this->data->toArray()['tournament']['rank_rewards']['gold'][$group] ?? 0) * ($tier + 1);
     }
 
     // ------------------------------------------------------------ values

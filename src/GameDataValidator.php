@@ -75,6 +75,7 @@ final class GameDataValidator
         }
         if (isset($this->data['tournament'])) {
             $this->checkTournamentRewards();
+            $this->checkTournamentTiers();
         }
 
         return $this->errors;
@@ -525,6 +526,60 @@ final class GameDataValidator
                 $this->positiveNumber($option['base'] ?? null, "{$path}.base");
                 $this->nonNegativeNumber($option['per_tier'] ?? null, "{$path}.per_tier");
             }
+        }
+    }
+
+    /**
+     * One league per tier: a size (null = the rest, lowest tier only) and
+     * lots first / podium / middle / relegated covering the ranks without gap;
+     * as many go down from a tier as go up (lots A and B) from the one below.
+     */
+    private function checkTournamentTiers(): void
+    {
+        $tournament = $this->data['tournament'];
+        $tiers = $tournament['tiers'] ?? [];
+        if (count($tiers) !== count($tournament['leagues'] ?? []) * ($tournament['stars'] ?? 0)) {
+            $this->errors[] = 'tournament.tiers: one entry per league and star';
+
+            return;
+        }
+        foreach ($tiers as $t => $tier) {
+            $path = "tournament.tiers[{$t}]";
+            $size = $tier['size'] ?? null;
+            if ($size === null ? $t !== 0 : (!is_int($size) || $size < 1)) {
+                $this->errors[] = "{$path}.size: a positive integer (null for the lowest tier only)";
+            }
+            $next = 1;
+            foreach (['first', 'podium', 'middle', 'relegated'] as $group) {
+                [$from, $to] = $tier['lots'][$group] ?? [null, null];
+                $last = $group === 'relegated';
+                if ($from !== $next || ($to === null ? !$last || $size !== null : !is_int($to) || $to < $from)) {
+                    $this->errors[] = "{$path}.lots.{$group}: ranks [from, to] following the previous lot";
+                    continue 2;
+                }
+                $next = $to === null ? null : $to + 1;
+            }
+            if ($size !== null && $next !== $size + 1) {
+                $this->errors[] = "{$path}.lots.relegated: must end at the size ({$size})";
+            }
+            if ($t > 0) {
+                $up = $tiers[$t - 1]['lots']['podium'][1] ?? 0;
+                [$from, $to] = $tier['lots']['relegated'];
+                if ($to !== null && $to - $from + 1 !== $up) {
+                    $this->errors[] = "{$path}.lots.relegated: {$up} places, as many as lots A and B of the tier below go up";
+                }
+            }
+        }
+        $rows = $tournament['rank_rewards']['cash_by_level'] ?? [];
+        $previous = 0;
+        foreach ($rows as $i => $row) {
+            if (!is_array($row) || count($row) !== 2 || !is_int($row[0]) || $row[0] <= $previous || !is_int($row[1]) || $row[1] < 0) {
+                $this->errors[] = "tournament.rank_rewards.cash_by_level[{$i}]: [level, cash], levels increasing";
+            }
+            $previous = is_array($row) && is_int($row[0] ?? null) ? $row[0] : $previous;
+        }
+        if (count($rows) < 2) {
+            $this->errors[] = 'tournament.rank_rewards.cash_by_level: at least two rows';
         }
     }
 

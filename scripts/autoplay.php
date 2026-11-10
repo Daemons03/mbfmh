@@ -11,9 +11,12 @@ declare(strict_types=1);
 //   php scripts/autoplay.php run                      one turn for every bot (activity = chance to play it)
 
 use FermeTranquille\Auth;
+use FermeTranquille\BotLeagues;
+use FermeTranquille\BotRepository;
 use FermeTranquille\Config;
 use FermeTranquille\Db;
 use FermeTranquille\Engine\AutoPlayer;
+use FermeTranquille\Engine\BotWorld;
 use FermeTranquille\Engine\Engine;
 use FermeTranquille\GameData;
 use FermeTranquille\Session\Session;
@@ -29,7 +32,11 @@ if (PHP_SAPI !== 'cli') {
 date_default_timezone_set((string) (Config::get()['app']['timezone'] ?? 'UTC'));
 $pdo = Db::pdo();
 $data = GameData::load();
-$engine = new Engine($data);
+$bots = new BotRepository($pdo, new BotWorld($data));
+// Like the API: the bot world up to date first (a new week is closed for
+// everybody before a farm settles it), then the tournament against the bots.
+$bots->ensure(time());
+$engine = (new Engine($data))->withOpponents(new BotLeagues($bots));
 $states = new StateRepository($pdo, $engine, purgeChance: 0.001);
 $auth = new Auth($pdo, new class implements Session {
     public function get(string $key): mixed

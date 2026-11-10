@@ -137,46 +137,67 @@ final class BotWorldTest extends TestCase
         $world = $this->world->advance($world['meta'], $world['bots'], self::MONDAY + 7 * 86400 + 2 * 3600);
 
         self::assertSame('2026-W44', $world['meta']['week']);
-        $tiers = array_count_values(array_column($world['bots'], 'tier'));
-        // 60 bots of tier 0: leagues of 19, 20, 20 (+ the player's seat) -> 3 promoted each, nobody below 0.
-        ksort($tiers);
-        self::assertSame([0 => 51, 1 => 9], $tiers);
+        // 60 bots in bronze 1★: all in lots A (1-20) and B (21-60), all go up.
+        self::assertSame([1 => 60], array_count_values(array_column($world['bots'], 'tier')));
         foreach ($world['bots'] as $bot) {
             self::assertSame(0, $bot['history']['2026-W43'][0]);
             self::assertSame($bot['day_start_mxp'], $bot['week_start_mxp'], 'the new week starts with Monday');
         }
+        self::assertSame([], $world['meta']['results']['2026-W43'], 'no real farm that week');
     }
 
-    public function testRelegationFromAHigherTier(): void
+    /**
+     * @return list<array<string, mixed>> $count bots of $tier, the last one with the most points
+     */
+    private function league(string $seed, int $tier, int $count): array
     {
-        $bots = $this->world->create(self::MONDAY, 'down')['bots'];
+        $bots = array_slice($this->world->create(self::MONDAY, $seed)['bots'], 0, $count);
         foreach ($bots as $i => $bot) {
-            $bots[$i]['tier'] = 4;
-            $bots[$i]['week_start_mxp'] = 0;
-            $bots[$i]['market_xp'] = 1000 + $i;
-        }
-
-        // Leagues of 19, 20, 20 and 1: 3 + 3 + 3 promoted, 4 + 5 + 5 relegated (a quarter at most).
-        $closed = $this->world->closeWeek($bots, '2026-W43');
-        $tiers = array_count_values(array_column($closed, 'tier'));
-        ksort($tiers);
-        self::assertSame([3 => 14, 4 => 37, 5 => 9], $tiers);
-    }
-
-    public function testPlacesInTheirLeaguePayGold(): void
-    {
-        $bots = array_slice($this->world->create(self::MONDAY, 'gold')['bots'], 0, 19);
-        foreach ($bots as $i => $bot) {
+            $bots[$i]['tier'] = $tier;
             $bots[$i]['gold'] = 0;
             $bots[$i]['week_start_mxp'] = 0;
-            $bots[$i]['market_xp'] = 100 * ($i + 1); // the last one wins
+            $bots[$i]['market_xp'] = 100 * ($i + 1);
         }
 
-        $closed = $this->world->closeWeek($bots, '2026-W43');
-        self::assertSame(1000, $closed[18]['gold'], '1st in bronze 1★');
-        self::assertSame(500, $closed[17]['gold']);
-        self::assertSame(250, $closed[10]['gold'], 'middle of the table');
-        self::assertSame(100, $closed[0]['gold'], 'relegated');
+        return $bots;
+    }
+
+    public function testOneLeaguePerTierWithItsLots(): void
+    {
+        // Sapphire 2★ (tier 13), 10 places: A 1, B 2-3 go up, C 4-7 stay, D 8-10 go down.
+        $closed = $this->world->closeWeek($this->league('down', 13, 10), '2026-W43')['bots'];
+        self::assertSame([14, 14, 14, 13, 13, 13, 13, 12, 12, 12], array_reverse(array_column($closed, 'tier')));
+        // Gold × 14: 1 000 / 500 / 250 / 100.
+        self::assertSame([14000, 7000, 7000, 3500, 3500, 3500, 3500, 1400, 1400, 1400], array_reverse(array_column($closed, 'gold')));
+
+        // More than the places: everybody beyond the last lot goes down too.
+        $closed = $this->world->closeWeek($this->league('full', 13, 12), '2026-W43')['bots'];
+        self::assertSame(5, array_count_values(array_column($closed, 'tier'))[12]);
+    }
+
+    public function testRealFarmsPlayInTheSameLeague(): void
+    {
+        $farms = [
+            ['seed' => 'top', 'tier' => 13, 'points' => 5_000],
+            ['seed' => 'tie', 'tier' => 13, 'points' => 900], // ties with the best bot: real farms first
+            ['seed' => 'other', 'tier' => 2, 'points' => 0],
+        ];
+        $closed = $this->world->closeWeek($this->league('farms', 13, 9), '2026-W43', $farms);
+
+        self::assertSame(['top' => ['rank' => 1, 'size' => 11], 'tie' => ['rank' => 2, 'size' => 11], 'other' => ['rank' => 1, 'size' => 1]], $closed['results']);
+        $tiers = array_reverse(array_column($closed['bots'], 'tier'));
+        self::assertSame(14, $tiers[0], 'the best bot, 3rd: lot B');
+        self::assertSame(13, $tiers[1], '4th: lot C');
+        self::assertSame([12, 12, 12, 12], array_slice($tiers, 5), '8th to 11th: lot D and beyond');
+    }
+
+    public function testWeekResultsAreKept(): void
+    {
+        $world = $this->world->create(self::MONDAY, 'results');
+        $farms = static fn (string $week): array => [['seed' => 'mine', 'tier' => 0, 'points' => 10_000]];
+        $world = $this->world->advance($world['meta'], $world['bots'], self::MONDAY + 7 * 86400 + 2 * 3600, null, $farms);
+
+        self::assertSame(['mine' => ['rank' => 1, 'size' => 61]], $world['meta']['results']['2026-W43']);
     }
 
     public function testGoldBuysPremiumBuildings(): void
@@ -195,14 +216,6 @@ final class BotWorldTest extends TestCase
         self::assertLessThan(100_000 + 100, $after['gold'], 'gold spent');
     }
 
-    public function testLeaguesKeepOneSeatForThePlayer(): void
-    {
-        $leagues = BotWorld::leagues(range(1, 45), '2026-W43', 20, static fn (int $id): int => $id);
-
-        self::assertSame([19, 20, 6], array_map('count', $leagues));
-        self::assertSame(range(1, 45), (static function (array $all): array { sort($all); return $all; })(array_merge(...$leagues)));
-    }
-
     public function testTournamentPlaysAgainstTheBots(): void
     {
         $opponents = new class () implements TournamentOpponents {
@@ -215,6 +228,11 @@ final class BotWorldTest extends TestCase
 
                 return $bots;
             }
+
+            public function result(string $week, string $seed): ?array
+            {
+                return $week === '2026-W43' ? ['rank' => 2, 'size' => 10] : null;
+            }
         };
         $engine = (new Engine($this->data))->withOpponents($opponents);
         $state = json_decode(json_encode($engine->newState()), true);
@@ -225,5 +243,30 @@ final class BotWorldTest extends TestCase
         self::assertSame('90', $view['ranking'][0]['title']);
         self::assertSame(19, $view['ranking'][0]['id']);
         self::assertCount(20, $view['ranking']);
+        self::assertSame([1, 20], $view['lots']['first'], 'the lots of bronze 1★');
+        self::assertSame('first', $view['group']);
+    }
+
+    public function testTheWeekClosesWithThePlaceOfEverybody(): void
+    {
+        $opponents = new class () implements TournamentOpponents {
+            public function league(string $week, int $tier, int $at, string $seed = ''): ?array
+            {
+                return [['id' => 1, 'name' => 'Bot', 'title' => '90', 'points' => 10]];
+            }
+
+            public function result(string $week, string $seed): ?array
+            {
+                return $week === '2026-W43' ? ['rank' => 9, 'size' => 10] : null;
+            }
+        };
+        $engine = (new Engine($this->data))->withOpponents($opponents);
+        $state = json_decode(json_encode($engine->resolve($engine->newState(), self::MONDAY + 3600)), true);
+        $state['tournament']['tier'] = 13;
+        $state['market_xp'] = 99_999; // first live, but the week's result says 9th
+
+        $state = json_decode(json_encode($engine->resolve($state, self::MONDAY + 7 * 86400 + 3 * 3600)), true);
+        $last = $state['tournament']['last'];
+        self::assertSame(['new_tier' => 12, 'rank' => 9, 'size' => 10, 'group' => 'relegated'], array_intersect_key($last, ['rank' => 0, 'size' => 0, 'group' => 0, 'new_tier' => 0]));
     }
 }

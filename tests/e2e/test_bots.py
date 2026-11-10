@@ -11,11 +11,11 @@ def fresh_bots(farm):
     farm.reset_bots()
 
 
-def test_league_of_real_bots_with_titles(game):
+def test_league_of_bots_with_titles(game):
     open_tab(game, "tournament")
     rows = game.locator(".rank-row")
-    assert rows.count() == 20
-    assert game.locator(".rank-row .bot-title").count() == 19, "every bot shows its profile"
+    assert rows.count() == 1001, "one league per tier: every bot of bronze 1★"
+    assert game.locator(".rank-row .bot-title").count() == 1000, "every bot shows its profile"
     titles = {t.inner_text() for t in game.locator(".rank-row .bot-title").all()}
     assert titles <= {"90", "70", "60", "50"}
 

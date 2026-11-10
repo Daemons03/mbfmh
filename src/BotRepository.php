@@ -18,6 +18,9 @@ final class BotRepository
 {
     private ?array $metaCache = null;
 
+    /** @var list<array<string, mixed>>|null */
+    private ?array $farmsCache = null;
+
     public function __construct(
         private readonly PDO $pdo,
         private readonly BotWorld $world,
@@ -117,6 +120,76 @@ final class BotRepository
         return $json === false ? null : self::decode((string) $json);
     }
 
+    /**
+     * Admin: new tiers for some bots (id => tier), e.g. the one-time
+     * re-ranking. Bumps the world's version so a simulation running at the
+     * same time does not write its older copy over it.
+     *
+     * @param array<int, int> $tiers
+     */
+    public function setTiers(array $tiers): void
+    {
+        $bots = [];
+        foreach ($this->bots() as $bot) {
+            $bots[$bot['id']] = $bot;
+        }
+        $this->pdo->beginTransaction();
+        try {
+            $this->pdo->exec('UPDATE bot_world SET version = version + 1 WHERE id = 1');
+            $update = $this->pdo->prepare('UPDATE bots SET tier = :tier, data_json = :data WHERE id = :id');
+            foreach ($tiers as $id => $tier) {
+                if (isset($bots[$id])) {
+                    $update->execute(['tier' => $tier, 'data' => self::encode(['tier' => $tier] + $bots[$id]), 'id' => $id]);
+                }
+            }
+            $this->pdo->commit();
+        } catch (PDOException $e) {
+            $this->pdo->rollBack();
+            throw $e;
+        }
+        $this->metaCache = null;
+    }
+
+    /**
+     * The real farms in the tournament (player_state): login, tournament
+     * seed, week and tier, points of that week, autoplay activity.
+     *
+     * @return list<array{login: string, seed: string, week: string, tier: int, points: int, autoplay: float|null}>
+     */
+    public function farms(): array
+    {
+        if ($this->farmsCache !== null) {
+            return $this->farmsCache;
+        }
+        $rows = $this->pdo->query('SELECT u.login, s.state_json FROM player_state s JOIN users u ON u.id = s.user_id ORDER BY u.id')
+            ->fetchAll(PDO::FETCH_ASSOC);
+        $farms = [];
+        foreach ($rows as $row) {
+            $state = self::decode($row['state_json']);
+            $tournament = $state['tournament'] ?? [];
+            if (!isset($tournament['week'], $tournament['seed'])) {
+                continue;
+            }
+            $farms[] = [
+                'login' => $row['login'], 'seed' => $tournament['seed'], 'week' => $tournament['week'], 'tier' => (int) $tournament['tier'],
+                'points' => max(0, ($state['market_xp'] ?? 0) - ($tournament['start_xp'] ?? 0)),
+                'autoplay' => isset($state['autoplay']['activity']) ? (float) $state['autoplay']['activity'] : null,
+            ];
+        }
+
+        return $this->farmsCache = $farms;
+    }
+
+    /**
+     * Final place of a real farm in a closed week.
+     *
+     * @return array{rank: int, size: int}|null
+     */
+    public function result(string $week, string $seed): ?array
+    {
+        return $this->meta()['results'][$week][$seed] ?? null;
+    }
+
     // ------------------------------------------------------------ internals
 
     private function create(int $now, float $speed): void
@@ -142,7 +215,11 @@ final class BotRepository
      */
     private function advance(array $row, int $now, ?int $days): void
     {
-        $world = $this->world->advance($row['meta'], $this->bots(), $now, $days);
+        $farms = fn (string $week): array => array_values(array_map(
+            static fn (array $farm): array => ['seed' => $farm['seed'], 'tier' => $farm['tier'], 'points' => $farm['points']],
+            array_filter($this->farms(), static fn (array $farm): bool => $farm['week'] === $week),
+        ));
+        $world = $this->world->advance($row['meta'], $this->bots(), $now, $days, $farms);
         $this->pdo->beginTransaction();
         try {
             $claim = $this->pdo->prepare('UPDATE bot_world SET meta_json = :meta, version = version + 1 WHERE id = 1 AND version = :version');
