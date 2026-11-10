@@ -1,5 +1,7 @@
 # CLAUDE.md — Ferme Tranquille
 
+> **Nouvel assistant ou nouvelle session ?** Lis d'abord `REPRISE.md` : façon de travailler du propriétaire, accès, tests en local, déploiement, état en cours et choses à faire.
+
 Jeu de ferme personnel, solo, jouable sur mobile et PC via navigateur.
 Inspiré des mécaniques d'un jeu de gestion de ferme mobile (champs, élevages, chaînes de production, marché, extensions de terrain), **sans PvP, sans co-op, sans événements, sans achats**.
 Un panneau admin permet de modifier librement ressources, niveau et vitesse du temps.
